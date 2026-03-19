@@ -1,0 +1,53 @@
+# 컨셉아트 — 공통 설정
+
+## 역할
+컨셉아트는 **게임에 직접 사용하지 않는다.**
+캐릭터/보스의 **디자인 방향을 확정**하기 위한 레퍼런스.
+
+```
+SD 컨셉아트 → "이 느낌으로 가자" 확정
+                ↓
+            도트 작업 또는 코드 스프라이트 개선의 기준점
+```
+
+## SD 설정
+
+```yaml
+Model: SD 1.5 (LoRA 없이 — 컨셉아트는 일반 스타일이 나을 수 있음)
+       또는 SD 1.5 + pixel-art LoRA (0.3~0.4) — 약하게
+Resolution: 512 x 768 (세로 전신)
+Steps: 35~45
+CFG Scale: 7
+Sampler: DPM++ 2M Karras
+Batch: 8장씩 뽑아서 최선 선택 (컨셉은 많이 뽑아야 함)
+```
+
+## 공통 긍정 프롬프트
+
+```
+(character concept art:1.3), (full body:1.2),
+(korean dark fantasy:1.3), traditional ink painting style,
+(thick black ink outlines:1.2), expressive face,
+limited color palette, single character centered,
+(simple dark background:1.2), standing pose
+```
+
+## 공통 부정 프롬프트
+
+```
+(blurry:1.3), (realistic photograph:1.4),
+multiple characters, busy background, landscape,
+text, watermark, signature,
+(cute:1.3), (chibi:1.3), (anime:1.2),
+modern clothes, western fantasy armor,
+(low quality:1.3), deformed hands, extra fingers,
+symmetrical face too perfect
+```
+
+## 활용 방법
+
+1. **8장 배치 생성** → 느낌이 맞는 1~2장 선택
+2. 선택한 이미지를 **팀 레퍼런스**로 저장
+3. img2img로 표정/포즈 변형 시도
+4. 최종적으로 이 레퍼런스를 보면서 **도트 스프라이트 제작**
+5. 또는 SD 결과물 자체를 게임 내 "일러스트 컷"으로 활용 (대화 장면 등)
