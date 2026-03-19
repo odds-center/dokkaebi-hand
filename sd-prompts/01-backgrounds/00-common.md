@@ -12,6 +12,7 @@ Model: SD 1.5 + pixel-art LoRA (0.5~0.6)
        # 배경은 LoRA 가중치를 낮게 — 너무 높으면 도트가 과해짐
 Resolution: 960 x 540
        # → Nearest Neighbor 2x 업스케일 = 1920x1080
+       # 게임 UI reference resolution = 1920x1080, 16:9 (CanvasScaler)
        # 처음부터 1920x1080으로 뽑으면 메모리 부족 + 구도 깨짐
 Steps: 40~50
 CFG Scale: 7

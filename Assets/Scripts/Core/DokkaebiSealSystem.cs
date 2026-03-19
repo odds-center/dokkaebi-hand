@@ -187,7 +187,7 @@ namespace DokkaebiHand.Core
         public SealMatchResult ApplyOnMatch(CardInstance card, CardEnhancementManager enhMgr,
             bool matchSuccess, int turnNumber, int totalTurns)
         {
-            var result = new SealMatchResult();
+            var result = SealMatchResult.Default();
             var enh = enhMgr.GetEnhancement(card.Id);
 
             if (enh.Seals.Count == 0) return result;
@@ -305,13 +305,13 @@ namespace DokkaebiHand.Core
         public float ChipMultiplier;
         public float MultMultiplier;
 
-        public SealMatchResult()
+        public static SealMatchResult Default() => new SealMatchResult
         {
-            BonusChips = 0;
-            BonusYeop = 0;
-            TargetReduction = 0;
-            ChipMultiplier = 1f;
-            MultMultiplier = 1f;
-        }
+            BonusChips = 0,
+            BonusYeop = 0,
+            TargetReduction = 0,
+            ChipMultiplier = 1f,
+            MultMultiplier = 1f
+        };
     }
 }

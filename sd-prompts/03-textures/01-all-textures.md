@@ -48,6 +48,7 @@ Compression: None
 ## tex_hanji — 한지 텍스처
 **Seed:** 50001
 **용도:** 카드 앞면 배경, UI 패널 배경, 대화창 배경
+**참고:** 카드 앞면 배경 크기: 90x130 (UI) / 80x120 (텍스처)
 
 ```
 (seamless tileable texture:1.4),
@@ -95,6 +96,7 @@ abstract ink pattern no recognizable shapes
 ## tex_dark_cloth — 어두운 천 (게임 테이블)
 **Seed:** 50003
 **용도:** 카드 놀이 테이블 표면
+**참고:** 게임 테이블 영역: 950x160 (손패/바닥패 각각)
 
 ```
 (seamless tileable texture:1.4),
@@ -189,15 +191,118 @@ dark with bright orange accent lines
 
 ---
 
+---
+
+## tex_ui_panel — UI 패널 배경
+**Seed:** 50008
+**용도:** 게임 내 모든 패널 배경 (상점, 이벤트, 축복선택 등)
+**크기:** 512x512 (타일링)
+
+```
+(seamless tileable texture:1.4),
+(dark navy-purple panel background:1.3),
+very dark navy (#1A1A2E) with subtle purple undertone,
+faint geometric pattern barely visible,
+(subtle ink wash texture:1.2) layered under the pattern,
+smooth matte surface with no shine,
+slight gradient from center lighter to edges darker,
+(uniform flat lighting:1.3),
+pure background texture for UI overlay panels
+```
+
+---
+
+## tex_button — 버튼 배경
+**Seed:** 50009
+**용도:** 모든 UI 버튼의 배경 이미지
+**크기:** 600x110 (2x of 300x55 실제 버튼 크기)
+
+```
+(button background texture:1.4),
+dark navy rectangular panel with rounded corners,
+(subtle border glow:1.3) in faint cyan (#00D4FF) along edges,
+dark interior (#1A1A2E) with slight gradient,
+thin bright edge highlight on top and left,
+darker shadow on bottom and right,
+(clean minimal design:1.2),
+no text no symbols just the button shape,
+color palette: dark navy, faint cyan edge glow, near-black center
+```
+
+---
+
+## tex_card_table — 카드 테이블 (바닥패/손패 영역)
+**Seed:** 50010
+**용도:** 손패/바닥패 놓는 영역 배경
+**크기:** 950x160 (실제 영역 크기) 또는 475x80 (절반 크기로 생성 후 2x 업스케일)
+
+```
+(game table surface texture:1.4),
+(dark fabric with subtle border:1.3),
+very dark navy (#1A1A2E) felt-like material,
+thin decorative border line along edges in faint gold,
+(subtle worn texture:1.2) from card play,
+slightly lighter center area where cards are placed,
+traditional korean pattern faintly embossed at corners,
+(uniform flat lighting:1.3),
+wide rectangular format for card laying area,
+color palette: dark navy, faint gold border, near-black
+```
+
+---
+
+## tex_boss_hp_bar — 보스 HP 바
+**Seed:** 50011
+**용도:** 보스 체력바 배경
+**크기:** 1200x60 (2x of 600x30 실제 크기)
+
+```
+(health bar background texture:1.4),
+dark ornate horizontal bar frame,
+(dark metal frame:1.3) with subtle engravings,
+korean traditional cloud pattern etched into metal,
+(blood red (#C41E3A) inner glow:1.1) at the center,
+dark navy (#1A1A2E) base color,
+metallic edge highlights,
+wide narrow rectangular format,
+color palette: dark metal, blood red accent, navy
+```
+
+---
+
+## tex_score_panel — 점수 패널
+**Seed:** 50012
+**용도:** 칩/배수 표시 패널 배경
+**크기:** 800x160 (2x of 400x80 실제 크기)
+
+```
+(score display panel texture:1.4),
+dark ornate rectangular frame,
+(dark navy background:1.3) (#1A1A2E) with ink wash texture,
+thin gold (#FFD700) border line,
+subtle hanji paper texture underneath,
+(faint ink splatter:1.1) decorative accents in corners,
+clean center area for text overlay,
+(uniform flat lighting:1.3),
+color palette: dark navy, gold border, parchment hint
+```
+
+---
+
 ## 텍스처 활용 요약
 
-| 텍스처 | 주 사용처 | Filter Mode |
-|--------|----------|-------------|
-| 한지 | 카드 배경, UI 패널 | Point |
-| 먹물 얼룩 | 점수판, 장식 오버레이 | Point |
-| 어두운 천 | 게임 테이블 | Bilinear |
-| 붉은 천 | 보스전 테이블 | Bilinear |
-| 돌 | 다리, 궁전 바닥 | Bilinear |
-| 나무 | 상점, 서가 | Bilinear |
-| 금 표면 | 황금 미궁 | Bilinear |
-| 용암 균열 | 지옥 바닥 | Bilinear |
+| 텍스처 | 주 사용처 | 크기 | Filter Mode |
+|--------|----------|------|-------------|
+| 한지 | 카드 배경, UI 패널 | 512x512 | Point |
+| 먹물 얼룩 | 점수판, 장식 오버레이 | 512x512 | Point |
+| 어두운 천 | 게임 테이블 | 512x512 | Bilinear |
+| 붉은 천 | 보스전 테이블 | 512x512 | Bilinear |
+| 돌 | 다리, 궁전 바닥 | 512x512 | Bilinear |
+| 나무 | 상점, 서가 | 512x512 | Bilinear |
+| 금 표면 | 황금 미궁 | 512x512 | Bilinear |
+| 용암 균열 | 지옥 바닥 | 512x512 | Bilinear |
+| UI 패널 | 상점/이벤트/축복 패널 | 512x512 | Bilinear |
+| 버튼 | UI 버튼 배경 | 600x110 | Bilinear |
+| 카드 테이블 | 손패/바닥패 영역 | 950x160 | Bilinear |
+| 보스 HP 바 | 보스 체력바 | 1200x60 | Bilinear |
+| 점수 패널 | 칩/배수 표시 | 800x160 | Bilinear |

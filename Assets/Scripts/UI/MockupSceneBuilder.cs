@@ -17,6 +17,68 @@ namespace DokkaebiHand.UI
         private Canvas _canvas;
         private MockupGameView _gameView;
         private GameEffects _effects;
+        private static TMP_FontAsset _koreanFont;
+        private static bool _fallbackLinked;
+
+        public static TMP_FontAsset GetKoreanFont()
+        {
+            if (_koreanFont == null)
+                _koreanFont = Resources.Load<TMP_FontAsset>("Fonts/Pretendard-Regular SDF");
+            if (_koreanFont == null)
+            {
+                var all = Resources.FindObjectsOfTypeAll<TMP_FontAsset>();
+                foreach (var f in all)
+                    if (f.name.Contains("Pretendard")) { _koreanFont = f; break; }
+            }
+
+            // CJK Fallback 폰트 자동 연결 (한자/일본어/중국어)
+            if (_koreanFont != null && !_fallbackLinked)
+            {
+                _fallbackLinked = true;
+                TMP_FontAsset cjk = Resources.Load<TMP_FontAsset>("Fonts/NotoSansCJKkr-Regular SDF");
+                if (cjk == null)
+                {
+                    var all = Resources.FindObjectsOfTypeAll<TMP_FontAsset>();
+                    foreach (var f in all)
+                        if (f.name.Contains("NotoSansCJK")) { cjk = f; break; }
+                }
+                if (cjk != null)
+                {
+                    // fallbackFontAssetTable이 null이면 새로 생성
+                    if (_koreanFont.fallbackFontAssetTable == null)
+                        _koreanFont.fallbackFontAssetTable = new System.Collections.Generic.List<TMP_FontAsset>();
+                    if (!_koreanFont.fallbackFontAssetTable.Contains(cjk))
+                    {
+                        _koreanFont.fallbackFontAssetTable.Add(cjk);
+                        Debug.Log("[Font] CJK Fallback 폰트 연결 완료: " + cjk.name);
+                    }
+
+                    // Fix CJK font material to prevent white background
+                    if (cjk.material != null && _koreanFont.material != null)
+                    {
+                        cjk.material.shader = _koreanFont.material.shader;
+                    }
+
+                    // TMP 글로벌 Fallback에도 등록
+                    var globalFallbacks = TMP_Settings.fallbackFontAssets;
+                    if (globalFallbacks == null)
+                    {
+                        // TMP_Settings 접근 불가 시 무시
+                    }
+                    else if (!globalFallbacks.Contains(cjk))
+                    {
+                        globalFallbacks.Add(cjk);
+                        Debug.Log("[Font] TMP 글로벌 Fallback에도 등록 완료");
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("[Font] CJK 폰트를 찾을 수 없습니다!");
+                }
+            }
+
+            return _koreanFont;
+        }
 
         private void Awake()
         {
@@ -28,7 +90,7 @@ namespace DokkaebiHand.UI
                 cam = camObj.AddComponent<Camera>();
                 cam.tag = "MainCamera";
             }
-            cam.backgroundColor = new Color(0.06f, 0.06f, 0.12f);
+            cam.backgroundColor = new Color(0.04f, 0.04f, 0.10f);
             cam.orthographic = true;
 
             // Canvas
@@ -106,6 +168,19 @@ namespace DokkaebiHand.UI
         private TextMeshProUGUI _messageText;
         private TextMeshProUGUI _spiralText;
 
+        // === COLOR PALETTE ===
+        private static readonly Color ColBackground = new Color(0.04f, 0.04f, 0.10f);
+        private static readonly Color ColPanelBg = new Color(0.08f, 0.08f, 0.16f, 0.95f);
+        private static readonly Color ColGold = new Color(1f, 0.84f, 0f);
+        private static readonly Color ColLightGold = new Color(1f, 0.91f, 0.5f);
+        private static readonly Color ColCrimson = new Color(0.7f, 0.1f, 0.1f);
+        private static readonly Color ColBloodRed = new Color(0.5f, 0.05f, 0.05f);
+        private static readonly Color ColCyan = new Color(0f, 0.85f, 1f);
+        private static readonly Color ColSoftWhite = new Color(0.9f, 0.88f, 0.82f);
+        private static readonly Color ColDim = new Color(0.45f, 0.43f, 0.5f);
+        private static readonly Color ColPurple = new Color(0.5f, 0.2f, 0.7f);
+        private static readonly Color ColTeal = new Color(0.1f, 0.5f, 0.5f);
+
         public MockupGameView(Transform root, GameManager game, GameEffects effects = null)
         {
             _root = root;
@@ -158,18 +233,27 @@ namespace DokkaebiHand.UI
         public void BuildMainMenu()
         {
             ClearAll();
-            _mainMenuPanel = CreatePanel("MainMenu", _root, Color.clear);
+            _mainMenuPanel = CreatePanel("MainMenu", _root, ColBackground);
 
             // 타이틀
-            CreateText(_mainMenuPanel.transform, L.Get("title"), 48,
-                new Vector2(0, 200), new Color(1f, 0.84f, 0f));
+            CreateText(_mainMenuPanel.transform, L.Get("title"), 56,
+                new Vector2(0, 240), ColGold);
             CreateText(_mainMenuPanel.transform, "Dokkaebi's Hand", 24,
-                new Vector2(0, 140), new Color(0.7f, 0.7f, 0.7f));
+                new Vector2(0, 170), ColLightGold);
             CreateText(_mainMenuPanel.transform, L.Get("subtitle"), 18,
-                new Vector2(0, 100), new Color(0.5f, 0.5f, 0.6f));
+                new Vector2(0, 130), ColDim);
+
+            // 장식 구분선
+            var separatorObj = new GameObject("Separator");
+            separatorObj.transform.SetParent(_mainMenuPanel.transform, false);
+            var sepImg = separatorObj.AddComponent<Image>();
+            sepImg.color = new Color(ColGold.r, ColGold.g, ColGold.b, 0.3f);
+            var sepRt = separatorObj.GetComponent<RectTransform>();
+            sepRt.anchoredPosition = new Vector2(0, 90);
+            sepRt.sizeDelta = new Vector2(400, 2);
 
             // 새 게임 버튼
-            CreateButton(_mainMenuPanel.transform, L.Get("new_game"), new Vector2(0, 20), () =>
+            CreateButton(_mainMenuPanel.transform, L.Get("new_game"), new Vector2(0, 30), () =>
             {
                 _game.StartNewGame();
                 // 튜토리얼 체크
@@ -180,7 +264,7 @@ namespace DokkaebiHand.UI
                     _game.IsTutorialMode = true;
                 }
                 // SpiralStart 상태에서 축복 선택 UI 표시
-            });
+            }, new Color(0.5f, 0.05f, 0.05f));
 
             // 이어하기 버튼 (세이브 있을 때만 활성)
             bool hasSave = GameBootstrap.LoadedSave != null;
@@ -193,42 +277,46 @@ namespace DokkaebiHand.UI
                     _game.LoadFromSave(GameBootstrap.LoadedSave);
                     _game.StartNextRealm();
                 }
-            }, hasSave ? new Color(0.15f, 0.5f, 0.15f) : new Color(0.3f, 0.3f, 0.3f));
+            }, hasSave ? new Color(0.08f, 0.35f, 0.08f) : new Color(0.2f, 0.2f, 0.2f));
             if (!hasSave) continueBtn.interactable = false;
 
             // 영구 강화 버튼
-            CreateButton(_mainMenuPanel.transform, L.Get("permanent_upgrade"), new Vector2(0, -100), () =>
+            CreateButton(_mainMenuPanel.transform, L.Get("permanent_upgrade"), new Vector2(0, -110), () =>
             {
                 ShowUpgradeTreeUI();
-            }, new Color(0.4f, 0.2f, 0.6f));
+            }, new Color(0.35f, 0.1f, 0.5f));
 
             // 도감 버튼
-            CreateButton(_mainMenuPanel.transform, L.Get("collection"), new Vector2(0, -160), () =>
+            CreateButton(_mainMenuPanel.transform, L.Get("collection"), new Vector2(0, -180), () =>
             {
                 ShowCollectionUI();
-            }, new Color(0.2f, 0.4f, 0.5f));
+            }, ColTeal);
 
             // 언어 선택 버튼
-            CreateButton(_mainMenuPanel.transform, L.Get("language") + ": 한/EN/日/中", new Vector2(0, -220), () =>
+            CreateButton(_mainMenuPanel.transform, L.Get("language") + ": 한/EN", new Vector2(0, -250), () =>
             {
                 var mgr = LocalizationManager.Instance;
                 int next = ((int)mgr.CurrentLanguage + 1) % 4;
                 mgr.SetLanguage((Language)next);
                 BuildMainMenu();
-            }, new Color(0.25f, 0.25f, 0.35f));
+            }, new Color(0.18f, 0.18f, 0.25f));
 
-            CreateButton(_mainMenuPanel.transform, L.Get("quit"), new Vector2(0, -280), () =>
+            CreateButton(_mainMenuPanel.transform, L.Get("quit"), new Vector2(0, -320), () =>
             {
 #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
 #else
                 Application.Quit();
 #endif
-            });
+            }, new Color(0.12f, 0.12f, 0.15f));
 
             // 조작법
             CreateText(_mainMenuPanel.transform, L.Get("input_hint"), 14,
-                new Vector2(0, -370), new Color(0.4f, 0.4f, 0.5f));
+                new Vector2(0, -400), ColDim);
+
+            // 버전/크레딧
+            CreateText(_mainMenuPanel.transform, "v0.1  |  Dokkaebi Studio", 12,
+                new Vector2(0, -460), new Color(0.3f, 0.28f, 0.35f));
         }
 
         #endregion
@@ -238,7 +326,7 @@ namespace DokkaebiHand.UI
         public void BuildGameScreen()
         {
             ClearAll();
-            _gamePanel = CreatePanel("Game", _root, new Color(0.06f, 0.06f, 0.12f, 0.95f));
+            _gamePanel = CreatePanel("Game", _root, ColPanelBg);
 
             var rt = _gamePanel.GetComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
@@ -246,83 +334,148 @@ namespace DokkaebiHand.UI
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            // 상단 바: 나선/영역 정보
-            _spiralText = CreateText(_gamePanel.transform, "", 16,
-                new Vector2(-400, 490), new Color(0.6f, 0.6f, 0.8f));
+            // ========================================
+            // 최상단: 윤회/관문 정보 + 목숨/엽전
+            // ========================================
+            var topBar = CreatePanel("TopBar", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.9f));
+            var topBarRt = topBar.GetComponent<RectTransform>();
+            topBarRt.anchorMin = new Vector2(0, 1);
+            topBarRt.anchorMax = new Vector2(1, 1);
+            topBarRt.pivot = new Vector2(0.5f, 1);
+            topBarRt.sizeDelta = new Vector2(0, 40);
 
-            _infoText = CreateText(_gamePanel.transform, "", 16,
-                new Vector2(400, 490), Color.white);
-
-            // 보스 영역
-            _bossText = CreateText(_gamePanel.transform, "", 22,
-                new Vector2(0, 400), new Color(1f, 0.3f, 0.3f));
-
-            _targetText = CreateText(_gamePanel.transform, "", 20,
-                new Vector2(0, 360), new Color(1f, 0.6f, 0.2f));
-
-            // 바닥패 영역
-            var fieldBg = CreatePanel("FieldArea", _gamePanel.transform,
-                new Color(0.35f, 0.08f, 0.08f, 0.3f));
-            var fieldRt = fieldBg.GetComponent<RectTransform>();
-            fieldRt.anchoredPosition = new Vector2(0, 180);
-            fieldRt.sizeDelta = new Vector2(900, 150);
-
-            _fieldArea = fieldBg.transform;
-            var fieldLayout = fieldBg.AddComponent<HorizontalLayoutGroup>();
-            fieldLayout.spacing = 10;
-            fieldLayout.childAlignment = TextAnchor.MiddleCenter;
-            fieldLayout.childForceExpandWidth = false;
-            fieldLayout.childForceExpandHeight = false;
-
-            CreateText(_gamePanel.transform, $"▲ {L.Get("field")} ▲", 14,
-                new Vector2(0, 265), new Color(0.5f, 0.5f, 0.5f));
-
-            // 점수 표시
-            _scoreText = CreateText(_gamePanel.transform, "칩: 0", 28,
-                new Vector2(-150, 40), Color.white);
-            _multText = CreateText(_gamePanel.transform, "× 배수: 1", 28,
-                new Vector2(150, 40), new Color(0f, 0.8f, 1f));
-
-            // 족보 목록
-            _yokboText = CreateText(_gamePanel.transform, "", 16,
-                new Vector2(0, -10), new Color(1f, 0.84f, 0f));
-
-            // 손패 영역
-            var handBg = CreatePanel("HandArea", _gamePanel.transform,
-                new Color(0.1f, 0.1f, 0.2f, 0.3f));
-            var handRt = handBg.GetComponent<RectTransform>();
-            handRt.anchoredPosition = new Vector2(0, -180);
-            handRt.sizeDelta = new Vector2(900, 150);
-
-            _handArea = handBg.transform;
-            var handLayout = handBg.AddComponent<HorizontalLayoutGroup>();
-            handLayout.spacing = 10;
-            handLayout.childAlignment = TextAnchor.MiddleCenter;
-            handLayout.childForceExpandWidth = false;
-            handLayout.childForceExpandHeight = false;
-
-            CreateText(_gamePanel.transform, $"▼ {L.Get("hand")} ▼", 14,
-                new Vector2(0, -95), new Color(0.5f, 0.5f, 0.5f));
-
-            // 메시지
-            _messageText = CreateText(_gamePanel.transform, "", 18,
-                new Vector2(0, -330), new Color(0.8f, 0.8f, 0.6f));
-
-            // 부적 슬롯 표시
-            CreateText(_gamePanel.transform, "", 14,
-                new Vector2(-350, -420), new Color(0.5f, 0.8f, 0.5f));
+            _spiralText = CreateText(topBar.transform, "", 15,
+                new Vector2(-350, 0), new Color(0.5f, 0.5f, 0.75f));
+            _infoText = CreateText(topBar.transform, "", 15,
+                new Vector2(350, 0), ColSoftWhite);
 
             // 사주팔자 표시
             if (_game.Destiny.CurrentDestiny != null)
             {
-                _destinyText = CreateText(_gamePanel.transform,
-                    $"[{_game.Destiny.CurrentDestiny.GetNameKR()}]", 13,
-                    new Vector2(0, 510), new Color(0.7f, 0.5f, 1f));
+                _destinyText = CreateText(topBar.transform,
+                    $"[{_game.Destiny.CurrentDestiny.GetNameKR()}]", 12,
+                    new Vector2(0, 0), ColPurple);
             }
+
+            // ========================================
+            // 보스 영역 (상단 큰 영역)
+            // ========================================
+            var bossPanel = CreatePanel("BossArea", _gamePanel.transform, new Color(0.06f, 0.03f, 0.03f, 0.8f));
+            var bossPanelRt = bossPanel.GetComponent<RectTransform>();
+            bossPanelRt.anchorMin = new Vector2(0.5f, 0.5f);
+            bossPanelRt.anchorMax = new Vector2(0.5f, 0.5f);
+            bossPanelRt.anchoredPosition = new Vector2(0, 390);
+            bossPanelRt.sizeDelta = new Vector2(800, 160);
+
+            // 보스 이미지 (Mock 실루엣)
+            var bossImgObj = new GameObject("BossImage");
+            bossImgObj.transform.SetParent(bossPanel.transform, false);
+            var bossImg = bossImgObj.AddComponent<Image>();
+            var bossTex = MockupSpriteFactory.CreateBossSilhouette();
+            bossImg.sprite = MockupSpriteFactory.TextureToSprite(bossTex);
+            bossImg.preserveAspect = true;
+            var bossImgRt = bossImgObj.GetComponent<RectTransform>();
+            bossImgRt.anchorMin = new Vector2(0.5f, 0.5f);
+            bossImgRt.anchorMax = new Vector2(0.5f, 0.5f);
+            bossImgRt.anchoredPosition = new Vector2(0, 20);
+            bossImgRt.sizeDelta = new Vector2(90, 90);
+
+            // 보스 이름
+            _bossText = CreateText(bossPanel.transform, "", 22,
+                new Vector2(0, -65), ColCrimson);
+
+            // HP 바 배경
+            var hpBarBg = new GameObject("HPBarBg");
+            hpBarBg.transform.SetParent(bossPanel.transform, false);
+            var hpBarBgImg = hpBarBg.AddComponent<Image>();
+            hpBarBgImg.color = new Color(0.15f, 0.05f, 0.05f);
+            var hpBarBgRt = hpBarBg.GetComponent<RectTransform>();
+            hpBarBgRt.anchorMin = new Vector2(0.5f, 0.5f);
+            hpBarBgRt.anchorMax = new Vector2(0.5f, 0.5f);
+            hpBarBgRt.anchoredPosition = new Vector2(0, -85);
+            hpBarBgRt.sizeDelta = new Vector2(500, 18);
+
+            // HP 바 (라운드 정보 겸용)
+            _targetText = CreateText(bossPanel.transform, "", 14,
+                new Vector2(0, -85), ColSoftWhite);
+
+            // ========================================
+            // 판 위의 패 (기존 바닥패)
+            // ========================================
+            CreateText(_gamePanel.transform, "판 위의 패", 16,
+                new Vector2(0, 230), ColDim);
+
+            var fieldBg = CreatePanel("FieldArea", _gamePanel.transform,
+                new Color(0.12f, 0.04f, 0.04f, 0.5f));
+            var fieldRt = fieldBg.GetComponent<RectTransform>();
+            fieldRt.anchorMin = new Vector2(0.5f, 0.5f);
+            fieldRt.anchorMax = new Vector2(0.5f, 0.5f);
+            fieldRt.anchoredPosition = new Vector2(0, 140);
+            fieldRt.sizeDelta = new Vector2(1100, 180);
+
+            _fieldArea = fieldBg.transform;
+            var fieldLayout = fieldBg.AddComponent<HorizontalLayoutGroup>();
+            fieldLayout.spacing = 8;
+            fieldLayout.childAlignment = TextAnchor.MiddleCenter;
+            fieldLayout.childForceExpandWidth = false;
+            fieldLayout.childForceExpandHeight = false;
+            fieldLayout.padding = new RectOffset(10, 10, 5, 5);
+
+            // ========================================
+            // 점수 / 족보 (중앙)
+            // ========================================
+            var scoreBg = CreatePanel("ScoreBg", _gamePanel.transform, new Color(0.04f, 0.04f, 0.1f, 0.85f));
+            var scoreBgRt = scoreBg.GetComponent<RectTransform>();
+            scoreBgRt.anchorMin = new Vector2(0.5f, 0.5f);
+            scoreBgRt.anchorMax = new Vector2(0.5f, 0.5f);
+            scoreBgRt.anchoredPosition = new Vector2(0, 25);
+            scoreBgRt.sizeDelta = new Vector2(700, 60);
+
+            _scoreText = CreateText(scoreBg.transform, "칩: 0", 28,
+                new Vector2(-170, 12), ColSoftWhite);
+            _multText = CreateText(scoreBg.transform, "x 배수: 1", 28,
+                new Vector2(170, 12), ColCyan);
+            _yokboText = CreateText(scoreBg.transform, "", 16,
+                new Vector2(0, -22), ColGold);
+
+            // ========================================
+            // 내 패 (기존 손패) — 클릭해서 낼 수 있는 패
+            // ========================================
+            CreateText(_gamePanel.transform, "내 패 (클릭해서 내기)", 16,
+                new Vector2(0, -15), ColDim);
+
+            var handBg = CreatePanel("HandArea", _gamePanel.transform,
+                new Color(0.04f, 0.04f, 0.14f, 0.5f));
+            var handRt = handBg.GetComponent<RectTransform>();
+            handRt.anchorMin = new Vector2(0.5f, 0.5f);
+            handRt.anchorMax = new Vector2(0.5f, 0.5f);
+            handRt.anchoredPosition = new Vector2(0, -120);
+            handRt.sizeDelta = new Vector2(1100, 180);
+
+            _handArea = handBg.transform;
+            var handLayout = handBg.AddComponent<HorizontalLayoutGroup>();
+            handLayout.spacing = 8;
+            handLayout.childAlignment = TextAnchor.MiddleCenter;
+            handLayout.childForceExpandWidth = false;
+            handLayout.childForceExpandHeight = false;
+            handLayout.padding = new RectOffset(10, 10, 5, 5);
+
+            // ========================================
+            // 메시지 (하단)
+            // ========================================
+            var msgBg = CreatePanel("MsgBg", _gamePanel.transform, new Color(0.04f, 0.04f, 0.1f, 0.7f));
+            var msgBgRt = msgBg.GetComponent<RectTransform>();
+            msgBgRt.anchorMin = new Vector2(0.5f, 0.5f);
+            msgBgRt.anchorMax = new Vector2(0.5f, 0.5f);
+            msgBgRt.anchoredPosition = new Vector2(0, -230);
+            msgBgRt.sizeDelta = new Vector2(800, 40);
+
+            _messageText = CreateText(_gamePanel.transform, "", 18,
+                new Vector2(0, -230), ColLightGold);
 
             // 욕망의 저울 표시 영역
             _greedText = CreateText(_gamePanel.transform, "", 14,
-                new Vector2(350, -420), new Color(1f, 0.4f, 0.2f));
+                new Vector2(350, -280), new Color(1f, 0.4f, 0.2f));
 
             // Go/Stop 패널 (숨김 상태)
             BuildGoStopPanel();
@@ -344,23 +497,26 @@ namespace DokkaebiHand.UI
 
         private void BuildGoStopPanel()
         {
-            _goStopPanel = CreatePanel("GoStop", _gamePanel.transform, new Color(0, 0, 0, 0.85f));
+            _goStopPanel = CreatePanel("GoStop", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.92f));
             var rt = _goStopPanel.GetComponent<RectTransform>();
-            rt.anchorMin = new Vector2(0.2f, 0.3f);
-            rt.anchorMax = new Vector2(0.8f, 0.7f);
+            rt.anchorMin = new Vector2(0.15f, 0.25f);
+            rt.anchorMax = new Vector2(0.85f, 0.75f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_goStopPanel.transform, L.Get("go_or_stop"), 32,
-                new Vector2(0, 100), Color.white);
+            // Decorative border
+            AddPanelBorder(_goStopPanel, ColGold, 2);
+
+            CreateText(_goStopPanel.transform, L.Get("go_or_stop"), 36,
+                new Vector2(0, 120), ColGold);
 
             // 현재 점수 표시
             if (_game.RoundManager != null)
             {
                 var sc = _game.RoundManager.LastScoreResult;
                 CreateText(_goStopPanel.transform,
-                    $"{NumberFormatter.FormatScore(sc.FinalScore)} {L.Get("score")}", 22,
-                    new Vector2(0, 60), new Color(0.2f, 0.9f, 0.2f));
+                    $"{NumberFormatter.FormatScore(sc.FinalScore)} {L.Get("score")}", 24,
+                    new Vector2(0, 70), new Color(0.2f, 1f, 0.3f));
 
                 // Go 리스크 정보
                 var risk = _game.RoundManager.GetCurrentGoRisk();
@@ -370,21 +526,21 @@ namespace DokkaebiHand.UI
                 else if (risk.HandPenalty > 0)
                     riskInfo += $"\n{L.Get("hand")} -{risk.HandPenalty}";
 
-                CreateText(_goStopPanel.transform, riskInfo, 16,
-                    new Vector2(-120, 10), new Color(1f, 0.5f, 0.5f));
+                CreateText(_goStopPanel.transform, riskInfo, 17,
+                    new Vector2(-120, 15), new Color(1f, 0.4f, 0.4f));
             }
 
             // 욕망의 저울 표시
             var greedStatus = _game.GreedScale.GetStatusText();
             if (!string.IsNullOrEmpty(greedStatus))
             {
-                CreateText(_goStopPanel.transform, greedStatus, 14,
+                CreateText(_goStopPanel.transform, greedStatus, 15,
                     new Vector2(0, -15), new Color(1f, 0.3f, 0.3f, 0.8f));
-                CreateText(_goStopPanel.transform, _game.GreedScale.GetScaleVisual(), 18,
-                    new Vector2(0, -35), new Color(1f, 0.5f, 0f));
+                CreateText(_goStopPanel.transform, _game.GreedScale.GetScaleVisual(), 20,
+                    new Vector2(0, -40), new Color(1f, 0.5f, 0f));
             }
 
-            CreateButton(_goStopPanel.transform, L.Get("go") + "!", new Vector2(-120, -70), () =>
+            CreateButton(_goStopPanel.transform, L.Get("go") + "!", new Vector2(-140, -80), () =>
             {
                 if (_game.RoundManager == null) return;
                 var risk = _game.RoundManager.SelectGo();
@@ -411,9 +567,14 @@ namespace DokkaebiHand.UI
 
                 _goStopPanel.SetActive(false);
                 RefreshGameUI();
-            }, new Color(0.8f, 0.15f, 0.15f));
+            }, new Color(0.8f, 0f, 0f));
 
-            CreateButton(_goStopPanel.transform, L.Get("stop"), new Vector2(120, -70), () =>
+            // Make Go button larger
+            var goBtnRt = _goStopPanel.transform.Find("Btn_" + L.Get("go") + "!");
+            if (goBtnRt != null)
+                goBtnRt.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 60);
+
+            CreateButton(_goStopPanel.transform, L.Get("stop"), new Vector2(140, -80), () =>
             {
                 if (_game.RoundManager == null) return;
                 _game.RoundManager.SelectStop();
@@ -426,35 +587,40 @@ namespace DokkaebiHand.UI
 
                 // → 공격 페이즈 UI 표시 (2장 선택)
                 ShowAttackPhaseUI();
-            }, new Color(0.3f, 0.3f, 0.7f));
+            }, new Color(0f, 0f, 0.67f));
+
+            // Make Stop button larger
+            var stopBtnRt = _goStopPanel.transform.Find("Btn_" + L.Get("stop"));
+            if (stopBtnRt != null)
+                stopBtnRt.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 60);
         }
 
         private void BuildGatePanel()
         {
-            _gatePanel = CreatePanel("Gate", _gamePanel.transform, new Color(0, 0, 0, 0.9f));
+            _gatePanel = CreatePanel("Gate", _gamePanel.transform, new Color(0.02f, 0.02f, 0.06f, 0.95f));
             var rt = _gatePanel.GetComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_gatePanel.transform, L.Get("gate_title"), 36,
-                new Vector2(0, 150), new Color(1f, 0.84f, 0f));
+            CreateText(_gatePanel.transform, L.Get("gate_title"), 40,
+                new Vector2(0, 150), ColGold);
             CreateText(_gatePanel.transform, L.Get("gate_desc"), 20,
-                new Vector2(0, 60), new Color(0.8f, 0.8f, 0.8f));
+                new Vector2(0, 60), ColSoftWhite);
 
             CreateButton(_gatePanel.transform, L.Get("gate_enter"), new Vector2(0, -40), () =>
             {
                 _gatePanel.SetActive(false);
                 ShowMessage(L.Get("story_ending_light"));
                 _game.ContinueAfterGate();
-            }, new Color(1f, 0.84f, 0f));
+            }, new Color(0.7f, 0.6f, 0f));
 
             CreateButton(_gatePanel.transform, L.Get("gate_refuse"), new Vector2(0, -120), () =>
             {
                 _gatePanel.SetActive(false);
                 _game.ContinueAfterGate();
-            }, new Color(0.5f, 0.15f, 0.15f));
+            }, ColBloodRed);
         }
 
         #endregion
@@ -475,29 +641,30 @@ namespace DokkaebiHand.UI
             // 플레이어 정보
             if (_infoText != null)
             {
-                _infoText.text = $"{L.Get("lives")}: {new string('♥', _game.Player.Lives)} | " +
+                string hearts = "";
+                for (int i = 0; i < _game.Player.Lives; i++) hearts += "Life ";
+                _infoText.text = $"{hearts.Trim()} | " +
                     L.Get("yeop_display", _game.Player.Yeop) + " | " +
                     L.Get("soul_display", _game.Upgrades.SoulFragments);
             }
 
-            // 보스 정보 + HP 바
+            // 보스 정보
             if (_bossText != null && _game.CurrentBoss != null)
             {
                 string partsInfo = _game.CurrentBoss.Parts.Count > 0
                     ? $" [{L.Get("boss_parts", _game.CurrentBoss.Parts.Count)}]" : "";
-                string hpBar = "";
-                if (_game.CurrentBattle != null)
-                {
-                    float ratio = _game.CurrentBattle.GetHPRatio();
-                    int filled = (int)(ratio * 20);
-                    hpBar = $"\n[{"".PadLeft(filled, '█')}{"".PadLeft(20 - filled, '░')}] {_game.CurrentBattle.GetHPDisplay()}";
-                }
-                _bossText.text = $"{_game.CurrentBoss.DisplayName}{partsInfo}{hpBar}";
+                _bossText.text = $"{_game.CurrentBoss.DisplayName}{partsInfo}";
             }
 
-            if (_targetText != null && _game.RoundManager != null)
+            // HP 바 + 라운드 정보
+            if (_targetText != null)
             {
-                _targetText.text = $"{L.Get("round")} {_game.CurrentRoundInRealm}/{_game.TotalRoundsInRealm}";
+                string hpInfo = "";
+                if (_game.CurrentBattle != null)
+                    hpInfo = $"HP: {_game.CurrentBattle.GetHPDisplay()}  ";
+                string roundInfo = _game.RoundManager != null
+                    ? $"{L.Get("round")} {_game.CurrentRoundInRealm}/{_game.TotalRoundsInRealm}" : "";
+                _targetText.text = $"{hpInfo}{roundInfo}";
             }
 
             // 점수 (큰 숫자는 단축 표기)
@@ -577,33 +744,63 @@ namespace DokkaebiHand.UI
             var obj = new GameObject(card.NameKR);
             obj.transform.SetParent(parent, false);
 
-            // 배경 이미지
+            // 카드 배경 (MockupSpriteFactory.CreateCardFace 사용)
             var img = obj.AddComponent<Image>();
-            var tex = MockupSpriteFactory.CreateCardFace(card.Month, card.Type, card.Ribbon);
-            img.sprite = MockupSpriteFactory.TextureToSprite(tex);
+            var cardTex = MockupSpriteFactory.CreateCardFace(card.Month, card.Type, card.Ribbon);
+            img.sprite = MockupSpriteFactory.TextureToSprite(cardTex);
+            img.preserveAspect = false;
 
             var rt = obj.GetComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(MockupSpriteFactory.CardWidth, MockupSpriteFactory.CardHeight);
+            rt.sizeDelta = new Vector2(110, 160);
 
-            // 월 텍스트
-            var monthObj = new GameObject("Month");
-            monthObj.transform.SetParent(obj.transform, false);
-            var monthText = monthObj.AddComponent<TextMeshProUGUI>();
-            monthText.text = $"{(int)card.Month}월";
-            monthText.fontSize = 14;
-            monthText.alignment = TextAlignmentOptions.Center;
-            monthText.color = Color.white;
-            var monthRt = monthObj.GetComponent<RectTransform>();
-            monthRt.anchoredPosition = new Vector2(0, 38);
-            monthRt.sizeDelta = new Vector2(70, 20);
-
-            // 타입 텍스트
-            var typeObj = new GameObject("Type");
-            typeObj.transform.SetParent(obj.transform, false);
-            var typeText = typeObj.AddComponent<TextMeshProUGUI>();
-            typeText.text = card.Type switch
+            // 타입별 상단 바 색상
+            Color headerColor = card.Type switch
             {
-                CardType.Gwang => "★광",
+                CardType.Gwang => new Color(1f, 0.84f, 0f),
+                CardType.Tti => card.Ribbon switch
+                {
+                    RibbonType.HongDan => new Color(0.85f, 0.15f, 0.15f),
+                    RibbonType.CheongDan => new Color(0.15f, 0.4f, 0.85f),
+                    RibbonType.ChoDan => new Color(0.2f, 0.7f, 0.2f),
+                    _ => new Color(0.85f, 0.15f, 0.15f)
+                },
+                CardType.Yeolkkeut => new Color(0.3f, 0.7f, 0.9f),
+                _ => new Color(0.55f, 0.55f, 0.55f)
+            };
+
+            // 상단 색상 바 (월 표시 헤더)
+            var headerObj = new GameObject("Header");
+            headerObj.transform.SetParent(obj.transform, false);
+            var headerImg = headerObj.AddComponent<Image>();
+            headerImg.color = headerColor;
+            var headerRt = headerObj.GetComponent<RectTransform>();
+            headerRt.anchorMin = new Vector2(0, 1);
+            headerRt.anchorMax = new Vector2(1, 1);
+            headerRt.pivot = new Vector2(0.5f, 1);
+            headerRt.anchoredPosition = Vector2.zero;
+            headerRt.sizeDelta = new Vector2(0, 32);
+
+            // 월 텍스트 (헤더 위)
+            var monthObj = new GameObject("Month");
+            monthObj.transform.SetParent(headerObj.transform, false);
+            var monthText = monthObj.AddComponent<TextMeshProUGUI>();
+            var kf1 = MockupSceneBuilder.GetKoreanFont();
+            if (kf1 != null) monthText.font = kf1;
+            monthText.text = $"{(int)card.Month}월";
+            monthText.fontSize = 18;
+            monthText.fontStyle = FontStyles.Bold;
+            monthText.alignment = TextAlignmentOptions.Center;
+            monthText.color = card.Type == CardType.Gwang ? new Color(0.15f, 0.1f, 0f) : Color.white;
+            var monthRt = monthObj.GetComponent<RectTransform>();
+            monthRt.anchorMin = Vector2.zero;
+            monthRt.anchorMax = Vector2.one;
+            monthRt.offsetMin = Vector2.zero;
+            monthRt.offsetMax = Vector2.zero;
+
+            // 타입 배지 (중앙 — 색상 배경 + 텍스트)
+            string typeLabel = card.Type switch
+            {
+                CardType.Gwang => "광",
                 CardType.Tti => card.Ribbon switch
                 {
                     RibbonType.HongDan => "홍",
@@ -611,29 +808,51 @@ namespace DokkaebiHand.UI
                     RibbonType.ChoDan => "초",
                     _ => "띠"
                 },
-                CardType.Yeolkkeut => "◆열",
-                CardType.Pi => card.IsDoublePi ? "쌍피" : "●피",
+                CardType.Yeolkkeut => "열",
+                CardType.Pi => card.IsDoublePi ? "쌍피" : "피",
                 _ => "?"
             };
-            typeText.fontSize = 16;
+
+            // 배지 배경
+            var badgeObj = new GameObject("Badge");
+            badgeObj.transform.SetParent(obj.transform, false);
+            var badgeImg = badgeObj.AddComponent<Image>();
+            badgeImg.color = new Color(headerColor.r, headerColor.g, headerColor.b, 0.85f);
+            var badgeRt = badgeObj.GetComponent<RectTransform>();
+            badgeRt.anchoredPosition = new Vector2(0, -8);
+            badgeRt.sizeDelta = new Vector2(60, 32);
+
+            // 배지 텍스트
+            var typeObj = new GameObject("Type");
+            typeObj.transform.SetParent(badgeObj.transform, false);
+            var typeText = typeObj.AddComponent<TextMeshProUGUI>();
+            var kf2 = MockupSceneBuilder.GetKoreanFont();
+            if (kf2 != null) typeText.font = kf2;
+            typeText.text = typeLabel;
+            typeText.fontSize = 18;
             typeText.fontStyle = FontStyles.Bold;
             typeText.alignment = TextAlignmentOptions.Center;
-            typeText.color = new Color(0.15f, 0.15f, 0.15f);
+            typeText.color = card.Type == CardType.Gwang ? new Color(0.15f, 0.1f, 0f) : Color.white;
             var typeRt = typeObj.GetComponent<RectTransform>();
-            typeRt.anchoredPosition = new Vector2(0, 0);
-            typeRt.sizeDelta = new Vector2(70, 25);
+            typeRt.anchorMin = Vector2.zero;
+            typeRt.anchorMax = Vector2.one;
+            typeRt.offsetMin = Vector2.zero;
+            typeRt.offsetMax = Vector2.zero;
 
-            // 점수 텍스트
+            // 점수 텍스트 (하단)
             var ptObj = new GameObject("Points");
             ptObj.transform.SetParent(obj.transform, false);
             var ptText = ptObj.AddComponent<TextMeshProUGUI>();
+            var kf3 = MockupSceneBuilder.GetKoreanFont();
+            if (kf3 != null) ptText.font = kf3;
             ptText.text = $"{card.BasePoints}";
-            ptText.fontSize = 12;
+            ptText.fontSize = 16;
+            ptText.fontStyle = FontStyles.Bold;
             ptText.alignment = TextAlignmentOptions.Center;
-            ptText.color = new Color(0.3f, 0.3f, 0.3f);
+            ptText.color = new Color(0.35f, 0.3f, 0.25f);
             var ptRt = ptObj.GetComponent<RectTransform>();
-            ptRt.anchoredPosition = new Vector2(0, -42);
-            ptRt.sizeDelta = new Vector2(70, 18);
+            ptRt.anchoredPosition = new Vector2(0, -55);
+            ptRt.sizeDelta = new Vector2(90, 25);
 
             return obj;
         }
@@ -713,34 +932,44 @@ namespace DokkaebiHand.UI
             rt.anchoredPosition = new Vector2(0, -420);
             rt.sizeDelta = new Vector2(600, 80);
 
-            bool dealt = _game.RoundManager != null && _game.RoundManager.LastScoreResult.FinalScore > 0;
+            // 섯다 공격 데미지 또는 고스톱 점수로 타격 여부 판단
+            bool dealt = (_game.RoundManager != null && _game.RoundManager.LastScoreResult.FinalScore > 0)
+                || (_game.RoundManager != null && _game.RoundManager.LastSeotda != null && _game.RoundManager.LastSeotda.PlayerWon);
             bool bossAlive = _game.CurrentBattle != null && !_game.CurrentBattle.IsBossDefeated;
             bool hasMoreRounds = _game.CurrentRoundInRealm < _game.TotalRoundsInRealm;
 
-            if (dealt && bossAlive && hasMoreRounds)
+            if (bossAlive && hasMoreRounds)
             {
-                // 타격 성공, 보스 아직 살아있음 → 다음 판
-                string hpInfo = _game.CurrentBattle != null ? _game.CurrentBattle.GetHPDisplay() : "";
-                ShowMessage($"타격! 보스 {hpInfo} | 다음 판 준비...");
+                if (dealt)
+                {
+                    // 타격 성공, 보스 아직 살아있음 → 다음 판
+                    string hpInfo = _game.CurrentBattle != null ? _game.CurrentBattle.GetHPDisplay() : "";
+                    ShowMessage($"타격! 보스 {hpInfo} | 다음 판 준비...");
+                }
+                else
+                {
+                    // 타격 실패했지만 라운드 남음
+                    ShowMessage("다시 치자! 다음 판 준비...");
+                }
 
                 CreateButton(_actionButtonsPanel.transform, L.Get("next_round"), new Vector2(0, 0), () =>
                 {
                     ClearActionButtons();
                     _game.StartNextRound();
                     RefreshGameUI();
-                }, new Color(0.15f, 0.5f, 0.15f));
+                }, dealt ? new Color(0.08f, 0.4f, 0.08f) : new Color(0.55f, 0.25f, 0.08f));
             }
-            else if (!dealt && _game.Player.Lives > 0)
+            else if (bossAlive && !hasMoreRounds && _game.Player.Lives > 0)
             {
-                // 족보 없이 패 소진 → 데미지 0 → 판 낭비
-                ShowMessage("족보 없이 끝났다... 다시 치자!");
+                // 라운드 다 소진했지만 목숨 남음 → 재도전
+                ShowMessage("마지막 기회다... 다시 도전!");
 
                 CreateButton(_actionButtonsPanel.transform, L.Get("retry"), new Vector2(0, 0), () =>
                 {
                     ClearActionButtons();
                     _game.StartNextRound();
                     RefreshGameUI();
-                }, new Color(0.6f, 0.3f, 0.15f));
+                }, new Color(0.55f, 0.25f, 0.08f));
             }
             // 보스 격파 or 게임오버는 HandleRoundEnded에서 직접 상태 전환
         }
@@ -748,21 +977,31 @@ namespace DokkaebiHand.UI
         private void ShowShopUI()
         {
             ClearActionButtons();
-            _actionButtonsPanel = CreatePanel("ShopPanel", _gamePanel.transform, new Color(0, 0, 0, 0.7f));
+            _actionButtonsPanel = CreatePanel("ShopPanel", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.92f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0.1f, 0.15f);
             rt.anchorMax = new Vector2(0.9f, 0.85f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_actionButtonsPanel.transform, L.Get("shop"), 28,
-                new Vector2(0, 220), new Color(1f, 0.84f, 0f));
-            CreateText(_actionButtonsPanel.transform, L.Get("shop_greeting"), 16,
-                new Vector2(0, 180), new Color(0.7f, 0.7f, 0.7f));
-            CreateText(_actionButtonsPanel.transform, L.Get("yeop_display", _game.Player.Yeop), 18,
-                new Vector2(0, 145), Color.white);
+            CreateText(_actionButtonsPanel.transform, L.Get("shop"), 30,
+                new Vector2(0, 230), ColGold);
 
-            // 상점 아이템 버튼
+            // Decorative separator under title
+            var shopSep = new GameObject("ShopSep");
+            shopSep.transform.SetParent(_actionButtonsPanel.transform, false);
+            var shopSepImg = shopSep.AddComponent<Image>();
+            shopSepImg.color = new Color(ColGold.r, ColGold.g, ColGold.b, 0.25f);
+            var shopSepRt = shopSep.GetComponent<RectTransform>();
+            shopSepRt.anchoredPosition = new Vector2(0, 205);
+            shopSepRt.sizeDelta = new Vector2(350, 2);
+
+            CreateText(_actionButtonsPanel.transform, L.Get("shop_greeting"), 16,
+                new Vector2(0, 185), ColDim);
+            CreateText(_actionButtonsPanel.transform, L.Get("yeop_display", _game.Player.Yeop), 18,
+                new Vector2(0, 155), ColSoftWhite);
+
+            // 상점 아이템 버튼 - alternating backgrounds
             var stock = _game.Shop.CurrentStock;
             for (int i = 0; i < stock.Count; i++)
             {
@@ -772,8 +1011,12 @@ namespace DokkaebiHand.UI
                     $"{item.NameKR}  ({item.Cost} {L.Get("yeop")})";
                 float yPos = 80 - i * 55;
 
-                Color btnColor = item.IsSold ? new Color(0.3f, 0.3f, 0.3f) :
-                    (item.TalismanData != null ? new Color(0.2f, 0.35f, 0.5f) : new Color(0.3f, 0.4f, 0.3f));
+                Color btnColor = item.IsSold ? new Color(0.15f, 0.15f, 0.18f) :
+                    (item.TalismanData != null ? new Color(0.15f, 0.25f, 0.45f) : new Color(0.2f, 0.35f, 0.2f));
+
+                // Alternate slightly for visual distinction
+                if (!item.IsSold && i % 2 == 1)
+                    btnColor = new Color(btnColor.r + 0.04f, btnColor.g + 0.04f, btnColor.b + 0.04f);
 
                 CreateButton(_actionButtonsPanel.transform, label, new Vector2(0, yPos), () =>
                 {
@@ -793,14 +1036,14 @@ namespace DokkaebiHand.UI
             CreateButton(_actionButtonsPanel.transform, L.Get("forge"), new Vector2(-150, -200), () =>
             {
                 ShowForgeUI();
-            }, new Color(0.5f, 0.3f, 0.1f));
+            }, new Color(0.45f, 0.25f, 0.05f));
 
             // 나가기 버튼
             CreateButton(_actionButtonsPanel.transform, L.Get("next_realm") + " ▶", new Vector2(150, -200), () =>
             {
                 ClearActionButtons();
                 _game.LeaveShop();
-            }, new Color(0.15f, 0.5f, 0.15f));
+            }, new Color(0.08f, 0.4f, 0.08f));
         }
 
         private void ShowEventUI()
@@ -813,17 +1056,17 @@ namespace DokkaebiHand.UI
                 return;
             }
 
-            _actionButtonsPanel = CreatePanel("EventPanel", _gamePanel.transform, new Color(0, 0, 0, 0.8f));
+            _actionButtonsPanel = CreatePanel("EventPanel", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.92f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0.1f, 0.1f);
             rt.anchorMax = new Vector2(0.9f, 0.9f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_actionButtonsPanel.transform, evt.TitleKR, 30,
-                new Vector2(0, 250), new Color(1f, 0.84f, 0f));
+            CreateText(_actionButtonsPanel.transform, evt.TitleKR, 32,
+                new Vector2(0, 250), ColGold);
             CreateText(_actionButtonsPanel.transform, evt.DescriptionKR, 18,
-                new Vector2(0, 160), new Color(0.85f, 0.85f, 0.85f));
+                new Vector2(0, 160), ColSoftWhite);
 
             for (int i = 0; i < evt.Choices.Count; i++)
             {
@@ -847,50 +1090,59 @@ namespace DokkaebiHand.UI
                     {
                         ClearActionButtons();
                         _game.LeaveEvent();
-                    }, new Color(0.15f, 0.5f, 0.15f));
-                }, new Color(0.25f, 0.25f, 0.4f));
+                    }, new Color(0.08f, 0.4f, 0.08f));
+                }, new Color(0.18f, 0.18f, 0.35f));
             }
         }
 
         private void ShowGameOverButtons()
         {
             ClearActionButtons();
-            _actionButtonsPanel = CreatePanel("ActionButtons", _gamePanel.transform, new Color(0, 0, 0, 0.85f));
+            _actionButtonsPanel = CreatePanel("ActionButtons", _gamePanel.transform, new Color(0.03f, 0.02f, 0.05f, 0.95f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
-            rt.anchorMin = new Vector2(0.15f, 0.2f);
-            rt.anchorMax = new Vector2(0.85f, 0.8f);
+            rt.anchorMin = new Vector2(0.15f, 0.15f);
+            rt.anchorMax = new Vector2(0.85f, 0.85f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_actionButtonsPanel.transform, L.Get("game_over"), 36,
-                new Vector2(0, 180), new Color(1f, 0.3f, 0.3f));
-            CreateText(_actionButtonsPanel.transform, L.Get("soul_display", _game.Upgrades.SoulFragments), 22,
-                new Vector2(0, 120), Color.white);
+            // Dark background panel behind title
+            var gameOverBg = CreatePanel("GameOverTitleBg", _actionButtonsPanel.transform,
+                new Color(ColBloodRed.r, ColBloodRed.g, ColBloodRed.b, 0.4f));
+            var goBgRt = gameOverBg.GetComponent<RectTransform>();
+            goBgRt.anchorMin = new Vector2(0.5f, 0.5f);
+            goBgRt.anchorMax = new Vector2(0.5f, 0.5f);
+            goBgRt.anchoredPosition = new Vector2(0, 190);
+            goBgRt.sizeDelta = new Vector2(500, 60);
+
+            CreateText(_actionButtonsPanel.transform, L.Get("game_over"), 40,
+                new Vector2(0, 190), ColCrimson);
+            CreateText(_actionButtonsPanel.transform, L.Get("soul_display", _game.Upgrades.SoulFragments), 24,
+                new Vector2(0, 120), ColSoftWhite);
             CreateText(_actionButtonsPanel.transform,
-                L.Get("total_cleared", _game.Spiral.TotalRealmsCleared), 18,
-                new Vector2(0, 80), new Color(0.7f, 0.7f, 0.7f));
+                L.Get("total_cleared", _game.Spiral.TotalRealmsCleared), 20,
+                new Vector2(0, 80), ColDim);
 
             // 영구 강화 버튼
             CreateButton(_actionButtonsPanel.transform, L.Get("permanent_upgrade"), new Vector2(0, 10), () =>
             {
                 ClearActionButtons();
                 ShowUpgradeTreeUI();
-            }, new Color(0.4f, 0.2f, 0.6f));
+            }, new Color(0.35f, 0.1f, 0.5f));
 
             // 다시 도전
-            CreateButton(_actionButtonsPanel.transform, L.Get("retry"), new Vector2(0, -60), () =>
+            CreateButton(_actionButtonsPanel.transform, L.Get("retry"), new Vector2(0, -70), () =>
             {
                 ClearActionButtons();
                 _game.StartNewGame();
                 // SpiralStart에서 축복 선택 UI 표시됨
-            }, new Color(0.6f, 0.15f, 0.15f));
+            }, ColCrimson);
 
             // 메인 메뉴
-            CreateButton(_actionButtonsPanel.transform, L.Get("main_menu"), new Vector2(0, -130), () =>
+            CreateButton(_actionButtonsPanel.transform, L.Get("main_menu"), new Vector2(0, -150), () =>
             {
                 ClearActionButtons();
                 BuildMainMenu();
-            }, new Color(0.2f, 0.2f, 0.3f));
+            }, new Color(0.15f, 0.15f, 0.22f));
         }
 
         #endregion
@@ -932,13 +1184,22 @@ namespace DokkaebiHand.UI
 
                 case GameState.PostRound:
                     RefreshGameUI();
-                    // 보스 격파 시에는 wave upgrade/shop/gate로 넘어가므로 PostRound 버튼 불필요
-                    // 같은 영역 내 라운드 승리 or 패배(목숨 남음) 시에만 버튼 표시
-                    if (_game.CurrentRoundInRealm < _game.TotalRoundsInRealm ||
-                        (_game.Player.Lives > 0 && _game.RoundManager != null &&
-                         _game.RoundManager.LastScoreResult.FinalScore < _game.RoundManager.TargetScore))
                     {
-                        ShowPostRoundButtons();
+                        bool bossDefeated = _game.CurrentBattle != null && _game.CurrentBattle.IsBossDefeated;
+                        bool playerAlive = _game.Player.Lives > 0;
+
+                        if (bossDefeated)
+                        {
+                            // 보스 격파! → 웨이브 강화 UI 또는 상점으로
+                            if (_game.WaveUpgrades.CurrentChoices.Count > 0)
+                                ShowWaveUpgradeUI();
+                            // Gate 상태는 HandleStateChange(Gate)에서 처리
+                        }
+                        else if (playerAlive)
+                        {
+                            // 보스 살아있음 → 다음 판 버튼
+                            ShowPostRoundButtons();
+                        }
                     }
                     break;
 
@@ -973,7 +1234,7 @@ namespace DokkaebiHand.UI
             _selectedAttackCard1 = null;
             _selectedAttackCard2 = null;
 
-            _actionButtonsPanel = CreatePanel("AttackPhase", _gamePanel.transform, new Color(0, 0, 0, 0.85f));
+            _actionButtonsPanel = CreatePanel("AttackPhase", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.93f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
@@ -981,8 +1242,8 @@ namespace DokkaebiHand.UI
             rt.offsetMax = Vector2.zero;
 
             // 타이틀
-            CreateText(_actionButtonsPanel.transform, "공격할 2장을 골라라!", 28,
-                new Vector2(0, 420), new Color(1f, 0.3f, 0.2f));
+            CreateText(_actionButtonsPanel.transform, "공격할 2장을 골라라!", 30,
+                new Vector2(0, 420), ColCrimson);
 
             // 현재 시너지 표시
             _game.Battle.EvaluateSynergies(_game.Player);
@@ -994,12 +1255,12 @@ namespace DokkaebiHand.UI
                     new Vector2(0, 380), new Color(0.3f, 1f, 0.5f));
             else
                 CreateText(_actionButtonsPanel.transform, "(시너지 없음)", 14,
-                    new Vector2(0, 380), new Color(0.5f, 0.5f, 0.5f));
+                    new Vector2(0, 380), ColDim);
 
             // 보스 HP 표시
             if (_game.CurrentBattle != null)
-                CreateText(_actionButtonsPanel.transform, $"보스 {_game.CurrentBattle.GetHPDisplay()}", 20,
-                    new Vector2(0, 350), new Color(1f, 0.4f, 0.4f));
+                CreateText(_actionButtonsPanel.transform, $"보스 {_game.CurrentBattle.GetHPDisplay()}", 22,
+                    new Vector2(0, 350), new Color(1f, 0.35f, 0.35f));
 
             // 먹은 패 전부 표시 (클릭으로 선택)
             var allCaptured = new System.Collections.Generic.List<CardInstance>();
@@ -1012,16 +1273,16 @@ namespace DokkaebiHand.UI
             int cols = 10;
             float startX = -360;
             float startY = 250;
-            float cardW = 75;
-            float cardH = 110;
+            float cardW = 100;
+            float cardH = 145;
             float gapX = 5;
             float gapY = 5;
 
-            var _selectedText = CreateText(_actionButtonsPanel.transform, "선택: (없음) + (없음)", 20,
-                new Vector2(0, -200), Color.white);
+            var _selectedText = CreateText(_actionButtonsPanel.transform, "선택: (없음) + (없음)", 22,
+                new Vector2(0, -200), ColSoftWhite);
 
-            var _previewText = CreateText(_actionButtonsPanel.transform, "", 18,
-                new Vector2(0, -240), new Color(1f, 0.84f, 0f));
+            var _previewText = CreateText(_actionButtonsPanel.transform, "", 20,
+                new Vector2(0, -240), ColGold);
 
             Button _attackBtn = null;
 
@@ -1072,8 +1333,8 @@ namespace DokkaebiHand.UI
 
             if (allCaptured.Count == 0)
             {
-                CreateText(_actionButtonsPanel.transform, "먹은 패가 없다... 공격 불가!", 20,
-                    new Vector2(0, 0), new Color(1f, 0.3f, 0.3f));
+                CreateText(_actionButtonsPanel.transform, "먹은 패가 없다... 공격 불가!", 22,
+                    new Vector2(0, 0), ColCrimson);
             }
 
             // 공격! 버튼
@@ -1099,7 +1360,72 @@ namespace DokkaebiHand.UI
 
                 ClearActionButtons();
                 RefreshGameUI();
-            }, new Color(0.8f, 0.15f, 0.1f));
+
+                // 공격 후 상태에 따라 UI 분기
+                bool bossIsDead = _game.CurrentBattle != null && _game.CurrentBattle.IsBossDefeated;
+
+                if (bossIsDead)
+                {
+                    // 보스 격파 이펙트
+                    if (_effects != null)
+                        _effects.PlayBossDefeatEffect(
+                            _game.CurrentBoss?.DisplayName ?? "보스", new Vector2(0, 300));
+                    ShowMessage($"{_game.CurrentBoss?.DisplayName} 격파!");
+
+                    // 상태에 따라 다음 화면 결정
+                    if (_game.CurrentState == GameState.Gate)
+                    {
+                        // 윤회 완료 → 이승의 문
+                        _gatePanel?.SetActive(true);
+                    }
+                    else if (_game.CurrentState == GameState.Shop)
+                    {
+                        // 이미 상점으로 넘어감
+                        ShowShopUI();
+                    }
+                    else
+                    {
+                        // PostRound 상태 — 웨이브 강화 or 다음 진행 버튼
+                        // 약간의 딜레이 후 확인 (WaveUpgrades가 채워질 시간)
+                        if (_game.WaveUpgrades.CurrentChoices.Count > 0)
+                        {
+                            ShowWaveUpgradeUI();
+                        }
+                        else
+                        {
+                            // 웨이브 강화 없으면 직접 상점 열기
+                            ClearActionButtons();
+                            _actionButtonsPanel = CreatePanel("BossDefeated", _gamePanel.transform, new Color(0, 0, 0, 0.85f));
+                            var defeatRt = _actionButtonsPanel.GetComponent<RectTransform>();
+                            defeatRt.anchorMin = new Vector2(0.2f, 0.3f);
+                            defeatRt.anchorMax = new Vector2(0.8f, 0.7f);
+                            defeatRt.offsetMin = Vector2.zero;
+                            defeatRt.offsetMax = Vector2.zero;
+
+                            CreateText(_actionButtonsPanel.transform, "관문 돌파!", 36,
+                                new Vector2(0, 80), ColGold);
+                            CreateText(_actionButtonsPanel.transform,
+                                $"{_game.CurrentBoss?.DisplayName} 격파", 20,
+                                new Vector2(0, 30), ColSoftWhite);
+
+                            CreateButton(_actionButtonsPanel.transform, "다음으로", new Vector2(0, -60), () =>
+                            {
+                                ClearActionButtons();
+                                _game.OpenShop();
+                            }, new Color(0.15f, 0.5f, 0.15f));
+                        }
+                    }
+                }
+                else if (_game.CurrentState == GameState.PostRound)
+                {
+                    // 보스 아직 살아있음 → 다음 판 버튼
+                    ShowPostRoundButtons();
+                }
+                else if (_game.CurrentState == GameState.GameOver)
+                {
+                    ShowGameOverButtons();
+                }
+            }, new Color(0.8f, 0.1f, 0.05f));
         }
 
         private int GetPreviewDamage(Combat.SeotdaResult seotda)
@@ -1124,33 +1450,42 @@ namespace DokkaebiHand.UI
         {
             ClearActionButtons();
             _actionButtonsPanel = CreatePanel("BlessingPanel", _gamePanel != null ? _gamePanel.transform : _root,
-                new Color(0, 0, 0, 0.9f));
+                new Color(0.03f, 0.03f, 0.08f, 0.95f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_actionButtonsPanel.transform, L.Get("blessing_title"), 32,
-                new Vector2(0, 280), new Color(1f, 0.84f, 0f));
+            CreateText(_actionButtonsPanel.transform, L.Get("blessing_title"), 34,
+                new Vector2(0, 300), ColGold);
             CreateText(_actionButtonsPanel.transform,
-                $"{L.Get("spiral")} {_game.Spiral.CurrentSpiral}", 20,
-                new Vector2(0, 230), new Color(0.7f, 0.7f, 0.8f));
+                $"{L.Get("spiral")} {_game.Spiral.CurrentSpiral}", 22,
+                new Vector2(0, 250), new Color(0.6f, 0.6f, 0.75f));
 
             var blessings = SpiralBlessing.GetAll();
             for (int i = 0; i < blessings.Count; i++)
             {
                 var b = blessings[i];
-                float yPos = 130 - i * 90;
+                float yPos = 140 - i * 95;
                 string label = $"{b.NameKR}\n{b.BonusDesc} / {b.PenaltyDesc}";
 
                 Color btnColor = b.Id switch
                 {
-                    "fire" => new Color(0.6f, 0.15f, 0.1f),
-                    "ice" => new Color(0.1f, 0.3f, 0.6f),
-                    "void" => new Color(0.3f, 0.1f, 0.5f),
-                    "chaos" => new Color(0.5f, 0.4f, 0.1f),
-                    _ => new Color(0.3f, 0.3f, 0.3f)
+                    "fire" => new Color(0.55f, 0.1f, 0.05f),
+                    "ice" => new Color(0.05f, 0.2f, 0.55f),
+                    "void" => new Color(0.3f, 0.08f, 0.5f),
+                    "chaos" => new Color(0.5f, 0.38f, 0.05f),
+                    _ => new Color(0.2f, 0.2f, 0.25f)
+                };
+
+                Color borderColor = b.Id switch
+                {
+                    "fire" => new Color(1f, 0.3f, 0.1f),
+                    "ice" => new Color(0.3f, 0.6f, 1f),
+                    "void" => new Color(0.7f, 0.3f, 1f),
+                    "chaos" => new Color(1f, 0.8f, 0.2f),
+                    _ => ColDim
                 };
 
                 var blessingRef = b;
@@ -1160,16 +1495,19 @@ namespace DokkaebiHand.UI
                     if (_gamePanel == null) BuildGameScreen();
                     _game.BeginSpiralWithBlessing(blessingRef);
                 }, btnColor);
-                btn.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 70);
+                btn.GetComponent<RectTransform>().sizeDelta = new Vector2(550, 80);
+
+                // Add thin colored left border to blessing card
+                AddLeftBorder(btn.gameObject, borderColor, 5);
             }
 
             // 거부 버튼
-            CreateButton(_actionButtonsPanel.transform, L.Get("blessing_skip"), new Vector2(0, -250), () =>
+            CreateButton(_actionButtonsPanel.transform, L.Get("blessing_skip"), new Vector2(0, -260), () =>
             {
                 ClearActionButtons();
                 if (_gamePanel == null) BuildGameScreen();
                 _game.BeginSpiralWithBlessing(null);
-            }, new Color(0.3f, 0.3f, 0.3f));
+            }, new Color(0.2f, 0.2f, 0.25f));
         }
 
         #endregion
@@ -1180,28 +1518,28 @@ namespace DokkaebiHand.UI
         {
             ClearActionButtons();
             _actionButtonsPanel = CreatePanel("UpgradeTree", _mainMenuPanel != null ? _mainMenuPanel.transform : _root,
-                new Color(0, 0, 0, 0.92f));
+                new Color(0.03f, 0.03f, 0.08f, 0.95f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_actionButtonsPanel.transform, L.Get("permanent_upgrade"), 30,
-                new Vector2(0, 350), new Color(1f, 0.84f, 0f));
-            CreateText(_actionButtonsPanel.transform, L.Get("soul_display", _game.Upgrades.SoulFragments), 20,
-                new Vector2(0, 310), Color.white);
+            CreateText(_actionButtonsPanel.transform, L.Get("permanent_upgrade"), 32,
+                new Vector2(0, 360), ColGold);
+            CreateText(_actionButtonsPanel.transform, L.Get("soul_display", _game.Upgrades.SoulFragments), 22,
+                new Vector2(0, 315), ColSoftWhite);
 
             // 3갈래 트리 타이틀
-            CreateText(_actionButtonsPanel.transform, L.Get("path_card"), 20,
-                new Vector2(-350, 260), new Color(0.3f, 0.7f, 1f));
-            CreateText(_actionButtonsPanel.transform, L.Get("path_talisman"), 20,
-                new Vector2(0, 260), new Color(0.7f, 0.3f, 1f));
-            CreateText(_actionButtonsPanel.transform, L.Get("path_survival"), 20,
-                new Vector2(350, 260), new Color(0.3f, 1f, 0.5f));
+            CreateText(_actionButtonsPanel.transform, L.Get("path_card"), 21,
+                new Vector2(-350, 270), ColCyan);
+            CreateText(_actionButtonsPanel.transform, L.Get("path_talisman"), 21,
+                new Vector2(0, 270), ColPurple);
+            CreateText(_actionButtonsPanel.transform, L.Get("path_survival"), 21,
+                new Vector2(350, 270), new Color(0.3f, 0.9f, 0.5f));
 
             // 강화 목록
-            int cardY = 200, talY = 200, survY = 200;
+            int cardY = 210, talY = 210, survY = 210;
             foreach (var upg in _game.Upgrades.AllUpgrades)
             {
                 int level = _game.Upgrades.GetLevel(upg.Id);
@@ -1218,18 +1556,18 @@ namespace DokkaebiHand.UI
                 switch (upg.Path)
                 {
                     case UpgradePath.Card:
-                        xPos = -350; yPos = cardY; cardY -= 50;
+                        xPos = -350; yPos = cardY; cardY -= 55;
                         break;
                     case UpgradePath.Talisman:
-                        xPos = 0; yPos = talY; talY -= 50;
+                        xPos = 0; yPos = talY; talY -= 55;
                         break;
                     default:
-                        xPos = 350; yPos = survY; survY -= 50;
+                        xPos = 350; yPos = survY; survY -= 55;
                         break;
                 }
 
-                Color btnColor = maxed ? new Color(0.2f, 0.2f, 0.2f) :
-                    (canBuy ? new Color(0.2f, 0.4f, 0.5f) : new Color(0.15f, 0.15f, 0.2f));
+                Color btnColor = maxed ? new Color(0.15f, 0.15f, 0.18f) :
+                    (canBuy ? new Color(0.15f, 0.35f, 0.45f) : new Color(0.1f, 0.1f, 0.15f));
 
                 var upgId = upg.Id;
                 var btn = CreateButton(_actionButtonsPanel.transform, label, new Vector2(xPos, yPos), () =>
@@ -1240,9 +1578,9 @@ namespace DokkaebiHand.UI
                         ShowUpgradeTreeUI(); // 새로고침
                     }
                 }, btnColor);
-                btn.GetComponent<RectTransform>().sizeDelta = new Vector2(280, 45);
+                btn.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 48);
                 var labelTmp = btn.GetComponentInChildren<TextMeshProUGUI>();
-                if (labelTmp != null) labelTmp.fontSize = 14;
+                if (labelTmp != null) labelTmp.fontSize = 15;
             }
 
             // 돌아가기 버튼
@@ -1253,7 +1591,7 @@ namespace DokkaebiHand.UI
                     ShowGameOverButtons();
                 else
                     BuildMainMenu();
-            }, new Color(0.3f, 0.3f, 0.4f));
+            }, new Color(0.2f, 0.2f, 0.3f));
         }
 
         #endregion
@@ -1263,15 +1601,15 @@ namespace DokkaebiHand.UI
         private void ShowWaveUpgradeUI()
         {
             ClearActionButtons();
-            _actionButtonsPanel = CreatePanel("WaveUpgrade", _gamePanel.transform, new Color(0, 0, 0, 0.88f));
+            _actionButtonsPanel = CreatePanel("WaveUpgrade", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.93f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0.05f, 0.1f);
             rt.anchorMax = new Vector2(0.95f, 0.9f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_actionButtonsPanel.transform, L.Get("wave_upgrade_title"), 30,
-                new Vector2(0, 250), new Color(1f, 0.84f, 0f));
+            CreateText(_actionButtonsPanel.transform, L.Get("wave_upgrade_title"), 32,
+                new Vector2(0, 260), ColGold);
 
             var choices = _game.WaveUpgrades.CurrentChoices;
             for (int i = 0; i < choices.Count; i++)
@@ -1282,10 +1620,10 @@ namespace DokkaebiHand.UI
 
                 Color cardColor = c.Category switch
                 {
-                    "card" => new Color(0.2f, 0.35f, 0.6f),
-                    "talisman" => new Color(0.5f, 0.2f, 0.6f),
-                    "survival" => new Color(0.2f, 0.5f, 0.3f),
-                    _ => new Color(0.5f, 0.4f, 0.2f)
+                    "card" => new Color(0.12f, 0.25f, 0.5f),
+                    "talisman" => new Color(0.4f, 0.12f, 0.55f),
+                    "survival" => new Color(0.12f, 0.4f, 0.2f),
+                    _ => new Color(0.4f, 0.3f, 0.1f)
                 };
 
                 // 카드 형태 버튼
@@ -1296,8 +1634,8 @@ namespace DokkaebiHand.UI
                 cardRt.anchoredPosition = new Vector2(xPos, 0);
                 cardRt.sizeDelta = new Vector2(240, 300);
 
-                CreateText(cardPanel.transform, c.NameKR, 22, new Vector2(0, 100), Color.white);
-                CreateText(cardPanel.transform, c.DescKR, 16, new Vector2(0, 30), new Color(0.85f, 0.85f, 0.85f));
+                CreateText(cardPanel.transform, c.NameKR, 24, new Vector2(0, 100), ColGold);
+                CreateText(cardPanel.transform, c.DescKR, 16, new Vector2(0, 30), ColSoftWhite);
 
                 var btn = cardPanel.AddComponent<Button>();
                 btn.onClick.AddListener(() =>
@@ -1318,19 +1656,19 @@ namespace DokkaebiHand.UI
         private void ShowForgeUI()
         {
             ClearActionButtons();
-            _actionButtonsPanel = CreatePanel("ForgePanel", _gamePanel.transform, new Color(0, 0, 0, 0.85f));
+            _actionButtonsPanel = CreatePanel("ForgePanel", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.93f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0.1f, 0.1f);
             rt.anchorMax = new Vector2(0.9f, 0.9f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_actionButtonsPanel.transform, L.Get("forge"), 28,
-                new Vector2(0, 300), new Color(1f, 0.6f, 0.2f));
+            CreateText(_actionButtonsPanel.transform, L.Get("forge"), 30,
+                new Vector2(0, 300), new Color(1f, 0.55f, 0.15f));
             CreateText(_actionButtonsPanel.transform, L.Get("forge_desc"), 16,
-                new Vector2(0, 260), new Color(0.7f, 0.7f, 0.7f));
+                new Vector2(0, 260), ColDim);
             CreateText(_actionButtonsPanel.transform, L.Get("yeop_display", _game.Player.Yeop), 18,
-                new Vector2(0, 225), Color.white);
+                new Vector2(0, 230), ColSoftWhite);
 
             // 강화 가능한 카드 표시 (획득한 카드 중 처음 8장)
             var allCards = new System.Collections.Generic.List<CardInstance>();
@@ -1361,8 +1699,8 @@ namespace DokkaebiHand.UI
                     ? $"{card.NameKR} [{tierName}] {L.Get("forge_max")}"
                     : $"{card.NameKR} [{tierName}] → {L.Get("forge_cost", cost)}";
 
-                Color btnColor = maxed ? new Color(0.2f, 0.2f, 0.2f) :
-                    (_game.Player.Yeop >= cost ? new Color(0.4f, 0.3f, 0.15f) : new Color(0.2f, 0.2f, 0.2f));
+                Color btnColor = maxed ? new Color(0.15f, 0.15f, 0.18f) :
+                    (_game.Player.Yeop >= cost ? new Color(0.4f, 0.25f, 0.08f) : new Color(0.15f, 0.15f, 0.18f));
 
                 int cardId = card.Id;
                 int cardCost = cost;
@@ -1382,14 +1720,14 @@ namespace DokkaebiHand.UI
             if (allCards.Count == 0)
             {
                 CreateText(_actionButtonsPanel.transform, "강화할 카드가 없습니다", 16,
-                    new Vector2(0, 50), new Color(0.5f, 0.5f, 0.5f));
+                    new Vector2(0, 50), ColDim);
             }
 
             // 돌아가기
             CreateButton(_actionButtonsPanel.transform, L.Get("shop") + " ▶", new Vector2(0, -300), () =>
             {
                 ShowShopUI();
-            }, new Color(0.3f, 0.3f, 0.4f));
+            }, new Color(0.2f, 0.2f, 0.3f));
         }
 
         #endregion
@@ -1420,8 +1758,8 @@ namespace DokkaebiHand.UI
                     : $"{comp.Data.NameKR}\n{L.Get("skill_cooldown", comp.CurrentCooldown)}";
 
                 Color btnColor = comp.IsReady
-                    ? new Color(0.15f, 0.5f, 0.4f)
-                    : new Color(0.3f, 0.3f, 0.3f);
+                    ? new Color(0.1f, 0.4f, 0.35f)
+                    : new Color(0.2f, 0.2f, 0.25f);
 
                 var btn = CreateButton(_companionPanel.transform, label,
                     new Vector2(i * 130, 0), () =>
@@ -1452,24 +1790,24 @@ namespace DokkaebiHand.UI
         {
             ClearActionButtons();
             var parent = _mainMenuPanel != null ? _mainMenuPanel.transform : _root;
-            _actionButtonsPanel = CreatePanel("CollectionPanel", parent, new Color(0, 0, 0, 0.92f));
+            _actionButtonsPanel = CreatePanel("CollectionPanel", parent, new Color(0.03f, 0.03f, 0.08f, 0.95f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
             rt.anchorMin = Vector2.zero;
             rt.anchorMax = Vector2.one;
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            CreateText(_actionButtonsPanel.transform, L.Get("collection_title"), 30,
-                new Vector2(0, 350), new Color(1f, 0.84f, 0f));
+            CreateText(_actionButtonsPanel.transform, L.Get("collection_title"), 32,
+                new Vector2(0, 360), ColGold);
 
             // 업적 진행
             CreateText(_actionButtonsPanel.transform,
                 L.Get("achievement_progress",
                     _game.Achievements.GetUnlockedCount(),
                     _game.Achievements.GetTotalCount()),
-                20, new Vector2(0, 300), Color.white);
+                22, new Vector2(0, 310), ColSoftWhite);
 
-            int yPos = 240;
+            int yPos = 250;
             foreach (var ach in _game.Achievements.AllAchievements)
             {
                 bool unlocked = _game.Achievements.IsUnlocked(ach.Id);
@@ -1477,10 +1815,10 @@ namespace DokkaebiHand.UI
                     ? "??? — ???"
                     : $"{(unlocked ? "V " : "  ")}{ach.NameKR} — {ach.DescriptionKR} (+{ach.SoulReward})";
 
-                Color col = unlocked ? new Color(0.3f, 1f, 0.5f) : new Color(0.5f, 0.5f, 0.5f);
-                CreateText(_actionButtonsPanel.transform, display, 14,
+                Color col = unlocked ? new Color(0.3f, 1f, 0.5f) : ColDim;
+                CreateText(_actionButtonsPanel.transform, display, 15,
                     new Vector2(0, yPos), col);
-                yPos -= 25;
+                yPos -= 28;
             }
 
             // 돌아가기
@@ -1488,7 +1826,7 @@ namespace DokkaebiHand.UI
             {
                 ClearActionButtons();
                 BuildMainMenu();
-            }, new Color(0.3f, 0.3f, 0.4f));
+            }, new Color(0.2f, 0.2f, 0.3f));
         }
 
         #endregion
@@ -1500,7 +1838,7 @@ namespace DokkaebiHand.UI
             if (_tutorialOverlay != null) Object.Destroy(_tutorialOverlay);
             if (_tutorial == null || !_tutorial.IsActive) return;
 
-            _tutorialOverlay = CreatePanel("TutorialOverlay", _gamePanel.transform, new Color(0, 0, 0, 0.6f));
+            _tutorialOverlay = CreatePanel("TutorialOverlay", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.75f));
             var rt = _tutorialOverlay.GetComponent<RectTransform>();
             rt.anchorMin = new Vector2(0, 0.7f);
             rt.anchorMax = new Vector2(1, 1);
@@ -1509,14 +1847,14 @@ namespace DokkaebiHand.UI
 
             // 뱃사공 대사
             CreateText(_tutorialOverlay.transform, L.Get("tutorial_boatman"), 14,
-                new Vector2(-300, 60), new Color(0.5f, 0.8f, 1f));
+                new Vector2(-300, 60), ColCyan);
 
             CreateText(_tutorialOverlay.transform, L.Get(_tutorial.CurrentDialogue), 18,
-                new Vector2(0, 30), new Color(0.9f, 0.9f, 0.8f));
+                new Vector2(0, 30), ColSoftWhite);
 
             // 힌트
             CreateText(_tutorialOverlay.transform, L.Get(_tutorial.CurrentHint), 16,
-                new Vector2(0, -30), new Color(1f, 0.84f, 0f));
+                new Vector2(0, -30), ColGold);
 
             // 다음 / 스킵 버튼
             CreateButton(_tutorialOverlay.transform, L.Get("tutorial_next"), new Vector2(200, -60), () =>
@@ -1532,7 +1870,7 @@ namespace DokkaebiHand.UI
                 {
                     ShowTutorialOverlay();
                 }
-            }, new Color(0.15f, 0.5f, 0.15f));
+            }, new Color(0.08f, 0.4f, 0.08f));
 
             CreateButton(_tutorialOverlay.transform, L.Get("tutorial_skip"), new Vector2(-200, -60), () =>
             {
@@ -1540,7 +1878,7 @@ namespace DokkaebiHand.UI
                 PlayerPrefs.SetInt("tutorial_done", 1);
                 _game.IsTutorialMode = false;
                 if (_tutorialOverlay != null) Object.Destroy(_tutorialOverlay);
-            }, new Color(0.4f, 0.15f, 0.15f));
+            }, ColBloodRed);
         }
 
         #endregion
@@ -1585,10 +1923,94 @@ namespace DokkaebiHand.UI
             if (bgColor.a > 0)
             {
                 var img = obj.AddComponent<Image>();
+                img.type = Image.Type.Sliced;
+                img.sprite = MockupSpriteFactory.GetPanelSprite();
+                img.color = new Color(
+                    bgColor.r / 0.08f * 1f,
+                    bgColor.g / 0.08f * 1f,
+                    bgColor.b / 0.16f * 1f,
+                    bgColor.a);
+                // 보정: 스프라이트 색이 곱해지므로 원하는 색에 맞게 조정
                 img.color = bgColor;
             }
 
             return obj;
+        }
+
+        /// <summary>
+        /// Adds a colored left border strip to a panel for visual distinction.
+        /// </summary>
+        private void AddLeftBorder(GameObject target, Color borderColor, float width = 4f)
+        {
+            var borderObj = new GameObject("LeftBorder");
+            borderObj.transform.SetParent(target.transform, false);
+            var borderImg = borderObj.AddComponent<Image>();
+            borderImg.color = borderColor;
+            var borderRt = borderObj.GetComponent<RectTransform>();
+            borderRt.anchorMin = new Vector2(0, 0);
+            borderRt.anchorMax = new Vector2(0, 1);
+            borderRt.pivot = new Vector2(0, 0.5f);
+            borderRt.offsetMin = Vector2.zero;
+            borderRt.offsetMax = Vector2.zero;
+            borderRt.sizeDelta = new Vector2(width, 0);
+        }
+
+        /// <summary>
+        /// Adds a thin border around a panel.
+        /// </summary>
+        private void AddPanelBorder(GameObject panel, Color borderColor, float thickness = 2f)
+        {
+            // Top
+            var topObj = new GameObject("BorderTop");
+            topObj.transform.SetParent(panel.transform, false);
+            var topImg = topObj.AddComponent<Image>();
+            topImg.color = new Color(borderColor.r, borderColor.g, borderColor.b, 0.4f);
+            var topRt = topObj.GetComponent<RectTransform>();
+            topRt.anchorMin = new Vector2(0, 1);
+            topRt.anchorMax = new Vector2(1, 1);
+            topRt.pivot = new Vector2(0.5f, 1);
+            topRt.sizeDelta = new Vector2(0, thickness);
+            topRt.offsetMin = new Vector2(0, 0);
+            topRt.offsetMax = new Vector2(0, 0);
+
+            // Bottom
+            var botObj = new GameObject("BorderBot");
+            botObj.transform.SetParent(panel.transform, false);
+            var botImg = botObj.AddComponent<Image>();
+            botImg.color = new Color(borderColor.r, borderColor.g, borderColor.b, 0.4f);
+            var botRt = botObj.GetComponent<RectTransform>();
+            botRt.anchorMin = new Vector2(0, 0);
+            botRt.anchorMax = new Vector2(1, 0);
+            botRt.pivot = new Vector2(0.5f, 0);
+            botRt.sizeDelta = new Vector2(0, thickness);
+            botRt.offsetMin = new Vector2(0, 0);
+            botRt.offsetMax = new Vector2(0, 0);
+
+            // Left
+            var leftObj = new GameObject("BorderLeft");
+            leftObj.transform.SetParent(panel.transform, false);
+            var leftImg = leftObj.AddComponent<Image>();
+            leftImg.color = new Color(borderColor.r, borderColor.g, borderColor.b, 0.3f);
+            var leftRt = leftObj.GetComponent<RectTransform>();
+            leftRt.anchorMin = new Vector2(0, 0);
+            leftRt.anchorMax = new Vector2(0, 1);
+            leftRt.pivot = new Vector2(0, 0.5f);
+            leftRt.sizeDelta = new Vector2(thickness, 0);
+            leftRt.offsetMin = new Vector2(0, 0);
+            leftRt.offsetMax = new Vector2(0, 0);
+
+            // Right
+            var rightObj = new GameObject("BorderRight");
+            rightObj.transform.SetParent(panel.transform, false);
+            var rightImg = rightObj.AddComponent<Image>();
+            rightImg.color = new Color(borderColor.r, borderColor.g, borderColor.b, 0.3f);
+            var rightRt = rightObj.GetComponent<RectTransform>();
+            rightRt.anchorMin = new Vector2(1, 0);
+            rightRt.anchorMax = new Vector2(1, 1);
+            rightRt.pivot = new Vector2(1, 0.5f);
+            rightRt.sizeDelta = new Vector2(thickness, 0);
+            rightRt.offsetMin = new Vector2(0, 0);
+            rightRt.offsetMax = new Vector2(0, 0);
         }
 
         private TextMeshProUGUI CreateText(Transform parent, string text, int fontSize,
@@ -1598,6 +2020,8 @@ namespace DokkaebiHand.UI
             obj.transform.SetParent(parent, false);
 
             var tmp = obj.AddComponent<TextMeshProUGUI>();
+            var kFont = MockupSceneBuilder.GetKoreanFont();
+            if (kFont != null) tmp.font = kFont;
             tmp.text = text;
             tmp.fontSize = fontSize;
             tmp.color = color;
@@ -1606,7 +2030,7 @@ namespace DokkaebiHand.UI
 
             var rt = obj.GetComponent<RectTransform>();
             rt.anchoredPosition = position;
-            rt.sizeDelta = new Vector2(800, fontSize + 10);
+            rt.sizeDelta = new Vector2(1000, fontSize + 14);
 
             return tmp;
         }
@@ -1614,33 +2038,53 @@ namespace DokkaebiHand.UI
         private Button CreateButton(Transform parent, string label, Vector2 position,
             UnityEngine.Events.UnityAction onClick, Color? bgColor = null)
         {
-            var obj = new GameObject($"Btn_{label}");
-            obj.transform.SetParent(parent, false);
+            var baseColor = bgColor ?? new Color(0.12f, 0.12f, 0.2f);
+            Color borderCol = new Color(
+                Mathf.Min(baseColor.r + 0.2f, 1f),
+                Mathf.Min(baseColor.g + 0.2f, 1f),
+                Mathf.Min(baseColor.b + 0.2f, 1f),
+                Mathf.Max(baseColor.a, 0.9f));
 
-            var img = obj.AddComponent<Image>();
-            img.color = bgColor ?? new Color(0.2f, 0.2f, 0.3f);
+            var outerObj = new GameObject($"Btn_{label}");
+            outerObj.transform.SetParent(parent, false);
 
-            var btn = obj.AddComponent<Button>();
+            var outerImg = outerObj.AddComponent<Image>();
+            outerImg.sprite = MockupSpriteFactory.GetButtonSprite(baseColor, borderCol);
+            outerImg.type = Image.Type.Sliced;
+            outerImg.color = Color.white; // 스프라이트 자체에 색이 있으므로 white
+
+            var outerRt = outerObj.GetComponent<RectTransform>();
+            outerRt.anchoredPosition = position;
+            outerRt.sizeDelta = new Vector2(300, 55);
+
+            var btn = outerObj.AddComponent<Button>();
+            btn.targetGraphic = outerImg;
             btn.onClick.AddListener(onClick);
 
-            var rt = obj.GetComponent<RectTransform>();
-            rt.anchoredPosition = position;
-            rt.sizeDelta = new Vector2(250, 50);
+            // Color transitions for hover/press
+            var colors = btn.colors;
+            colors.normalColor = Color.white;
+            colors.highlightedColor = new Color(1.15f, 1.15f, 1.2f);
+            colors.pressedColor = new Color(0.75f, 0.75f, 0.8f);
+            colors.selectedColor = Color.white;
+            btn.colors = colors;
 
             // 라벨
             var textObj = new GameObject("Label");
-            textObj.transform.SetParent(obj.transform, false);
+            textObj.transform.SetParent(outerObj.transform, false);
             var tmp = textObj.AddComponent<TextMeshProUGUI>();
+            var kFont = MockupSceneBuilder.GetKoreanFont();
+            if (kFont != null) tmp.font = kFont;
             tmp.text = label;
-            tmp.fontSize = 20;
-            tmp.color = Color.white;
+            tmp.fontSize = 22;
+            tmp.color = ColSoftWhite;
             tmp.alignment = TextAlignmentOptions.Center;
 
             var textRt = textObj.GetComponent<RectTransform>();
             textRt.anchorMin = Vector2.zero;
             textRt.anchorMax = Vector2.one;
-            textRt.offsetMin = Vector2.zero;
-            textRt.offsetMax = Vector2.zero;
+            textRt.offsetMin = new Vector2(8, 4);
+            textRt.offsetMax = new Vector2(-8, -4);
 
             return btn;
         }

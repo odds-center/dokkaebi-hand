@@ -264,7 +264,7 @@ namespace DokkaebiHand.UI
                     ShowMessage("게임 오버 — 저승에서 영원히...");
                     break;
 
-                case GameState.Victory:
+                case GameState.Gate:
                     ShowMessage("축하합니다! 이승으로 돌아갑니다!");
                     break;
             }

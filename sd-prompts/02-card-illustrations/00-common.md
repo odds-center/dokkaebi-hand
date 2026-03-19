@@ -13,19 +13,30 @@
 
 ```yaml
 Model: SD 1.5 + pixel-art LoRA (0.75)
-Resolution: 256 x 384
-       # 카드 비율 2:3 (80x120의 정확히 3.2배)
-       # 작게 뽑아야 도트 느낌이 살아남
+Resolution: 270 x 390
+       # 카드 UI 표시 크기: 90x130 (CardWidth=90, CardHeight=130)
+       # 270x390 = 90x130의 정확히 3배 → 깔끔한 다운스케일
+       # 텍스처 생성 크기: 80x120 (MockupSpriteFactory)
 Steps: 30~35
 CFG Scale: 8
 Sampler: DPM++ 2M Karras
 Batch: 4장씩 뽑아서 최선 선택
 ```
 
-## 왜 256x384인가
-- 320x480은 SD 1.5에서 비표준 해상도 → 구도가 깨지기 쉬움
-- 256x384는 512의 절반 기반 → SD가 잘 처리하는 범위
-- 최종 80x120으로 Nearest Neighbor 다운스케일하면 3.2:1 비율
+## 카드 크기 참조
+- **UI 표시 크기:** 90x130px (게임 화면에서 보이는 크기)
+- **텍스처 생성 크기:** 80x120px (MockupSpriteFactory CardWidth/CardHeight)
+- **SD 생성 크기:** 270x390px (UI 크기의 3배)
+- **카드 프레임 오버레이 영역:**
+  - 상단 25px: 월 헤더 바 (텍스트로 가려짐)
+  - 하단 22px: 강화 등급 바 (텍스트로 가려짐)
+  - 테두리: 3px 전체
+  - 실제 보이는 일러스트 영역 ≈ 74x83 중앙 부분
+
+## 왜 270x390인가
+- 90x130 UI 크기의 정확히 3배 → 깔끔한 Nearest Neighbor 다운스케일
+- 256x384는 SD 1.5에서 안정적이나 90x130과 비율이 정확히 맞지 않음
+- 270x390도 SD 1.5가 처리 가능한 범위 (512 이하)
 - 다운스케일 시 충분한 디테일 유지
 
 ## 공통 긍정 프롬프트
@@ -56,9 +67,9 @@ bright white background
 
 ```
 1. 4장 중 최선 선택
-2. Nearest Neighbor 다운스케일 → 80x120 (또는 우선 160x240 중간)
+2. Nearest Neighbor 다운스케일 → 90x130 (UI 표시 크기) 또는 80x120 (텍스처 크기)
 3. 투명 배경 처리 불필요 — 한지 배경 유지
-4. PNG 저장 → 코드에서 프레임 합성
+4. PNG 저장 → 코드에서 프레임 합성 (MockupSpriteFactory)
 ```
 
 ## 월별 카드 구성 (48장)
