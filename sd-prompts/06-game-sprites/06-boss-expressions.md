@@ -19,7 +19,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art game sprite of a Korean dokkaebi demon on a transparent or solid dark background. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Bold flat colors with thick black outlines. Same character design as the base sprite but with a different facial expression. Fully contained within the image. Front-facing centered composition.
+A pixel art game sprite of a Korean dokkaebi demon on a plain solid bright green (#00FF00) background for easy chroma key removal. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Bold flat colors with thick black outlines. Same character design as the base sprite but with a different facial expression. Fully contained within the image. Front-facing centered composition. No decorative background elements — character only.
 ```
 
 ## 후처리

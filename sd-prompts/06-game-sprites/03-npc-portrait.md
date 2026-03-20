@@ -22,7 +22,7 @@ A pixel art portrait of a ghost merchant in the Korean underworld market. 16-bit
 ## 후처리
 
 ```
-1. 배경 반투명 유지 (상점 분위기 포함)
+1. 배경 제거 → 투명 알파 (캐릭터만 남김)
 2. Nearest Neighbor 다운스케일 → 200x300
-3. PNG → Assets/Art/Sprites/NPC/
+3. PNG (알파) → Assets/Art/Sprites/NPC/
 ```

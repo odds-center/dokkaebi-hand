@@ -242,7 +242,15 @@ local function start_realm()
         msg(string.format("윤회 %d 완료! +%d넋", sp, bonus))
         S.state = "gate"; save_meta(); return
     end
-    S.boss = bosses[realm] or bosses[1]
+    -- 랜덤 보스 (CLAUDE.md: "보스: 항상 랜덤 생성")
+    -- 10관문은 염라대왕 고정, 나머지는 랜덤
+    if realm == 10 then
+        S.boss = bosses[10]  -- 염라대왕
+    else
+        -- 1~9관문: 난이도에 맞는 범위에서 랜덤
+        local pool_max = math.min(realm + 2, 9)  -- 1관문: 1~3번, 5관문: 1~7번, 9관문: 1~9번
+        S.boss = bosses[math.random(1, pool_max)]
+    end
     S.battle = BossBattle.new(S.boss, S.spiral.current_spiral)
     S.max_rounds = S.boss.rounds; S.round = 0
     msg(string.format("%s 등장! HP: %s", S.boss.name_kr, NumFmt.format(S.battle.boss_max_hp)))
