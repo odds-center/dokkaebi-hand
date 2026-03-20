@@ -79,17 +79,23 @@ function U.divider(x, y, w, color)
     love.graphics.rectangle("fill", x, y+1, w, 1)
 end
 
---- 배경 비네트 (화면 가장자리 어두움)
+--- 배경 비네트 (저승 안개 — 짙은 자주빛 가장자리)
 function U.vignette(w, h)
-    -- 상단 그라데이션
-    for i = 0, 40 do
-        love.graphics.setColor(0, 0, 0, (40-i)/40 * 0.3)
+    -- 상단: 짙은 보라 안개
+    for i = 0, 50 do
+        love.graphics.setColor(0.04, 0.01, 0.08, (50-i)/50 * 0.4)
         love.graphics.rectangle("fill", 0, i, w, 1)
     end
-    -- 하단
-    for i = 0, 40 do
-        love.graphics.setColor(0, 0, 0, (40-i)/40 * 0.4)
+    -- 하단: 어둠이 깊어지는 저승
+    for i = 0, 60 do
+        love.graphics.setColor(0.02, 0.01, 0.05, (60-i)/60 * 0.5)
         love.graphics.rectangle("fill", 0, h-i, w, 1)
+    end
+    -- 좌우: 희미한 귀화 테두리
+    for i = 0, 30 do
+        love.graphics.setColor(0.06, 0.01, 0.10, (30-i)/30 * 0.2)
+        love.graphics.rectangle("fill", i, 0, 1, h)
+        love.graphics.rectangle("fill", w-i, 0, 1, h)
     end
 end
 

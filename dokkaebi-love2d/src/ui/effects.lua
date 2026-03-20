@@ -10,6 +10,9 @@ local active = {}
 local shake_t = 0
 local shake_intensity = 0
 
+-- 하트 피격 타이머
+local heart_hit_t = 0
+
 --- 데미지 숫자 팝업
 function Effects.damage_popup(x, y, amount, color)
     active[#active+1] = {
@@ -65,6 +68,24 @@ function Effects.boss_hit(dmg)
     Effects.damage_popup(640 + math.random(-30, 30), 100 + math.random(-10, 10), dmg)
 end
 
+--- 플레이어 피격 이펙트 (체력 감소)
+function Effects.player_hit(amount)
+    amount = amount or 1
+    Effects.shake(6 + amount * 3, 0.3)
+    Effects.flash({0.7, 0.05, 0.05}, 0.25)
+    heart_hit_t = 0.6  -- 하트 깜빡임 0.6초
+    local label = amount > 1 and ("체력 -" .. amount .. "!") or "체력 -1!"
+    Effects.text_popup(640, 30, label, {1, 0.15, 0.1})
+end
+
+--- 하트 피격 깜빡임 상태 (외부에서 조회)
+function Effects.get_heart_hit_alpha()
+    if heart_hit_t <= 0 then return 1 end
+    -- 빠르게 깜빡이는 효과 (0~1 사이 진동)
+    local blink = math.sin(heart_hit_t * 20) * 0.5 + 0.5
+    return 0.3 + blink * 0.7
+end
+
 --- 즉사 이펙트
 function Effects.instant_death()
     Effects.shake(15, 0.6)
@@ -76,6 +97,7 @@ end
 function Effects.update(dt)
     -- 흔들림 감소
     if shake_t > 0 then shake_t = shake_t - dt end
+    if heart_hit_t > 0 then heart_hit_t = heart_hit_t - dt end
 
     -- 이펙트 업데이트
     local i = 1

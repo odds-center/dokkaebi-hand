@@ -10,22 +10,23 @@ CardRenderer.CARD_H = 125
 -- 월별 도트 아이콘 (픽셀아트 도형으로 대체)
 local MONTH_ICON = nil  -- 한자 제거, 도형으로 직접 그림
 
+-- 저승/오컬트 테마 카드 색상
 local HEADER_COLORS = {
-    [CT.Gwang]    = {1, 0.82, 0},
-    [CT.Geurim]= {0.25, 0.65, 0.85},
-    [CT.Pi]       = {0.45, 0.45, 0.50},
+    [CT.Gwang]    = {0.95, 0.72, 0.05},   -- 도깨비불 금색
+    [CT.Geurim]= {0.30, 0.55, 0.70},      -- 삼도천 청록
+    [CT.Pi]       = {0.35, 0.30, 0.40},    -- 혼백 회보라
 }
 local RIBBON_COLORS = {
-    [RT.HongDan]  = {0.80, 0.12, 0.12},
-    [RT.CheongDan]= {0.12, 0.35, 0.78},
-    [RT.ChoDan]   = {0.15, 0.60, 0.18},
+    [RT.HongDan]  = {0.72, 0.08, 0.08},   -- 핏빛 홍단
+    [RT.CheongDan]= {0.10, 0.25, 0.65},   -- 심연 청단
+    [RT.ChoDan]   = {0.10, 0.48, 0.15},   -- 귀화 초단
 }
 
 local TYPE_ICONS = {
-    [CT.Gwang]    = "★",
-    [CT.Tti]      = "━",
-    [CT.Geurim]= "◆",
-    [CT.Pi]       = "·",
+    [CT.Gwang]    = "*",
+    [CT.Tti]      = "=",
+    [CT.Geurim]= "<>",
+    [CT.Pi]       = ".",
 }
 
 -- 월별 픽셀아트 도형 (한자 대신)
@@ -118,25 +119,25 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
     local w, h = CardRenderer.CARD_W, CardRenderer.CARD_H
 
     -- 선택/호버 시 위로
-    if is_selected then y = y - 18
-    elseif is_hovered then y = y - 6 end
+    if is_selected then y = y - 10
+    elseif is_hovered then y = y - 4 end
 
-    -- 그림자 (도트 — 라운드 없음)
-    love.graphics.setColor(0, 0, 0, is_selected and 0.4 or 0.2)
+    -- 그림자 (저승 어둠)
+    love.graphics.setColor(0.02, 0.01, 0.04, is_selected and 0.5 or 0.3)
     love.graphics.rectangle("fill", x+2, y+2, w, h)
 
-    -- 카드 배경
-    if is_selected then love.graphics.setColor(0.28, 0.22, 0.08)
-    elseif is_hovered then love.graphics.setColor(0.16, 0.14, 0.24)
-    else love.graphics.setColor(0.10, 0.08, 0.16) end
+    -- 카드 배경 (짙은 보라~흑)
+    if is_selected then love.graphics.setColor(0.22, 0.14, 0.06)
+    elseif is_hovered then love.graphics.setColor(0.10, 0.07, 0.18)
+    else love.graphics.setColor(0.06, 0.04, 0.10) end
     love.graphics.rectangle("fill", x, y, w, h)
 
-    -- 테두리
+    -- 테두리 (귀화 보라)
     if is_selected then
-        love.graphics.setColor(1, 0.82, 0, 0.9)
+        love.graphics.setColor(0.95, 0.72, 0.05, 0.9)
         love.graphics.setLineWidth(2)
     else
-        love.graphics.setColor(0.28, 0.25, 0.38)
+        love.graphics.setColor(0.28, 0.12, 0.38)
         love.graphics.setLineWidth(1)
     end
     love.graphics.rectangle("line", x, y, w, h)
@@ -220,6 +221,57 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
     end
 
     return x, y, w, h
+end
+
+-- 미니 카드 (족보 등록 영역용, 축소판)
+CardRenderer.MINI_W = 32
+CardRenderer.MINI_H = 44
+
+function CardRenderer.draw_mini(card, x, y)
+    local w, h = CardRenderer.MINI_W, CardRenderer.MINI_H
+
+    -- 카드 배경
+    love.graphics.setColor(0.10, 0.08, 0.16)
+    love.graphics.rectangle("fill", x, y, w, h)
+
+    -- 테두리
+    love.graphics.setColor(0.28, 0.25, 0.38)
+    love.graphics.rectangle("line", x, y, w, h)
+
+    -- 헤더 (컬러바)
+    local hc = CardRenderer.get_header_color(card)
+    love.graphics.setColor(hc[1], hc[2], hc[3], 1)
+    love.graphics.rectangle("fill", x+1, y+1, w-2, 10)
+
+    -- 월 숫자 (헤더 위)
+    love.graphics.setColor(0, 0, 0, 0.8)
+    love.graphics.printf(tostring(card.month), x, y + 1, w, "center")
+
+    -- 타입 아이콘 (중앙)
+    local cx, cy = x + w/2, y + 22
+    local px = 2
+    if card.card_type == CT.Gwang then
+        love.graphics.setColor(1, 0.82, 0)
+        love.graphics.rectangle("fill", cx - px/2, cy - 2*px, px, 4*px)
+        love.graphics.rectangle("fill", cx - 2*px, cy - px/2, 4*px, px)
+    elseif card.card_type == CT.Tti then
+        local rc = CardRenderer.get_header_color(card)
+        love.graphics.setColor(rc[1], rc[2], rc[3], 0.8)
+        love.graphics.rectangle("fill", cx - 4*px, cy, 8*px, 2*px)
+    elseif card.card_type == CT.Geurim then
+        love.graphics.setColor(0.25, 0.65, 0.85, 0.7)
+        love.graphics.rectangle("fill", cx - px/2, cy - px, px, px)
+        love.graphics.rectangle("fill", cx - px*3/2, cy, 3*px, px)
+        love.graphics.rectangle("fill", cx - px/2, cy + px, px, px)
+    else
+        love.graphics.setColor(0.5, 0.5, 0.55)
+        love.graphics.rectangle("fill", cx - px, cy, 2*px, 2*px)
+    end
+
+    -- 타입 라벨 (하단)
+    love.graphics.setColor(0.6, 0.6, 0.65)
+    local type_short = {[CT.Gwang]="광", [CT.Tti]="띠", [CT.Geurim]="그림", [CT.Pi]="피"}
+    love.graphics.printf(type_short[card.card_type] or "", x, y + h - 14, w, "center")
 end
 
 return CardRenderer

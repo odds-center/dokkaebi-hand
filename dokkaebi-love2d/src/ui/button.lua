@@ -39,34 +39,35 @@ function Button:draw(font)
     local hov = self.hovered and self.enabled
     local br = hov and 0.15 or 0
 
-    -- 그림자 (도트 직각)
-    love.graphics.setColor(0, 0, 0, hov and 0.35 or 0.2)
+    -- 그림자 (저승 어둠)
+    love.graphics.setColor(0.02, 0.01, 0.04, hov and 0.45 or 0.25)
     love.graphics.rectangle("fill", self.x+2, self.y+2, self.w, self.h)
 
     -- 배경
     if not self.enabled then
-        love.graphics.setColor(0.15, 0.15, 0.18)
+        love.graphics.setColor(0.08, 0.06, 0.12)
     else
         love.graphics.setColor(c[1]+br, c[2]+br, c[3]+br)
     end
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 
-    -- 상단 광택
-    love.graphics.setColor(1, 1, 1, hov and 0.10 or 0.05)
+    -- 상단 광택 (귀화 보라 빛)
+    love.graphics.setColor(0.6, 0.3, 0.8, hov and 0.08 or 0.03)
     love.graphics.rectangle("fill", self.x+1, self.y+1, self.w-2, self.h*0.35)
 
     -- 하단 어두움
-    love.graphics.setColor(0, 0, 0, 0.12)
+    love.graphics.setColor(0.02, 0.01, 0.04, 0.15)
     love.graphics.rectangle("fill", self.x+1, self.y+self.h*0.65, self.w-2, self.h*0.35-1)
 
-    -- 테두리
-    love.graphics.setColor(1, 1, 1, hov and 0.18 or 0.06)
+    -- 테두리 (보라빛 귀화)
+    love.graphics.setColor(0.5, 0.2, 0.6, hov and 0.25 or 0.08)
     love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 
-    -- 텍스트
+    -- 텍스트 (한지 빛 따뜻한 백색)
     if font then love.graphics.setFont(font) end
-    love.graphics.setColor(1, 1, 1, self.enabled and (hov and 1 or 0.88) or 0.4)
-    love.graphics.printf(self.text, self.x, self.y + self.h/2 - 7, self.w, "center")
+    love.graphics.setColor(0.92, 0.88, 0.82, self.enabled and (hov and 1 or 0.88) or 0.35)
+    local fh = love.graphics.getFont():getHeight()
+    love.graphics.printf(self.text, self.x, self.y + math.floor((self.h - fh) / 2), self.w, "center")
 end
 
 return Button

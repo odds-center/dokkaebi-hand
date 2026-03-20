@@ -18,7 +18,7 @@ local BossBattle = {}
 BossBattle.__index = BossBattle
 
 function BossBattle.new(boss_def, spiral_number)
-    -- HP = TargetScore * 1.8^(spiral-1)
+    -- HP = TargetScore * 1.8^(spiral-1)  (완화: 2.2→1.8)
     local spiral_mult = math.pow(1.8, spiral_number - 1)
     local max_hp = math.floor(boss_def.target_score * spiral_mult)
 

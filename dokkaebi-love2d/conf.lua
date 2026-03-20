@@ -13,7 +13,7 @@ function love.conf(t)
     t.modules.audio = true
     t.modules.graphics = true
     t.modules.image = true
-    t.modules.keyboard = false  -- 마우스/터치 전용
+    t.modules.keyboard = true   -- [DEV] F5 리로드용 (릴리즈 시 false로)
     t.modules.mouse = true
     t.modules.timer = true
     t.modules.window = true

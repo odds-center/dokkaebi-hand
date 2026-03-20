@@ -74,23 +74,23 @@ function SeotdaChallenge.evaluate(a, b)
     return { name = kkeut .. "끗", rank = kkeut }
 end
 
---- 섯다 기본 데미지 테이블 (보스 HP 100~400 기준)
+--- 섯다 기본 데미지 테이블
 function SeotdaChallenge.base_damage(rank)
-    if rank == 100 then return 35      -- 38광땡
-    elseif rank == 99 then return 30   -- 18광땡
-    elseif rank == 98 then return 28   -- 13광땡
-    elseif rank == 95 then return 25   -- 기타 광땡
-    elseif rank >= 90 then return 22   -- 장땡
-    elseif rank >= 80 then return 12 + (rank - 80)  -- N땡
-    elseif rank == 75 then return 18   -- 알리
-    elseif rank == 74 then return 16   -- 독사
-    elseif rank == 73 then return 15   -- 구삥
-    elseif rank == 72 then return 14   -- 장삥
-    elseif rank == 71 then return 13   -- 장사
-    elseif rank == 70 then return 12   -- 세륙
-    elseif rank >= 7 then return 6 + rank   -- 7~9끗
-    elseif rank >= 1 then return 4 + rank   -- 1~6끗
-    else return 3  -- 갑오
+    if rank == 100 then return 55      -- 38광땡
+    elseif rank == 99 then return 45   -- 18광땡
+    elseif rank == 98 then return 40   -- 13광땡
+    elseif rank == 95 then return 35   -- 기타 광땡
+    elseif rank >= 90 then return 30   -- 장땡
+    elseif rank >= 80 then return 18 + (rank - 80)  -- N땡 (상향: 15→18)
+    elseif rank == 75 then return 28   -- 알리 (상향: 25→28)
+    elseif rank == 74 then return 25   -- 독사 (상향: 22→25)
+    elseif rank == 73 then return 22   -- 구삥 (상향: 20→22)
+    elseif rank == 72 then return 20   -- 장삥 (상향: 18→20)
+    elseif rank == 71 then return 18   -- 장사 (상향: 16→18)
+    elseif rank == 70 then return 16   -- 세륙 (상향: 14→16)
+    elseif rank >= 7 then return 8 + rank   -- 7~9끗 (상향: 6→8)
+    elseif rank >= 1 then return 5 + rank   -- 1~6끗 (상향: 3→5)
+    else return 4  -- 갑오 (상향: 2→4)
     end
 end
 
