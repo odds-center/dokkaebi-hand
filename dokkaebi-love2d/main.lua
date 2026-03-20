@@ -1314,11 +1314,24 @@ local function scr_settings()
     love.graphics.setFont(fonts.s); set(PAL.dim)
     love.graphics.printf("도깨비의 패 v0.1.0\n© 2026 Dokkaebi Studio", 0, H*0.82, W, "center")
 
-    -- 뒤로가기 (게임 중이면 게임으로, 아니면 메인메뉴)
-    ui_btn("← 돌아가기", W/2-55, H*0.90, 110, UI.btn_h, PAL.btn_dim, function()
+    -- 하단 버튼들
+    local btn_y = H * 0.88
+    ui_btn("← 돌아가기", W/2-160, btn_y, 120, UI.btn_h, PAL.btn_dim, function()
         S.state = S._return_from_settings or "main_menu"
         S._return_from_settings = nil
     end)
+
+    -- 게임 중이면 "포기하기" 버튼
+    local in_game = S._return_from_settings and S._return_from_settings ~= "main_menu"
+    if in_game then
+        ui_btn("포기하고 나가기", W/2+20, btn_y, 140, UI.btn_h, PAL.red, function()
+            -- 현재 런 포기 → 넋 70% 유지 → 메인메뉴
+            save_meta()
+            S._return_from_settings = nil
+            S.state = "main_menu"
+            msg("런을 포기했습니다...")
+        end)
+    end
 end
 
 -- ===========================
