@@ -15,7 +15,7 @@ Batch: 8장씩 뽑아서 최선 선택
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art game sprite of a Korean dokkaebi demon on a plain solid bright green (#00FF00) background for easy chroma key removal. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Bold flat colors with thick black outlines. Limited color palette based on game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), bone white (#E8E8E8), deep purple (#6B2D5B), plus the character's unique theme colors. The character is fully contained within the image with comfortable margins on all sides — nothing is cropped or cut off. Front-facing or 3/4 view, centered composition. The sprite should be recognizable even at small display sizes.
+A low-resolution pixel art game sprite of a Korean dokkaebi demon, made of large visible square pixels like a sprite from Stardew Valley or Undertale. Drawn on a 64x64 pixel grid then scaled up — each individual pixel is clearly visible and distinguishable. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges whatsoever. Bold flat color fills with thick black pixel outlines. No gradients, no blending between pixels. NES/SNES era sprite art aesthetic. Plain solid bright green (#00FF00) background for chroma key removal. Limited color palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), bone white (#E8E8E8), deep purple (#6B2D5B), plus character's unique colors. Fully contained within frame with margins. Front-facing centered composition.
 ```
 
 ## 후처리

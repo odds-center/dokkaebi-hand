@@ -16,7 +16,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art tutorial illustration for a Korean underworld card game. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Bold flat colors with thick black outlines. Limited color palette based on game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), warm orange, bone white (#E8E8E8). Clear instructional composition showing game concepts visually. The scene includes a weathered old ferryman character (wearing a cone straw hat) demonstrating or explaining. Dark fantasy atmosphere. Fully contained within the image. No text overlays.
+A low-resolution pixel art tutorial illustration for a Korean underworld card game, made of large visible square pixels like a cutscene from Undertale. Each individual pixel is clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. NES/SNES era aesthetic. Limited game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), warm orange, bone white (#E8E8E8). Clear instructional composition with weathered old ferryman character (cone straw hat). Dark fantasy atmosphere. Fully contained. No text overlays.
 ```
 
 ## 후처리

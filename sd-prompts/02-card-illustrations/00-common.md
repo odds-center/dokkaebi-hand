@@ -81,7 +81,7 @@ Batch: 4장씩 뽑아서 최선 선택
 > 모든 개별 카드 프롬프트 **앞에** 이 문장을 붙여 사용한다.
 
 ```
-A single pixel art illustration in the style of a traditional Korean hwatu (flower card) game card. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Flat bold color fills with thick black ink outlines on every shape. Woodblock print aesthetic with limited color palette of red, black, gold, blue, green, and white. Light cream-ivory background like aged hanji paper. No card frame, no border, no text overlay — only the interior illustration. All elements are fully contained within the image boundaries with comfortable margins — nothing is cropped or cut off at any edge. The composition sits centered with clear breathing room on all four sides.
+A single low-resolution pixel art illustration of a traditional Korean hwatu (flower card), made of large visible square pixels like a sprite from Stardew Valley. Drawn on a 32x45 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Flat bold color fills with thick black pixel outlines on every shape. Woodblock print aesthetic. Limited color palette: red, black, gold, blue, green, and white only. Light cream-ivory background like aged hanji paper. No card frame, no border, no text overlay — only the interior illustration. All elements fully contained within image boundaries with comfortable margins — nothing cropped. Centered composition with breathing room on all sides.
 ```
 
 ### 이미지 넘침 방지 (필수)

@@ -17,7 +17,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art UI frame element for a Korean underworld card game. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Bold flat colors with thick black outlines. The design uses the game color palette: dark navy (#1A1A2E), blood red (#C41E3A), gold (#FFD700), bone white (#E8E8E8). Traditional Korean decorative patterns adapted for dark fantasy. The center area must be empty or semi-transparent for content overlay. All decorative elements are fully contained within the image bounds.
+A low-resolution pixel art UI frame element for a Korean underworld card game, made of large visible square pixels. Each individual pixel is clearly visible and countable. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. NES/SNES era UI aesthetic. Game palette: dark navy (#1A1A2E), blood red (#C41E3A), gold (#FFD700), bone white (#E8E8E8). Traditional Korean patterns adapted for dark fantasy. Center area empty/semi-transparent for content overlay. All elements fully contained.
 ```
 
 ## 후처리

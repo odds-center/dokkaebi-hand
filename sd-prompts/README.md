@@ -42,7 +42,7 @@ Guidance: 3.5~4.0
 
 | 원칙 | 내용 |
 |------|------|
-| **아트 스타일** | 16-bit 픽셀아트. 모든 에셋에 "pixel art, crisp sharp pixels, no anti-aliasing" 명시 |
+| **아트 스타일** | 저해상도 도트 스프라이트. **"pixel art"만으로 부족** — 아래 Flux-dev 픽셀아트 강제 구문 필수 사용 |
 | **윤곽선** | 굵고 선명한 검정 아웃라인. 모든 오브젝트에 thick black outlines |
 | **채색** | 플랫 컬러 (flat color fill). 그라디언트 없이 면 단위 채색 |
 | **팔레트** | 게임 9색 팔레트 기반 (아래 참조). 각 에셋의 고유색은 팔레트 위에 추가 |
@@ -63,6 +63,30 @@ Guidance: 3.5~4.0
 | 먹물 회색 | `#2D2D44` | 카드 뒷면, 보조 배경 |
 
 **카드 디자인: A 스타일 (전통 화투 80% + 저승 힌트 20%)**
+
+### Flux-dev 픽셀아트 강제 구문 (핵심!)
+
+> **"pixel art"만 쓰면 Flux-dev는 부드러운 이미지를 생성한다.**
+> 아래 구문을 반드시 포함해야 실제 도트 스프라이트가 나온다.
+
+```
+필수 포함 키워드 (자연어로 녹여서 사용):
+- "low-resolution sprite made of large visible square pixels"
+- "each individual pixel is clearly visible and distinguishable"
+- "looks like it was drawn on a 32x32 (or 64x64) pixel grid"
+- "blocky jagged edges, no smooth curves, no anti-aliasing"
+- "like a sprite from Stardew Valley / Undertale / Celeste"
+- "zoomed-in pixel grid where you can count each pixel"
+- "no smooth gradients, no soft edges, no blending between pixels"
+- "NES / SNES / GBA era sprite art"
+
+해상도별 그리드 명시:
+- 아이콘 (48x48 최종): "drawn on a 48x48 pixel grid"
+- 아이콘 (32x32 최종): "drawn on a 32x32 pixel grid"
+- 보스 (300x300 최종): "drawn on a 64x64 pixel grid, scaled up"
+- 동료 (120x180 최종): "drawn on a 32x48 pixel grid, scaled up"
+- 카드 (90x130 최종): "drawn on a 32x45 pixel grid, scaled up"
+```
 
 ## 게임 해상도 & UI 크기 참조
 
@@ -151,8 +175,9 @@ sd-prompts/
 │                                            삽화 합계: 14종
 │
 ├── 09-card-extras/                        ← 카드 추가 에셋
-│   └── 01-card-back-and-overlays.md       ← 카드 뒷면 1 + 강화 오버레이 5
-│                                            카드 추가 합계: 6종
+│   ├── 01-card-back-and-overlays.md       ← 카드 뒷면 1 + 강화 오버레이 5
+│   └── 02-card-frame-templates.md        ← 카드 프레임 템플릿 4종 (광/띠/열끗/피)
+│                                            카드 추가 합계: 10종 (프레임 4 + 뒷면 1 + 오버레이 5)
 │
 ├── 10-vfx/                               ← VFX 파티클/이펙트 텍스처
 │   ├── 01-particles.md                    ← 파티클 6종 (256x256)

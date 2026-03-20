@@ -17,7 +17,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A single pixel art HUD icon in the style of The Binding of Isaac. One simple recognizable object centered on a plain solid bright green (#00FF00) chroma key background. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing, no gradients. Bold thick black outlines. Flat color fill only. The object floats in empty space with no ground, no shadow, no pedestal, no decorative elements. Extremely simple silhouette — must be readable at very small sizes. Square 1:1 composition. Only the icon, nothing else.
+A single low-resolution pixel art HUD icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 48x48 pixel grid — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple silhouette. Square 1:1. Only the icon, nothing else.
 ```
 
 ## 후처리

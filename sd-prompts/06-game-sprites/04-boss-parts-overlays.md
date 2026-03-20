@@ -52,7 +52,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art equipment overlay sprite on a completely transparent background. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. This is a SINGLE piece of equipment that will be layered ON TOP of an existing boss character sprite. Only the equipment piece itself is visible — everything else is transparent. Bold flat colors with thick black outlines. The equipment piece is positioned correctly for overlaying onto a front-facing character sprite of the same canvas size. No character body visible — ONLY the equipment piece floating in the correct position.
+A low-resolution pixel art equipment overlay sprite on a plain solid bright green (#00FF00) background for chroma key removal. Made of large visible square pixels like a sprite from Stardew Valley — each individual pixel is clearly visible. Drawn on a 64x64 pixel grid then scaled up. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. This is a SINGLE piece of equipment to be layered ON TOP of an existing boss sprite. Only the equipment piece itself — no character body. Positioned correctly for front-facing overlay.
 ```
 
 ## 후처리

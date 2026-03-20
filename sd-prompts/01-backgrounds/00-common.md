@@ -30,7 +30,7 @@ Batch: 4장씩 뽑아서 최선 선택
 > 모든 배경 프롬프트 **앞에** 이 문장을 붙인다.
 
 ```
-A wide 16:9 landscape game background in Korean dark fantasy ink painting style. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing, no smooth gradients. Atmospheric lighting with limited color palette. Bold flat colors with visible pixel structure. No characters, no text, no UI elements visible. The scene fills the entire frame edge to edge as a seamless game background. Not a photograph — stylized pixel art illustration.
+A wide 16:9 landscape game background in Korean dark fantasy style, rendered as low-resolution pixel art where each individual pixel is clearly visible, like a scene from Celeste or Stardew Valley. Blocky jagged edges on all shapes, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with visible pixel grid structure. NES/SNES era background art aesthetic. Limited color palette. No characters, no text, no UI elements visible. The scene fills the entire frame edge to edge. Not a photograph — a stylized low-res pixel art illustration with individually countable pixels.
 ```
 
 ### 중요: 모든 배경 개별 프롬프트에도 "pixel art" 스타일을 반복 명시할 것

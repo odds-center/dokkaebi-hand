@@ -16,7 +16,7 @@ Batch: 8장
 **Seed:** 72001
 
 ```
-A pixel art portrait of a ghost merchant in the Korean underworld market. 16-bit retro pixel art with crisp sharp pixels and thick black outlines. Upper body visible behind a wooden counter — the lower half fades into translucent nothingness. Semi-transparent ghostly form with pale white-gray skin. Wearing traditional Korean merchant clothes in faded gray-brown. A sly knowing smile with crinkled eyes — shrewd and calculating but not unfriendly. Hands spread out on the counter gesturing toward merchandise. Warm lantern light illuminates the figure from one side, casting dramatic shadows. Wispy translucent edges where the body dissolves. Trustworthy enough to buy from, but never fully trust. Fully contained within the image with comfortable margins. Color palette: faded whites, grays, warm amber light accents.
+A low-resolution pixel art portrait of a ghost merchant in the Korean underworld market, made of large visible square pixels like a character from Stardew Valley or Undertale. Each individual pixel is clearly visible and countable. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. On plain solid bright green (#00FF00) background for chroma key. Upper body visible — the lower half pixelates into nothingness. Ghostly form with pale white-gray skin. Traditional Korean merchant clothes in faded gray-brown. Sly knowing smile — shrewd but not unfriendly. Hands spread on counter. Warm lantern light from one side. Fully contained with margins. Color palette: faded whites, grays, warm amber.
 ```
 
 ## 후처리

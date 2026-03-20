@@ -32,7 +32,7 @@ Batch: 8장씩 뽑아서 최선 선택 (컨셉은 많이 뽑아야 함)
 > 모든 컨셉아트 프롬프트 **앞에** 이 문장을 붙인다.
 
 ```
-A character concept art illustration in pixel art style. Full body view of a single character centered on a simple dark background. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Korean dark fantasy style with thick black ink outlines, expressive face, and bold flat colors. Limited color palette matching the game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), hanji beige (#F5E6CA), bone white (#E8E8E8), deep purple (#6B2D5B). Standing pose. The character is fully contained within the image with comfortable margins on all sides — nothing is cropped or cut off at any edge.
+A character concept art in low-resolution pixel art style, made of large visible square pixels like a sprite from Undertale or Celeste. Full body view centered on plain solid bright green (#00FF00) background. Each individual pixel clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending. Korean dark fantasy style with thick black pixel outlines, expressive face, bold flat color fills. Limited game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), hanji beige (#F5E6CA), bone white (#E8E8E8), deep purple (#6B2D5B). Standing pose. Fully contained with comfortable margins.
 ```
 
 ## 게임 내 캐릭터 표시 크기

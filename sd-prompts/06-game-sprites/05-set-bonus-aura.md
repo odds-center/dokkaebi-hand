@@ -25,7 +25,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art aura effect overlay on transparent background. 16-bit retro pixel art with crisp sharp pixels. This is a full-body energy aura that surrounds a character — the CENTER must be completely empty/transparent so the character sprite shows through. Only the edges and surrounding area have the aura effect. The aura radiates outward from a body-sized empty center space. The effect should feel powerful and threatening — this boss has activated a set bonus.
+A low-resolution pixel art aura effect overlay on a plain solid bright green (#00FF00) background for chroma key removal. Made of large visible square pixels — each pixel clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients. Bold flat color fills. This is a full-body energy aura that surrounds a character — the CENTER must be completely empty (green background showing through) so the character sprite shows through when composited. Only the edges and surrounding area have the aura effect. Powerful and threatening — set bonus activated.
 ```
 
 ## 후처리

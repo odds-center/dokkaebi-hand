@@ -16,7 +16,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art scene illustration for a Korean underworld card game event. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Dark fantasy atmosphere with Korean traditional ink painting style. Bold flat colors with thick black outlines. Limited color palette based on game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), warm orange lantern light, bone white (#E8E8E8). The scene is fully contained within the image with no elements cropped or cut off at the edges. No text or UI elements.
+A low-resolution pixel art scene illustration for a Korean underworld card game event, made of large visible square pixels like a cutscene from Celeste or Undertale. Each individual pixel is clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Dark fantasy atmosphere. Bold flat color fills with thick black pixel outlines. NES/SNES era aesthetic. Limited game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), warm orange lantern light, bone white (#E8E8E8). Fully contained, nothing cropped. No text or UI elements.
 ```
 
 ## 후처리

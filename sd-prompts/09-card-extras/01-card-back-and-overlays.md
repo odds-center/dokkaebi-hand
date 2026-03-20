@@ -21,7 +21,7 @@ Batch: 8장
 **Seed:** 78001
 
 ```
-A pixel art hwatu card back design. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. The design features a traditional Korean taegeuk (yin-yang) symbol at the center in red and blue, surrounded by a circular border of eight trigram (팔괘) symbols. The background is aged hanji paper cream-ivory color with subtle paper fiber texture. A decorative geometric border pattern frames the entire design — traditional Korean interlocking rectangular pattern in dark navy and gold. Four small cyan dokkaebi ghost flames sit in each corner as underworld accents. The overall impression is a blend of traditional Korean cosmology and supernatural underworld energy. All elements are fully contained within the image with comfortable margins. Bold flat colors with thick black outlines throughout. Color palette: cream hanji background, red-blue taegeuk, dark navy border, gold accents, cyan ghost flames.
+A low-resolution pixel art hwatu card back design, made of large visible square pixels where each pixel is clearly distinguishable. Drawn on a 32x45 pixel grid. Blocky jagged edges, no smooth curves, no anti-aliasing, no gradients, no blending between pixels. The design features a traditional Korean taegeuk (yin-yang) symbol at the center in red and blue, surrounded by a circular border of eight trigram (팔괘) symbols. The background is aged hanji paper cream-ivory color with subtle paper fiber texture. A decorative geometric border pattern frames the entire design — traditional Korean interlocking rectangular pattern in dark navy and gold. Four small cyan dokkaebi ghost flames sit in each corner as underworld accents. The overall impression is a blend of traditional Korean cosmology and supernatural underworld energy. All elements are fully contained within the image with comfortable margins. Bold flat colors with thick black outlines throughout. Color palette: cream hanji background, red-blue taegeuk, dark navy border, gold accents, cyan ghost flames.
 ```
 
 ### 후처리
@@ -53,7 +53,7 @@ Batch: 4장
 ### 공통 프롬프트 프리픽스
 
 ```
-A pixel art card overlay frame effect for a Korean card game. 16-bit retro pixel art with crisp sharp pixels. This is a transparent overlay that goes ON TOP of an existing card — the center must be completely empty/transparent so the card illustration shows through. Only the border edges and corners have visual effects. Fully contained. The overlay frame must leave the central 70% of the card completely clear.
+A low-resolution pixel art card overlay frame effect for a Korean card game, made of large visible square pixels. Each individual pixel clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. This is an overlay ON TOP of an existing card — center must be completely empty/transparent (green #00FF00 background showing through). Only border edges and corners have visual effects. Central 70% must be completely clear. Fully contained.
 ```
 
 ### enhance_tier0 — 기본 (★)
