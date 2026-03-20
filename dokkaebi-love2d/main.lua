@@ -1,4 +1,4 @@
---- Dokkaebi's Hand — Love2D
+--- 도깨비의 패 — Love2D
 --- 통일 UI 시스템: 모든 화면이 동일한 디자인 언어 사용
 
 love.graphics.setDefaultFilter("nearest", "nearest")
@@ -16,6 +16,7 @@ local PlayerState    = require("src.core.player_state")
 local SM             = require("src.core.spiral_manager")
 local SpiralManager  = SM.SpiralManager
 local SpiralBlessing = SM.SpiralBlessing
+local DU             = require("src.ui.draw_utils")
 
 -- ===========================
 -- 디자인 토큰 (전역 통일)
@@ -88,12 +89,9 @@ local hover_idx = nil
 
 local function set(c, a) love.graphics.setColor(c[1], c[2], c[3], a or c[4] or 1) end
 
--- 패널: 통일된 배경 + 테두리
+-- 패널: CSS box-shadow 스타일
 local function panel(x, y, w, h, alt)
-    set(alt and PAL.panel_alt or PAL.panel)
-    love.graphics.rectangle("fill", x, y, w, h, UI.radius)
-    set(PAL.border)
-    love.graphics.rectangle("line", x, y, w, h, UI.radius)
+    DU.shadow_panel(x, y, w, h, UI.radius, alt and PAL.panel_alt or PAL.panel, 0.25)
 end
 
 -- 버튼 생성 (통일된 크기)
@@ -114,7 +112,7 @@ local function topbar(title_extra)
     set(PAL.dim)
     local sp = S.spiral and S.spiral.current_spiral or 1
     local rm = S.spiral and S.spiral.current_realm or 1
-    love.graphics.print(string.format("Cycle %d · Gate %d", sp, rm), UI.pad, 8)
+    love.graphics.print(string.format("윤회 %d · 관문 %d", sp, rm), UI.pad, 8)
 
     -- 체력
     local hearts = ""
@@ -122,9 +120,9 @@ local function topbar(title_extra)
     set(S.player.lives <= 2 and PAL.red or {0.85, 0.30, 0.30})
     love.graphics.printf(hearts, 0, 8, W * 0.5, "center")
 
-    -- Yeop
+    -- 엽전
     set(PAL.gold)
-    love.graphics.printf(S.player.yeop .. " nyang", 0, 8, W - UI.pad, "right")
+    love.graphics.printf(S.player.yeop .. " 냥", 0, 8, W - UI.pad, "right")
 
     if title_extra then
         set(PAL.white)
@@ -166,7 +164,7 @@ local function new_game()
     S.spiral = SpiralManager.new()
     S.deck = DeckManager.new()
     S.messages = {}; S.selected = {}
-    msg("넌 죽었다. 저승의 도깨비들과 고STOP을 치자.")
+    msg("넌 죽었다. 저승의 도깨비들과 고스톱을 치자.")
 end
 
 local function gen_shop()
@@ -179,21 +177,21 @@ local function gen_shop()
         {name="황천의 거울", cost=85, type="talisman"},
     }
     for i = 1, 3 do S.shop_items[#S.shop_items+1] = {name=pool[math.random(#pool)].name, cost=pool[math.random(#pool)].cost, type="talisman", sold=false} end
-    S.shop_items[#S.shop_items+1] = {name="HP Restore", cost=75, type="health", sold=false}
+    S.shop_items[#S.shop_items+1] = {name="체력 회복", cost=75, type="health", sold=false}
     S.shop_items[#S.shop_items+1] = {name="패 팩(소)", cost=40, type="card_pack", sold=false}
 end
 
 local function gen_event()
     local evts = {
         {title="저승 방랑자", desc="길을 잃은 다른 망자.\n\"도와줘... 길을 잃었어...\"",
-         choices={{text="도와준다 (+50nyang)", result="감사! +50nyang", fn=function() S.player.yeop=S.player.yeop+50 end},
+         choices={{text="도와준다 (+50냥)", result="감사! +50냥", fn=function() S.player.yeop=S.player.yeop+50 end},
                   {text="무시한다", result="...", fn=function() end},
-                  {text="소지품 뒤진다 (+30nyang)", result="+30nyang", fn=function() S.player.yeop=S.player.yeop+30 end}}},
+                  {text="소지품 뒤진다 (+30냥)", result="+30냥", fn=function() S.player.yeop=S.player.yeop+30 end}}},
         {title="도깨비불 시험", desc="\"나는 밤에 태어나 낮에 죽는다.\n나는 누구인가?\"",
-         choices={{text="도깨비불 (+80nyang)", result="정답! +80nyang", fn=function() S.player.yeop=S.player.yeop+80 end},
-                  {text="그림자 (-30nyang)", result="오답. -30nyang", fn=function() S.player.yeop=math.max(0,S.player.yeop-30) end}}},
+         choices={{text="도깨비불 (+80냥)", result="정답! +80냥", fn=function() S.player.yeop=S.player.yeop+80 end},
+                  {text="그림자 (-30냥)", result="오답. -30냥", fn=function() S.player.yeop=math.max(0,S.player.yeop-30) end}}},
         {title="운명의 갈림길", desc="두 개의 문.\n붉은 문과 푸른 문.",
-         choices={{text="붉은 문 (+100nyang)", result="+100nyang!", fn=function() S.player.yeop=S.player.yeop+100 end},
+         choices={{text="붉은 문 (+100냥)", result="+100냥!", fn=function() S.player.yeop=S.player.yeop+100 end},
                   {text="푸른 문 (+2 체력)", result="+2 체력!", fn=function() S.player.lives=math.min(S.player.lives+2,10) end}}},
     }
     S.event = evts[math.random(#evts)]
@@ -201,22 +199,23 @@ end
 
 local function gen_upgrades()
     local pool = {
-        {name="Chips +20", desc="모든 Combo Guide Chips +20", fn=function() S.player.wave_chip_bonus=S.player.wave_chip_bonus+20 end},
-        {name="Mult +1", desc="기본 Mult +1", fn=function() S.player.wave_mult_bonus=S.player.wave_mult_bonus+1 end},
-        {name="체력 +1", desc="HP Restore", fn=function() S.player.lives=math.min(S.player.lives+1,10) end},
-        {name="Yeop +30", desc="+30nyang", fn=function() S.player.yeop=S.player.yeop+30 end},
+        {name="칩 +20", desc="모든 족보 칩 +20", fn=function() S.player.wave_chip_bonus=S.player.wave_chip_bonus+20 end},
+        {name="배수 +1", desc="기본 배수 +1", fn=function() S.player.wave_mult_bonus=S.player.wave_mult_bonus+1 end},
+        {name="체력 +1", desc="체력 회복", fn=function() S.player.lives=math.min(S.player.lives+1,10) end},
+        {name="엽전 +30", desc="+30냥", fn=function() S.player.yeop=S.player.yeop+30 end},
     }
     S.upgrades = {}
     for i = 1, 3 do S.upgrades[i] = pool[math.random(#pool)] end
 end
 
 local function start_realm()
+    if not S.spiral then return end
     local realm = S.spiral.current_realm
     if realm > 10 then S.state = "gate"; return end
     S.boss = bosses[realm] or bosses[1]
     S.battle = BossBattle.new(S.boss, S.spiral.current_spiral)
     S.max_rounds = S.boss.rounds; S.round = 0
-    msg(string.format("%s appeared! HP: %s", S.boss.name_kr, NumFmt.format(S.battle.boss_max_hp)))
+    msg(string.format("%s 등장! HP: %s", S.boss.name_kr, NumFmt.format(S.battle.boss_max_hp)))
     start_round()
 end
 
@@ -233,28 +232,28 @@ function start_round()
     S.chips = S.player.wave_chip_bonus; S.mult = 1.0 + S.player.wave_mult_bonus
     S.go_count = 0; S.plays = 0; S.state = "in_round"
     S._eaten_combos = {}
-    msg(string.format("Round %d/%d — Hand: %d cards", S.round, S.max_rounds, #S.hand))
+    msg(string.format("판 %d/%d — Hand: %d cards", S.round, S.max_rounds, #S.hand))
 end
 
 local function after_defeat()
     S.player.yeop = S.player.yeop + S.boss.yeop_reward
-    msg(string.format("%s Defeated! +%dnyang", S.boss.name_kr, S.boss.yeop_reward))
+    msg(string.format("%s 격파 +%d냥", S.boss.name_kr, S.boss.yeop_reward))
     gen_upgrades(); S.state = "upgrade_select"
 end
 
 -- ============================
 -- 전투 액션
--- 흐름: 시너지 등록(버프) → 고/STOP → 섯다 공격(데미지)
+-- 흐름: 족보 등록(버프) → 고/스톱 → 섯다 공격(데미지)
 -- ============================
 local function do_register_synergy()
-    if #S.selected == 0 then msg("시너지로 쓸 카드를 Select하세요!"); return end
-    if #S.hand - #S.selected < 2 then msg("Must keep 2 cards for attack!"); return end
+    if #S.selected == 0 then msg("족보로 쓸 카드를 선택하세요"); return end
+    if #S.hand - #S.selected < 2 then msg("공격용 2장은 남겨야!"); return end
 
     local combos = HandEvaluator.evaluate(S.selected)
     local cc, cm = HandEvaluator.get_total_score(combos)
     S.chips = S.chips + cc; S.mult = S.mult * cm; S.plays = S.plays + 1
 
-    -- 손패에서 제거 (시너지에 사용한 카드는 소모)
+    -- 손패에서 제거 (족보에 사용한 카드는 소모)
     for _, sel in ipairs(S.selected) do
         for i, h in ipairs(S.hand) do if h == sel then table.remove(S.hand, i); break end end
     end
@@ -269,16 +268,16 @@ local function do_register_synergy()
             for _, ec in ipairs(S._eaten_combos) do if ec == c.name_kr then exists = true; break end end
             if not exists then S._eaten_combos[#S._eaten_combos+1] = c.name_kr end
         end
-        msg("Register Synergy! → " .. table.concat(n, " + "))
-        msg(string.format("  ATK Boost: %sChips × %.1f배", NumFmt.format_score(S.chips), S.mult))
+        msg("족보 등록 → " .. table.concat(n, " + "))
+        msg(string.format("  공격력 강화: %s칩 × %.1f배", NumFmt.format_score(S.chips), S.mult))
     else
-        msg("Synergy — No combo (base chips only)")
+        msg("족보 — 콤보 없음 (base chips only)")
     end
 
     S.selected = {}
     if S.plays >= 5 then
         S.state = "attack"
-        msg("시너지 완료! 이제 남은 패 중 2장으로 섯다 Attack!")
+        msg("족보 등록 완료! 이제 남은 패 중 2장으로 섯다 공격")
     elseif #combos > 0 then
         S.state = "go_stop"
     end
@@ -289,7 +288,7 @@ local function do_go()
     local d = ({3,2,1})[math.min(S.go_count,3)] or 1
     for i=1,d do local c=S.deck:draw_from_pile(); if c then S.hand[#S.hand+1]=c end end
     if S.go_count >= 3 and math.random() < 0.10 then
-        S.player.lives = S.player.lives - 1; msg("Instant death! Dokkaebi strike!")
+        S.player.lives = S.player.lives - 1; msg("즉사! 도깨비의 일격!")
         if S.player.lives <= 0 then S.state = "game_over"; return end
     end
     msg(({"고 1! +3장 ×1.5","고 2! +2장 ×2","고 3! +1장 ×3 위험!"})[math.min(S.go_count,3)])
@@ -298,17 +297,17 @@ end
 
 local function do_stop()
     S.state = "attack"; S.selected = {}
-    msg("STOP! 시너지 확정 → 남은 패 중 2장으로 섯다 Attack!")
+    msg("스톱! 족보 확정 → 남은 패 중 2장으로 섯다 공격")
 end
 
 local function do_attack()
-    if #S.selected ~= 2 then msg("Select 2 cards!"); return end
+    if #S.selected ~= 2 then msg("선택 2 cards!"); return end
     local seotda = Seotda.evaluate(S.selected[1], S.selected[2])
     local base = Seotda.base_damage(seotda.rank)
     local gm = ({[1]=1.5,[2]=2,[3]=3})[S.go_count] or 1
     local dmg = math.floor((base + S.chips) * S.mult * gm)
     S.battle:deal_damage(dmg)
-    msg(string.format("[%s] %d + %sChips ×%.1f ×고%.1f = %s!", seotda.name, base, NumFmt.format_score(S.chips), S.mult, gm, NumFmt.format_score(dmg)))
+    msg(string.format("[%s] %d + %s칩 ×%.1f ×고%.1f = %s!", seotda.name, base, NumFmt.format_score(S.chips), S.mult, gm, NumFmt.format_score(dmg)))
     for _, sel in ipairs(S.selected) do for i, h in ipairs(S.hand) do if h == sel then table.remove(S.hand, i); break end end end
     S.selected = {}
     if S.battle:is_boss_defeated() then after_defeat() else S.state = "post_round" end
@@ -362,21 +361,21 @@ local function scr_main_menu()
     -- 타이틀
     love.graphics.setFont(fonts.xl)
     set(PAL.gold)
-    love.graphics.printf("Dokkaebi's Hand", 0, H*0.25, W, "center")
+    love.graphics.printf("도깨비의 패", 0, H*0.25, W, "center")
     love.graphics.setFont(fonts.m)
     set(PAL.dim)
-    love.graphics.printf("Dokkaebi's Hand", 0, H*0.25 + 38, W, "center")
+    love.graphics.printf("도깨비의 패", 0, H*0.25 + 38, W, "center")
     love.graphics.setFont(fonts.s)
     set({0.35, 0.35, 0.45})
-    love.graphics.printf("넌 죽었다. 저승의 도깨비들과 고STOP을 쳐서 이승으로 돌아가야 한다.", W*0.25, H*0.25 + 60, W*0.5, "center")
+    love.graphics.printf("넌 죽었다. 저승의 도깨비들과 고스톱을 쳐서 이승으로 돌아가야 한다.", W*0.25, H*0.25 + 60, W*0.5, "center")
 
     -- 메뉴 버튼 (세로 정렬, 작은 크기)
     local cx, bw, bh, gap = W/2 - 70, 140, UI.btn_h, 8
     local sy = H*0.5
-    ui_btn("New Game",   cx, sy,            bw, bh, PAL.btn_red,  function() new_game(); S.state = "blessing_select" end)
-    ui_btn("Continue",  cx, sy + (bh+gap),   bw, bh, PAL.btn_dim,  function() msg("No save data.") end)
-    ui_btn("Collection",      cx, sy + (bh+gap)*2, bw, bh, PAL.btn_dim,  function() S.state = "collection" end)
-    ui_btn("Settings",      cx, sy + (bh+gap)*3, bw, bh, PAL.btn_dim,  function() S.state = "settings" end)
+    ui_btn("새 게임",   cx, sy,            bw, bh, PAL.btn_red,  function() new_game(); S.state = "blessing_select" end)
+    ui_btn("이어하기",  cx, sy + (bh+gap),   bw, bh, PAL.btn_dim,  function() msg("세이브가 없습니다.") end)
+    ui_btn("도감",      cx, sy + (bh+gap)*2, bw, bh, PAL.btn_dim,  function() S.state = "collection" end)
+    ui_btn("설정",      cx, sy + (bh+gap)*3, bw, bh, PAL.btn_dim,  function() S.state = "settings" end)
 
     -- 하단
     love.graphics.setFont(fonts.s)
@@ -386,12 +385,12 @@ local function scr_main_menu()
 end
 
 -- ===========================
--- 화면: 축복 Select
+-- 화면: 축복 선택
 -- ===========================
 local function scr_blessing()
     topbar()
-    title("Choose Your Blessing", 42)
-    subtitle("Double-edged sword — Powerful bonus with a curse.", 68)
+    title("축복을 선택하라", 42)
+    subtitle("양날의 검 — 강력한 보너스와 저주가 함께 따른다.", 68)
 
     local blessings = SpiralBlessing.get_all()
     local cols = {{0.65,0.18,0.08}, {0.08,0.35,0.65}, {0.35,0.10,0.55}, {0.50,0.45,0.12}}
@@ -420,9 +419,9 @@ local function scr_blessing()
         set({0.95, 0.35, 0.35})
         love.graphics.printf("▼ "..b.penalty_desc, bx+6, by+80, cw-12, "left")
 
-        -- Select 버튼
+        -- 선택 버튼
         local idx = i
-        ui_btn("Select", bx + (cw-80)/2, by+ch-38, 80, 26, cols[i], function()
+        ui_btn("선택", bx + (cw-80)/2, by+ch-38, 80, 26, cols[i], function()
             S.spiral:select_blessing(blessings[idx])
             msg("Blessing: " .. blessings[idx].name_kr)
             local bl = blessings[idx]
@@ -432,7 +431,7 @@ local function scr_blessing()
         end)
     end
 
-    ui_btn("Start without blessing", W/2-60, 300, 120, 28, PAL.btn_dim, function() msg("No blessing!"); start_realm() end)
+    ui_btn("축복 없이 시작", W/2-60, 300, 120, 28, PAL.btn_dim, function() msg("축복 없이!"); start_realm() end)
 end
 
 -- ===========================
@@ -446,59 +445,108 @@ local function scr_battle()
     topbar()
     local CX = W/2  -- 화면 중앙 기준
 
-    -- ======= 보스 영역 (상단 중앙) =======
+    -- ======= 보스 (크게, 화면 상단 중앙) =======
     if S.battle then
-        local bw, bh = 380, 95
+        local bw, bh = 480, 145
         local bx = CX - bw/2
-        local by = 36
+        local by = 34
 
         panel(bx, by, bw, bh)
 
-        -- 보스 실루엣 (왼쪽)
-        set({0.15, 0.08, 0.08})
-        love.graphics.rectangle("fill", bx+10, by+10, 55, 55, 4)
-        set(PAL.red)
-        love.graphics.setFont(fonts.l)
-        love.graphics.printf("鬼", bx+10, by+18, 55, "center")  -- 도깨비 한자
+        -- 보스 아이콘 (도형으로 도깨비 실루엣)
+        local is = 105
+        local ix0, iy0 = bx+10, by+10
 
-        -- 보스 이름 + 기믹
-        love.graphics.setFont(fonts.m)
-        set(PAL.gold)
-        love.graphics.print(S.boss.name_kr, bx+75, by+8)
-        love.graphics.setFont(fonts.s)
-        set(PAL.dim)
-        love.graphics.print(S.boss.gimmick or "", bx+75, by+28)
+        -- 배경
+        set({0.10, 0.04, 0.04})
+        love.graphics.rectangle("fill", ix0, iy0, is, is, 8)
 
-        -- HP 바
-        local hx, hy, hw, hh = bx+75, by+45, bw-95, 14
+        -- 도깨비 몸통 (큰 원)
+        local cx0, cy0 = ix0 + is/2, iy0 + is/2 + 8
+        set({0.55, 0.10, 0.08})
+        love.graphics.circle("fill", cx0, cy0, 32)
+
+        -- 머리
+        set({0.65, 0.15, 0.10})
+        love.graphics.circle("fill", cx0, cy0-28, 22)
+
+        -- 뿔 (왼쪽)
+        love.graphics.setColor(0.8, 0.7, 0.2)
+        love.graphics.polygon("fill", cx0-14, cy0-44, cx0-20, cy0-68, cx0-8, cy0-48)
+        -- 뿔 (오른쪽)
+        love.graphics.polygon("fill", cx0+14, cy0-44, cx0+20, cy0-68, cx0+8, cy0-48)
+
+        -- 눈 (빛나는 빨간)
+        set({1, 0.2, 0.1})
+        love.graphics.circle("fill", cx0-8, cy0-30, 4)
+        love.graphics.circle("fill", cx0+8, cy0-30, 4)
+        -- 눈 하이라이트
+        set({1, 0.8, 0.3})
+        love.graphics.circle("fill", cx0-7, cy0-31, 1.5)
+        love.graphics.circle("fill", cx0+9, cy0-31, 1.5)
+
+        -- 입 (이빨)
+        set({0.3, 0.05, 0.05})
+        love.graphics.arc("fill", cx0, cy0-18, 12, 0, math.pi)
+        set({1, 1, 1})
+        -- 송곳니
+        love.graphics.polygon("fill", cx0-6, cy0-18, cx0-4, cy0-12, cx0-8, cy0-12)
+        love.graphics.polygon("fill", cx0+6, cy0-18, cx0+4, cy0-12, cx0+8, cy0-12)
+
+        -- 방망이 (오른손)
+        set({0.5, 0.35, 0.15})
+        love.graphics.rectangle("fill", cx0+22, cy0-10, 8, 35, 3)
+        set({0.6, 0.45, 0.2})
+        love.graphics.circle("fill", cx0+26, cy0-12, 8)
+
+        -- Lv 표시
+        love.graphics.setFont(fonts.s); set(PAL.dim)
+        love.graphics.printf("Lv." .. (S.spiral and S.spiral.current_realm or 1), ix0, iy0+is-12, is, "center")
+
+        -- 이름 + 기믹
+        local ix, iw = bx + is + 22, bw - is - 36
+        love.graphics.setFont(fonts.l); set(PAL.gold)
+        love.graphics.print(S.boss.name_kr, ix, by+10)
+        love.graphics.setFont(fonts.s); set(PAL.dim)
+        love.graphics.print(S.boss.gimmick or "", ix, by+34)
+
+        -- HP 바 (넓게)
+        local hx, hy, hw, hh = ix, by+54, iw, 16
         set(PAL.hp_bg); love.graphics.rectangle("fill", hx, hy, hw, hh, 3)
         local ratio = S.battle.boss_current_hp / math.max(S.battle.boss_max_hp, 1)
         set(ratio > 0.5 and PAL.hp_high or (ratio > 0.2 and PAL.hp_mid or PAL.hp_low))
-        love.graphics.rectangle("fill", hx+1, hy+1, (hw-2)*math.max(ratio,0), hh-2, 2)
-        love.graphics.setFont(fonts.s); set(PAL.white)
+        love.graphics.rectangle("fill", hx+1, hy+1, (hw-2)*math.max(ratio, 0), hh-2, 2)
+        love.graphics.setFont(fonts.m); set(PAL.white)
         love.graphics.printf(string.format("HP  %s / %s",
-            NumFmt.format(S.battle.boss_current_hp), NumFmt.format(S.battle.boss_max_hp)), hx, hy+1, hw, "center")
+            NumFmt.format(S.battle.boss_current_hp), NumFmt.format(S.battle.boss_max_hp)), hx, hy, hw, "center")
 
-        -- 라운드 정보
-        set(PAL.dim)
-        love.graphics.printf(string.format("Round %d/%d  ·  Synergy %d/5  ·  Go x%d",
-            S.round, S.max_rounds, S.plays, S.go_count), bx, by+65, bw, "center")
+        -- 라운드 + 
+        love.graphics.setFont(fonts.s); set(PAL.dim)
+        love.graphics.printf(string.format("판 %d/%d  ·  족보 %d/5  ·  Go x%d",
+            S.round, S.max_rounds, S.plays, S.go_count), ix, by+76, iw, "left")
+
+        -- 등록된 콤보
+        if S._eaten_combos and #S._eaten_combos > 0 then
+            local cs = ""
+            for _, cn in ipairs(S._eaten_combos) do cs = cs .. "[" .. cn .. "] " end
+            set(PAL.gold); love.graphics.printf(cs, ix, by+92, iw, "left")
+        end
     end
 
-    -- ======= 시너지 점수 (보스 아래 중앙) =======
-    local score_y = 140
+    -- ======= 족보 점수 (보스 아래 중앙) =======
+    local score_y = 185
     local score_w = 320
     panel(CX - score_w/2, score_y, score_w, 38)
     love.graphics.setFont(fonts.m)
     set(PAL.white)
-    love.graphics.printf(string.format("Chips %s", NumFmt.format_score(S.chips)), CX-score_w/2, score_y+3, score_w*0.35, "center")
+    love.graphics.printf(string.format("칩 %s", NumFmt.format_score(S.chips)), CX-score_w/2, score_y+3, score_w*0.35, "center")
     set(PAL.cyan)
     love.graphics.printf(string.format("× %.1f", S.mult), CX-score_w*0.15, score_y+3, score_w*0.3, "center")
     set(PAL.gold)
     love.graphics.setFont(fonts.l)
     love.graphics.printf(string.format("= %s", NumFmt.format_score(math.floor(S.chips*S.mult))), CX+score_w*0.1, score_y+1, score_w*0.38, "center")
 
-    -- ======= 획득 Combo Guide 표시 (점수 아래) =======
+    -- ======= 획득 족보 표시 (점수 아래) =======
     local combo_y = 182
     if S._eaten_combos and #S._eaten_combos > 0 then
         love.graphics.setFont(fonts.s)
@@ -518,9 +566,9 @@ local function scr_battle()
     local card_sx = CX - total_card_w / 2
     local card_y = H - ch - 58
 
-    -- Select 카운트
+    -- 선택 카운트
     love.graphics.setFont(fonts.s); set(PAL.gold)
-    local mode_text = S.state == "attack" and "Attack Cards" or "Synergy Cards"
+    local mode_text = S.state == "attack" and "공격 카드" or "족보 카드"
     local max_sel = S.state == "attack" and 2 or 5
     love.graphics.printf(string.format("%s: %d/%d장", mode_text, #S.selected, max_sel), 0, card_y-16, W, "center")
 
@@ -538,7 +586,7 @@ local function scr_battle()
     love.graphics.setFont(fonts.s)
     set(PAL.dim)
     local talisman_y = card_y - 34
-    love.graphics.print("Talismans:", 15, talisman_y)
+    love.graphics.print("부적:", 15, talisman_y)
     if S.player and #S.player.talismans > 0 then
         for ti, t in ipairs(S.player.talismans) do
             set(PAL.cyan)
@@ -546,7 +594,7 @@ local function scr_battle()
         end
     else
         set({0.25,0.25,0.3})
-        love.graphics.print("(none)", 55, talisman_y)
+        love.graphics.print("(없음)", 55, talisman_y)
     end
 
     -- ======= 고정 버튼바 (최하단 중앙) =======
@@ -555,17 +603,17 @@ local function scr_battle()
     set(PAL.border); love.graphics.line(0, btn_y-6, W, btn_y-6)
 
     if S.state == "in_round" then
-        ui_btn("Register Synergy!", CX-55, btn_y, 110, UI.btn_h, PAL.btn_red, do_register_synergy)
+        ui_btn("족보 등록", CX-55, btn_y, 110, UI.btn_h, PAL.btn_red, do_register_synergy)
     elseif S.state == "go_stop" then
-        ui_btn("GO!", CX-120, btn_y, 100, UI.btn_h, PAL.red, do_go)
-        ui_btn("STOP", CX+20, btn_y, 100, UI.btn_h, PAL.btn_blue, do_stop)
+        ui_btn("고", CX-120, btn_y, 100, UI.btn_h, PAL.red, do_go)
+        ui_btn("스톱", CX+20, btn_y, 100, UI.btn_h, PAL.btn_blue, do_stop)
         -- 리스크 텍스트
         love.graphics.setFont(fonts.s); set({1,0.4,0.4})
         local ri = math.min((S.go_count or 0)+1, 3)
-        love.graphics.printf(({"Go 1: +3 cards x1.5","Go 2: +2 cards x2 Counter!","Go 3: +1 card x3 DEATH RISK!"})[ri], 0, btn_y-18, W, "center")
+        love.graphics.printf(({"고 1: +3장 ×1.5","고 2: +2장 ×2 반격!","고 3: +1장 ×3 즉사위험!"})[ri], 0, btn_y-18, W, "center")
     elseif S.state == "attack" then
         local col = #S.selected == 2 and PAL.btn_red or PAL.btn_dim
-        ui_btn("Attack!", CX-55, btn_y, 110, UI.btn_h, col, do_attack)
+        ui_btn("공격", CX-55, btn_y, 110, UI.btn_h, col, do_attack)
         if #S.selected == 2 then
             local p = Seotda.evaluate(S.selected[1], S.selected[2])
             local bd = Seotda.base_damage(p.rank)
@@ -581,20 +629,20 @@ local function scr_battle()
     if S.state == "in_round" then
         if #S.selected == 0 then
             set({0.5, 0.8, 1.0})
-            love.graphics.printf("↓ 카드를 클릭해서 Select한 뒤 [Select cards, then press [Register Synergy!]", 0, card_y - 36, W, "center")
+            love.graphics.printf("↓ 카드를 클릭해서 선택한 뒤 [선택 cards, then press [족보 등록]", 0, card_y - 36, W, "center")
         else
             set({0.3, 1, 0.5})
-            love.graphics.printf(#S.selected .. "cards selected — Press [Register Synergy!] to activate combo!", 0, card_y - 36, W, "center")
+            love.graphics.printf(#S.selected .. "cards selected — Press [족보 등록] to activate combo!", 0, card_y - 36, W, "center")
         end
     elseif S.state == "go_stop" then
         set({1, 0.8, 0.3})
-        love.graphics.printf("GO = Draw more cards + higher multiplier / STOP = Attack now!", 0, card_y - 36, W, "center")
+        love.graphics.printf("GO = Draw more cards + higher multiplier / 스톱 = Attack now!", 0, card_y - 36, W, "center")
     elseif S.state == "attack" then
         set({1, 0.5, 0.3})
-        love.graphics.printf("Select 2 cards for Seotda Attack — Same month = Ttaeng!", 0, card_y - 36, W, "center")
+        love.graphics.printf("선택 2 cards for Seotda Attack — Same month = Ttaeng!", 0, card_y - 36, W, "center")
     end
 
-    -- ======= 2. 실시간 콤보 미리보기 (Select 중) =======
+    -- ======= 2. 실시간 콤보 미리보기 (선택 중) =======
     if (S.state == "in_round" or S.state == "attack") and #S.selected > 0 then
         local preview_combos = HandEvaluator.evaluate(S.selected)
         if #preview_combos > 0 then
@@ -615,13 +663,13 @@ local function scr_battle()
                 }
                 set(tier_colors[combo.tier] or PAL.white)
                 love.graphics.printf(
-                    string.format("[%s] %s  Chips%d ×%.1f",
+                    string.format("[%s] %s  칩%d ×%.1f",
                         ({"S","A","B","C","D"})[combo.tier] or "?",
                         combo.name_kr, combo.chips, combo.mult),
                     px + 8, py + 2 + (ci-1)*16, pw - 16, "left")
             end
         else
-            -- No combo 표시
+            -- 콤보 없음 표시
             love.graphics.setFont(fonts.s)
             set({0.6, 0.3, 0.3})
             love.graphics.printf("(이 조합에는 콤보가 없음)", 0, 210, W, "center")
@@ -656,21 +704,21 @@ end
 local function scr_post_round()
     topbar()
     if S.battle and S.battle:is_boss_defeated() then return end -- upgrade_select로 이동
-    title("보스 생존! Next Round...", 100)
+    title("보스 생존! 다음 판...", 100)
     if S.battle then
         subtitle(string.format("HP: %s / %s", NumFmt.format(S.battle.boss_current_hp), NumFmt.format(S.battle.boss_max_hp)), 135)
     end
-    ui_btn("Next Round", W/2-55, 180, 110, UI.btn_h, {0.50,0.22,0.06}, function() S.selected={}; start_round() end)
+    ui_btn("다음 판", W/2-55, 180, 110, UI.btn_h, {0.50,0.22,0.06}, function() S.selected={}; start_round() end)
     draw_msgs(230)
 end
 
 -- ===========================
--- 화면: Choose Upgrade
+-- 화면: 강화 선택
 -- ===========================
 local function scr_upgrade()
     topbar()
-    title("Choose Upgrade", 42)
-    subtitle(S.boss.name_kr .. " Defeated! 하나를 Select하세요.", 68)
+    title("강화 선택", 42)
+    subtitle(S.boss.name_kr .. " 격파 하나를 선택하세요.", 68)
 
     local cw, ch, gap = 150, 100, 14
     local sx = (W - (#S.upgrades * (cw+gap) - gap)) / 2
@@ -684,24 +732,24 @@ local function scr_upgrade()
         love.graphics.printf(u.desc, ux+4, 132, cw-8, "center")
 
         local idx = i
-        ui_btn("Select", ux+(cw-80)/2, 168, 80, 24, PAL.btn_green, function()
+        ui_btn("선택", ux+(cw-80)/2, 168, 80, 24, PAL.btn_green, function()
             S.upgrades[idx].fn(); msg("강화: "..S.upgrades[idx].name)
             gen_shop(); S.state = "shop"
         end)
     end
-    ui_btn("Skip", W/2-40, 220, 80, 24, PAL.btn_dim, function() gen_shop(); S.state = "shop" end)
+    ui_btn("스킵", W/2-40, 220, 80, 24, PAL.btn_dim, function() gen_shop(); S.state = "shop" end)
 end
 
 -- ===========================
--- 화면: Ghost Market
+-- 화면: 저승 장터
 -- ===========================
 local function scr_shop()
     topbar()
-    title("Ghost Market", 42)
+    title("저승 장터", 42)
     subtitle("\"어서 와, 살아있는 손님은 오랜만이야.\"", 68)
 
     love.graphics.setFont(fonts.s); set(PAL.gold)
-    love.graphics.printf("Have: " .. S.player.yeop .. " nyang", 0, 88, W, "center")
+    love.graphics.printf("보유: " .. S.player.yeop .. " 냥", 0, 88, W, "center")
 
     local cw, ch, gap = 160, 80, 10
     local total = #S.shop_items
@@ -717,23 +765,23 @@ local function scr_shop()
         love.graphics.printf(item.name, ix, iy+8, cw, "center")
         love.graphics.setFont(fonts.s)
         set(PAL.gold)
-        love.graphics.printf(item.sold and "Buy완료" or (item.cost.."nyang"), ix, iy+30, cw, "center")
+        love.graphics.printf(item.sold and "구매완료" or (item.cost.."냥"), ix, iy+30, cw, "center")
 
         if not item.sold then
             local idx = i
             local affordable = S.player.yeop >= item.cost
-            ui_btn("Buy", ix+(cw-70)/2, iy+50, 70, 22, affordable and PAL.btn_green or PAL.btn_dim, function()
+            ui_btn("구매", ix+(cw-70)/2, iy+50, 70, 22, affordable and PAL.btn_green or PAL.btn_dim, function()
                 local it = S.shop_items[idx]
-                if it.sold or S.player.yeop < it.cost then msg("Buy 불가!"); return end
+                if it.sold or S.player.yeop < it.cost then msg("구매 불가!"); return end
                 S.player.yeop = S.player.yeop - it.cost; it.sold = true
                 if it.type == "health" then S.player.lives = math.min(S.player.lives+1, 10); msg("체력 +1!")
                 elseif it.type == "card_pack" then S.player.next_round_hand_bonus = (S.player.next_round_hand_bonus or 0) + 2; msg("패 팩! 손패 +2")
-                else msg(it.name .. " Buy!") end
+                else msg(it.name .. " 구매!") end
             end)
         end
     end
 
-    ui_btn("Next ▶", W/2-55, 300, 110, UI.btn_h, PAL.btn_green, function()
+    ui_btn("다음으로 ▶", W/2-55, 300, 110, UI.btn_h, PAL.btn_green, function()
         if S.spiral.current_realm % 2 == 0 then gen_event(); S.state = "event"
         else S.spiral:advance_realm(); S.selected={}; start_realm() end
     end)
@@ -762,44 +810,45 @@ local function scr_event()
 end
 
 -- ===========================
--- 화면: Gate to the Living
+-- 화면: 이승의 문
 -- ===========================
 local function scr_gate()
-    title("Gate to the Living", H*0.25)
+    title("이승의 문", H*0.25)
     love.graphics.setFont(fonts.m); set(PAL.white)
-    love.graphics.printf("10Gate을 모두 통과했다!\nYou can return to the living...", 0, H*0.25+40, W, "center")
+    love.graphics.printf("10관문을 모두 통과했다!\n이승으로 돌아갈 수 있다...", 0, H*0.25+40, W, "center")
 
-    local sp = S.spiral.current_spiral
-    ui_btn("이승으로 (엔딩)", W/2-220, H*0.5, 180, UI.btn_h, PAL.gold, function()
-        msg("Gate to the Living 통과..."); S.state = "main_menu"
+    local sp = S.spiral and S.spiral.current_spiral or 1
+    ui_btn("이승으로 돌아간다 (엔딩)", W/2-220, H*0.5, 200, UI.btn_h, PAL.gold, function()
+        msg("이승의 문 통과..."); S.state = "main_menu"
     end)
-    ui_btn("Continue Fighting (Cycle"..(sp+1)..")", W/2+40, H*0.5, 180, UI.btn_h, PAL.btn_red, function()
-        S.spiral:continue_to_next_spiral()
-        msg("Cycle "..S.spiral.current_spiral.." 진입!"); S.selected={}; start_realm()
+    ui_btn("계속 싸운다 (윤회 "..(sp+1)..")", W/2+40, H*0.5, 200, UI.btn_h, PAL.btn_red, function()
+        if S.spiral then S.spiral:continue_to_next_spiral() end
+        msg("윤회 "..(S.spiral and S.spiral.current_spiral or 2).." 진입!")
+        S.selected={}; start_realm()
     end)
 end
 
 -- ===========================
--- 화면: Game Over
+-- 화면: 게임 오버
 -- ===========================
 local function scr_game_over()
-    title("Game Over", H*0.3)
+    title("게임 오버", H*0.3)
     love.graphics.setFont(fonts.m); set(PAL.dim)
-    love.graphics.printf(string.format("Cycle %d, %dGatefell at",
+    love.graphics.printf(string.format("윤회 %d, %d관문에서 쓰러짐",
         S.spiral and S.spiral.current_spiral or 1, S.spiral and S.spiral.current_realm or 1), 0, H*0.3+35, W, "center")
-    ui_btn("Retry", W/2-55, H*0.5, 110, UI.btn_h, PAL.btn_red, function() S.state = "main_menu" end)
+    ui_btn("다시 도전", W/2-55, H*0.5, 110, UI.btn_h, PAL.btn_red, function() S.state = "main_menu" end)
     draw_msgs(H*0.6)
 end
 
 -- ===========================
--- 화면: Collection
+-- 화면: 도감
 -- ===========================
 local function scr_collection()
-    title("Collection", H*0.08)
-    subtitle("지금까지 만난 도깨비와 Talisman, Combo Guide를 확인할 수 있다.", H*0.08+30)
+    title("도감", H*0.08)
+    subtitle("지금까지 만난 도깨비와 Talisman, 족보를 확인할 수 있다.", H*0.08+30)
 
     -- 탭 버튼
-    local tabs = {"Boss Dokkaebi", "Talisman", "Combo Guide"}
+    local tabs = {"Boss Dokkaebi", "Talisman", "족보"}
     local tab_w, tab_gap = 110, 8
     local tab_sx = (W - (#tabs*(tab_w+tab_gap)-tab_gap))/2
     S._col_tab = S._col_tab or 1
@@ -831,21 +880,21 @@ local function scr_collection()
             love.graphics.setFont(fonts.m); set(PAL.gold)
             love.graphics.printf(b.name_kr, ix, iy+6, item_w, "center")
             love.graphics.setFont(fonts.s); set(PAL.dim)
-            love.graphics.printf(string.format("HP:%d  보상:%dnyang", b.target_score, b.yeop_reward), ix, iy+28, item_w, "center")
+            love.graphics.printf(string.format("HP:%d  보상:%d냥", b.target_score, b.yeop_reward), ix, iy+28, item_w, "center")
             love.graphics.printf(b.gimmick or "", ix, iy+42, item_w, "center")
         end
     elseif S._col_tab == 2 then
         -- Talisman 목록
         love.graphics.setFont(fonts.s)
         local talismans = {
-            {name="피의 맹세", rarity="일반", desc="피 카드: Mult +1"},
-            {name="삼도천의 나룻배", rarity="일반", desc="라운드 시작: Chips +15"},
-            {name="도깨비 방망이", rarity="일반", desc="쓸 시: Chips +40"},
+            {name="피의 맹세", rarity="일반", desc="피 카드: 배수 +1"},
+            {name="삼도천의 나룻배", rarity="일반", desc="라운드 시작: 칩 +15"},
+            {name="도깨비 방망이", rarity="일반", desc="쓸 시: 칩 +40"},
             {name="달빛 여우", rarity="희귀", desc="매칭 실패: 50% 와일드"},
-            {name="황천의 거울", rarity="희귀", desc="STOP 시: Chips +50"},
-            {name="저승사자의 명부", rarity="전설", desc="4로 끝나면: Mult ×4"},
-            {name="염라왕의 도장", rarity="전설", desc="5광 달성: Mult ×3"},
-            {name="천상의 비파", rarity="전설", desc="청단 완성: Chips+100 배+2"},
+            {name="황천의 거울", rarity="희귀", desc="스톱 시: 칩 +50"},
+            {name="저승사자의 명부", rarity="전설", desc="4로 끝나면: 배수 ×4"},
+            {name="염라왕의 도장", rarity="전설", desc="5광 달성: 배수 ×3"},
+            {name="천상의 비파", rarity="전설", desc="청단 완성: 칩+100 배+2"},
         }
         local item_w, item_h, gap = 185, 55, 8
         local cols = 4
@@ -864,7 +913,7 @@ local function scr_collection()
             love.graphics.printf("["..t.rarity.."] "..t.desc, ix+4, iy+24, item_w-8, "center")
         end
     else
-        -- Combo Guide
+        -- 족보
         love.graphics.setFont(fonts.s)
         local yokbos = {
             {tier="S", name="오광", desc="광 5장", chips=500, mult=8},
@@ -893,24 +942,24 @@ local function scr_collection()
             love.graphics.setFont(fonts.m); set(tier_colors[y.tier] or PAL.white)
             love.graphics.printf(string.format("[%s] %s", y.tier, y.name), ix, iy+3, item_w, "center")
             love.graphics.setFont(fonts.s); set(PAL.dim)
-            love.graphics.printf(string.format("%s  Chips%d ×%.1f", y.desc, y.chips, y.mult), ix+4, iy+24, item_w-8, "center")
+            love.graphics.printf(string.format("%s  칩%d ×%.1f", y.desc, y.chips, y.mult), ix+4, iy+24, item_w-8, "center")
         end
     end
 
     -- 뒤로가기
-    ui_btn("← Back", W/2-55, H*0.88, 110, UI.btn_h, PAL.btn_dim, function() S.state = "main_menu" end)
+    ui_btn("← 돌아가기", W/2-55, H*0.88, 110, UI.btn_h, PAL.btn_dim, function() S.state = "main_menu" end)
 end
 
 -- ===========================
--- 화면: Settings
+-- 화면: 설정
 -- ===========================
 local function scr_settings()
-    title("Settings", H*0.12)
+    title("설정", H*0.12)
 
     local cx, cw = W/2-150, 300
     local sy = H*0.25
 
-    -- Settings 항목들
+    -- 설정 항목들
     local settings_items = {
         {label="언어", current="한국어", options={"한국어","English","日本語","中文"}},
         {label="연출 속도", current="보통", options={"느리게","보통","빠르게"}},
@@ -945,7 +994,7 @@ local function scr_settings()
             for j, o in ipairs(opts) do if o == cur then idx = j; break end end
             idx = idx % #opts + 1
             S._settings[lbl] = opts[idx]
-            msg("Settings: " .. lbl .. " → " .. opts[idx])
+            msg("설정: " .. lbl .. " → " .. opts[idx])
         end)
     end
 
@@ -958,10 +1007,10 @@ local function scr_settings()
 
     -- 크레딧
     love.graphics.setFont(fonts.s); set(PAL.dim)
-    love.graphics.printf("Dokkaebi's Hand v0.1.0\n© 2026 Dokkaebi Studio", 0, H*0.82, W, "center")
+    love.graphics.printf("도깨비의 패 v0.1.0\n© 2026 Dokkaebi Studio", 0, H*0.82, W, "center")
 
     -- 뒤로가기
-    ui_btn("← Back", W/2-55, H*0.90, 110, UI.btn_h, PAL.btn_dim, function() S.state = "main_menu" end)
+    ui_btn("← 돌아가기", W/2-55, H*0.90, 110, UI.btn_h, PAL.btn_dim, function() S.state = "main_menu" end)
 end
 
 -- ===========================
@@ -977,8 +1026,8 @@ local function scr_upgrade_tree()
     -- 3갈래 길
     local paths = {
         {name="패의 길", color={0.7,0.2,0.1}, upgrades={
-            {name="기본 Chips", desc="모든 Combo Guide Chips +5/Lv", cost="20/40/60", max=10},
-            {name="기본 Mult", desc="기본 Mult +1/Lv", cost="50/100/200", max=5},
+            {name="기본 칩", desc="모든 족보 칩 +5/Lv", cost="20/40/60", max=10},
+            {name="기본 배수", desc="기본 배수 +1/Lv", cost="50/100/200", max=5},
             {name="시작 손패", desc="시작 손패 +1/Lv", cost="100/300", max=3},
         }},
         {name="Talisman의 길", color={0.1,0.4,0.7}, upgrades={
@@ -989,7 +1038,7 @@ local function scr_upgrade_tree()
         {name="생존의 길", color={0.1,0.6,0.2}, upgrades={
             {name="최대 목숨", desc="시작 목숨 +1/Lv", cost="150/300", max=3},
             {name="Go 보험", desc="Go 실패 면제 30%/Lv", cost="300/800", max=2},
-            {name="시작 Yeop", desc="시작 Yeop +30/Lv", cost="30/60/120", max=5},
+            {name="시작 엽전", desc="시작 엽전 +30/Lv", cost="30/60/120", max=5},
         }},
     }
 
@@ -1026,7 +1075,7 @@ local function scr_upgrade_tree()
         end
     end
 
-    ui_btn("← Back", W/2-55, H*0.92, 110, UI.btn_h, PAL.btn_dim, function()
+    ui_btn("← 돌아가기", W/2-55, H*0.92, 110, UI.btn_h, PAL.btn_dim, function()
         S.state = S._prev_state or "settings"
     end)
 end
@@ -1036,6 +1085,7 @@ end
 -- ===========================
 function love.draw()
     set(PAL.bg); love.graphics.rectangle("fill", 0, 0, W, H)
+    DU.vignette(W, H)  -- 화면 가장자리 어두움 (세련됨)
     btns = {}; card_rects = {}
     local screens = {
         main_menu = scr_main_menu,

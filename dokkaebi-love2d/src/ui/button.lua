@@ -1,16 +1,17 @@
---- 범용 UI 버튼
+--- CSS 스타일 버튼 (그림자 + 호버 + 광택)
 local Button = {}
 Button.__index = Button
 
 function Button.new(text, x, y, w, h, color, callback)
     return setmetatable({
         text = text,
-        x = x, y = y, w = w, h = h,
-        color = color or {0.5, 0.2, 0.2},
+        x = x, y = y, w = w or 140, h = h or 32,
+        color = color or {0.18, 0.18, 0.24},
         callback = callback or function() end,
         hovered = false,
         visible = true,
         enabled = true,
+        radius = 6,
     }, Button)
 end
 
@@ -33,20 +34,39 @@ end
 
 function Button:draw(font)
     if not self.visible then return end
-    local r, g, b = unpack(self.color)
-    if not self.enabled then r, g, b = 0.2, 0.2, 0.2
-    elseif self.hovered then r, g, b = math.min(r+0.15, 1), math.min(g+0.15, 1), math.min(b+0.15, 1) end
+    local r = self.radius
+    local c = self.color
+    local hov = self.hovered and self.enabled
+    local br = hov and 0.15 or 0
 
-    love.graphics.setColor(r, g, b)
-    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, 6)
+    -- 그림자
+    love.graphics.setColor(0, 0, 0, hov and 0.35 or 0.2)
+    love.graphics.rectangle("fill", self.x+2, self.y+2, self.w, self.h, r)
+
+    -- 배경
+    if not self.enabled then
+        love.graphics.setColor(0.15, 0.15, 0.18)
+    else
+        love.graphics.setColor(c[1]+br, c[2]+br, c[3]+br)
+    end
+    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, r)
+
+    -- 상단 광택 (CSS gradient 느낌)
+    love.graphics.setColor(1, 1, 1, hov and 0.10 or 0.05)
+    love.graphics.rectangle("fill", self.x+1, self.y+1, self.w-2, self.h*0.35, r)
+
+    -- 하단 어두움
+    love.graphics.setColor(0, 0, 0, 0.12)
+    love.graphics.rectangle("fill", self.x+1, self.y+self.h*0.65, self.w-2, self.h*0.35-1, r)
 
     -- 테두리
-    love.graphics.setColor(1, 1, 1, 0.2)
-    love.graphics.rectangle("line", self.x, self.y, self.w, self.h, 6)
+    love.graphics.setColor(1, 1, 1, hov and 0.18 or 0.06)
+    love.graphics.rectangle("line", self.x, self.y, self.w, self.h, r)
 
-    love.graphics.setColor(1, 1, 1)
+    -- 텍스트
     if font then love.graphics.setFont(font) end
-    love.graphics.printf(self.text, self.x, self.y + self.h/2 - 8, self.w, "center")
+    love.graphics.setColor(1, 1, 1, self.enabled and (hov and 1 or 0.88) or 0.4)
+    love.graphics.printf(self.text, self.x, self.y + self.h/2 - 7, self.w, "center")
 end
 
 return Button
