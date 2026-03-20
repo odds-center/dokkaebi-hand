@@ -16,7 +16,7 @@ Batch: 4~8장
 ## 공통 프롬프트 프리픽스
 
 ```
-A small friendly pixel art companion sprite of a tamed Korean dokkaebi. 16-bit retro pixel art with crisp sharp pixels. Bold flat colors with thick black outlines. The character looks loyal and helpful — it has been tamed and now serves as an ally. Smaller and less threatening than the boss version. Fully contained within the image with comfortable margins. Centered composition on transparent or solid dark background.
+A small friendly pixel art companion sprite of a tamed Korean dokkaebi. 16-bit retro pixel art with crisp sharp pixels. Bold flat colors with thick black outlines. The character looks loyal and helpful — it has been tamed and now serves as an ally. Smaller and less threatening than the boss version. Fully contained within the image with comfortable margins. Centered composition on a plain solid bright green (#00FF00) background for easy chroma key removal. No decorative background elements — character only.
 ```
 
 ## 후처리

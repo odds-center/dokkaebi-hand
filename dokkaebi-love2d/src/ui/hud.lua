@@ -17,13 +17,13 @@ function HUD.draw_boss_info(boss_name, boss_hp, boss_max_hp, spiral, realm, roun
     -- HP 바
     local bx, by, bw, bh = 20, 70, 250, 22
     love.graphics.setColor(0.15, 0.05, 0.05)
-    love.graphics.rectangle("fill", bx, by, bw, bh, 3)
+    love.graphics.rectangle("fill", bx, by, bw, bh)
 
     local ratio = boss_max_hp > 0 and (boss_hp / boss_max_hp) or 0
     if ratio > 0.5 then love.graphics.setColor(0.8, 0.15, 0.1)
     elseif ratio > 0.2 then love.graphics.setColor(0.9, 0.5, 0.1)
     else love.graphics.setColor(1, 0.2, 0.2) end
-    love.graphics.rectangle("fill", bx + 1, by + 1, (bw - 2) * ratio, bh - 2, 2)
+    love.graphics.rectangle("fill", bx + 1, by + 1, (bw - 2) * ratio, bh - 2)
 
     love.graphics.setColor(1, 1, 1)
     love.graphics.setFont(fonts.small or love.graphics.getFont())

@@ -32,45 +32,43 @@ function U.glow_text(font, text, x, y, w, align, color, glow_color)
     love.graphics.printf(text, x, y, w, align or "center")
 end
 
---- 그라데이션 바 (HP바, 프로그레스바용)
-function U.gradient_bar(x, y, w, h, ratio, color_full, color_empty, r)
-    r = r or 3
+--- 그라데이션 바 (HP바, 프로그레스바용 — 도트 직각)
+function U.gradient_bar(x, y, w, h, ratio, color_full, color_empty, _r)
     -- 배경
     love.graphics.setColor(color_empty[1], color_empty[2], color_empty[3], 0.8)
-    love.graphics.rectangle("fill", x, y, w, h, r)
+    love.graphics.rectangle("fill", x, y, w, h)
     -- 채우기
     if ratio > 0 then
         love.graphics.setColor(color_full[1], color_full[2], color_full[3], 1)
-        love.graphics.rectangle("fill", x+1, y+1, (w-2)*math.max(ratio, 0), h-2, r-1)
+        love.graphics.rectangle("fill", x+1, y+1, (w-2)*math.max(ratio, 0), h-2)
         -- 상단 광택
         love.graphics.setColor(1, 1, 1, 0.15)
-        love.graphics.rectangle("fill", x+1, y+1, (w-2)*math.max(ratio, 0), (h-2)*0.4, r-1)
+        love.graphics.rectangle("fill", x+1, y+1, (w-2)*math.max(ratio, 0), (h-2)*0.4)
     end
 end
 
---- CSS 스타일 버튼 (호버 시 밝아짐 + 그림자)
-function U.styled_button(text, x, y, w, h, color, font, hovered, r)
-    r = r or 6
+--- CSS 스타일 버튼 (도트 직각)
+function U.styled_button(text, x, y, w, h, color, font, hovered, _r)
     -- 그림자
     love.graphics.setColor(0, 0, 0, hovered and 0.4 or 0.25)
-    love.graphics.rectangle("fill", x+2, y+2, w, h, r)
+    love.graphics.rectangle("fill", x+2, y+2, w, h)
     -- 배경
     local br = hovered and 0.18 or 0
     love.graphics.setColor(color[1]+br, color[2]+br, color[3]+br, 1)
-    love.graphics.rectangle("fill", x, y, w, h, r)
+    love.graphics.rectangle("fill", x, y, w, h)
     -- 상단 광택
     love.graphics.setColor(1, 1, 1, hovered and 0.12 or 0.06)
-    love.graphics.rectangle("fill", x+1, y+1, w-2, h*0.4, r)
+    love.graphics.rectangle("fill", x+1, y+1, w-2, h*0.4)
     -- 하단 어두운 선
     love.graphics.setColor(0, 0, 0, 0.15)
-    love.graphics.rectangle("fill", x+1, y+h*0.7, w-2, h*0.3-1, r)
+    love.graphics.rectangle("fill", x+1, y+h*0.7, w-2, h*0.3-1)
     -- 텍스트
     love.graphics.setFont(font)
     love.graphics.setColor(1, 1, 1, hovered and 1 or 0.9)
     love.graphics.printf(text, x, y + h/2 - 7, w, "center")
     -- 테두리
     love.graphics.setColor(1, 1, 1, hovered and 0.2 or 0.08)
-    love.graphics.rectangle("line", x, y, w, h, r)
+    love.graphics.rectangle("line", x, y, w, h)
 end
 
 --- 구분선

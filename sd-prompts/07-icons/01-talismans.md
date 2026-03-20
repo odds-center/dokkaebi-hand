@@ -100,12 +100,6 @@ A small talisman icon on a blue background. A single curved golden horn from a m
 A small talisman icon on a blue background. A pair of traditional wooden dice with Korean fortune symbols on each face instead of dots. Color palette: blue background, dark wood dice, red symbol marks.
 ```
 
-### talisman_ghost_helm — 도깨비불 투구
-**Seed:** 73016
-```
-A small talisman icon on a blue background. A dark warrior helmet with a cyan ghost flame burning on top like a crest. Color palette: blue background, dark metal helmet, cyan flame.
-```
-
 ### talisman_scale_desire — 욕망의 저울
 **Seed:** 73017
 ```

@@ -39,9 +39,9 @@ function Button:draw(font)
     local hov = self.hovered and self.enabled
     local br = hov and 0.15 or 0
 
-    -- 그림자
+    -- 그림자 (도트 직각)
     love.graphics.setColor(0, 0, 0, hov and 0.35 or 0.2)
-    love.graphics.rectangle("fill", self.x+2, self.y+2, self.w, self.h, r)
+    love.graphics.rectangle("fill", self.x+2, self.y+2, self.w, self.h)
 
     -- 배경
     if not self.enabled then
@@ -49,19 +49,19 @@ function Button:draw(font)
     else
         love.graphics.setColor(c[1]+br, c[2]+br, c[3]+br)
     end
-    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h, r)
+    love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 
-    -- 상단 광택 (CSS gradient 느낌)
+    -- 상단 광택
     love.graphics.setColor(1, 1, 1, hov and 0.10 or 0.05)
-    love.graphics.rectangle("fill", self.x+1, self.y+1, self.w-2, self.h*0.35, r)
+    love.graphics.rectangle("fill", self.x+1, self.y+1, self.w-2, self.h*0.35)
 
     -- 하단 어두움
     love.graphics.setColor(0, 0, 0, 0.12)
-    love.graphics.rectangle("fill", self.x+1, self.y+self.h*0.65, self.w-2, self.h*0.35-1, r)
+    love.graphics.rectangle("fill", self.x+1, self.y+self.h*0.65, self.w-2, self.h*0.35-1)
 
     -- 테두리
     love.graphics.setColor(1, 1, 1, hov and 0.18 or 0.06)
-    love.graphics.rectangle("line", self.x, self.y, self.w, self.h, r)
+    love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 
     -- 텍스트
     if font then love.graphics.setFont(font) end

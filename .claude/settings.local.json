@@ -45,7 +45,19 @@
       "Bash(cd:*)",
       "Bash(git lfs:*)",
       "Bash(git push:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(luac -p main.lua)",
+      "Bash(luac -p src/ui/card_renderer.lua)",
+      "Bash(luac -p src/ui/draw_utils.lua)",
+      "Bash(luac -p src/ui/button.lua)",
+      "Bash(luac -p src/ui/hud.lua)",
+      "Bash(luajit -bl main.lua /dev/null)",
+      "Bash(luajit -bl src/ui/card_renderer.lua /dev/null)",
+      "Bash(luajit -bl src/ui/draw_utils.lua /dev/null)",
+      "Bash(luajit -bl src/ui/button.lua /dev/null)",
+      "Bash(luajit -bl src/ui/hud.lua /dev/null)",
+      "Bash(head -10 echo \"\" echo \"상점 아이템 구조:\" grep -A2 \"pool = {\" main.lua)",
+      "Bash(grep \"\\\\.md$\")"
     ]
   }
 }

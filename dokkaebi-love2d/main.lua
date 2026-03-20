@@ -55,7 +55,7 @@ local UI = {
     btn_h    = 32,   -- 버튼 높이
     btn_w    = 140,  -- 버튼 폭
     pad      = 12,   -- 패딩
-    radius   = 5,    -- 모서리 둥글기
+    radius   = 0,    -- 도트 스타일: 직각
     card_gap = 6,    -- 카드 간격
 }
 
@@ -185,15 +185,23 @@ end
 local function gen_shop()
     S.shop_items = {}
     local pool = {
-        {name="피의 맹세", cost=35, type="talisman"},
-        {name="삼도천의 나룻배", cost=40, type="talisman"},
-        {name="도깨비 방망이", cost=45, type="talisman"},
-        {name="달빛 여우", cost=90, type="talisman"},
-        {name="황천의 거울", cost=85, type="talisman"},
+        {name="피의 맹세",     cost=35, desc="칩 +10",      effect={chip=10}},
+        {name="삼도천의 나룻배",cost=40, desc="칩 +15",      effect={chip=15}},
+        {name="도깨비 방망이",  cost=45, desc="칩 +20",      effect={chip=20}},
+        {name="열녀문",        cost=50, desc="배수 +0.5",    effect={mult=0.5}},
+        {name="윤회의 구슬",   cost=55, desc="칩+12 배+0.3", effect={chip=12, mult=0.3}},
+        {name="달빛 여우",     cost=90, desc="배수 +1.0",    effect={mult=1.0}},
+        {name="황천의 거울",   cost=85, desc="칩 +30",       effect={chip=30}},
+        {name="도깨비 감투",   cost=95, desc="칩+15 배+0.5", effect={chip=15, mult=0.5}},
     }
-    for i = 1, 3 do S.shop_items[#S.shop_items+1] = {name=pool[math.random(#pool)].name, cost=pool[math.random(#pool)].cost, type="talisman", sold=false} end
-    S.shop_items[#S.shop_items+1] = {name="체력 회복", cost=75, type="health", sold=false}
-    S.shop_items[#S.shop_items+1] = {name="패 팩(소)", cost=40, type="card_pack", sold=false}
+    -- 셔플 후 3개
+    for i = #pool, 2, -1 do local j = math.random(1,i); pool[i], pool[j] = pool[j], pool[i] end
+    for i = 1, 3 do
+        local t = pool[i]
+        S.shop_items[#S.shop_items+1] = {name=t.name, cost=t.cost, type="talisman", sold=false, desc=t.desc, effect=t.effect}
+    end
+    S.shop_items[#S.shop_items+1] = {name="체력 회복", cost=75, type="health", sold=false, desc="체력 +1"}
+    S.shop_items[#S.shop_items+1] = {name="패 팩(소)", cost=40, type="card_pack", sold=false, desc="손패 +2"}
 end
 
 local function gen_event()
@@ -656,10 +664,10 @@ local function scr_battle()
 
         -- HP 바 (넓게)
         local hx, hy, hw, hh = ix, by+54, iw, 16
-        set(PAL.hp_bg); love.graphics.rectangle("fill", hx, hy, hw, hh, 3)
+        set(PAL.hp_bg); love.graphics.rectangle("fill", hx, hy, hw, hh)
         local ratio = S.battle.boss_current_hp / math.max(S.battle.boss_max_hp, 1)
         set(ratio > 0.5 and PAL.hp_high or (ratio > 0.2 and PAL.hp_mid or PAL.hp_low))
-        love.graphics.rectangle("fill", hx+1, hy+1, (hw-2)*math.max(ratio, 0), hh-2, 2)
+        love.graphics.rectangle("fill", hx+1, hy+1, (hw-2)*math.max(ratio, 0), hh-2)
         love.graphics.setFont(fonts.m); set(PAL.white)
         love.graphics.printf(string.format("HP  %s / %s",
             NumFmt.format(S.battle.boss_current_hp), NumFmt.format(S.battle.boss_max_hp)), hx, hy, hw, "center")
@@ -903,23 +911,35 @@ local function scr_shop()
         local ix = sx + ((i-1) % 5) * (cw+gap)
         local iy = 108 + math.floor((i-1)/5) * (ch+gap+10)
 
-        panel(ix, iy, cw, ch, item.sold)
+        panel(ix, iy, cw, ch + 15, item.sold)
         love.graphics.setFont(fonts.m)
         set(item.sold and PAL.dim or PAL.white)
-        love.graphics.printf(item.name, ix, iy+8, cw, "center")
+        love.graphics.printf(item.name, ix, iy+6, cw, "center")
+        -- 효과 설명
         love.graphics.setFont(fonts.s)
+        set(PAL.cyan)
+        love.graphics.printf(item.desc or "", ix, iy+24, cw, "center")
         set(PAL.gold)
-        love.graphics.printf(item.sold and "구매완료" or (item.cost.."냥"), ix, iy+30, cw, "center")
+        love.graphics.printf(item.sold and "구매완료" or (item.cost.."냥"), ix, iy+38, cw, "center")
 
         if not item.sold then
             local idx = i
             local affordable = S.player.yeop >= item.cost
-            ui_btn("구매", ix+(cw-70)/2, iy+50, 70, 22, affordable and PAL.btn_green or PAL.btn_dim, function()
+            ui_btn("구매", ix+(cw-70)/2, iy+58, 70, 22, affordable and PAL.btn_green or PAL.btn_dim, function()
                 local it = S.shop_items[idx]
                 if it.sold or S.player.yeop < it.cost then msg("구매 불가!"); return end
                 S.player.yeop = S.player.yeop - it.cost; it.sold = true
-                if it.type == "health" then S.player.lives = math.min(S.player.lives+1, 10); msg("체력 +1!")
-                elseif it.type == "card_pack" then S.player.next_round_hand_bonus = (S.player.next_round_hand_bonus or 0) + 2; msg("패 팩! 손패 +2")
+                if it.type == "health" then
+                    S.player.lives = math.min(S.player.lives+1, 10); msg("체력 +1!")
+                elseif it.type == "card_pack" then
+                    S.player.next_round_hand_bonus = (S.player.next_round_hand_bonus or 0) + 2; msg("패 팩! 손패 +2")
+                elseif it.type == "talisman" and it.effect then
+                    -- 부적 장착 + 효과 적용
+                    S.player.talismans[#S.player.talismans+1] = {data={name_kr=it.name, desc=it.desc}, effect=it.effect}
+                    -- 칩/배수 보너스 즉시 반영
+                    if it.effect.chip then S.player.wave_chip_bonus = S.player.wave_chip_bonus + it.effect.chip end
+                    if it.effect.mult then S.player.wave_mult_bonus = S.player.wave_mult_bonus + it.effect.mult end
+                    msg(it.name .. " 장착! (" .. it.desc .. ")")
                 else msg(it.name .. " 구매!") end
             end)
         end
