@@ -14,6 +14,7 @@ namespace DokkaebiHand.Combat
         private BossDefinition _currentBoss;
         private int _turnCounter;
         private bool _reflectNext;
+        private readonly Random _rng = new Random();
 
         // 재앙 보스용
         private int _skullCount;
@@ -172,8 +173,7 @@ namespace DokkaebiHand.Combat
         {
             if (player.Hand.Count == 0) return;
 
-            var rng = new Random();
-            int idx = rng.Next(player.Hand.Count);
+            int idx = _rng.Next(player.Hand.Count);
             var skull = player.Hand[idx];
             player.Hand.RemoveAt(idx);
             _skullCount++;
@@ -196,10 +196,9 @@ namespace DokkaebiHand.Combat
             if (player.Hand.Count == 0) return;
 
             // 3턴마다 손패 셔플 (랜덤 재배열)
-            var rng = new Random();
             for (int i = player.Hand.Count - 1; i > 0; i--)
             {
-                int j = rng.Next(i + 1);
+                int j = _rng.Next(i + 1);
                 (player.Hand[i], player.Hand[j]) = (player.Hand[j], player.Hand[i]);
             }
 
@@ -211,19 +210,18 @@ namespace DokkaebiHand.Combat
         /// </summary>
         private void ApplySuppression(PlayerState player)
         {
-            var rng = new Random();
             // 부적 1개 랜덤 비활성
             var active = player.Talismans.FindAll(t => t.IsActive);
             if (active.Count > 0)
             {
-                active[rng.Next(active.Count)].IsActive = false;
+                active[_rng.Next(active.Count)].IsActive = false;
                 OnBossGimmickTriggered?.Invoke("저승꽃이 부적을 억누른다...");
             }
 
             // 비활성 1개 랜덤 활성 (셔플 효과)
             var inactive = player.Talismans.FindAll(t => !t.IsActive);
             if (inactive.Count > 0)
-                inactive[rng.Next(inactive.Count)].IsActive = true;
+                inactive[_rng.Next(inactive.Count)].IsActive = true;
         }
 
         /// <summary>
@@ -234,8 +232,7 @@ namespace DokkaebiHand.Combat
             var activeTalismans = player.Talismans.Where(t => t.IsActive).ToList();
             if (activeTalismans.Count == 0) return;
 
-            var rng = new Random();
-            var target = activeTalismans[rng.Next(activeTalismans.Count)];
+            var target = activeTalismans[_rng.Next(activeTalismans.Count)];
             target.IsActive = false;
 
             OnBossGimmickTriggered?.Invoke(

@@ -173,6 +173,7 @@ namespace DokkaebiHand.Core
     public class SealEffectManager
     {
         private int _consecutiveMatchCount;
+        private readonly Random _rng = new Random();
 
         public event Action<string> OnSealTriggered;
 
@@ -203,7 +204,7 @@ namespace DokkaebiHand.Core
             {
                 // 복제 각인: 30% 2회 적용
                 int times = 1;
-                if (sealId == "replication" && new Random().NextDouble() < 0.3)
+                if (sealId == "replication" && _rng.NextDouble() < 0.3)
                     times = 2;
 
                 for (int t = 0; t < times; t++)

@@ -101,12 +101,15 @@ namespace DokkaebiHand.Cards
         }
 
         /// <summary>
-        /// 카드를 더미 맨 아래로 반납 (섯다 승부 후)
+        /// 카드를 더미 랜덤 위치로 반납 (섯다 승부 후)
         /// </summary>
         public void ReturnToPile(CardInstance card)
         {
             if (card != null)
-                _drawPile.Insert(0, card);
+            {
+                int insertIdx = _drawPile.Count > 0 ? _rng.Next(_drawPile.Count + 1) : 0;
+                _drawPile.Insert(insertIdx, card);
+            }
         }
 
         public bool IsDrawPileEmpty()

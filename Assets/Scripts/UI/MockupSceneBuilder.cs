@@ -158,15 +158,20 @@ namespace DokkaebiHand.UI
 
         // 게임 플레이 UI
         private Transform _handArea;
-        private Transform _fieldArea;
         private TextMeshProUGUI _scoreText;
         private TextMeshProUGUI _multText;
         private TextMeshProUGUI _targetText;
-        private TextMeshProUGUI _yokboText;
+        private TextMeshProUGUI _synergyText;
+        private TextMeshProUGUI _playsText;
         private TextMeshProUGUI _bossText;
         private TextMeshProUGUI _infoText;
         private TextMeshProUGUI _messageText;
         private TextMeshProUGUI _spiralText;
+
+        // 카드 선택 시스템 (Balatro 스타일)
+        private System.Collections.Generic.List<CardInstance> _selectedCards = new System.Collections.Generic.List<CardInstance>();
+        private System.Collections.Generic.List<GameObject> _handCardObjects = new System.Collections.Generic.List<GameObject>();
+        private TextMeshProUGUI _selectionCountText;
 
         // === COLOR PALETTE ===
         private static readonly Color ColBackground = new Color(0.04f, 0.04f, 0.10f);
@@ -248,6 +253,7 @@ namespace DokkaebiHand.UI
             separatorObj.transform.SetParent(_mainMenuPanel.transform, false);
             var sepImg = separatorObj.AddComponent<Image>();
             sepImg.color = new Color(ColGold.r, ColGold.g, ColGold.b, 0.3f);
+            sepImg.raycastTarget = false;
             var sepRt = separatorObj.GetComponent<RectTransform>();
             sepRt.anchoredPosition = new Vector2(0, 90);
             sepRt.sizeDelta = new Vector2(400, 2);
@@ -326,6 +332,7 @@ namespace DokkaebiHand.UI
         public void BuildGameScreen()
         {
             ClearAll();
+            _selectedCards.Clear();
             _gamePanel = CreatePanel("Game", _root, ColPanelBg);
 
             var rt = _gamePanel.GetComponent<RectTransform>();
@@ -358,7 +365,7 @@ namespace DokkaebiHand.UI
             }
 
             // ========================================
-            // 보스 영역 (상단 큰 영역)
+            // 보스 영역 (상단)
             // ========================================
             var bossPanel = CreatePanel("BossArea", _gamePanel.transform, new Color(0.06f, 0.03f, 0.03f, 0.8f));
             var bossPanelRt = bossPanel.GetComponent<RectTransform>();
@@ -374,6 +381,7 @@ namespace DokkaebiHand.UI
             var bossTex = MockupSpriteFactory.CreateBossSilhouette();
             bossImg.sprite = MockupSpriteFactory.TextureToSprite(bossTex);
             bossImg.preserveAspect = true;
+            bossImg.raycastTarget = false;
             var bossImgRt = bossImgObj.GetComponent<RectTransform>();
             bossImgRt.anchorMin = new Vector2(0.5f, 0.5f);
             bossImgRt.anchorMax = new Vector2(0.5f, 0.5f);
@@ -389,6 +397,7 @@ namespace DokkaebiHand.UI
             hpBarBg.transform.SetParent(bossPanel.transform, false);
             var hpBarBgImg = hpBarBg.AddComponent<Image>();
             hpBarBgImg.color = new Color(0.15f, 0.05f, 0.05f);
+            hpBarBgImg.raycastTarget = false;
             var hpBarBgRt = hpBarBg.GetComponent<RectTransform>();
             hpBarBgRt.anchorMin = new Vector2(0.5f, 0.5f);
             hpBarBgRt.anchorMax = new Vector2(0.5f, 0.5f);
@@ -400,65 +409,48 @@ namespace DokkaebiHand.UI
                 new Vector2(0, -85), ColSoftWhite);
 
             // ========================================
-            // 판 위의 패 (기존 바닥패)
+            // 시너지 패널 (중앙) — 누적 콤보 + 칩 x 배수
             // ========================================
-            CreateText(_gamePanel.transform, "판 위의 패", 16,
-                new Vector2(0, 230), ColDim);
+            var synergyBg = CreatePanel("SynergyBg", _gamePanel.transform, new Color(0.04f, 0.04f, 0.1f, 0.85f));
+            var synergyBgRt = synergyBg.GetComponent<RectTransform>();
+            synergyBgRt.anchorMin = new Vector2(0.5f, 0.5f);
+            synergyBgRt.anchorMax = new Vector2(0.5f, 0.5f);
+            synergyBgRt.anchoredPosition = new Vector2(0, 210);
+            synergyBgRt.sizeDelta = new Vector2(800, 80);
 
-            var fieldBg = CreatePanel("FieldArea", _gamePanel.transform,
-                new Color(0.12f, 0.04f, 0.04f, 0.5f));
-            var fieldRt = fieldBg.GetComponent<RectTransform>();
-            fieldRt.anchorMin = new Vector2(0.5f, 0.5f);
-            fieldRt.anchorMax = new Vector2(0.5f, 0.5f);
-            fieldRt.anchoredPosition = new Vector2(0, 140);
-            fieldRt.sizeDelta = new Vector2(1100, 180);
-
-            _fieldArea = fieldBg.transform;
-            var fieldLayout = fieldBg.AddComponent<HorizontalLayoutGroup>();
-            fieldLayout.spacing = 8;
-            fieldLayout.childAlignment = TextAnchor.MiddleCenter;
-            fieldLayout.childForceExpandWidth = false;
-            fieldLayout.childForceExpandHeight = false;
-            fieldLayout.padding = new RectOffset(10, 10, 5, 5);
+            _scoreText = CreateText(synergyBg.transform, "칩: 0", 28,
+                new Vector2(-200, 18), ColSoftWhite);
+            _multText = CreateText(synergyBg.transform, "x 배수: 1.0", 28,
+                new Vector2(200, 18), ColCyan);
+            _synergyText = CreateText(synergyBg.transform, "", 14,
+                new Vector2(0, -18), ColGold);
+            _playsText = CreateText(synergyBg.transform, "", 15,
+                new Vector2(0, -35), ColDim);
 
             // ========================================
-            // 점수 / 족보 (중앙)
+            // 내 패 — 클릭으로 선택/해제
             // ========================================
-            var scoreBg = CreatePanel("ScoreBg", _gamePanel.transform, new Color(0.04f, 0.04f, 0.1f, 0.85f));
-            var scoreBgRt = scoreBg.GetComponent<RectTransform>();
-            scoreBgRt.anchorMin = new Vector2(0.5f, 0.5f);
-            scoreBgRt.anchorMax = new Vector2(0.5f, 0.5f);
-            scoreBgRt.anchoredPosition = new Vector2(0, 25);
-            scoreBgRt.sizeDelta = new Vector2(700, 60);
+            CreateText(_gamePanel.transform, "내 패 — 카드를 클릭하여 선택 후 '내기!'", 15,
+                new Vector2(0, 130), ColDim);
 
-            _scoreText = CreateText(scoreBg.transform, "칩: 0", 28,
-                new Vector2(-170, 12), ColSoftWhite);
-            _multText = CreateText(scoreBg.transform, "x 배수: 1", 28,
-                new Vector2(170, 12), ColCyan);
-            _yokboText = CreateText(scoreBg.transform, "", 16,
-                new Vector2(0, -22), ColGold);
-
-            // ========================================
-            // 내 패 (기존 손패) — 클릭해서 낼 수 있는 패
-            // ========================================
-            CreateText(_gamePanel.transform, "내 패 (클릭해서 내기)", 16,
-                new Vector2(0, -15), ColDim);
+            _selectionCountText = CreateText(_gamePanel.transform, "선택: 0/5장", 16,
+                new Vector2(0, 108), ColLightGold);
 
             var handBg = CreatePanel("HandArea", _gamePanel.transform,
                 new Color(0.04f, 0.04f, 0.14f, 0.5f));
             var handRt = handBg.GetComponent<RectTransform>();
             handRt.anchorMin = new Vector2(0.5f, 0.5f);
             handRt.anchorMax = new Vector2(0.5f, 0.5f);
-            handRt.anchoredPosition = new Vector2(0, -120);
-            handRt.sizeDelta = new Vector2(1100, 180);
+            handRt.anchoredPosition = new Vector2(0, -10);
+            handRt.sizeDelta = new Vector2(1200, 200);
 
             _handArea = handBg.transform;
             var handLayout = handBg.AddComponent<HorizontalLayoutGroup>();
-            handLayout.spacing = 8;
+            handLayout.spacing = 6;
             handLayout.childAlignment = TextAnchor.MiddleCenter;
             handLayout.childForceExpandWidth = false;
             handLayout.childForceExpandHeight = false;
-            handLayout.padding = new RectOffset(10, 10, 5, 5);
+            handLayout.padding = new RectOffset(10, 10, 10, 10);
 
             // ========================================
             // 메시지 (하단)
@@ -467,15 +459,15 @@ namespace DokkaebiHand.UI
             var msgBgRt = msgBg.GetComponent<RectTransform>();
             msgBgRt.anchorMin = new Vector2(0.5f, 0.5f);
             msgBgRt.anchorMax = new Vector2(0.5f, 0.5f);
-            msgBgRt.anchoredPosition = new Vector2(0, -230);
+            msgBgRt.anchoredPosition = new Vector2(0, -160);
             msgBgRt.sizeDelta = new Vector2(800, 40);
 
             _messageText = CreateText(_gamePanel.transform, "", 18,
-                new Vector2(0, -230), ColLightGold);
+                new Vector2(0, -160), ColLightGold);
 
             // 욕망의 저울 표시 영역
             _greedText = CreateText(_gamePanel.transform, "", 14,
-                new Vector2(350, -280), new Color(1f, 0.4f, 0.2f));
+                new Vector2(350, -210), new Color(1f, 0.4f, 0.2f));
 
             // Go/Stop 패널 (숨김 상태)
             BuildGoStopPanel();
@@ -508,26 +500,32 @@ namespace DokkaebiHand.UI
             AddPanelBorder(_goStopPanel, ColGold, 2);
 
             CreateText(_goStopPanel.transform, L.Get("go_or_stop"), 36,
-                new Vector2(0, 120), ColGold);
+                new Vector2(0, 150), ColGold);
 
-            // 현재 점수 표시
+            // 현재 누적 시너지 표시
             if (_game.RoundManager != null)
             {
-                var sc = _game.RoundManager.LastScoreResult;
+                var rm = _game.RoundManager;
                 CreateText(_goStopPanel.transform,
-                    $"{NumberFormatter.FormatScore(sc.FinalScore)} {L.Get("score")}", 24,
-                    new Vector2(0, 70), new Color(0.2f, 1f, 0.3f));
+                    $"누적 시너지: 칩 {rm.AccumulatedChips} x 배수 {rm.AccumulatedMult:F1}", 22,
+                    new Vector2(0, 100), new Color(0.2f, 1f, 0.3f));
+
+                // 누적 콤보 목록
+                string comboList = "";
+                foreach (var c in rm.AccumulatedCombos)
+                    comboList += $"[{c.NameKR}] ";
+                if (comboList.Length > 0)
+                    CreateText(_goStopPanel.transform, comboList, 14,
+                        new Vector2(0, 65), ColGold);
 
                 // Go 리스크 정보
-                var risk = _game.RoundManager.GetCurrentGoRisk();
-                string riskInfo = $"{L.Get("mult")} ×{risk.MultiplierBonus}";
-                if (risk.InstantDeathOnFail)
-                    riskInfo += $"\n{L.Get("greed_kills")}!";
-                else if (risk.HandPenalty > 0)
-                    riskInfo += $"\n{L.Get("hand")} -{risk.HandPenalty}";
+                var risk = rm.GetCurrentGoRisk();
+                string riskInfo = $"고 하면: +{risk.DrawCards}장, 보스 반격 {risk.BossDamage} 데미지";
+                if (risk.InstantDeathRisk)
+                    riskInfo += "\n즉사 위험!";
 
                 CreateText(_goStopPanel.transform, riskInfo, 17,
-                    new Vector2(-120, 15), new Color(1f, 0.4f, 0.4f));
+                    new Vector2(0, 20), new Color(1f, 0.4f, 0.4f));
             }
 
             // 욕망의 저울 표시
@@ -543,22 +541,30 @@ namespace DokkaebiHand.UI
             CreateButton(_goStopPanel.transform, L.Get("go") + "!", new Vector2(-140, -80), () =>
             {
                 if (_game.RoundManager == null) return;
-                var risk = _game.RoundManager.SelectGo();
-                _game.ApplyGoRisk(risk);
+                int bossDamage = _game.RoundManager.SelectGo();
+                _game.ApplyGoDamage(bossDamage);
                 _game.GreedScale.OnGo();
+
+                // 즉사 체크: Go 중 사망 시 게임오버 UI로 전환
+                if (_game.CurrentState == GameState.GameOver)
+                {
+                    _goStopPanel.SetActive(false);
+                    return; // HandleStateChange(GameOver)가 이미 처리
+                }
 
                 // Go 이펙트
                 if (_effects != null)
                 {
-                    _effects.PlayGoEffect(_game.Player.GoCount, new Vector2(0, 50));
+                    _effects.PlayGoEffect(_game.RoundManager.GoCount, new Vector2(0, 50));
                     _effects.SetGreedTint(_game.GreedScale.RedTint);
 
                     // 3 Go 특수 연출
-                    if (_game.Player.GoCount >= 3)
+                    if (_game.RoundManager.GoCount >= 3)
                     {
                         _effects.PlayTripleGoSequence(() =>
                         {
                             _goStopPanel.SetActive(false);
+                            _selectedCards.Clear();
                             RefreshGameUI();
                         });
                         return;
@@ -566,6 +572,7 @@ namespace DokkaebiHand.UI
                 }
 
                 _goStopPanel.SetActive(false);
+                _selectedCards.Clear();
                 RefreshGameUI();
             }, new Color(0.8f, 0f, 0f));
 
@@ -585,7 +592,8 @@ namespace DokkaebiHand.UI
 
                 _goStopPanel.SetActive(false);
 
-                // → 공격 페이즈 UI 표시 (2장 선택)
+                // → 공격 페이즈 UI 표시 (남은 손패에서 2장 선택)
+                _selectedCards.Clear();
                 ShowAttackPhaseUI();
             }, new Color(0f, 0f, 0.67f));
 
@@ -641,9 +649,13 @@ namespace DokkaebiHand.UI
             // 플레이어 정보
             if (_infoText != null)
             {
-                string hearts = "";
-                for (int i = 0; i < _game.Player.Lives; i++) hearts += "Life ";
-                _infoText.text = $"{hearts.Trim()} | " +
+                int hp = _game.Player.Lives;
+                int maxHp = PlayerState.MaxLives;
+                string hpBar = "[";
+                for (int i = 0; i < maxHp; i++)
+                    hpBar += i < hp ? "|" : " ";
+                hpBar += $"] {hp}/{maxHp}";
+                _infoText.text = $"HP {hpBar} | " +
                     L.Get("yeop_display", _game.Player.Yeop) + " | " +
                     L.Get("soul_display", _game.Upgrades.SoulFragments);
             }
@@ -667,16 +679,45 @@ namespace DokkaebiHand.UI
                 _targetText.text = $"{hpInfo}{roundInfo}";
             }
 
-            // 점수 (큰 숫자는 단축 표기)
+            // 시너지 패널 갱신 (Balatro 스타일 누적)
             if (_game.RoundManager != null)
             {
-                var score = _game.RoundManager.LastScoreResult;
+                var rm = _game.RoundManager;
                 if (_scoreText != null)
-                    _scoreText.text = $"{L.Get("chips")}: {NumberFormatter.FormatScore(score.Chips)}";
+                    _scoreText.text = $"칩: {NumberFormatter.FormatScore(rm.AccumulatedChips)}";
                 if (_multText != null)
-                    _multText.text = NumberFormatter.FormatMult(score.Mult);
-                if (_yokboText != null && score.CompletedYokbo != null)
-                    _yokboText.text = string.Join("  |  ", score.CompletedYokbo);
+                    _multText.text = $"x {rm.AccumulatedMult:F1}";
+
+                // 누적 콤보 표시
+                if (_synergyText != null)
+                {
+                    if (rm.AccumulatedCombos.Count > 0)
+                    {
+                        var comboNames = new System.Collections.Generic.List<string>();
+                        foreach (var c in rm.AccumulatedCombos) comboNames.Add(c.NameKR);
+                        _synergyText.text = string.Join("  |  ", comboNames);
+                    }
+                    else
+                    {
+                        _synergyText.text = "(콤보 없음)";
+                    }
+                }
+
+                // 내기 횟수 / 고 횟수
+                if (_playsText != null)
+                {
+                    string goInfo = rm.GoCount > 0 ? $"  |  고: {rm.GoCount}회" : "";
+                    _playsText.text = $"내기 횟수: {rm.PlaysUsed}/{rm.MaxPlays}{goInfo}";
+                }
+            }
+
+            // 선택 카운트 갱신 (단계에 따라 최대 수 다름)
+            if (_selectionCountText != null)
+            {
+                bool isAttack = _game.RoundManager != null && _game.RoundManager.CurrentPhase == RoundManager.Phase.AttackSelect;
+                int maxSelect = isAttack ? 2 : 5;
+                string phaseLabel = isAttack ? "공격 카드" : "선택";
+                _selectionCountText.text = $"{phaseLabel}: {_selectedCards.Count}/{maxSelect}장";
             }
 
             // 욕망의 저울 갱신
@@ -687,56 +728,91 @@ namespace DokkaebiHand.UI
                     ? $"{gl.GetScaleVisual()}\n{gl.GetStatusText()}" : "";
             }
 
-            // 손패 갱신
-            RefreshCards(_handArea, _game.Player.Hand, true);
+            // 손패 갱신 (선택 상태 반영)
+            RefreshHandCards();
 
-            // 바닥패 갱신
-            if (_game.RoundManager != null)
-            {
-                var fieldCards = _game.RoundManager.FieldCards;
-                RefreshFieldCards(_fieldArea, fieldCards);
-            }
+            // 페이즈별 액션 버튼 갱신
+            RefreshPhaseButtons();
         }
 
-        private void RefreshFieldCards(Transform parent, System.Collections.Generic.IReadOnlyList<CardInstance> cards)
+        private void RefreshHandCards()
         {
-            if (parent == null) return;
-
-            for (int i = parent.childCount - 1; i >= 0; i--)
-                Object.Destroy(parent.GetChild(i).gameObject);
-
-            if (cards == null) return;
-
-            foreach (var card in cards)
-                CreateCardObject(parent, card);
-        }
-
-        private void RefreshCards(Transform parent, System.Collections.Generic.List<CardInstance> cards, bool interactive)
-        {
-            if (parent == null) return;
+            if (_handArea == null) return;
 
             // 기존 카드 제거
-            for (int i = parent.childCount - 1; i >= 0; i--)
-                Object.Destroy(parent.GetChild(i).gameObject);
+            for (int i = _handArea.childCount - 1; i >= 0; i--)
+                Object.Destroy(_handArea.GetChild(i).gameObject);
+            _handCardObjects.Clear();
 
-            if (cards == null) return;
+            if (_game.RoundManager == null) return;
+            var handCards = _game.RoundManager.HandCards;
+            if (handCards == null) return;
 
-            foreach (var card in cards)
+            foreach (var card in handCards)
             {
-                var cardObj = CreateCardObject(parent, card);
-                if (interactive)
-                {
-                    var btn = cardObj.AddComponent<Button>();
-                    var capturedCard = card;
-                    btn.onClick.AddListener(() => OnCardClicked(capturedCard));
+                var cardObj = CreateCardObject(_handArea, card);
+                _handCardObjects.Add(cardObj);
 
-                    // 호버 색상
-                    var colors = btn.colors;
-                    colors.highlightedColor = new Color(1f, 1f, 0.8f);
-                    colors.pressedColor = new Color(0.8f, 0.8f, 0.5f);
-                    btn.colors = colors;
+                bool isSelected = _selectedCards.Contains(card);
+
+                // 선택된 카드 시각적 표시: 위로 올리고 밝게
+                if (isSelected)
+                {
+                    var cardRt = cardObj.GetComponent<RectTransform>();
+                    cardRt.anchoredPosition = new Vector2(0, 15); // 위로 올림
+
+                    // 밝은 테두리 추가
+                    var selBorder = new GameObject("SelectBorder");
+                    selBorder.transform.SetParent(cardObj.transform, false);
+                    var selImg = selBorder.AddComponent<Image>();
+                    selImg.color = new Color(1f, 0.84f, 0f, 0.7f);
+                    selImg.raycastTarget = false;
+                    var selRt = selBorder.GetComponent<RectTransform>();
+                    selRt.anchorMin = Vector2.zero;
+                    selRt.anchorMax = Vector2.one;
+                    selRt.offsetMin = new Vector2(-3, -3);
+                    selRt.offsetMax = new Vector2(3, 3);
+                    selBorder.transform.SetAsFirstSibling();
                 }
+
+                var btn = cardObj.AddComponent<Button>();
+                var capturedCard = card;
+                btn.onClick.AddListener(() => OnCardClicked(capturedCard));
+
+                // 호버 색상
+                var colors = btn.colors;
+                colors.highlightedColor = new Color(1f, 1f, 0.8f);
+                colors.pressedColor = new Color(0.8f, 0.8f, 0.5f);
+                btn.colors = colors;
             }
+        }
+
+        /// <summary>
+        /// 현재 페이즈에 맞는 액션 버튼을 표시
+        /// </summary>
+        private void RefreshPhaseButtons()
+        {
+            if (_game.RoundManager == null) return;
+            var phase = _game.RoundManager.CurrentPhase;
+
+            // 기존 페이즈 버튼 제거
+            ClearActionButtons();
+
+            if (phase == RoundManager.Phase.SelectCards)
+            {
+                // "내기!" 버튼
+                _actionButtonsPanel = CreatePanel("PhaseButtons", _gamePanel.transform, Color.clear);
+                var rt = _actionButtonsPanel.GetComponent<RectTransform>();
+                rt.anchoredPosition = new Vector2(0, -220);
+                rt.sizeDelta = new Vector2(600, 70);
+
+                var submitBtn = CreateButton(_actionButtonsPanel.transform, "내기!", new Vector2(0, 0), () =>
+                {
+                    SubmitSelectedCards();
+                }, new Color(0.7f, 0.15f, 0.05f));
+                submitBtn.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 60);
+            }
+            // GoStopChoice와 AttackSelect는 별도 패널로 표시됨
         }
 
         private GameObject CreateCardObject(Transform parent, CardInstance card)
@@ -773,6 +849,7 @@ namespace DokkaebiHand.UI
             headerObj.transform.SetParent(obj.transform, false);
             var headerImg = headerObj.AddComponent<Image>();
             headerImg.color = headerColor;
+            headerImg.raycastTarget = false;
             var headerRt = headerObj.GetComponent<RectTransform>();
             headerRt.anchorMin = new Vector2(0, 1);
             headerRt.anchorMax = new Vector2(1, 1);
@@ -791,6 +868,7 @@ namespace DokkaebiHand.UI
             monthText.fontStyle = FontStyles.Bold;
             monthText.alignment = TextAlignmentOptions.Center;
             monthText.color = card.Type == CardType.Gwang ? new Color(0.15f, 0.1f, 0f) : Color.white;
+            monthText.raycastTarget = false;
             var monthRt = monthObj.GetComponent<RectTransform>();
             monthRt.anchorMin = Vector2.zero;
             monthRt.anchorMax = Vector2.one;
@@ -818,6 +896,7 @@ namespace DokkaebiHand.UI
             badgeObj.transform.SetParent(obj.transform, false);
             var badgeImg = badgeObj.AddComponent<Image>();
             badgeImg.color = new Color(headerColor.r, headerColor.g, headerColor.b, 0.85f);
+            badgeImg.raycastTarget = false;
             var badgeRt = badgeObj.GetComponent<RectTransform>();
             badgeRt.anchoredPosition = new Vector2(0, -8);
             badgeRt.sizeDelta = new Vector2(60, 32);
@@ -833,6 +912,7 @@ namespace DokkaebiHand.UI
             typeText.fontStyle = FontStyles.Bold;
             typeText.alignment = TextAlignmentOptions.Center;
             typeText.color = card.Type == CardType.Gwang ? new Color(0.15f, 0.1f, 0f) : Color.white;
+            typeText.raycastTarget = false;
             var typeRt = typeObj.GetComponent<RectTransform>();
             typeRt.anchorMin = Vector2.zero;
             typeRt.anchorMax = Vector2.one;
@@ -850,6 +930,7 @@ namespace DokkaebiHand.UI
             ptText.fontStyle = FontStyles.Bold;
             ptText.alignment = TextAlignmentOptions.Center;
             ptText.color = new Color(0.35f, 0.3f, 0.25f);
+            ptText.raycastTarget = false;
             var ptRt = ptObj.GetComponent<RectTransform>();
             ptRt.anchoredPosition = new Vector2(0, -55);
             ptRt.sizeDelta = new Vector2(90, 25);
@@ -865,48 +946,114 @@ namespace DokkaebiHand.UI
         {
             if (_game.CurrentState != GameState.InRound) return;
             if (_game.RoundManager == null) return;
-            if (_game.RoundManager.CurrentPhase != Combat.RoundManager.RoundPhase.PlayerTurn) return;
 
-            // 카드 플레이
-            var matchResult = _game.RoundManager.PlayHandCard(card);
-            ShowMessage($"{card.NameKR} → {matchResult}");
+            var phase = _game.RoundManager.CurrentPhase;
 
-            // 매칭 실행
-            var captured = _game.RoundManager.ExecuteHandMatch();
-
-            // 임팩트 이펙트
-            if (_effects != null)
+            if (phase == RoundManager.Phase.SelectCards)
             {
-                bool isSweep = captured.Count >= 4;
-                if (captured.Count > 0)
-                    _effects.PlayMatchEffect(new Vector2(0, 180), isSweep);
+                // 시너지 페이즈: 카드 선택/해제 토글 (최대 5장)
+                if (_selectedCards.Contains(card))
+                {
+                    _selectedCards.Remove(card);
+                }
+                else if (_selectedCards.Count < 5)
+                {
+                    _selectedCards.Add(card);
+                }
+                else
+                {
+                    ShowMessage("최대 5장까지 선택 가능!");
+                    return;
+                }
+                RefreshGameUI();
+            }
+            else if (phase == RoundManager.Phase.AttackSelect)
+            {
+                // 공격 페이즈: 2장 선택 토글
+                if (_selectedCards.Contains(card))
+                {
+                    _selectedCards.Remove(card);
+                }
+                else if (_selectedCards.Count < 2)
+                {
+                    _selectedCards.Add(card);
+                }
+                else
+                {
+                    // 2장 이미 선택 → 첫 번째를 교체
+                    _selectedCards.RemoveAt(0);
+                    _selectedCards.Add(card);
+                }
+
+                // 2장 선택 시 섯다 미리보기
+                if (_selectedCards.Count == 2)
+                {
+                    var preview = SeotdaChallenge.Evaluate(_selectedCards[0], _selectedCards[1]);
+                    var rm = _game.RoundManager;
+                    float goMult = rm.GoCount switch { 1 => 2f, 2 => 4f, >= 3 => 10f, _ => 1f };
+                    int baseDmg = preview.Rank switch
+                    {
+                        100 => 80, 99 => 70, 98 => 65, 95 => 60,
+                        >= 90 => 50, >= 80 => 30 + (preview.Rank - 80) * 2,
+                        75 => 35, 74 => 30, 73 => 28, 72 => 25, 71 => 22, 70 => 20,
+                        >= 7 => 10 + preview.Rank, >= 1 => 5 + preview.Rank,
+                        0 => 3, _ => 3
+                    };
+                    int finalDmg = (int)((baseDmg + rm.AccumulatedChips) * rm.AccumulatedMult * goMult);
+                    ShowMessage($"[{preview.Name}] 기본 {baseDmg} + 칩 {rm.AccumulatedChips} x {rm.AccumulatedMult:F1} x 고 {goMult:F0} = {finalDmg}");
+                }
+                RefreshGameUI();
+            }
+        }
+
+        /// <summary>
+        /// "내기!" 실행: 선택한 카드를 RoundManager에 제출
+        /// </summary>
+        private void SubmitSelectedCards()
+        {
+            if (_game.RoundManager == null) return;
+            if (_selectedCards.Count == 0)
+            {
+                ShowMessage("카드를 1장 이상 선택해야 한다!");
+                return;
             }
 
-            // 뒤집기
-            var drawn = _game.RoundManager.FlipDrawCard();
-            if (drawn != null)
-            {
-                var drawCaptured = _game.RoundManager.ExecuteDrawMatch();
-                ShowMessage($"뒤집기: {drawn.NameKR}");
+            var combos = _game.RoundManager.SubmitCards(new System.Collections.Generic.List<CardInstance>(_selectedCards));
+            _selectedCards.Clear();
 
-                if (_effects != null && drawCaptured.Count >= 4)
-                    _effects.PlayMatchEffect(new Vector2(0, 180), true);
+            // 콤보 결과 표시
+            if (combos.Count > 0)
+            {
+                string comboDisplay = "";
+                foreach (var c in combos)
+                    comboDisplay += $"{c.NameKR} -- 칩 +{c.Chips}, 배수 x{c.Mult:F1}\n";
+                ShowMessage(comboDisplay.TrimEnd());
+
+                // 콤보 이펙트
+                if (_effects != null)
+                    _effects.PlayMatchEffect(new Vector2(0, 180), combos.Count >= 2);
+            }
+            else
+            {
+                ShowMessage("콤보 없음...");
             }
 
-            RefreshGameUI();
-
-            // Go/Stop 체크
-            if (_game.RoundManager.CurrentPhase == RoundManager.RoundPhase.GoStopChoice)
+            // 페이즈 체크 후 UI 갱신
+            var phase = _game.RoundManager.CurrentPhase;
+            if (phase == RoundManager.Phase.GoStopChoice)
             {
+                // Go/Stop 패널 재빌드 및 표시
                 if (_goStopPanel != null) Object.Destroy(_goStopPanel);
                 BuildGoStopPanel();
                 _goStopPanel.SetActive(true);
             }
-            // 패 소진 → 공격 페이즈
-            else if (_game.RoundManager.CurrentPhase == RoundManager.RoundPhase.Scoring)
+            else if (phase == RoundManager.Phase.AttackSelect)
             {
+                // 강제 스톱 → 공격 페이즈
                 ShowAttackPhaseUI();
             }
+
+            RefreshGameUI();
         }
 
         public void HandleInput()
@@ -932,9 +1079,8 @@ namespace DokkaebiHand.UI
             rt.anchoredPosition = new Vector2(0, -420);
             rt.sizeDelta = new Vector2(600, 80);
 
-            // 섯다 공격 데미지 또는 고스톱 점수로 타격 여부 판단
-            bool dealt = (_game.RoundManager != null && _game.RoundManager.LastScoreResult.FinalScore > 0)
-                || (_game.RoundManager != null && _game.RoundManager.LastSeotda != null && _game.RoundManager.LastSeotda.PlayerWon);
+            // 보스 생존 여부 판단
+            bool dealt = _game.CurrentBattle != null && _game.CurrentBattle.BossCurrentHP < _game.CurrentBattle.BossMaxHP;
             bool bossAlive = _game.CurrentBattle != null && !_game.CurrentBattle.IsBossDefeated;
             bool hasMoreRounds = _game.CurrentRoundInRealm < _game.TotalRoundsInRealm;
 
@@ -992,6 +1138,7 @@ namespace DokkaebiHand.UI
             shopSep.transform.SetParent(_actionButtonsPanel.transform, false);
             var shopSepImg = shopSep.AddComponent<Image>();
             shopSepImg.color = new Color(ColGold.r, ColGold.g, ColGold.b, 0.25f);
+            shopSepImg.raycastTarget = false;
             var shopSepRt = shopSep.GetComponent<RectTransform>();
             shopSepRt.anchoredPosition = new Vector2(0, 205);
             shopSepRt.sizeDelta = new Vector2(350, 2);
@@ -1169,14 +1316,8 @@ namespace DokkaebiHand.UI
                     if (_gamePanel == null) BuildGameScreen();
                     _goStopPanel?.SetActive(false);
                     _gatePanel?.SetActive(false);
+                    _selectedCards.Clear();
                     RefreshGameUI();
-                    // 섯다 결과 표시
-                    if (_game.RoundManager?.LastSeotda != null)
-                    {
-                        ShowMessage(_game.RoundManager.LastSeotda.GetResultDisplay());
-                        if (_effects != null && _game.RoundManager.LastSeotda.PlayerWon)
-                            _effects.Flash(new Color(1f, 0.84f, 0f), 0.2f);
-                    }
                     // 튜토리얼 오버레이
                     if (_tutorial != null && _tutorial.IsActive)
                         ShowTutorialOverlay();
@@ -1225,128 +1366,60 @@ namespace DokkaebiHand.UI
 
         #region 공격 페이즈 UI (섯다 2장 선택)
 
-        private CardInstance _selectedAttackCard1;
-        private CardInstance _selectedAttackCard2;
-
         private void ShowAttackPhaseUI()
         {
-            ClearActionButtons();
-            _selectedAttackCard1 = null;
-            _selectedAttackCard2 = null;
+            _selectedCards.Clear();
 
-            _actionButtonsPanel = CreatePanel("AttackPhase", _gamePanel.transform, new Color(0.03f, 0.03f, 0.08f, 0.93f));
+            // 메시지
+            ShowMessage("공격할 2장을 손패에서 골라라!");
+
+            // 선택 카운트 라벨 업데이트
+            if (_selectionCountText != null)
+                _selectionCountText.text = "공격 카드: 0/2장";
+
+            // 손패를 공격 모드로 갱신
+            RefreshHandCards();
+
+            // 공격 패널 표시
+            ClearActionButtons();
+            _actionButtonsPanel = CreatePanel("AttackPanel", _gamePanel.transform, new Color(0.04f, 0.03f, 0.08f, 0.9f));
             var rt = _actionButtonsPanel.GetComponent<RectTransform>();
-            rt.anchorMin = Vector2.zero;
-            rt.anchorMax = Vector2.one;
+            rt.anchorMin = new Vector2(0.1f, 0.35f);
+            rt.anchorMax = new Vector2(0.9f, 0.65f);
             rt.offsetMin = Vector2.zero;
             rt.offsetMax = Vector2.zero;
 
-            // 타이틀
-            CreateText(_actionButtonsPanel.transform, "공격할 2장을 골라라!", 30,
-                new Vector2(0, 420), ColCrimson);
+            CreateText(_actionButtonsPanel.transform, "섯다 공격 — 2장을 선택하세요", 26,
+                new Vector2(0, 100), ColGold);
 
-            // 현재 시너지 표시
-            _game.Battle.EvaluateSynergies(_game.Player);
-            string synergyText = "";
-            foreach (var s in _game.Battle.ActiveSynergies)
-                synergyText += $"[{s.Name}: {s.Description}] ";
-            if (synergyText.Length > 0)
-                CreateText(_actionButtonsPanel.transform, $"시너지: {synergyText}", 14,
-                    new Vector2(0, 380), new Color(0.3f, 1f, 0.5f));
-            else
-                CreateText(_actionButtonsPanel.transform, "(시너지 없음)", 14,
-                    new Vector2(0, 380), ColDim);
+            // 누적 시너지 표시
+            if (_game.RoundManager != null)
+            {
+                var rm = _game.RoundManager;
+                CreateText(_actionButtonsPanel.transform,
+                    $"누적 시너지: 칩 {rm.AccumulatedChips} x 배수 {rm.AccumulatedMult:F1}", 18,
+                    new Vector2(0, 60), new Color(0.3f, 1f, 0.5f));
+            }
 
             // 보스 HP 표시
             if (_game.CurrentBattle != null)
-                CreateText(_actionButtonsPanel.transform, $"보스 {_game.CurrentBattle.GetHPDisplay()}", 22,
-                    new Vector2(0, 350), new Color(1f, 0.35f, 0.35f));
+                CreateText(_actionButtonsPanel.transform, $"보스 {_game.CurrentBattle.GetHPDisplay()}", 18,
+                    new Vector2(0, 30), ColCrimson);
 
-            // 먹은 패 전부 표시 (클릭으로 선택)
-            var allCaptured = new System.Collections.Generic.List<CardInstance>();
-            allCaptured.AddRange(_game.Player.CapturedGwang);
-            allCaptured.AddRange(_game.Player.CapturedTti);
-            allCaptured.AddRange(_game.Player.CapturedYeolkkeut);
-            allCaptured.AddRange(_game.Player.CapturedPi);
-
-            // 그리드 배치
-            int cols = 10;
-            float startX = -360;
-            float startY = 250;
-            float cardW = 100;
-            float cardH = 145;
-            float gapX = 5;
-            float gapY = 5;
-
-            var _selectedText = CreateText(_actionButtonsPanel.transform, "선택: (없음) + (없음)", 22,
-                new Vector2(0, -200), ColSoftWhite);
-
-            var _previewText = CreateText(_actionButtonsPanel.transform, "", 20,
-                new Vector2(0, -240), ColGold);
-
-            Button _attackBtn = null;
-
-            for (int i = 0; i < allCaptured.Count; i++)
+            var attackBtn = CreateButton(_actionButtonsPanel.transform, "공격!", new Vector2(0, -50), () =>
             {
-                var card = allCaptured[i];
-                int col = i % cols;
-                int row = i / cols;
-                float x = startX + col * (cardW + gapX);
-                float y = startY - row * (cardH + gapY);
-
-                var cardObj = CreateCardObject(_actionButtonsPanel.transform, card);
-                var cardRt = cardObj.GetComponent<RectTransform>();
-                cardRt.anchoredPosition = new Vector2(x, y);
-
-                var btn = cardObj.AddComponent<Button>();
-                var capturedCard = card;
-                var selText = _selectedText;
-                var prevText = _previewText;
-                var atkBtn = _attackBtn;
-
-                btn.onClick.AddListener(() =>
+                if (_selectedCards.Count != 2)
                 {
-                    if (_selectedAttackCard1 == null)
-                    {
-                        _selectedAttackCard1 = capturedCard;
-                        selText.text = $"선택: [{capturedCard.NameKR}] + (없음)";
-                    }
-                    else if (_selectedAttackCard2 == null && capturedCard != _selectedAttackCard1)
-                    {
-                        _selectedAttackCard2 = capturedCard;
-                        selText.text = $"선택: [{_selectedAttackCard1.NameKR}] + [{_selectedAttackCard2.NameKR}]";
-
-                        // 섯다 미리보기
-                        var preview = SeotdaChallenge.Evaluate(_selectedAttackCard1, _selectedAttackCard2);
-                        prevText.text = $"→ {preview.Name} (예상 데미지: {GetPreviewDamage(preview)})";
-                    }
-                    else
-                    {
-                        // 재선택
-                        _selectedAttackCard1 = capturedCard;
-                        _selectedAttackCard2 = null;
-                        selText.text = $"선택: [{capturedCard.NameKR}] + (없음)";
-                        prevText.text = "";
-                    }
-                });
-            }
-
-            if (allCaptured.Count == 0)
-            {
-                CreateText(_actionButtonsPanel.transform, "먹은 패가 없다... 공격 불가!", 22,
-                    new Vector2(0, 0), ColCrimson);
-            }
-
-            // 공격! 버튼
-            CreateButton(_actionButtonsPanel.transform, "공격!", new Vector2(0, -300), () =>
-            {
-                if (_selectedAttackCard1 == null || _selectedAttackCard2 == null)
-                {
-                    ShowMessage("2장을 선택해야 한다!");
+                    ShowMessage("정확히 2장을 선택해야 한다!");
                     return;
                 }
 
-                var result = _game.SeotdaAttack(_selectedAttackCard1, _selectedAttackCard2);
+                var result = _game.SeotdaAttack(_selectedCards[0], _selectedCards[1]);
+                _selectedCards.Clear();
+
+                // 공격 결과 표시
+                ShowMessage($"[{result.SeotdaName}] 기본 {result.BaseDamage} + 칩 {result.AccumulatedChips} " +
+                    $"x {result.AccumulatedMult:F1} x 고 {result.GoMult:F0} = {result.FinalDamage} 타격!");
 
                 // 공격 이펙트
                 if (_effects != null)
@@ -1375,25 +1448,20 @@ namespace DokkaebiHand.UI
                     // 상태에 따라 다음 화면 결정
                     if (_game.CurrentState == GameState.Gate)
                     {
-                        // 윤회 완료 → 이승의 문
                         _gatePanel?.SetActive(true);
                     }
                     else if (_game.CurrentState == GameState.Shop)
                     {
-                        // 이미 상점으로 넘어감
                         ShowShopUI();
                     }
                     else
                     {
-                        // PostRound 상태 — 웨이브 강화 or 다음 진행 버튼
-                        // 약간의 딜레이 후 확인 (WaveUpgrades가 채워질 시간)
                         if (_game.WaveUpgrades.CurrentChoices.Count > 0)
                         {
                             ShowWaveUpgradeUI();
                         }
                         else
                         {
-                            // 웨이브 강화 없으면 직접 상점 열기
                             ClearActionButtons();
                             _actionButtonsPanel = CreatePanel("BossDefeated", _gamePanel.transform, new Color(0, 0, 0, 0.85f));
                             var defeatRt = _actionButtonsPanel.GetComponent<RectTransform>();
@@ -1418,7 +1486,6 @@ namespace DokkaebiHand.UI
                 }
                 else if (_game.CurrentState == GameState.PostRound)
                 {
-                    // 보스 아직 살아있음 → 다음 판 버튼
                     ShowPostRoundButtons();
                 }
                 else if (_game.CurrentState == GameState.GameOver)
@@ -1426,20 +1493,44 @@ namespace DokkaebiHand.UI
                     ShowGameOverButtons();
                 }
             }, new Color(0.8f, 0.1f, 0.05f));
-        }
+            attackBtn.GetComponent<RectTransform>().sizeDelta = new Vector2(200, 60);
 
-        private int GetPreviewDamage(Combat.SeotdaResult seotda)
-        {
-            _game.Battle.EvaluateSynergies(_game.Player);
-            int baseDmg = seotda.Rank switch
+            if (_game.RoundManager != null && _game.RoundManager.HandCards.Count < 2)
             {
-                100 => 300, 99 => 250, 98 => 230, 95 => 200,
-                >= 90 => 150, >= 80 => 80 + (seotda.Rank - 80) * 7,
-                75 => 100, 74 => 90, 73 => 80, 72 => 70, 71 => 60, 70 => 50,
-                >= 7 => seotda.Rank * 5, >= 1 => seotda.Rank * 3, _ => 5
-            };
-            int goMult = _game.Player.GoCount switch { 1 => 2, 2 => 4, >= 3 => 10, _ => 1 };
-            return (int)((baseDmg + _game.Battle.TotalSynergyBonus) * _game.Battle.TotalSynergyMult) * goMult;
+                CreateText(_actionButtonsPanel.transform, "손패가 부족하다... 시너지만으로 종료!", 18,
+                    new Vector2(0, -55), ColCrimson);
+
+                // 공격 불가 시 시너지만으로 라운드 종료 버튼
+                CreateButton(_actionButtonsPanel.transform, "판 마무리", new Vector2(0, -100), () =>
+                {
+                    // 시너지 칩/멀트로만 데미지 계산
+                    var rm = _game.RoundManager;
+                    int synergyDamage = (int)(rm.AccumulatedChips * rm.AccumulatedMult);
+                    if (synergyDamage > 0 && _game.CurrentBattle != null)
+                    {
+                        _game.CurrentBattle.DealDamage(new ScoringEngine.ScoreResult
+                        {
+                            FinalScore = synergyDamage
+                        });
+                        ShowMessage($"시너지만으로 {synergyDamage} 타격!");
+                    }
+                    else
+                    {
+                        ShowMessage("타격 없이 판 종료...");
+                    }
+                    rm.FinishRound(synergyDamage > 0);
+                    ClearActionButtons();
+                    RefreshGameUI();
+
+                    // 결과에 따라 UI 분기
+                    if (_game.CurrentState == GameState.PostRound)
+                        ShowPostRoundButtons();
+                    else if (_game.CurrentState == GameState.GameOver)
+                        ShowGameOverButtons();
+                    else if (_game.CurrentState == GameState.Gate)
+                        _gatePanel?.SetActive(true);
+                }, new Color(0.5f, 0.35f, 0.05f));
+            }
         }
 
         #endregion
@@ -1638,6 +1729,9 @@ namespace DokkaebiHand.UI
                 CreateText(cardPanel.transform, c.DescKR, 16, new Vector2(0, 30), ColSoftWhite);
 
                 var btn = cardPanel.AddComponent<Button>();
+                var cardImg = cardPanel.GetComponent<Image>();
+                if (cardImg != null) cardImg.raycastTarget = true; // 클릭 가능하게
+                btn.targetGraphic = cardImg;
                 btn.onClick.AddListener(() =>
                 {
                     _game.ApplyWaveUpgrade(idx);
@@ -1932,6 +2026,7 @@ namespace DokkaebiHand.UI
                     bgColor.a);
                 // 보정: 스프라이트 색이 곱해지므로 원하는 색에 맞게 조정
                 img.color = bgColor;
+                img.raycastTarget = false; // 패널 배경이 하위 버튼 클릭을 방해하지 않도록
             }
 
             return obj;
@@ -1946,6 +2041,7 @@ namespace DokkaebiHand.UI
             borderObj.transform.SetParent(target.transform, false);
             var borderImg = borderObj.AddComponent<Image>();
             borderImg.color = borderColor;
+            borderImg.raycastTarget = false;
             var borderRt = borderObj.GetComponent<RectTransform>();
             borderRt.anchorMin = new Vector2(0, 0);
             borderRt.anchorMax = new Vector2(0, 1);
@@ -1965,6 +2061,7 @@ namespace DokkaebiHand.UI
             topObj.transform.SetParent(panel.transform, false);
             var topImg = topObj.AddComponent<Image>();
             topImg.color = new Color(borderColor.r, borderColor.g, borderColor.b, 0.4f);
+            topImg.raycastTarget = false;
             var topRt = topObj.GetComponent<RectTransform>();
             topRt.anchorMin = new Vector2(0, 1);
             topRt.anchorMax = new Vector2(1, 1);
@@ -1978,6 +2075,7 @@ namespace DokkaebiHand.UI
             botObj.transform.SetParent(panel.transform, false);
             var botImg = botObj.AddComponent<Image>();
             botImg.color = new Color(borderColor.r, borderColor.g, borderColor.b, 0.4f);
+            botImg.raycastTarget = false;
             var botRt = botObj.GetComponent<RectTransform>();
             botRt.anchorMin = new Vector2(0, 0);
             botRt.anchorMax = new Vector2(1, 0);
@@ -1991,6 +2089,7 @@ namespace DokkaebiHand.UI
             leftObj.transform.SetParent(panel.transform, false);
             var leftImg = leftObj.AddComponent<Image>();
             leftImg.color = new Color(borderColor.r, borderColor.g, borderColor.b, 0.3f);
+            leftImg.raycastTarget = false;
             var leftRt = leftObj.GetComponent<RectTransform>();
             leftRt.anchorMin = new Vector2(0, 0);
             leftRt.anchorMax = new Vector2(0, 1);
@@ -2004,6 +2103,7 @@ namespace DokkaebiHand.UI
             rightObj.transform.SetParent(panel.transform, false);
             var rightImg = rightObj.AddComponent<Image>();
             rightImg.color = new Color(borderColor.r, borderColor.g, borderColor.b, 0.3f);
+            rightImg.raycastTarget = false;
             var rightRt = rightObj.GetComponent<RectTransform>();
             rightRt.anchorMin = new Vector2(1, 0);
             rightRt.anchorMax = new Vector2(1, 1);
@@ -2027,6 +2127,7 @@ namespace DokkaebiHand.UI
             tmp.color = color;
             tmp.alignment = TextAlignmentOptions.Center;
             tmp.enableWordWrapping = true;
+            tmp.raycastTarget = false; // 버튼 클릭 방해 방지
 
             var rt = obj.GetComponent<RectTransform>();
             rt.anchoredPosition = position;
@@ -2079,6 +2180,7 @@ namespace DokkaebiHand.UI
             tmp.fontSize = 22;
             tmp.color = ColSoftWhite;
             tmp.alignment = TextAlignmentOptions.Center;
+            tmp.raycastTarget = false; // 버튼 클릭 방해 방지
 
             var textRt = textObj.GetComponent<RectTransform>();
             textRt.anchorMin = Vector2.zero;

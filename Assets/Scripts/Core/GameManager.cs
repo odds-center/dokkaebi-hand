@@ -8,6 +8,7 @@ namespace DokkaebiHand.Core
 {
     /// <summary>
     /// 게임 루프 총괄: 라운드 연결, 층 진행, 승패 처리
+    /// Balatro 스타일 전투: 시너지 페이즈 → 고/스톱 → 섯다 공격
     /// </summary>
     public enum GameState
     {
@@ -24,6 +25,7 @@ namespace DokkaebiHand.Core
 
     public class GameManager
     {
+        private readonly Random _rng = new Random();
         private readonly PlayerState _player;
         private readonly DeckManager _deckManager;
         private readonly TalismanManager _talismanManager;
@@ -65,8 +67,6 @@ namespace DokkaebiHand.Core
 
         // 런 내 통계
         private int _runSoulFragments;
-        private float _goTargetMultiplier = 1f;
-        private int _goHandPenalty = 0;
 
         // Events
         public event Action<GameState> OnGameStateChanged;
@@ -116,13 +116,11 @@ namespace DokkaebiHand.Core
             _player.Lives = 3 + _upgrades.GetExtraLives();
             _player.Yeop = 100 + _upgrades.GetBonusStartYeop() + _destiny.GetStartYeopBonus();
             _player.CurrentFloor = 1;
-            _goTargetMultiplier = 1f;
-            _goHandPenalty = 0;
             _runSoulFragments = 0;
 
             // 영구 강화 반영
             _player.PermanentTalismanSlotBonus = _upgrades.GetExtraTalismanSlots()
-                - _destiny.GetTalismanSlotPenalty(); // 사주 공 시: -1
+                - _destiny.GetTalismanSlotPenalty();
 
             // 런 내 버프 초기화
             _player.WaveChipBonus = 0;
@@ -146,13 +144,10 @@ namespace DokkaebiHand.Core
 
         /// <summary>
         /// 나선 시작: SpiralStart 상태로 전환하여 축복 선택 UI 표시.
-        /// UI에서 축복 선택 후 BeginSpiralWithBlessing() 호출해야 실제 시작.
         /// </summary>
         public void BeginSpiral()
         {
             SetState(GameState.SpiralStart);
-            // UI가 ShowBlessingSelectionUI()를 표시하고
-            // 선택 후 BeginSpiralWithBlessing() 호출
         }
 
         /// <summary>
@@ -165,12 +160,10 @@ namespace DokkaebiHand.Core
                 _spiral.SelectBlessing(blessing);
                 ApplyBlessingToRound();
 
-                // 공허: 부적 슬롯 감소
                 if (blessing.TalismanSlotPenalty > 0)
-                    _player.PermanentTalismanSlotBonus = System.Math.Max(0,
+                    _player.PermanentTalismanSlotBonus = Math.Max(0,
                         _player.PermanentTalismanSlotBonus - blessing.TalismanSlotPenalty);
 
-                // 공허: 부적 효과 배율
                 if (blessing.TalismanEffectMult > 0)
                     _player.WaveTalismanEffectBonus += (blessing.TalismanEffectMult - 1f);
             }
@@ -181,8 +174,6 @@ namespace DokkaebiHand.Core
         {
             var b = _spiral.ActiveBlessing;
             if (b == null) return;
-
-            // 축복 효과는 RoundManager 생성 시 적용
             OnMessage?.Invoke($"축복 선택: {b.NameKR} — {b.BonusDesc} / {b.PenaltyDesc}");
         }
 
@@ -191,18 +182,15 @@ namespace DokkaebiHand.Core
         /// </summary>
         public void StartNextRealm()
         {
-            // 재앙 보스 체크 (나선 3/5/8/10 마지막 영역)
             var calamityBoss = BossDatabase.GetCalamityBoss(_spiral.CurrentSpiral);
             bool isCalamityRealm = calamityBoss != null && _spiral.CurrentRealm == 10;
 
-            // 보스 생성 — 항상 무작위 (재앙 보스 제외)
             if (isCalamityRealm)
             {
-                // 재앙 보스 (나선 3/5/8/10)
                 CurrentBoss = new GeneratedBoss
                 {
                     BaseBoss = calamityBoss,
-                    Parts = new System.Collections.Generic.List<BossPartData>(),
+                    Parts = new List<BossPartData>(),
                     FinalTargetScore = _spiral.GetTargetScore(calamityBoss.TargetScore),
                     DisplayName = calamityBoss.NameKR,
                     Spiral = _spiral.CurrentSpiral,
@@ -211,7 +199,6 @@ namespace DokkaebiHand.Core
             }
             else
             {
-                // 모든 영역에서 랜덤 보스 생성 (파츠 조합으로 매번 다른 보스)
                 CurrentBoss = _bossGenerator.GenerateRandomBoss(_spiral);
             }
 
@@ -236,7 +223,7 @@ namespace DokkaebiHand.Core
         }
 
         /// <summary>
-        /// 다음 라운드 시작
+        /// 다음 라운드 시작 (Balatro 스타일)
         /// </summary>
         public void StartNextRound()
         {
@@ -245,8 +232,13 @@ namespace DokkaebiHand.Core
             _roundManager = new RoundManager(_player, _deckManager, _talismanManager,
                 _bossManager, _cardEnhancements, _upgrades);
             _roundManager.OnRoundEnded += HandleRoundEnded;
-            _roundManager.OnScoreCalculated += score =>
-                OnMessage?.Invoke(score.ToString());
+            _roundManager.OnCombosEvaluated += combos =>
+            {
+                var names = new List<string>();
+                foreach (var c in combos) names.Add(c.NameKR);
+                if (names.Count > 0)
+                    OnMessage?.Invoke($"콤보: {string.Join(", ", names)}");
+            };
             _roundManager.OnMessage += msg => OnMessage?.Invoke(msg);
 
             // 축복 효과 전달
@@ -261,26 +253,7 @@ namespace DokkaebiHand.Core
                     _roundManager.BlessingMultBonus = blessing.MultBonus;
             }
 
-            int targetScore = (int)(CurrentBoss.FinalTargetScore * _goTargetMultiplier);
-
-            // 영구 강화: 목표 감소
-            float targetReduction = _upgrades.GetTargetReduction();
-            if (targetReduction > 0)
-                targetScore = (int)(targetScore * (1f - targetReduction));
-
-            // 웨이브 강화: 목표 감소
-            if (_player.WaveTargetReduction > 0)
-                targetScore = (int)(targetScore * (1f - _player.WaveTargetReduction));
-
-            _roundManager.StartRound(targetScore);
-
-            // Go 패널티 적용
-            if (_goHandPenalty > 0)
-            {
-                for (int i = 0; i < _goHandPenalty && _player.Hand.Count > 0; i++)
-                    _player.Hand.RemoveAt(_player.Hand.Count - 1);
-                _goHandPenalty = 0;
-            }
+            _roundManager.StartRound();
 
             // 동료 도깨비 쿨다운
             _companions.TickAllCooldowns();
@@ -288,10 +261,74 @@ namespace DokkaebiHand.Core
             SetState(GameState.InRound);
         }
 
-        public void ApplyGoRisk(GoStopDecision.GoRisk risk)
+        /// <summary>
+        /// 섯다 공격: 남은 손패 중 2장을 골라 보스에게 타격
+        /// 시너지 페이즈에서 쌓은 칩/배수가 적용됨
+        /// </summary>
+        public SeotdaAttackResult SeotdaAttack(CardInstance card1, CardInstance card2)
         {
-            _goTargetMultiplier *= risk.NextTargetMult;
-            _goHandPenalty += risk.HandPenalty;
+            if (_roundManager == null)
+                return new SeotdaAttackResult { FinalDamage = 0 };
+
+            // 섯다 공격 실행 (RoundManager가 누적 시너지 적용)
+            var result = _roundManager.ExecuteAttack(card1, card2);
+
+            // 잘못된 공격 (페이즈 오류, 카드 누락 등) → 라운드 종료 안 함
+            if (result.FinalDamage <= 0)
+                return result;
+
+            // 보스 HP 차감
+            if (CurrentBattle != null)
+            {
+                CurrentBattle.DealDamage(new ScoringEngine.ScoreResult
+                {
+                    FinalScore = result.FinalDamage
+                });
+            }
+
+            // 공격 완료 → 라운드 종료 (공격 성공 = won)
+            _roundManager.FinishRound(true);
+
+            return result;
+        }
+
+        /// <summary>
+        /// 고 선택 시 보스 반격 데미지 적용
+        /// UI에서 RoundManager.SelectGo() 호출 후 이 메서드 호출
+        /// </summary>
+        public void ApplyGoDamage(int bossDamage)
+        {
+            if (bossDamage <= 0) return;
+
+            // 보스 반격으로 플레이어 피해 (엽전 감소 등)
+            int yeopLoss = bossDamage;
+            _player.Yeop = Math.Max(0, _player.Yeop - yeopLoss);
+            OnMessage?.Invoke($"보스 반격! 엽전 -{yeopLoss}냥");
+
+            // Go 3 즉사 판정
+            if (_roundManager.GoCount >= 3)
+            {
+                float deathChance = 0.2f;
+                float insuranceChance = _upgrades.GetGoInsuranceChance();
+
+                if (_rng.NextDouble() < deathChance)
+                {
+                    if (insuranceChance > 0 && _rng.NextDouble() < insuranceChance)
+                    {
+                        OnMessage?.Invoke("Go 보험 발동! 즉사를 면했다!");
+                    }
+                    else
+                    {
+                        _player.Lives--;
+                        OnMessage?.Invoke("즉사! 도깨비의 일격!");
+                        if (_player.Lives <= 0)
+                        {
+                            SetState(GameState.GameOver);
+                            OnMessage?.Invoke("저승의 어둠이 너를 집어삼킨다...");
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -300,8 +337,6 @@ namespace DokkaebiHand.Core
         public void EnterGate()
         {
             OnMessage?.Invoke("이승의 문을 통과합니다...");
-            // 엔딩 시퀀스는 UI에서 처리
-            // 이후 ContinueAfterGate() 호출로 게임 계속
         }
 
         /// <summary>
@@ -354,7 +389,6 @@ namespace DokkaebiHand.Core
         /// </summary>
         public void LeaveShop()
         {
-            // 짝수 영역 후에만 이벤트 (1, 3, 5, 7, 9영역 클리어 후)
             if (_spiral.CurrentRealm % 2 == 0)
             {
                 _events.GenerateEvent(_spiral.CurrentSpiral);
@@ -386,20 +420,14 @@ namespace DokkaebiHand.Core
 
         private void HandleRoundEnded(bool won)
         {
-            SetState(GameState.PostRound);
-
             if (won && CurrentBattle != null)
             {
-                // 섯다 공격은 SeotdaAttack()에서 이미 처리됨
-                // 여기서는 보스 반격 + 격파 체크만
-
                 // 보스 반격 (아직 살아있으면)
                 if (!CurrentBattle.IsBossDefeated)
                 {
                     string counter = CurrentBattle.BossCounterAttack(_player);
                 }
 
-                _goTargetMultiplier = 1f;
                 _greedScale.Reset();
 
                 if (CurrentBattle.IsBossDefeated)
@@ -432,26 +460,27 @@ namespace DokkaebiHand.Core
                     {
                         OnGateAppeared?.Invoke();
                         SetState(GameState.Gate);
+                        return;
                     }
                     else
                     {
-                        // 웨이브 강화 선택지 생성 → PostRound 상태 유지
-                        // UI가 wave upgrade 표시 → 선택 → FinishWaveUpgrade() → 상점
+                        // 웨이브 강화 선택지 생성
                         WaveUpgrades.GenerateChoices(_spiral.AbsoluteRealm);
                         OnWaveUpgradeReady?.Invoke();
-                        // OpenShop은 FinishWaveUpgrade()에서 호출
                     }
                 }
-                // 같은 영역 내 다음 라운드는 UI에서 StartNextRound() 호출
+
+                // 보스 살아있거나 격파 후 웨이브 강화 → PostRound
+                SetState(GameState.PostRound);
             }
             else
             {
                 // 패배
-                if (_player.GoCount >= 3)
+                if (_roundManager != null && _roundManager.GoCount >= 3)
                 {
                     bool insured = false;
                     float insuranceChance = _upgrades.GetGoInsuranceChance();
-                    if (insuranceChance > 0 && new Random().NextDouble() < insuranceChance)
+                    if (insuranceChance > 0 && _rng.NextDouble() < insuranceChance)
                     {
                         insured = true;
                         OnMessage?.Invoke("Go 보험 발동! 즉사를 면했다!");
@@ -475,59 +504,20 @@ namespace DokkaebiHand.Core
                 else
                 {
                     _player.Lives--;
-                    OnMessage?.Invoke(CurrentBoss.BaseBoss.VictoryDialogue);
+                    OnMessage?.Invoke(CurrentBoss?.BaseBoss?.VictoryDialogue ?? "도깨비가 승리했다...");
                 }
 
                 if (_player.Lives <= 0)
                 {
-                    // 사망 → 넋 70% 유지 (이미 AddSoulFragments로 추가됨)
                     SetState(GameState.GameOver);
                     OnMessage?.Invoke("저승의 어둠이 너를 집어삼킨다...");
                 }
                 else
                 {
                     CurrentRoundInRealm--;
+                    SetState(GameState.PostRound);
                 }
             }
-        }
-
-        /// <summary>
-        /// 섯다 공격: 모은 패 중 2장을 골라 보스에게 타격
-        /// </summary>
-        /// <summary>
-        /// 섯다 공격: 모은 패 중 2장을 골라 보스에게 타격
-        /// 공격 후 라운드 종료 → HandleRoundEnded
-        /// </summary>
-        public AttackResult SeotdaAttack(CardInstance card1, CardInstance card2)
-        {
-            // 시너지 판정 (공격 전)
-            _battleSystem.EvaluateSynergies(_player);
-
-            // 섯다 공격 실행
-            var result = _battleSystem.ExecuteSeotdaAttack(_player, card1, card2);
-
-            // 고 배수 적용
-            if (_player.GoCount > 0)
-            {
-                int goMult = _player.GoCount switch { 1 => 2, 2 => 4, _ => 10 };
-                result.FinalDamage *= goMult;
-            }
-
-            // 보스 HP 차감
-            if (CurrentBattle != null)
-            {
-                CurrentBattle.DealDamage(new ScoringEngine.ScoreResult { FinalScore = result.FinalDamage });
-                OnMessage?.Invoke($"[{result.SeotdaName}] {result.FinalDamage} 타격!");
-
-                if (result.SynergyMult > 1f)
-                    OnMessage?.Invoke($"  시너지: ×{result.SynergyMult:F1} ({string.Join("+", result.SynergiesAfter)})");
-            }
-
-            // 공격 완료 → 라운드 종료
-            bool won = result.FinalDamage > 0;
-            _roundManager?.FinishRound(won);
-
-            return result;
         }
 
         /// <summary>
@@ -568,15 +558,12 @@ namespace DokkaebiHand.Core
         {
             if (data == null) return;
 
-            // 나선 상태
             _spiral.LoadFromSave(data.Spiral);
 
-            // 플레이어 상태
             _player.Lives = data.Lives;
             _player.Yeop = data.Yeop;
             _player.GoCount = data.GoCount;
 
-            // 런 내 웨이브 버프
             _player.WaveChipBonus = data.WaveChipBonus;
             _player.WaveMultBonus = data.WaveMultBonus;
             _player.WaveTalismanSlotBonus = data.WaveTalismanSlotBonus;
@@ -584,7 +571,6 @@ namespace DokkaebiHand.Core
             _player.WaveTargetReduction = data.WaveTargetReduction;
             _player.NextRoundHandBonus = data.NextRoundHandBonus;
 
-            // 부적
             _player.Talismans.Clear();
             foreach (var tName in data.EquippedTalismans)
             {
@@ -593,22 +579,17 @@ namespace DokkaebiHand.Core
                     _player.EquipTalisman(new Talismans.TalismanInstance(tData));
             }
 
-            // 동료
             if (data.UnlockedCompanions != null)
                 _companions.LoadUnlocked(data.UnlockedCompanions);
             foreach (var cId in data.EquippedCompanions)
                 _companions.Equip(cId);
 
-            // 넋 + 업그레이드 (비용 없이 직접 설정)
             _upgrades.SetSoulFragments(data.SoulFragments);
             foreach (var entry in data.UpgradeLevels)
                 _upgrades.SetLevel(entry.Id, entry.Level);
 
-            // 업적
             _achievements.LoadUnlocked(data.UnlockedAchievements);
 
-            _goTargetMultiplier = 1f;
-            _goHandPenalty = 0;
             _runSoulFragments = 0;
 
             OnMessage?.Invoke($"세이브 로드 완료: 나선 {_spiral.CurrentSpiral} 영역 {_spiral.CurrentRealm}");

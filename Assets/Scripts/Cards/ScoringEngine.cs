@@ -175,11 +175,17 @@ namespace DokkaebiHand.Cards
 
         private void ApplyGoMultiplier(PlayerState player, ref ScoreResult result)
         {
-            switch (player.GoCount)
+            int goMult = player.GoCount switch
             {
-                case 1: result.Mult *= 2; result.CompletedYokbo.Add("고 1회 (×2)"); break;
-                case 2: result.Mult *= 4; result.CompletedYokbo.Add("고 2회 (×4)"); break;
-                case >= 3: result.Mult *= 10; result.CompletedYokbo.Add($"고 {player.GoCount}회 (×10)"); break;
+                1 => 2,
+                2 => 4,
+                >= 3 => 10,
+                _ => 1
+            };
+            if (goMult > 1)
+            {
+                result.Mult = result.Mult * goMult;
+                result.CompletedYokbo.Add($"고 {player.GoCount}회 (×{goMult})");
             }
         }
 

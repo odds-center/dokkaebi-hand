@@ -32,6 +32,9 @@ namespace DokkaebiHand.Core
 
         public GameEvent CurrentEvent { get; private set; }
 
+        // 이벤트 Effect 내에서 사용할 공유 RNG
+        public Random SharedRng => _rng;
+
         public EventManager(int? seed = null)
         {
             _rng = seed.HasValue ? new Random(seed.Value) : new Random();
@@ -237,7 +240,7 @@ namespace DokkaebiHand.Core
                                 if (p.Yeop >= 20)
                                 {
                                     p.Yeop -= 20;
-                                    if (new Random().NextDouble() < 0.5)
+                                    if (_rng.NextDouble() < 0.5)
                                         p.Yeop += 40;
                                 }
                             }
@@ -270,7 +273,7 @@ namespace DokkaebiHand.Core
                             ResultEN = "The result is...",
                             Effect = p =>
                             {
-                                if (new Random().NextDouble() < 0.5)
+                                if (_rng.NextDouble() < 0.5)
                                     p.Yeop += 100;
                                 else
                                     p.Lives = Math.Max(1, p.Lives - 1);
@@ -338,7 +341,7 @@ namespace DokkaebiHand.Core
                                 {
                                     p.Talismans.RemoveAt(p.Talismans.Count - 1);
                                     var all = Talismans.TalismanDatabase.AllTalismans;
-                                    var newT = all[new Random().Next(all.Count)];
+                                    var newT = all[_rng.Next(all.Count)];
                                     p.EquipTalisman(new Talismans.TalismanInstance(newT));
                                 }
                             }

@@ -143,15 +143,15 @@ namespace DokkaebiHand.Core
             switch (companion.Data.Id)
             {
                 case "glutton":
-                    // 탐식: 바닥패 1장 제거
-                    if (round.FieldCards.Count > 0)
-                        success = round.CompanionRemoveFieldCard(0);
+                    // 탐식: 손패 1장 교체 (뽑기패에서 드로우)
+                    if (player.Hand.Count > 0)
+                        success = round.CompanionSwapCard(player.Hand[0]);
                     break;
 
                 case "trickster":
-                    // 속임수: 손패↔바닥 교환
-                    if (player.Hand.Count > 0 && round.FieldCards.Count > 0)
-                        success = round.CompanionSwapCards(player.Hand[0], 0);
+                    // 속임수: 손패 1장 교체
+                    if (player.Hand.Count > 0)
+                        success = round.CompanionSwapCard(player.Hand[player.Hand.Count - 1]);
                     break;
 
                 case "fox":
@@ -170,8 +170,9 @@ namespace DokkaebiHand.Core
                     break;
 
                 case "flame":
-                    // 소각: 바닥패 전체 리셋
-                    success = round.CompanionResetField();
+                    // 소각: 시너지 배수 보너스
+                    round.ApplyFlameBonus();
+                    success = true;
                     break;
 
                 case "shadow":
@@ -181,8 +182,8 @@ namespace DokkaebiHand.Core
                     break;
 
                 case "boatman":
-                    // 항해: 현재 턴 Undo (간소화: 목표 -10%)
-                    round.ApplyShadowReduction();
+                    // 항해: 현재 턴 되감기 (간소화: 배수 보너스)
+                    round.ApplyBoatmanUndo();
                     success = true;
                     break;
             }

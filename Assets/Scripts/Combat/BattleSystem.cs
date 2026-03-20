@@ -181,13 +181,14 @@ namespace DokkaebiHand.Combat
             };
         }
 
-        private void RemoveCardFromPlayer(PlayerState player, CardInstance card)
+        private bool RemoveCardFromPlayer(PlayerState player, CardInstance card)
         {
             // 4개 리스트에서 해당 카드 제거
-            if (player.CapturedGwang.Remove(card)) return;
-            if (player.CapturedTti.Remove(card)) return;
-            if (player.CapturedYeolkkeut.Remove(card)) return;
-            player.CapturedPi.Remove(card);
+            if (player.CapturedGwang.Remove(card)) return true;
+            if (player.CapturedTti.Remove(card)) return true;
+            if (player.CapturedYeolkkeut.Remove(card)) return true;
+            if (player.CapturedPi.Remove(card)) return true;
+            return false;
         }
 
         private void AddSynergy(string name, string desc, float mult, int flat)

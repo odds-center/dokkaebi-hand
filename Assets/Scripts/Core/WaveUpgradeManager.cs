@@ -132,7 +132,7 @@ namespace DokkaebiHand.Core
                         var commons = Talismans.TalismanDatabase.GetByRarity(Talismans.TalismanRarity.Common);
                         if (commons.Count > 0 && p.CanEquipTalisman())
                         {
-                            var t = commons[new Random().Next(commons.Count)];
+                            var t = commons[_rng.Next(commons.Count)];
                             p.EquipTalisman(new Talismans.TalismanInstance(t));
                         }
                     }
@@ -151,7 +151,7 @@ namespace DokkaebiHand.Core
                     Category = "special",
                     Apply = (p, g) =>
                     {
-                        if (new Random().NextDouble() < 0.5)
+                        if (_rng.NextDouble() < 0.5)
                             p.Yeop += 50;
                         else
                             p.Lives = Math.Max(1, p.Lives - 1);

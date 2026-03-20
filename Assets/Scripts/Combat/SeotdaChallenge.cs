@@ -118,9 +118,8 @@ namespace DokkaebiHand.Combat
             // 땡 (같은 월)
             if (mA == mB)
             {
-                int val = mA > 10 ? 10 : mA;
-                string name = val == 10 ? "장땡" : $"{val}땡";
-                return new SeotdaResult(name, 80 + val);
+                string name = mA == 10 ? "장땡" : $"{mA}땡";
+                return new SeotdaResult(name, 80 + mA);
             }
 
             // 특수 조합
@@ -130,13 +129,13 @@ namespace DokkaebiHand.Combat
             if (small == 1 && big == 2) return new SeotdaResult("알리", 75);
             if (small == 1 && big == 4) return new SeotdaResult("독사", 74);
             if (small == 1 && big == 9) return new SeotdaResult("구삥", 73);
-            if (small == 1 && (big >= 10)) return new SeotdaResult("장삥", 72);
-            if (small == 4 && (big >= 10)) return new SeotdaResult("장사", 71);
+            if (small == 1 && big == 10) return new SeotdaResult("장삥", 72);
+            if (small == 4 && big == 10) return new SeotdaResult("장사", 71);
             if (small == 4 && big == 6) return new SeotdaResult("세륙", 70);
 
             // 끗
             int kkeut = (mA + mB) % 10;
-            if (kkeut == 0) return new SeotdaResult("갑오", 10);
+            if (kkeut == 0) return new SeotdaResult("갑오", 0);
             return new SeotdaResult($"{kkeut}끗", kkeut);
         }
 

@@ -173,7 +173,7 @@ namespace DokkaebiHand.Core
                 var legends = Talismans.TalismanDatabase.GetByRarity(Talismans.TalismanRarity.Legendary);
                 if (legends.Count > 0 && player.CanEquipTalisman())
                 {
-                    var t = legends[new Random().Next(legends.Count)];
+                    var t = legends[_rng.Next(legends.Count)];
                     player.EquipTalisman(new Talismans.TalismanInstance(t));
                 }
             }

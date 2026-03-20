@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DokkaebiHand.Cards;
 using DokkaebiHand.Core;
 using DokkaebiHand.Talismans;
@@ -7,53 +8,51 @@ using DokkaebiHand.Talismans;
 namespace DokkaebiHand.Combat
 {
     /// <summary>
-    /// 라운드 진행 관리
-    /// [패 분배] → [보스 기믹] → [턴: 손패 선택 → 바닥 매칭 → 뒤집기 매칭]
-    ///     → [족보 체크] → [Go/Stop 선택] → [점수 정산]
+    /// Balatro 스타일 라운드 진행 관리
+    ///
+    /// [패 분배 10장] → [시너지 페이즈: 1~5장 선택 → "내기!" → 콤보 판정 → 스택]
+    ///   → [고/스톱 선택]
+    ///     → 고: 추가 드로우 + 보스 반격
+    ///     → 스톱: 공격 페이즈로
+    ///   → [공격 페이즈: 남은 손패에서 2장 → 섯다 판정 → 최종 데미지]
     /// </summary>
     public class RoundManager
     {
-        public enum RoundPhase
+        public enum Phase
         {
-            Dealing,
-            PlayerTurn,
-            HandMatch,
-            DrawFlip,
-            DrawMatch,
-            YokboCheck,
-            GoStopChoice,
-            Scoring,
-            RoundEnd
+            SelectCards,   // 시너지 페이즈: 1~5장 선택
+            GoStopChoice,  // 고/스톱 선택
+            AttackSelect,  // 공격 페이즈: 2장 선택
+            RoundEnd       // 라운드 종료
         }
 
+        // === 현재 상태 ===
+        public Phase CurrentPhase { get; private set; }
+        public List<CardInstance> HandCards { get; private set; } = new List<CardInstance>();
+        public List<ComboResult> AccumulatedCombos { get; private set; } = new List<ComboResult>();
+        public float AccumulatedMult { get; private set; } = 1f;
+        public int AccumulatedChips { get; private set; }
+        public int GoCount { get; private set; }
+        public int MaxPlays { get; set; } = 4;
+        public int PlaysUsed { get; private set; }
+
+        // === 의존성 ===
         private readonly DeckManager _deckManager;
-        private readonly MatchingEngine _matchingEngine;
-        private readonly ScoringEngine _scoringEngine;
-        private readonly GoStopDecision _goStopDecision;
         private readonly TalismanManager _talismanManager;
         private readonly PlayerState _player;
         private readonly BossManager _bossManager;
         private readonly CardEnhancementManager _cardEnhancements;
         private readonly PermanentUpgradeManager _upgrades;
 
-        public RoundPhase CurrentPhase { get; private set; }
-        public int TurnNumber { get; private set; }
-        public int TargetScore { get; set; }
-        public ScoringEngine.ScoreResult LastScoreResult { get; private set; }
+        // === 축복 효과 ===
+        public int BlessingHandPenalty { get; set; }
+        public float BlessingChipBonus { get; set; }
+        public float BlessingMultBonus { get; set; }
 
-        /// <summary>
-        /// UI에서 바닥패에 접근하기 위한 공개 프로퍼티
-        /// </summary>
-        public IReadOnlyList<CardInstance> FieldCards => _deckManager.FieldCards;
-        public IReadOnlyList<CardInstance> DrawPile => _deckManager.DrawPile;
-
-        private CardInstance _currentHandCard;
-        private CardInstance _currentDrawnCard;
-
-        // Events
-        public event Action<RoundPhase> OnPhaseChanged;
-        public event Action<List<CardInstance>> OnCardsMatched;
-        public event Action<ScoringEngine.ScoreResult> OnScoreCalculated;
+        // === 이벤트 ===
+        public event Action<Phase> OnPhaseChanged;
+        public event Action<List<ComboResult>> OnCombosEvaluated;
+        public event Action<List<SynergyHint>> OnSynergyHintsUpdated;
         public event Action<bool> OnRoundEnded;
         public event Action<string> OnMessage;
 
@@ -64,400 +63,516 @@ namespace DokkaebiHand.Combat
         {
             _player = player;
             _deckManager = deckManager;
-            _matchingEngine = new MatchingEngine(deckManager);
-            _scoringEngine = new ScoringEngine();
-            _goStopDecision = new GoStopDecision(_scoringEngine);
             _talismanManager = talismanManager;
             _bossManager = bossManager;
             _cardEnhancements = cardEnhancements;
             _upgrades = upgrades;
         }
 
-        // 쓸 배수 누적 (라운드 내)
-        private int _sweepMultBonus;
-
-        // 축복 핸드 패널티
-        public int BlessingHandPenalty { get; set; }
-        // 축복 칩/배수 보너스
-        public float BlessingChipBonus { get; set; }
-        public float BlessingMultBonus { get; set; }
-
-        // 섯다 승부 결과 버프
-        public int SeotdaBonusChips { get; set; }
-        public int SeotdaBonusMult { get; set; }
-        public int SeotdaChipPenalty { get; set; }
-
-        // 이번 판 섯다 결과
-        public SeotdaChallenge LastSeotda { get; private set; }
-
         /// <summary>
-        /// 라운드 시작
+        /// 라운드 시작: 덱 초기화 → 손패 분배
         /// </summary>
-        public void StartRound(int targetScore)
+        public void StartRound(int targetScore = 0)
         {
-            TargetScore = targetScore;
-            TurnNumber = 0;
-            _sweepMultBonus = 0;
+            GoCount = 0;
+            PlaysUsed = 0;
+            AccumulatedCombos.Clear();
+            AccumulatedMult = 1f;
+            AccumulatedChips = 0;
 
             _player.ResetForNewRound();
             _deckManager.InitializeDeck();
 
-            // === 섯다 승부 (판 시작 전 2장 대결) ===
-            LastSeotda = new SeotdaChallenge();
-            LastSeotda.OnMessage += msg => OnMessage?.Invoke(msg);
-            LastSeotda.Execute(_deckManager);
-            SeotdaBonusChips = LastSeotda.BonusChips;
-            SeotdaBonusMult = LastSeotda.BonusMult;
-            SeotdaChipPenalty = LastSeotda.ChipPenalty;
-
-            // 영구 강화: 시작 손패 보너스
+            // 손패 크기 결정
             int handSize = 10;
             if (_upgrades != null)
                 handSize += _upgrades.GetBonusHandSize();
-
-            // 소모품(패 팩) 보너스 반영
             if (_player.NextRoundHandBonus > 0)
             {
                 handSize += _player.NextRoundHandBonus;
                 _player.NextRoundHandBonus = 0;
             }
-
-            // 축복 빙결: 손패 -1
             if (BlessingHandPenalty > 0)
-                handSize = System.Math.Max(5, handSize - BlessingHandPenalty);
+                handSize = Math.Max(5, handSize - BlessingHandPenalty);
 
-            _deckManager.DealCards(_player, handSize);
+            // 새 시스템: 바닥패 없이 손패만 분배
+            _deckManager.DealCards(_player, handSize, fieldSize: 0);
 
-            // 부적 목표 감소
-            TargetScore = _talismanManager.ApplyTargetReduction(_player, TargetScore);
+            // 손패를 로컬 참조에 복사 (player.Hand와 동기화)
+            HandCards = _player.Hand;
 
-            SetPhase(RoundPhase.PlayerTurn);
-        }
+            // 부적 트리거: 라운드 시작
+            _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnRoundStart, null);
 
-        /// <summary>
-        /// 손패에서 카드 선택
-        /// </summary>
-        public MatchResult PlayHandCard(CardInstance card)
-        {
-            if (CurrentPhase != RoundPhase.PlayerTurn) return MatchResult.NoMatch;
-            if (!_player.Hand.Contains(card)) return MatchResult.NoMatch;
-
-            _currentHandCard = card;
-            _player.Hand.Remove(card);
-
-            // 보스 기믹: 턴 시작 시 발동
+            // 보스 기믹: 라운드 시작 시
             if (_bossManager != null)
                 _bossManager.OnTurnStart(_player, _deckManager);
 
-            // 부적 트리거: OnTurnStart
-            _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnTurnStart, card);
-
-            var matchResult = _matchingEngine.EvaluateMatch(card);
-
-            // 매칭 실패 시 부적 트리거
-            if (matchResult == MatchResult.NoMatch)
-                _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnMatchFail, card);
-
-            SetPhase(RoundPhase.HandMatch);
-            return matchResult;
+            OnMessage?.Invoke($"손패 {HandCards.Count}장 배분! 카드를 선택하여 '내기!'");
+            SetPhase(Phase.SelectCards);
         }
 
         /// <summary>
-        /// 손패 매칭 실행
+        /// 시너지 페이즈: 카드 선택 → "내기!" → 콤보 판정 → 스택
+        /// 선택한 카드는 손패에서 소모됨. (최소 1장, 손패 범위 내)
         /// </summary>
-        public List<CardInstance> ExecuteHandMatch(CardInstance selectedMatch = null)
+        public List<ComboResult> SubmitCards(List<CardInstance> selected)
         {
-            if (CurrentPhase != RoundPhase.HandMatch) return new List<CardInstance>();
+            if (CurrentPhase != Phase.SelectCards)
+                return new List<ComboResult>();
 
-            var captured = _matchingEngine.ExecuteMatch(_currentHandCard, selectedMatch);
+            if (selected == null || selected.Count == 0)
+                return new List<ComboResult>();
 
-            foreach (var card in captured)
-                _player.CaptureCard(card);
-
-            OnCardsMatched?.Invoke(captured);
-
-            // 쓸 보너스 체크 (영구 강화)
-            if (captured.Count >= 4 && _upgrades != null)
+            // 공격용 2장은 남겨야 함
+            if (HandCards.Count - selected.Count < 2)
             {
-                int sweepBonus = _upgrades.GetLevel("sweep_bonus");
-                if (sweepBonus > 0)
+                OnMessage?.Invoke("공격용 카드 2장은 남겨야 한다!");
+                return new List<ComboResult>();
+            }
+
+            // 선택된 카드가 모두 손패에 있는지 확인
+            foreach (var card in selected)
+            {
+                if (!HandCards.Contains(card))
+                    return new List<ComboResult>();
+            }
+
+            // 콤보 판정
+            var combos = HandEvaluator.Evaluate(selected);
+
+            // 축복 보너스 적용
+            if (BlessingChipBonus > 0 || BlessingMultBonus > 0)
+            {
+                foreach (var combo in combos)
                 {
-                    _sweepMultBonus += sweepBonus;
-                    OnMessage?.Invoke($"쓸! 배수 +{sweepBonus} (영구 강화)");
+                    combo.Chips += (int)(combo.Chips * BlessingChipBonus);
+                    combo.Mult *= (1f + BlessingMultBonus);
                 }
             }
 
-            // 부적 트리거: OnMatchSuccess
-            if (captured.Count > 0)
-                _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnMatchSuccess, _currentHandCard);
-
-            // 부적 트리거: OnCardPlayed
-            _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnCardPlayed, _currentHandCard);
-
-            SetPhase(RoundPhase.DrawFlip);
-            return captured;
-        }
-
-        public CardInstance FlipDrawCard()
-        {
-            if (CurrentPhase != RoundPhase.DrawFlip) return null;
-
-            _currentDrawnCard = _deckManager.DrawFromPile();
-            if (_currentDrawnCard == null)
+            // 카드 강화 보너스 적용
+            if (_cardEnhancements != null)
             {
-                EndTurn();
-                return null;
+                int enhChips = 0;
+                int enhMult = 0;
+                foreach (var card in selected)
+                {
+                    var enh = _cardEnhancements.GetEnhancement(card.Id);
+                    enhChips += enh.GetChipBonus(card.Type);
+                    enhMult += enh.GetMultBonus(card.Type);
+                }
+                if (enhChips > 0 || enhMult > 0)
+                {
+                    combos.Add(new ComboResult
+                    {
+                        Id = "card_enhancement",
+                        NameKR = "카드 강화",
+                        NameEN = "Card Enhancement",
+                        Tier = ComboTier.D,
+                        Category = ComboCategory.Fallback,
+                        Chips = enhChips,
+                        Mult = 1f + enhMult * 0.1f,
+                        Description = $"강화 보너스 +{enhChips}칩, +{enhMult * 10}%배"
+                    });
+                }
             }
 
-            SetPhase(RoundPhase.DrawMatch);
-            return _currentDrawnCard;
-        }
+            // 이전 턴의 보류 회복 적용 (다음 내기까지 유지했으므로 회복!)
+            if (_player.PendingHealCombo != null && _player.PendingHealAmount > 0)
+            {
+                int heal = _player.PendingHealAmount;
+                _player.Lives = System.Math.Min(_player.Lives + heal, PlayerState.MaxLives);
+                OnMessage?.Invoke($"[{_player.PendingHealCombo}] 유지 성공! 체력 +{heal} 회복! ({_player.Lives}/{PlayerState.MaxLives})");
+                _player.PendingHealCombo = null;
+                _player.PendingHealAmount = 0;
+            }
 
-        public List<CardInstance> ExecuteDrawMatch(CardInstance selectedMatch = null)
-        {
-            if (CurrentPhase != RoundPhase.DrawMatch) return new List<CardInstance>();
+            // 누적
+            AccumulatedCombos.AddRange(combos);
+            var (chips, mult) = HandEvaluator.GetTotalScore(combos);
+            AccumulatedChips += chips;
+            AccumulatedMult *= mult;
 
-            var captured = _matchingEngine.ExecuteDrawMatch(_currentDrawnCard, selectedMatch);
+            // 회복 족보 대기 등록 (이번 턴에 회복 족보가 있으면 다음 턴까지 유지해야 회복)
+            foreach (var combo in combos)
+            {
+                if (combo.HealAmount > 0 && combo.HealRequiresHold)
+                {
+                    _player.PendingHealCombo = combo.NameKR;
+                    _player.PendingHealAmount = combo.HealAmount;
+                    OnMessage?.Invoke($"[{combo.NameKR}] 다음 내기까지 유지하면 체력 +{combo.HealAmount} 회복!");
+                    break; // 회복 족보는 한 번에 하나만
+                }
+            }
 
-            foreach (var card in captured)
-                _player.CaptureCard(card);
+            // 선택한 카드 소모
+            foreach (var card in selected)
+                HandCards.Remove(card);
 
-            OnCardsMatched?.Invoke(captured);
-            EndTurn();
-            return captured;
-        }
+            PlaysUsed++;
 
-        public GoStopDecision.GoRisk SelectGo()
-        {
-            if (CurrentPhase != RoundPhase.GoStopChoice) return default;
+            // 부적 트리거
+            _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnCardPlayed, selected.FirstOrDefault());
+            if (combos.Count > 0)
+                _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnYokboComplete, selected.FirstOrDefault());
 
-            var risk = _goStopDecision.GetGoRisk(_player.GoCount);
-            _goStopDecision.ExecuteGo(_player);
+            // 메시지
+            if (combos.Count > 0)
+            {
+                var comboNames = string.Join(" + ", combos.Select(c => c.NameKR));
+                OnMessage?.Invoke($"내기! → {comboNames}");
+                OnMessage?.Invoke($"  누적: 칩 {AccumulatedChips} × 배수 {AccumulatedMult:F1}");
+            }
+            else
+            {
+                OnMessage?.Invoke("내기! → 콤보 없음...");
+            }
 
-            SetPhase(RoundPhase.PlayerTurn);
-            return risk;
+            OnCombosEvaluated?.Invoke(combos);
+
+            // 시너지 힌트: 남은 손패로 추가 시너지 가능한 조합 표시
+            if (HandCards.Count >= 3) // 공격 2장 + 최소 1장 여유
+            {
+                // 빈 선택 상태에서 남은 손패 전체를 대상으로 힌트 생성
+                var emptySelection = new List<CardInstance>();
+                var synHints = HandEvaluator.PreviewSynergies(emptySelection, HandCards);
+                if (synHints.Count > 0)
+                {
+                    OnSynergyHintsUpdated?.Invoke(synHints);
+                    var topHint = synHints[0];
+                    OnMessage?.Invoke($"  💡 시너지 힌트: {topHint.ComboNameKR} — {topHint.Condition}");
+                }
+            }
+
+            // 다음 상태 결정
+            if (HandCards.Count < 2)
+            {
+                // 공격용 카드 부족 → 시너지만으로 공격 (자동 종료)
+                OnMessage?.Invoke("손패 부족! 공격 없이 판이 끝난다!");
+                SetPhase(Phase.RoundEnd);
+                OnRoundEnded?.Invoke(false);
+            }
+            else if (PlaysUsed >= MaxPlays)
+            {
+                // 최대 내기 횟수 도달 → 공격 페이즈
+                OnMessage?.Invoke("내기 완료! 공격할 2장을 골라라!");
+                SetPhase(Phase.AttackSelect);
+            }
+            else
+            {
+                // Go/Stop 선택 가능
+                SetPhase(Phase.GoStopChoice);
+            }
+
+            return combos;
         }
 
         /// <summary>
-        /// Go 리스크 정보 조회 (UI 표시용)
+        /// "고!" 선택: 추가 드로우 + 보스 반격 데미지 반환
+        ///
+        /// Go 1: +3장, 보스 경공격
+        /// Go 2: +2장, 보스 강공격
+        /// Go 3: +1장, 보스 필살기 + 즉사 위험
         /// </summary>
-        public GoStopDecision.GoRisk GetCurrentGoRisk()
+        public int SelectGo()
         {
-            return _goStopDecision.GetGoRisk(_player.GoCount);
+            if (CurrentPhase != Phase.GoStopChoice)
+                return 0;
+
+            GoCount++;
+            _player.GoCount = GoCount;
+
+            // 추가 드로우
+            int drawCount;
+            int bossDamage;
+            string goMessage;
+
+            switch (GoCount)
+            {
+                case 1:
+                    drawCount = 3;
+                    bossDamage = 5;
+                    goMessage = "고 1회! +3장, 보스 경공격!";
+                    break;
+                case 2:
+                    drawCount = 2;
+                    bossDamage = 15;
+                    goMessage = "고 2회! +2장, 보스 강공격!";
+                    break;
+                default: // 3+
+                    drawCount = 1;
+                    bossDamage = 30;
+                    goMessage = "고 3회! +1장, 보스 필살기! 즉사 위험!";
+                    break;
+            }
+
+            // 드로우
+            for (int i = 0; i < drawCount; i++)
+            {
+                var drawn = _deckManager.DrawFromPile();
+                if (drawn != null)
+                    HandCards.Add(drawn);
+            }
+
+            // 부적 트리거
+            _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnGoDecision, null);
+
+            OnMessage?.Invoke(goMessage);
+            OnMessage?.Invoke($"  손패: {HandCards.Count}장");
+
+            // 시너지 페이즈로 복귀
+            SetPhase(Phase.SelectCards);
+
+            return bossDamage;
         }
 
         /// <summary>
-        /// 스톱 선택 → 공격 페이즈로 전환
-        /// 이제 직접 데미지를 계산하지 않음.
-        /// UI에서 "공격할 2장 선택" 화면을 보여주고,
-        /// GameManager.SeotdaAttack()을 호출해야 함.
+        /// "스톱!" 선택: 공격 페이즈로 전환
         /// </summary>
-        public ScoringEngine.ScoreResult SelectStop()
+        public void SelectStop()
         {
-            if (CurrentPhase != RoundPhase.GoStopChoice) return default;
+            if (CurrentPhase != Phase.GoStopChoice)
+                return;
 
-            // 현재 시너지 상태 계산 (UI 표시용)
-            var result = _scoringEngine.CalculateScore(_player);
-            LastScoreResult = result;
-            OnScoreCalculated?.Invoke(result);
+            // 부적 트리거
+            _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnStopDecision, null);
 
             OnMessage?.Invoke("스톱! 공격할 2장을 골라라!");
+            OnMessage?.Invoke($"  누적 시너지: 칩 {AccumulatedChips} × 배수 {AccumulatedMult:F1}");
 
-            // 공격 페이즈로 전환 (RoundEnd가 아님!)
-            SetPhase(RoundPhase.Scoring);
+            SetPhase(Phase.AttackSelect);
+        }
+
+        /// <summary>
+        /// 공격 페이즈: 남은 손패에서 2장 선택 → 섯다 판정 → 최종 데미지
+        /// </summary>
+        public SeotdaAttackResult ExecuteAttack(CardInstance card1, CardInstance card2)
+        {
+            if (CurrentPhase != Phase.AttackSelect)
+                return new SeotdaAttackResult { FinalDamage = 0 };
+
+            if (card1 == null || card2 == null)
+                return new SeotdaAttackResult { FinalDamage = 0 };
+
+            if (!HandCards.Contains(card1) || !HandCards.Contains(card2))
+                return new SeotdaAttackResult { FinalDamage = 0 };
+
+            if (card1 == card2)
+                return new SeotdaAttackResult { FinalDamage = 0 };
+
+            // 섯다 족보 판정
+            var seotda = SeotdaChallenge.Evaluate(card1, card2);
+
+            // 섯다 기본 데미지
+            int baseDamage = CalculateSeotdaBaseDamage(seotda);
+
+            // 고 배수
+            float goMult = GoCount switch
+            {
+                1 => 2f,
+                2 => 4f,
+                >= 3 => 10f,
+                _ => 1f
+            };
+
+            // 최종 데미지 = (섯다 기본 + 누적 칩) × 누적 배수 × 고 배수
+            int finalDamage = (int)((baseDamage + AccumulatedChips) * AccumulatedMult * goMult);
+
+            // 카드 소모 (실패 시 공격 무효)
+            if (!HandCards.Remove(card1) || !HandCards.Remove(card2))
+                return new SeotdaAttackResult { FinalDamage = 0 };
+
+            var result = new SeotdaAttackResult
+            {
+                SeotdaName = seotda.Name,
+                SeotdaRank = seotda.Rank,
+                BaseDamage = baseDamage,
+                AccumulatedChips = AccumulatedChips,
+                AccumulatedMult = AccumulatedMult,
+                GoMult = goMult,
+                FinalDamage = finalDamage,
+                Combos = new List<string>(AccumulatedCombos.Select(c => c.NameKR))
+            };
+
+            OnMessage?.Invoke($"[{seotda.Name}] 기본 {baseDamage} + 칩 {AccumulatedChips}");
+            OnMessage?.Invoke($"  × 시너지 {AccumulatedMult:F1} × 고 {goMult:F0} = {finalDamage} 타격!");
+
             return result;
         }
 
         /// <summary>
-        /// 공격 완료 후 라운드 종료 (GameManager에서 호출)
+        /// 라운드 종료 처리 (GameManager에서 호출)
         /// </summary>
         public void FinishRound(bool won)
         {
-            SetPhase(RoundPhase.RoundEnd);
+            // 부적 트리거: 라운드 종료
+            _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnRoundEnd, null);
+
+            SetPhase(Phase.RoundEnd);
             OnRoundEnded?.Invoke(won);
         }
 
         /// <summary>
-        /// 동료 도깨비 스킬: 바닥패 1장 제거
+        /// 현재 Go 리스크 정보 (UI 표시용)
         /// </summary>
-        public bool CompanionRemoveFieldCard(int fieldIndex)
+        public GoRiskInfo GetCurrentGoRisk()
         {
-            if (fieldIndex < 0 || fieldIndex >= _deckManager.FieldCards.Count) return false;
-            var card = _deckManager.FieldCards[fieldIndex];
-            _deckManager.RemoveFromField(card);
-            OnMessage?.Invoke($"동료 스킬: {card.NameKR} 제거!");
+            int nextGo = GoCount + 1;
+            return nextGo switch
+            {
+                1 => new GoRiskInfo
+                {
+                    DrawCards = 3, BossDamage = 5,
+                    Description = "고 1: +3장 드로우, 보스 경공격",
+                    InstantDeathRisk = false
+                },
+                2 => new GoRiskInfo
+                {
+                    DrawCards = 2, BossDamage = 15,
+                    Description = "고 2: +2장 드로우, 보스 강공격",
+                    InstantDeathRisk = false
+                },
+                _ => new GoRiskInfo
+                {
+                    DrawCards = 1, BossDamage = 30,
+                    Description = "고 3: +1장 드로우, 보스 필살기! 즉사 위험!",
+                    InstantDeathRisk = true
+                }
+            };
+        }
+
+        /// <summary>
+        /// 불꽃 도깨비: 시너지 배수 보너스
+        /// </summary>
+        public void ApplyFlameBonus()
+        {
+            OnMessage?.Invoke("불꽃 도깨비: 시너지 배수 +0.5!");
+            AccumulatedMult += 0.5f;
+        }
+
+        /// <summary>
+        /// 그림자 도깨비: 목표 점수 -15% (AccumulatedChips 보너스로 대체)
+        /// </summary>
+        public void ApplyShadowReduction()
+        {
+            int bonus = (int)(AccumulatedChips * 0.15f);
+            if (bonus < 10) bonus = 10;
+            AccumulatedChips += bonus;
+            OnMessage?.Invoke($"그림자 도깨비: 잠식! 칩 +{bonus} (목표 약화)");
+        }
+
+        /// <summary>
+        /// 뱃사공: 마지막 내기 되감기 (간소화: 배수 +0.3)
+        /// </summary>
+        public void ApplyBoatmanUndo()
+        {
+            AccumulatedMult += 0.3f;
+            OnMessage?.Invoke("뱃사공: 항해! 시너지 배수 +0.3!");
+        }
+
+        /// <summary>
+        /// 동료 도깨비 스킬: 손패 1장 교체 (뽑기패에서 1장 드로우)
+        /// </summary>
+        public bool CompanionSwapCard(CardInstance handCard)
+        {
+            if (!HandCards.Contains(handCard)) return false;
+            var drawn = _deckManager.DrawFromPile();
+            if (drawn == null) return false;
+
+            HandCards.Remove(handCard);
+            _deckManager.ReturnToPile(handCard);
+            HandCards.Add(drawn);
+            OnMessage?.Invoke($"교환: {handCard.NameKR} → {drawn.NameKR}");
             return true;
         }
 
         /// <summary>
-        /// 동료 도깨비 스킬: 손패 1장 ↔ 바닥패 1장 교환
-        /// </summary>
-        public bool CompanionSwapCards(CardInstance handCard, int fieldIndex)
-        {
-            if (!_player.Hand.Contains(handCard)) return false;
-            if (fieldIndex < 0 || fieldIndex >= _deckManager.FieldCards.Count) return false;
-
-            var fieldCard = _deckManager.FieldCards[fieldIndex];
-            _deckManager.RemoveFromField(fieldCard);
-            _player.Hand.Remove(handCard);
-            _deckManager.AddToField(handCard);
-            _player.Hand.Add(fieldCard);
-            OnMessage?.Invoke($"교환: {handCard.NameKR} ↔ {fieldCard.NameKR}");
-            return true;
-        }
-
-        /// <summary>
-        /// 여우 도깨비 스킬: 다음 매칭 와일드카드
+        /// 여우 도깨비 스킬: 다음 내기 와일드카드
         /// </summary>
         public void SetWildCardNext()
         {
             _player.WildCardNextMatch = true;
-            OnMessage?.Invoke("다음 매칭은 와일드카드!");
+            OnMessage?.Invoke("다음 내기는 와일드카드!");
         }
 
         /// <summary>
-        /// 동료 도깨비 스킬: 바닥패 전체 리셋
+        /// 시너지 미리보기: 현재 선택된 카드 기반으로 가능한 시너지 힌트 반환.
+        /// UI에서 카드 선택 중 실시간 호출.
         /// </summary>
-        public bool CompanionResetField()
+        public List<SynergyHint> PreviewSynergies(List<CardInstance> selectedCards)
         {
-            int fieldCount = _deckManager.FieldCards.Count;
-            if (fieldCount == 0) return false;
+            if (CurrentPhase != Phase.SelectCards)
+                return new List<SynergyHint>();
 
-            // 바닥패 모두 뽑기패로 되돌리기
-            var fieldCopy = new List<CardInstance>(_deckManager.FieldCards);
-            foreach (var c in fieldCopy)
-                _deckManager.RemoveFromField(c);
-
-            // 뽑기패에서 새로 바닥에 배치
-            int newFieldSize = System.Math.Min(fieldCount, _deckManager.DrawPile.Count);
-            for (int i = 0; i < newFieldSize; i++)
+            var remaining = new List<CardInstance>();
+            foreach (var card in HandCards)
             {
-                var drawn = _deckManager.DrawFromPile();
-                if (drawn != null) _deckManager.AddToField(drawn);
+                if (!selectedCards.Contains(card))
+                    remaining.Add(card);
             }
 
-            OnMessage?.Invoke($"바닥패 리셋! {newFieldSize}장 새로 배치!");
-            return true;
+            return HandEvaluator.PreviewSynergies(selectedCards, remaining);
         }
 
         /// <summary>
-        /// 그림자 도깨비: 목표 점수 -15%
+        /// 섯다 기본 데미지 테이블
         /// </summary>
-        public void ApplyShadowReduction()
+        private int CalculateSeotdaBaseDamage(SeotdaResult seotda)
         {
-            TargetScore = (int)(TargetScore * 0.85f);
-            OnMessage?.Invoke($"그림자 도깨비: 목표 → {TargetScore}");
+            // 기본 데미지를 낮추고 시너지 배수 의존도를 높임
+            // 시너지 없이는 약하고, 시너지 쌓으면 강해지는 구조
+            return seotda.Rank switch
+            {
+                100 => 80,      // 38광땡
+                99 => 70,       // 18광땡
+                98 => 65,       // 13광땡
+                95 => 60,       // 기타 광땡
+                >= 90 => 50,    // 장땡
+                >= 80 => 30 + (seotda.Rank - 80) * 2, // N땡 (30~50)
+                75 => 35,       // 알리
+                74 => 30,       // 독사
+                73 => 28,       // 구삥
+                72 => 25,       // 장삥
+                71 => 22,       // 장사
+                70 => 20,       // 세륙
+                >= 7 => 10 + seotda.Rank, // 7~9끗 (17~19)
+                >= 1 => 5 + seotda.Rank,  // 1~6끗 (6~11)
+                0 => 3,         // 갑오(0끗) — 최악
+                _ => 3          // 기타
+            };
         }
 
-        private void EndTurn()
-        {
-            TurnNumber++;
-
-            // 부적 트리거: OnTurnEnd (흉살 등)
-            _talismanManager.NotifyTrigger(_player, TalismanTrigger.OnTurnEnd, null);
-
-            var currentScore = _scoringEngine.CalculateScore(_player);
-
-            if (currentScore.CompletedYokbo.Count > 0 && currentScore.FinalScore > 0)
-            {
-                LastScoreResult = currentScore;
-                OnScoreCalculated?.Invoke(currentScore);
-                SetPhase(RoundPhase.GoStopChoice);
-            }
-            else if (_player.Hand.Count == 0 || _deckManager.IsDrawPileEmpty())
-            {
-                // 패 소진 → 강제로 공격 페이즈 진입
-                LastScoreResult = currentScore;
-                OnMessage?.Invoke("패 소진! 모은 패로 공격하라!");
-
-                // 먹은 패가 2장 이상이면 공격 가능, 아니면 패배
-                var totalCaptured = _player.CapturedGwang.Count + _player.CapturedTti.Count +
-                    _player.CapturedYeolkkeut.Count + _player.CapturedPi.Count;
-                if (totalCaptured >= 2)
-                {
-                    SetPhase(RoundPhase.Scoring); // 공격 페이즈
-                }
-                else
-                {
-                    SetPhase(RoundPhase.RoundEnd);
-                    OnRoundEnded?.Invoke(false); // 공격 불가 → 패배
-                }
-            }
-            else
-            {
-                SetPhase(RoundPhase.PlayerTurn);
-            }
-        }
-
-        /// <summary>
-        /// 카드 강화 보너스를 점수에 적용
-        /// </summary>
-        private void ApplyCardEnhancementBonuses(ref ScoringEngine.ScoreResult result)
-        {
-            int totalChipBonus = 0;
-            int totalMultBonus = 0;
-
-            // 획득한 모든 카드의 강화 보너스 합산
-            void AddBonuses(List<CardInstance> cards)
-            {
-                foreach (var card in cards)
-                {
-                    var enh = _cardEnhancements.GetEnhancement(card.Id);
-                    totalChipBonus += enh.GetChipBonus(card.Type);
-                    totalMultBonus += enh.GetMultBonus(card.Type);
-                }
-            }
-
-            AddBonuses(_player.CapturedGwang);
-            AddBonuses(_player.CapturedTti);
-            AddBonuses(_player.CapturedYeolkkeut);
-            AddBonuses(_player.CapturedPi);
-
-            if (totalChipBonus > 0)
-            {
-                result.Chips += totalChipBonus;
-                result.CompletedYokbo.Add($"카드 강화 (+{totalChipBonus} 칩)");
-            }
-            if (totalMultBonus > 0)
-            {
-                result.Mult += totalMultBonus;
-                result.CompletedYokbo.Add($"카드 강화 (+{totalMultBonus} 배수)");
-            }
-        }
-
-        private void ApplySpecialTalismanEffects(ref ScoringEngine.ScoreResult result)
-        {
-            foreach (var talisman in _player.Talismans)
-            {
-                if (!talisman.IsActive) continue;
-
-                if (talisman.Data.Name == "Blood Oath")
-                {
-                    int piCount = _player.GetTotalPiCount();
-                    int piBonus = piCount / 2; // 2장당 배+1 (밸런스 조정)
-                    result.Mult += piBonus;
-                    if (piBonus > 0)
-                        result.CompletedYokbo.Add($"피의 맹세 (+{piBonus} 배)");
-                }
-
-                if (talisman.Data.Name == "Reaper's Ledger")
-                {
-                    int tempScore = result.Chips * result.Mult;
-                    if (tempScore % 10 == 4)
-                    {
-                        result.Mult *= 4;
-                        result.CompletedYokbo.Add("저승사자의 명부 (끝자리 4 → x4)");
-                    }
-                }
-            }
-
-            result.FinalScore = result.Chips * result.Mult;
-        }
-
-        private void SetPhase(RoundPhase phase)
+        private void SetPhase(Phase phase)
         {
             CurrentPhase = phase;
             OnPhaseChanged?.Invoke(phase);
         }
+    }
+
+    /// <summary>
+    /// 섯다 공격 결과
+    /// </summary>
+    public class SeotdaAttackResult
+    {
+        public string SeotdaName;
+        public int SeotdaRank;
+        public int BaseDamage;
+        public int AccumulatedChips;
+        public float AccumulatedMult;
+        public float GoMult;
+        public int FinalDamage;
+        public List<string> Combos;
+    }
+
+    /// <summary>
+    /// Go 선택 리스크 정보 (UI 표시용)
+    /// </summary>
+    public class GoRiskInfo
+    {
+        public int DrawCards;
+        public int BossDamage;
+        public string Description;
+        public bool InstantDeathRisk;
     }
 }

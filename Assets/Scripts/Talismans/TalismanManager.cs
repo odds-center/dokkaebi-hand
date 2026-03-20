@@ -11,6 +11,8 @@ namespace DokkaebiHand.Talismans
     /// </summary>
     public class TalismanManager
     {
+        private readonly Random _rng = new Random();
+
         public event Action<TalismanInstance, string> OnTalismanTriggered;
 
         /// <summary>
@@ -62,9 +64,9 @@ namespace DokkaebiHand.Talismans
 
                 if (talisman.Data.EffectType == TalismanEffectType.MultiplyMult)
                 {
-                    int multiplied = (int)(result.Mult * talisman.Data.EffectValue);
+                    float multiplied = result.Mult * talisman.Data.EffectValue;
                     OnTalismanTriggered?.Invoke(talisman, $"배수 x{talisman.Data.EffectValue}");
-                    result.Mult = multiplied;
+                    result.Mult = (int)System.Math.Round(multiplied);
                 }
             }
 
@@ -156,7 +158,7 @@ namespace DokkaebiHand.Talismans
         private bool CheckTriggerChance(TalismanInstance talisman)
         {
             if (talisman.Data.TriggerChance >= 1f) return true;
-            return new Random().NextDouble() < talisman.Data.TriggerChance;
+            return _rng.NextDouble() < talisman.Data.TriggerChance;
         }
     }
 }

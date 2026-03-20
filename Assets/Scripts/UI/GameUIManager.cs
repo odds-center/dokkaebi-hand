@@ -96,7 +96,8 @@ namespace DokkaebiHand.UI
 
             ClearChildren(_handPanel);
 
-            foreach (var card in _gameManager.Player.Hand)
+            var handCards = _gameManager.RoundManager?.HandCards ?? _gameManager.Player.Hand;
+            foreach (var card in handCards)
             {
                 var cardObj = CreateCardUI(card, _handPanel);
                 var button = cardObj.GetComponent<Button>();
@@ -125,15 +126,15 @@ namespace DokkaebiHand.UI
         {
             if (_gameManager.RoundManager == null) return;
 
-            var score = _gameManager.RoundManager.LastScoreResult;
+            // 새 전투 시스템: 누적 시너지 표시
             if (_scoreText != null)
-                _scoreText.text = $"칩: {score.Chips}";
+                _scoreText.text = $"칩: {_gameManager.RoundManager.AccumulatedChips}";
             if (_multText != null)
-                _multText.text = $"배수: x{score.Mult}";
+                _multText.text = $"배수: x{_gameManager.RoundManager.AccumulatedMult}";
             if (_targetScoreText != null)
-                _targetScoreText.text = $"목표: {_gameManager.RoundManager.TargetScore}";
-            if (_yokboListText != null && score.CompletedYokbo != null)
-                _yokboListText.text = string.Join("\n", score.CompletedYokbo);
+                _targetScoreText.text = "";
+            if (_yokboListText != null && _gameManager.RoundManager.AccumulatedCombos != null)
+                _yokboListText.text = string.Join("\n", _gameManager.RoundManager.AccumulatedCombos.ConvertAll(c => c.NameKR));
         }
 
         public void RefreshPlayerInfo()
@@ -185,39 +186,15 @@ namespace DokkaebiHand.UI
         private void OnHandCardClicked(CardInstance card)
         {
             if (_gameManager.RoundManager == null) return;
-            if (_gameManager.RoundManager.CurrentPhase != RoundManager.RoundPhase.PlayerTurn)
-                return;
-
-            _selectedHandCard = card;
-
-            var matchResult = _gameManager.RoundManager.PlayHandCard(card);
-
-            if (matchResult == MatchResult.DoubleMatch)
-            {
-                // 2장 매칭 → 선택 UI 표시 (간소화: 자동 선택)
-                _gameManager.RoundManager.ExecuteHandMatch();
-            }
-            else
-            {
-                _gameManager.RoundManager.ExecuteHandMatch();
-            }
-
-            // 뒤집기
-            var drawn = _gameManager.RoundManager.FlipDrawCard();
-            if (drawn != null)
-            {
-                _gameManager.RoundManager.ExecuteDrawMatch();
-            }
-
-            RefreshAll();
+            // 새 전투 시스템에서는 MockupSceneBuilder가 처리
         }
 
         private void OnGoClicked()
         {
             if (_gameManager.RoundManager == null) return;
 
-            var risk = _gameManager.RoundManager.SelectGo();
-            _gameManager.ApplyGoRisk(risk);
+            int bossDmg = _gameManager.RoundManager.SelectGo();
+            _gameManager.ApplyGoDamage(bossDmg);
 
             if (_goStopPanel != null)
                 _goStopPanel.SetActive(false);
@@ -229,12 +206,10 @@ namespace DokkaebiHand.UI
         {
             if (_gameManager.RoundManager == null) return;
 
-            var result = _gameManager.RoundManager.SelectStop();
+            _gameManager.RoundManager.SelectStop();
 
             if (_goStopPanel != null)
                 _goStopPanel.SetActive(false);
-
-            ShowResult(result);
             RefreshAll();
         }
 
@@ -306,10 +281,8 @@ namespace DokkaebiHand.UI
 
             if (_goRiskText != null)
             {
-                var decision = new GoStopDecision(new ScoringEngine());
-                var risk = decision.GetGoRisk(goCount);
-                _goRiskText.text = $"Go → 배수 x{risk.MultiplierBonus}" +
-                    (risk.InstantDeathOnFail ? "\n실패 시 즉사!" : "");
+                // 새 전투 시스템에서는 MockupSceneBuilder가 처리
+                _goRiskText.text = "";
             }
         }
 

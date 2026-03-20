@@ -41,10 +41,10 @@ namespace DokkaebiHand.Combat
         {
             _boss = boss;
 
-            // HP = 기본 목표점수 × 5 (여러 판에 걸쳐 깎도록)
-            // 1윤회: 1000~2000, 2윤회: 1500~3000, ...
+            // HP = 기본 목표점수 × 15 (Balatro 스타일에서 여러 라운드 필요)
+            // 1윤회: 3000~6000, 2윤회: 4500~9000, ...
             float spiralMult = 1f + (spiralNumber - 1) * 0.5f;
-            BossMaxHP = (int)(boss.TargetScore * 5 * spiralMult);
+            BossMaxHP = (int)(boss.TargetScore * 15 * spiralMult);
             BossCurrentHP = BossMaxHP;
 
             // 반격 데미지 = 기믹 난이도에 따라
@@ -170,7 +170,7 @@ namespace DokkaebiHand.Combat
                     // 목숨 위협 (30% 확률로 1 감소)
                     if (_rng.NextDouble() < 0.3)
                     {
-                        player.Lives = System.Math.Max(1, player.Lives - 1);
+                        player.Lives--;
                         return "도깨비가 미쳐 날뛴다!! 목숨 -1!";
                     }
                     return "도깨비가 미친 듯이 날뛰지만... 피했다!";
