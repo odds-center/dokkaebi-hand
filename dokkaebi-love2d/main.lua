@@ -7,12 +7,8 @@ love.graphics.setLineStyle("rough")  -- 안티앨리어싱 제거
 -- ===========================
 -- 픽셀아트 렌더링 시스템
 -- ===========================
--- 저해상도 캔버스에 렌더링 → 2배 스케일업 (도트 느낌)
-local PIXEL_SCALE = 2
-local GAME_W, GAME_H = 640, 360
-local pixel_canvas = love.graphics.newCanvas(GAME_W, GAME_H)
-pixel_canvas:setFilter("nearest", "nearest")
-math.randomseed(os.time() + (os.clock() * 1000) % 1000000)
+love.graphics.setDefaultFilter("nearest", "nearest")
+math.randomseed(os.time())
 
 local DeckManager    = require("src.cards.deck_manager")
 local HandEvaluator  = require("src.cards.hand_evaluator")
@@ -32,7 +28,7 @@ local FX             = require("src.ui.effects")
 -- ===========================
 -- 디자인 토큰 (전역 통일)
 -- ===========================
-local W, H = GAME_W, GAME_H  -- 640x360 (내부 렌더 해상도)
+local W, H = 1280, 720  -- 실행 시 love.update에서 실제 창 크기로 갱신
 local fonts = {}
 
 -- 색상 팔레트
@@ -485,15 +481,14 @@ end
 
 function love.load()
     -- W, H는 내부 렌더 해상도 (640x360)로 고정
-    -- 실제 윈도우는 1280x720이지만 2배 스케일업
-    load_meta()  -- 영구 데이터 복원
+    W, H = love.graphics.getDimensions()
+    load_meta()
     local fp = "assets/fonts/Pretendard-Regular.ttf"
     local fb = "assets/fonts/Pretendard-Bold.ttf"
-    -- 저해상도에 맞춘 폰트 크기 (절반)
-    fonts.s  = love.graphics.newFont(fp, 6)
-    fonts.m  = love.graphics.newFont(fp, 7)
-    fonts.l  = love.graphics.newFont(fb, 10)
-    fonts.xl = love.graphics.newFont(fb, 16)
+    fonts.s  = love.graphics.newFont(fp, 11)
+    fonts.m  = love.graphics.newFont(fp, 14)
+    fonts.l  = love.graphics.newFont(fb, 20)
+    fonts.xl = love.graphics.newFont(fb, 32)
 end
 
 function love.quit()
@@ -1432,14 +1427,14 @@ end
 -- love.draw
 -- ===========================
 function love.draw()
-    -- === 저해상도 캔버스에 렌더링 (640x360) ===
-    love.graphics.setCanvas(pixel_canvas)
-    love.graphics.clear(PAL.bg[1], PAL.bg[2], PAL.bg[3], 1)
+    -- 배경
+    set(PAL.bg)
+    love.graphics.rectangle("fill", 0, 0, W, H)
 
-    -- 화면 흔들림 적용
+    -- 화면 흔들림
     local sx, sy = FX.get_shake_offset()
     love.graphics.push()
-    love.graphics.translate(math.floor(sx), math.floor(sy))
+    love.graphics.translate(sx, sy)
 
     DU.vignette(W, H)
     btns = {}; card_rects = {}
@@ -1461,11 +1456,6 @@ function love.draw()
 
     love.graphics.pop()
 
-    -- 이펙트
+    -- 이펙트 (흔들림 위에)
     FX.draw(fonts)
-
-    -- === 캔버스 → 화면 (2배 스케일업, nearest neighbor) ===
-    love.graphics.setCanvas()
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(pixel_canvas, 0, 0, 0, PIXEL_SCALE, PIXEL_SCALE)
 end

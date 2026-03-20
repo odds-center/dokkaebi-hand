@@ -7,7 +7,8 @@
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 360 x 540 (→ 다운스케일 120x180)
+Resolution: 160 x 240 (내부 40x60 기준, 4x 생성)
+       # → 다운스케일 40x60 / 윈도우: 2x=80x120, 3x=120x180
 Steps: 25~30
 Guidance: 3.5
 Batch: 4~8장
@@ -16,7 +17,7 @@ Batch: 4~8장
 ## 공통 프롬프트 프리픽스
 
 ```
-A small low-resolution pixel art companion sprite of a tamed Korean dokkaebi, made of large visible square pixels like a sprite from Stardew Valley. Drawn on a 32x48 pixel grid then scaled up — each individual pixel is clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing. Bold flat color fills with thick black pixel outlines. No gradients, no blending between pixels. The character looks loyal and helpful — tamed ally. Smaller and less threatening than boss version. Plain solid bright green (#00FF00) background for chroma key. Fully contained with margins. Centered composition. Character only, no decorative elements.
+A small low-resolution pixel art companion sprite of a tamed Korean dokkaebi, made of large visible square pixels like a sprite from Stardew Valley. Drawn on a 40x60 pixel grid then scaled up — each individual pixel is clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing. Bold flat color fills with thick black pixel outlines. No gradients, no blending between pixels. The character looks loyal and helpful — tamed ally. Smaller and less threatening than boss version. Plain solid bright green (#00FF00) background for chroma key. Fully contained with margins. Centered composition. Character only, no decorative elements.
 ```
 
 ## 후처리

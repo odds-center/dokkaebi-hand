@@ -6,12 +6,12 @@
 
 ## 1. 통화 아이콘 (2종)
 
-**크기:** 192x192 (→ 48x48 다운스케일)
+**크기:** 64x64 (내부 16x16 기준, 4x 생성 → 다운스케일 16x16)
 
 ### 공통 프롬프트 프리픽스
 
 ```
-A single low-resolution pixel art item icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 48x48 pixel grid — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple. Square 1:1. Only the item, nothing else.
+A single low-resolution pixel art item icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 16x16 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple. Square 1:1. Only the item, nothing else.
 ```
 
 ### icon_yeop — 엽전 (런 내 화폐)
@@ -33,12 +33,12 @@ A small floating pale blue-white spirit orb with tiny wisp trails. Translucent g
 > 영구 강화 트리 노드 아이콘. 3경로: 패의 길(빨강), 부적의 길(파랑), 생존의 길(초록).
 > 경로 색상은 게임 UI 테두리에서 처리. 아이콘 자체는 오브젝트만.
 
-**크기:** 192x192 (→ 48x48)
+**크기:** 64x64 (내부 16x16 기준, 4x 생성 → 다운스케일 16x16)
 
 ### 공통 프롬프트 프리픽스
 
 ```
-A single low-resolution pixel art item icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 48x48 pixel grid — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple. Square 1:1. Only the item, nothing else.
+A single low-resolution pixel art item icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 16x16 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple. Square 1:1. Only the item, nothing else.
 ```
 
 ### 패의 길 (Card Path) — 6종
@@ -155,12 +155,12 @@ A number symbol with a red downward arrow beside it. Simple score-reduction icon
 > 보스 장비 파츠 아이콘. 등급 테두리는 게임 UI에서 처리.
 > 아이콘 자체는 투명 배경 + 오브젝트만.
 
-**크기:** 128x128 (→ 32x32)
+**크기:** 44x44 (내부 11x11 기준, 4x 생성 → 다운스케일 11x11)
 
 ### 공통 프롬프트 프리픽스
 
 ```
-A single very small low-resolution pixel art equipment icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 32x32 pixel grid — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no gradients, no blending. Bold thick black pixel outlines. Flat color fill only. One extremely simple object on plain solid bright green (#00FF00) chroma key background. Maximally simple. Square 1:1. Only the item, nothing else.
+A single very small low-resolution pixel art equipment icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 11x11 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no gradients, no blending. Bold thick black pixel outlines. Flat color fill only. One extremely simple object on plain solid bright green (#00FF00) chroma key background. Maximally simple. Square 1:1. Only the item, nothing else.
 ```
 
 ### 머리(Head) 파츠 — 8종

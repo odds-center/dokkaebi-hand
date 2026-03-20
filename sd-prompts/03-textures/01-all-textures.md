@@ -1,7 +1,10 @@
 # 텍스처 프롬프트 — 바로 사용 가능한 타일링 텍스처
 
-텍스처는 이미지 생성 AI가 **가장 안정적으로 좋은 결과**를 내는 영역.
+텍스처도 **픽셀아트 스타일**로 생성 — 부드러운 사진 텍스처가 아닌 도트 텍스처.
 타일링 가능하게 만들면 UI, 카드 배경, 테이블 등에 범용 사용.
+
+> **중요:** 모든 텍스처 프롬프트에 "low-resolution pixel art texture, each pixel visible" 추가.
+> 게임 전체가 픽셀아트이므로 텍스처도 도트 느낌이어야 일관성 유지.
 
 ---
 
@@ -49,12 +52,12 @@ Compression: None
 **참고:** 카드 앞면 배경 크기: 90x130 (UI) / 80x120 (텍스처)
 
 ```
-A seamless tileable texture of Korean handmade hanji paper. Warm beige color with subtle cream variations throughout. Natural plant fiber texture with organic irregularities — tiny visible fibers are embedded in the paper surface. The surface is slightly rough and uneven to the touch. The paper has a gently aged antique quality with very subtle yellowing. Uniform flat lighting with no shadows or highlights — pure material texture only. No patterns, no symbols, no objects — just the paper surface itself. The texture must tile perfectly with no visible seams when repeated.
+A seamless tileable low-resolution pixel art texture of Korean handmade hanji paper, made of visible square pixels with blocky edges and no anti-aliasing. Warm beige color with subtle cream variations throughout. Natural plant fiber texture with organic irregularities — tiny visible fibers are embedded in the paper surface. The surface is slightly rough and uneven to the touch. The paper has a gently aged antique quality with very subtle yellowing. Uniform flat lighting with no shadows or highlights — pure material texture only. No patterns, no symbols, no objects — just the paper surface itself. The texture must tile perfectly with no visible seams when repeated.
 ```
 
 **변형 — 오래된 한지:**
 ```
-A seamless tileable texture of heavily aged Korean hanji paper. Darker beige color with brown age spots scattered randomly. The surface is creased and wrinkled with visible fold lines. Some areas appear thinner and more translucent than others. Centuries of use and handling are visible in the worn texture. Uniform flat lighting, pure texture only — no objects or patterns. Must tile seamlessly.
+A seamless tileable low-resolution pixel art texture of heavily aged Korean hanji paper, made of visible square pixels with blocky edges. Darker beige color with brown age spots scattered randomly. The surface is creased and wrinkled with visible fold lines. Some areas appear thinner and more translucent than others. Centuries of use and handling are visible in the worn texture. Uniform flat lighting, pure texture only — no objects or patterns. Must tile seamlessly.
 ```
 
 ---
@@ -64,7 +67,7 @@ A seamless tileable texture of heavily aged Korean hanji paper. Darker beige col
 **용도:** 점수판 배경, 장식 오버레이, 전환 효과
 
 ```
-A seamless tileable texture of Korean ink painting spill patterns on light paper. Dark black sumi-e ink is splattered across the surface with varying opacity — some areas are dense opaque black while others are thin gray wash. Organic flowing ink spread with feathered wet edges where the ink bled into paper. Calligraphy brush splash marks of different sizes are scattered throughout. The pattern is abstract with no recognizable shapes or letters. Uniform flat lighting with no 3D shadows. Must tile seamlessly when repeated.
+A seamless tileable low-resolution pixel art texture of Korean ink spill patterns on light paper, made of visible square pixels with blocky edges. Dark black pixel ink is splattered across the surface with varying opacity — some areas are dense opaque black while others are thin gray wash. Organic flowing ink spread with feathered wet edges where the ink bled into paper. Calligraphy brush splash marks of different sizes are scattered throughout. The pattern is abstract with no recognizable shapes or letters. Uniform flat lighting with no 3D shadows. Must tile seamlessly when repeated.
 ```
 
 ---
@@ -75,12 +78,12 @@ A seamless tileable texture of Korean ink painting spill patterns on light paper
 **참고:** 게임 테이블 영역: 950x160 (손패/바닥패 각각)
 
 ```
-A seamless tileable texture of dark fabric cloth material. Very dark navy woven textile with a subtle thread weave pattern that is barely visible. The surface has a felt-like soft matte finish with no shine or reflection. Slight color variation between individual threads creates organic textile depth. Uniform flat lighting — pure fabric texture only, resembling a high-quality game table surface. Must tile seamlessly.
+A seamless tileable low-resolution pixel art texture of dark fabric cloth material, made of visible square pixels with blocky edges. Very dark navy woven textile with a subtle thread weave pattern that is barely visible. The surface has a felt-like soft matte finish with no shine or reflection. Slight color variation between individual threads creates organic textile depth. Uniform flat lighting — pure fabric texture only, resembling a high-quality game table surface. Must tile seamlessly.
 ```
 
 **변형 — 붉은 천 (상점/보스전):**
 ```
-A seamless tileable texture of dark crimson woven fabric. Deep blood red cloth material with a subtle thread weave pattern. Rich heavy fabric feel like silk or satin, but with no shine — just deep saturated color. Uniform flat lighting, pure texture. Must tile seamlessly.
+A seamless tileable low-resolution pixel art texture of dark crimson woven fabric. Deep blood red cloth material with a subtle thread weave pattern. Rich heavy fabric feel like silk or satin, but with no shine — just deep saturated color. Uniform flat lighting, pure texture. Must tile seamlessly.
 ```
 
 ---
@@ -90,7 +93,7 @@ A seamless tileable texture of dark crimson woven fabric. Deep blood red cloth m
 **용도:** 삼도천 다리, 염라전 바닥, 이정표
 
 ```
-A seamless tileable texture of a dark stone surface. Gray-brown rough hewn stone with subtle crack lines and weathering marks from centuries of erosion. Occasional darker mineral veins run through the stone. The surface has natural rock irregularities but is relatively flat. Uniform flat lighting — pure natural rock texture with no carved patterns or symbols. Must tile seamlessly.
+A seamless tileable low-resolution pixel art texture of a dark stone surface. Gray-brown rough hewn stone with subtle crack lines and weathering marks from centuries of erosion. Occasional darker mineral veins run through the stone. The surface has natural rock irregularities but is relatively flat. Uniform flat lighting — pure natural rock texture with no carved patterns or symbols. Must tile seamlessly.
 ```
 
 ---
@@ -100,7 +103,7 @@ A seamless tileable texture of a dark stone surface. Gray-brown rough hewn stone
 **용도:** 상점 카운터, 서가, 뱃사공 배
 
 ```
-A seamless tileable texture of dark aged wood grain. Deep brown wood with clearly visible grain lines running in one direction. The surface has been worn smooth from years of use. Occasional knot holes and darker patches add character. The color and feel is like traditional Korean furniture wood. Uniform flat lighting — pure wood material texture only. Must tile seamlessly.
+A seamless tileable low-resolution pixel art texture of dark aged wood grain. Deep brown wood with clearly visible grain lines running in one direction. The surface has been worn smooth from years of use. Occasional knot holes and darker patches add character. The color and feel is like traditional Korean furniture wood. Uniform flat lighting — pure wood material texture only. Must tile seamlessly.
 ```
 
 ---
@@ -110,7 +113,7 @@ A seamless tileable texture of dark aged wood grain. Deep brown wood with clearl
 **용도:** 7영역 황금 미궁 벽면
 
 ```
-A seamless tileable texture of a hammered gold metal surface. Warm gold color with a slightly uneven hammered texture showing subtle dents and tool marks. The surface is reflective but not mirror-smooth — it has a handcrafted beaten metal quality. Uniform flat lighting — pure precious metal surface texture only. Must tile seamlessly.
+A seamless tileable low-resolution pixel art texture of a hammered gold metal surface. Warm gold color with a slightly uneven hammered texture showing subtle dents and tool marks. The surface is reflective but not mirror-smooth — it has a handcrafted beaten metal quality. Uniform flat lighting — pure precious metal surface texture only. Must tile seamlessly.
 ```
 
 ---
@@ -120,7 +123,7 @@ A seamless tileable texture of a hammered gold metal surface. Warm gold color wi
 **용도:** 3영역, 6영역 바닥 오버레이
 
 ```
-A seamless tileable texture of cracked dark ground with lava visible in the cracks. The surface is black charred earth broken into irregular plates. Bright glowing orange molten lava is visible in the fissures between the dark plates. The crack edges glow with heat — orange light bleeds slightly into the surrounding dark stone. The crack pattern is irregular and organic. Dark overall with bright orange accent lines. Must tile seamlessly.
+A seamless tileable low-resolution pixel art texture of cracked dark ground with lava visible in the cracks. The surface is black charred earth broken into irregular plates. Bright glowing orange molten lava is visible in the fissures between the dark plates. The crack edges glow with heat — orange light bleeds slightly into the surrounding dark stone. The crack pattern is irregular and organic. Dark overall with bright orange accent lines. Must tile seamlessly.
 ```
 
 ---
