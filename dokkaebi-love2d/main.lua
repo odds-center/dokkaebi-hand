@@ -242,15 +242,19 @@ local function start_realm()
         msg(string.format("윤회 %d 완료! +%d넋", sp, bonus))
         S.state = "gate"; save_meta(); return
     end
-    -- 랜덤 보스 (매번 다른 보스, 연속 출현 불가)
-    local prev_id = S._prev_boss_id
-    local pick
-    for attempt = 1, 20 do
-        pick = bosses[math.random(1, #bosses)]
-        if pick.id ~= prev_id then break end
+    -- 10관문: 염라대왕 고정, 나머지: 염라 제외 랜덤 (연속 불가)
+    if realm == 10 then
+        S.boss = bosses[10]  -- 염라대왕
+    else
+        local prev_id = S._prev_boss_id
+        local pick
+        for attempt = 1, 20 do
+            pick = bosses[math.random(1, 9)]  -- 1~9번 (염라 제외)
+            if pick.id ~= prev_id then break end
+        end
+        S.boss = pick
     end
-    S.boss = pick
-    S._prev_boss_id = pick.id
+    S._prev_boss_id = S.boss.id
     S.battle = BossBattle.new(S.boss, S.spiral.current_spiral)
     S.max_rounds = S.boss.rounds; S.round = 0
     msg(string.format("%s 등장! HP: %s", S.boss.name_kr, NumFmt.format(S.battle.boss_max_hp)))

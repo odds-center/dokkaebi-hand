@@ -57,7 +57,8 @@
       "Bash(luajit -bl src/ui/button.lua /dev/null)",
       "Bash(luajit -bl src/ui/hud.lua /dev/null)",
       "Bash(head -10 echo \"\" echo \"상점 아이템 구조:\" grep -A2 \"pool = {\" main.lua)",
-      "Bash(grep \"\\\\.md$\")"
+      "Bash(grep \"\\\\.md$\")",
+      "Bash(claude mcp:*)"
     ]
   }
 }

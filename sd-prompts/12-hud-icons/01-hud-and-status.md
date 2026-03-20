@@ -17,7 +17,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art HUD icon for a Korean underworld card game. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Bold flat colors with thick black outlines. Game color palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), bone white (#E8E8E8). Simple and immediately readable at small sizes. Fully contained within the frame. Transparent background.
+A single pixel art HUD icon in the style of The Binding of Isaac. One simple recognizable object centered on a plain solid bright green (#00FF00) chroma key background. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing, no gradients. Bold thick black outlines. Flat color fill only. The object floats in empty space with no ground, no shadow, no pedestal, no decorative elements. Extremely simple silhouette — must be readable at very small sizes. Square 1:1 composition. Only the icon, nothing else.
 ```
 
 ## 후처리
