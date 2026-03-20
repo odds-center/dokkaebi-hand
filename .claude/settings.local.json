@@ -44,7 +44,8 @@
       "Bash(cp /Users/risingcore/Library/Fonts/Pretendard-Bold.ttf /Users/risingcore/Desktop/work/dokkaebi-hand/dokkaebi-love2d/assets/fonts/)",
       "Bash(cd:*)",
       "Bash(git lfs:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
