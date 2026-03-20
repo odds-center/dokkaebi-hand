@@ -1,13 +1,14 @@
 # 부적(Talisman) 아이콘 (20종)
 
-> 48x48px 아이콘. 작은 크기에서도 시각적 구분이 되어야 함.
-> 등급별 배경색으로 희귀도 구분: 일반=회색, 희귀=파랑, 전설=금색, 저주=보라.
+> **아이작 스타일** — 1:1 정사각 안에 오브젝트만 딱. 투명 배경. 심플한 도트.
+> 48x48px 최종 크기. 작은 크기에서도 한눈에 뭔지 알 수 있어야 함.
+> 등급 구분은 배경색이 아닌 **게임 UI에서 테두리 색상으로** 처리.
 
 ## 생성 환경
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 192 x 192 (→ 다운스케일 48x48, 4배)
+Resolution: 192 x 192 (→ Nearest Neighbor 다운스케일 48x48)
 Steps: 20~25
 Guidance: 3.5
 Batch: 4장
@@ -16,148 +17,150 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A single small square pixel art icon of a Korean talisman charm. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Bold flat colors with thick black outlines. Limited color palette based on game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), bone white (#E8E8E8), deep purple (#6B2D5B). The icon depicts one clear central object or symbol on a colored background. Simple enough to read at very small sizes. Fully contained within the square frame with margins. No text.
+A single pixel art item icon in the style of The Binding of Isaac. One simple recognizable object centered on a plain solid bright green (#00FF00) chroma key background. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing, no gradients. Bold thick black outlines around the object. Flat color fill only. The object floats in empty space with no ground, no shadow, no pedestal, no decorative elements. Extremely simple silhouette — must be readable at 48x48 pixels. Square 1:1 composition. Only the item, nothing else.
 ```
 
 ## 후처리
 
 ```
-1. Nearest Neighbor 다운스케일 → 48x48
-2. PNG → Assets/Art/Icons/Talisman/
+1. 크로마키 그린 배경 제거 → 투명 알파
+2. Nearest Neighbor 다운스케일 → 48x48
+3. PNG (알파) → Assets/Art/Icons/Talisman/
+4. 게임 UI에서 등급별 테두리 색상 렌더링 (일반=회색, 희귀=파랑, 전설=금색, 저주=보라)
 ```
 
 ---
 
-## 일반 (Common) — 회색 배경
+## 일반 (Common) — 6종
 
 ### talisman_blood_oath — 피의 맹세
 **Seed:** 73001
 ```
-A small talisman icon on a gray background. A crimson red blood drop falling onto a folded paper talisman. The paper has a faint red seal mark. Simple composition — blood drop above talisman paper. Color palette: gray background, crimson red, parchment white.
+A single crimson blood drop with a small white paper talisman behind it. The blood drop is bright red, the paper is pale. Two simple objects overlapping. Nothing else.
 ```
 
 ### talisman_red_gate — 홍살문
 **Seed:** 73002
 ```
-A small talisman icon on a gray background. A miniature red torii-style Korean hongsalmun gate. Two red pillars with a horizontal beam across the top. Simple architectural silhouette. Color palette: gray background, vivid red, dark brown.
+A tiny red Korean gate — two red pillars with a red beam across the top. Simple torii-like silhouette in vivid red. The iconic hongsalmun shape. Nothing else.
 ```
 
 ### talisman_samdo_ferry — 삼도천의 나룻배
 **Seed:** 73003
 ```
-A small talisman icon on a gray background. A tiny wooden boat floating on dark water with a faint cyan ghost flame hovering above it. Simple side-view silhouette. Color palette: gray background, dark brown boat, cyan flame, dark blue water.
+A small brown wooden boat with a single tiny cyan ghost flame floating above it. Simple side-view boat shape. Dark brown hull, cyan wisp on top. Nothing else.
 ```
 
 ### talisman_dokkaebi_club — 도깨비 방망이
 **Seed:** 73004
 ```
-A small talisman icon on a gray background. A traditional Korean dokkaebi club — a short thick wooden bat with metal studs. Simple centered object. Color palette: gray background, dark brown wood, metallic gray studs.
+A short thick wooden club with metal studs — the classic dokkaebi bangmangi. Dark brown wood, gray metal dots. Angled slightly. One simple weapon. Nothing else.
 ```
 
 ### talisman_virtue_gate — 열녀문
 **Seed:** 73005
 ```
-A small talisman icon on a gray background. A miniature stone memorial gate with a green ribbon tied around it. Traditional Korean 열녀문 arch shape. Color palette: gray background, stone gray, green ribbon.
+A small stone arch gate with a green ribbon tied at the top. Gray stone, bright green ribbon bow. Simple arch shape. Nothing else.
 ```
 
 ### talisman_samsara_bead — 윤회의 구슬
 **Seed:** 73006
 ```
-A small talisman icon on a gray background. A single glowing jade-green prayer bead with a faint spiral pattern inside. Simple centered sphere. Color palette: gray background, jade green, faint inner glow.
+A single round jade-green prayer bead with a tiny spiral mark inside. Bright green sphere with black outline. One simple glowing orb. Nothing else.
 ```
 
 ---
 
-## 희귀 (Rare) — 파란 배경
+## 희귀 (Rare) — 6종
 
 ### talisman_dokkaebi_hat — 도깨비 감투
 **Seed:** 73011
 ```
-A small talisman icon on a blue background. A traditional Korean invisibility hat — the dokkaebi gamtu. A cone-shaped dark hat with mysterious purple shimmer. Color palette: blue background, dark fabric, purple shimmer.
+A cone-shaped dark hat — the Korean dokkaebi invisibility hat. Dark fabric with a faint purple shimmer line. Simple triangular hat shape. Nothing else.
 ```
 
 ### talisman_moonlight_fox — 달빛 여우
 **Seed:** 73012
 ```
-A small talisman icon on a blue background. A small white fox silhouette sitting under a crescent moon. The fox glows faintly silver. Color palette: blue background, white fox, silver moonlight, pale yellow moon.
+A small white fox silhouette sitting below a yellow crescent moon. The fox is tiny and simple, the moon is a clear crescent above. White fox, yellow moon. Nothing else.
 ```
 
 ### talisman_underworld_mirror — 황천의 거울
 **Seed:** 73013
 ```
-A small talisman icon on a blue background. A small round bronze mirror with a reflective surface showing a faint ghostly image. Traditional Korean bronze mirror shape. Color palette: blue background, bronze frame, silver mirror surface.
+A small round bronze mirror — traditional Korean bronze mirror shape. Dark bronze rim, bright reflective silver center. Simple circle with a frame. Nothing else.
 ```
 
 ### talisman_girin_horn — 기린 각
 **Seed:** 73014
 ```
-A small talisman icon on a blue background. A single curved golden horn from a mythical Korean girin beast. The horn glows with faint gold energy. Color palette: blue background, golden horn, warm glow.
+A single curved golden horn. Bright gold color with a slight upward curve. Simple horn shape like a crescent. Nothing else.
 ```
 
 ### talisman_fate_dice — 사주팔자의 주사위
 **Seed:** 73015
 ```
-A small talisman icon on a blue background. A pair of traditional wooden dice with Korean fortune symbols on each face instead of dots. Color palette: blue background, dark wood dice, red symbol marks.
+Two small wooden dice side by side. Dark brown cubes with red dot marks on the faces. Simple pair of dice. Nothing else.
 ```
 
 ### talisman_scale_desire — 욕망의 저울
 **Seed:** 73017
 ```
-A small talisman icon on a blue background. A small golden balance scale tilted heavily to one side, with a red heart on the heavy side and a skull on the light side. Color palette: blue background, gold scale, red heart, bone white skull.
+A tiny golden balance scale tilted to one side. One pan lower than the other. Simple gold scale shape. Nothing else.
 ```
 
 ---
 
-## 전설 (Legendary) — 금색 배경
+## 전설 (Legendary) — 5종
 
 ### talisman_reaper_ledger — 저승사자의 명부
 **Seed:** 73021
 ```
-A small talisman icon on a golden background. An ancient dark scroll partially unrolled, with glowing red text visible on the parchment. A seal of authority stamps the corner. Color palette: gold background, dark scroll, glowing red text, crimson seal.
+A dark scroll partially unrolled with a red seal stamp on it. Dark brown scroll, bright red seal mark. Simple scroll shape. Nothing else.
 ```
 
 ### talisman_madness_bright — 광기의 광
 **Seed:** 73022
 ```
-A small talisman icon on a golden background. A hwatu bright card (광) symbol exploding with chaotic golden light rays. The light is unstable and wild. Color palette: gold background, bright white center, chaotic gold rays.
+A bright golden star shape with jagged chaotic rays shooting outward. Gold center, gold rays — the hwatu bright symbol gone wild. Simple starburst. Nothing else.
 ```
 
 ### talisman_yeomra_seal — 염라왕의 도장
 **Seed:** 73023
 ```
-A small talisman icon on a golden background. A large square red seal stamp — the official seal of King Yama. Bold Chinese characters impression in the center. Color palette: gold background, crimson red seal, dark ink impression.
+A square red seal stamp — official seal shape. Bright crimson red square with dark impression lines inside. Simple square stamp. Nothing else.
 ```
 
 ### talisman_heavenly_lute — 천상의 비파
 **Seed:** 73024
 ```
-A small talisman icon on a golden background. A small Korean traditional biwa/pipa lute instrument glowing with celestial blue-white light. Color palette: gold background, dark wood instrument, celestial blue-white glow.
+A small traditional Korean biwa lute instrument. Dark brown body with pale strings. Simple instrument silhouette. Nothing else.
 ```
 
 ### talisman_hellflame — 지옥불꽃
 **Seed:** 73025
 ```
-A small talisman icon on a golden background. An intense orange-red flame burning with extreme heat, its core white-hot. Small lava drops falling from the flame. Color palette: gold background, orange-red flame, white-hot center.
+A single intense flame — orange-red outer flame with white-hot center. Classic fire shape with pointed tips. Simple flame icon. Nothing else.
 ```
 
 ---
 
-## 저주 (Cursed) — 보라 배경
+## 저주 (Cursed) — 3종
 
 ### talisman_doom — 흉살
 **Seed:** 73031
 ```
-A small talisman icon on a dark purple background. A cracked black talisman paper with a cursed red eye symbol in the center. Dark energy wisps leak from the cracks. Color palette: dark purple background, black paper, glowing red eye, dark wisps.
+A cracked black talisman paper with a single glowing red eye in the center. Dark cracked rectangle, one red eye. Simple cursed paper. Nothing else.
 ```
 
 ### talisman_phantom — 허깨비
 **Seed:** 73032
 ```
-A small talisman icon on a dark purple background. A translucent ghostly hand reaching upward from below, grasping at empty air. The hand is pale and semi-transparent. Color palette: dark purple background, pale translucent hand, faint gray.
+A pale ghostly hand reaching upward with fingers spread. Translucent pale gray-white hand shape. Simple upward-reaching hand. Nothing else.
 ```
 
 ### talisman_oblivion_ribbon — 망각의 띠
 **Seed:** 73033
 ```
-A small talisman icon on a dark purple background. A fraying dark ribbon tied in a knot, with the ends dissolving into particles of forgetting. The ribbon unravels at the edges. Color palette: dark purple background, dark gray ribbon, dissolving particles.
+A dark gray ribbon tied in a loose knot with fraying ends. The ribbon ends dissolve into tiny scattered pixels. Simple knotted ribbon. Nothing else.
 ```

@@ -1,13 +1,13 @@
 # 업적(Achievement) 아이콘 (22종)
 
-> 48~64px 정사각형 아이콘. 업적 리스트에서 표시.
-> 카테고리별 테두리 색: 진행=흰색, 족보=금색, 고스톱=빨강, 특수=보라, 히든=검정.
+> **아이작 스타일** — 1:1 정사각, 투명 배경, 오브젝트만. 심플한 도트 실루엣.
+> 64x64px 최종 크기. 카테고리 테두리는 게임 UI에서 처리.
 
 ## 생성 환경
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 256 x 256 (→ 다운스케일 64x64)
+Resolution: 256 x 256 (→ Nearest Neighbor 다운스케일 64x64)
 Steps: 20~25
 Guidance: 3.5
 Batch: 4장
@@ -16,14 +16,16 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A single small square pixel art achievement icon. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Bold flat colors with thick black outlines. Limited color palette based on game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), bone white (#E8E8E8), deep purple (#6B2D5B). One clear central symbol representing the achievement. Simple enough to read at small sizes. Fully contained within the square frame. Dark navy background. No text unless the achievement specifically involves a number or score — in that case, the number is part of the visual design.
+A single pixel art item icon in the style of The Binding of Isaac. One simple recognizable object or symbol centered on a plain solid bright green (#00FF00) chroma key background. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing, no gradients. Bold thick black outlines. Flat color fill only. The object floats in empty space with no ground, no shadow, no pedestal, no decorative elements. Extremely simple silhouette — must be readable at 64x64 pixels. Square 1:1 composition. Only the item, nothing else.
 ```
 
 ## 후처리
 
 ```
-1. Nearest Neighbor 다운스케일 → 64x64 또는 48x48
-2. PNG → Assets/Art/Icons/Achievement/
+1. 크로마키 그린 배경 제거 → 투명 알파
+2. Nearest Neighbor 다운스케일 → 64x64
+3. PNG (알파) → Assets/Art/Icons/Achievement/
+4. 게임 UI에서 카테고리별 테두리 색 렌더링 (진행=흰색, 족보=금색, 고스톱=빨강, 특수=보라, 히든=검정)
 ```
 
 ---
@@ -33,43 +35,43 @@ A single small square pixel art achievement icon. 16-bit retro pixel art with cr
 ### ach_first_step — 첫 발걸음
 **Seed:** 74001
 ```
-A single footprint glowing faintly on dark ground. One bare foot impression in pale blue light on dark navy. Simple and quiet — the first step into the underworld.
+A single pale blue glowing footprint. One bare foot impression. Simple step mark. Nothing else.
 ```
 
 ### ach_explorer — 저승 탐험가
 **Seed:** 74002
 ```
-A paper lantern illuminating a dark path. A warm orange lantern floating above a winding trail. The explorer who has seen 5 realms.
+A warm orange paper lantern floating with a small glow. Simple round lantern shape. Nothing else.
 ```
 
 ### ach_yeomra_judgment — 염라의 심판
 **Seed:** 74003
 ```
-A golden judgment scale perfectly balanced. The scales of divine justice glowing gold against dark navy. Completing the first full spiral — 10 realms conquered.
+A golden balance scale perfectly balanced. Simple two-pan scale. Nothing else.
 ```
 
 ### ach_spiral_2 — 두 번째 윤회
 **Seed:** 74004
 ```
-Two interlinked spiral circles in silver and gold. The double loop of reincarnation — reaching spiral 2. The cycle begins again.
+Two interlinked spiral circles — one silver, one gold. Simple double loop. Nothing else.
 ```
 
 ### ach_spiral_5 — 저승의 전설
 **Seed:** 74005
 ```
-A crown made of five ghostly cyan flames arranged in a circle. The legendary soul who has completed 5 full spirals. Cyan ghost fire crown on dark navy.
+Five small cyan ghost flames arranged in a circle crown formation. Simple flame ring. Nothing else.
 ```
 
 ### ach_spiral_10 — 무한의 끝
 **Seed:** 74006
 ```
-An infinity symbol made of golden light, cracking and breaking apart at the edges. The impossible achievement — 10 spirals completed. Gold infinity breaking on dark navy.
+A golden infinity symbol with cracks breaking at the edges. Simple cracking infinity. Nothing else.
 ```
 
 ### ach_tenth_death — 열 번째 죽음
 **Seed:** 74007
 ```
-Ten small skull symbols arranged in two rows of five. Simple white bone-colored skulls on dark navy. The persistence of dying 10 times and returning.
+Ten tiny white skulls arranged in two rows of five. Simple skull grid. Nothing else.
 ```
 
 ---
@@ -79,31 +81,31 @@ Ten small skull symbols arranged in two rows of five. Simple white bone-colored 
 ### ach_three_gwang — 삼광 달성
 **Seed:** 74011
 ```
-Three bright stars arranged in a triangle, glowing warm gold. Three points of celestial light on dark navy. Achieving Three Brights yokbo.
+Three golden stars arranged in a triangle. Simple three-star triangle. Nothing else.
 ```
 
 ### ach_four_gwang — 사광 달성
 **Seed:** 74012
 ```
-Four bright stars arranged in a diamond pattern, glowing silver-gold. Four celestial lights on dark navy. Achieving Four Brights.
+Four golden stars arranged in a diamond pattern. Simple four-star diamond. Nothing else.
 ```
 
 ### ach_five_gwang — 오광 달성
 **Seed:** 74013
 ```
-Five brilliant stars arranged in a pentagon, blazing with intense golden white light. Maximum celestial radiance on dark navy. The ultimate Five Brights achievement.
+Five brilliant golden stars arranged in a pentagon, glowing intensely. Simple five-star formation. Nothing else.
 ```
 
 ### ach_score_10k — 만점왕
 **Seed:** 74014
 ```
-A large number "10K" rendered in bold golden pixel text with sparkle effects around it. Scoring 10,000 in a single round. Gold text on dark navy.
+Bold golden pixel text reading "10K" with small sparkle marks. Simple text icon. Nothing else.
 ```
 
 ### ach_score_1m — 백만장자
 **Seed:** 74015
 ```
-A large number "1M" in blazing golden text with an explosion of golden light rays behind it. The million-point milestone. Maximum gold brilliance on dark navy.
+Bold golden pixel text reading "1M" with golden light rays behind it. Simple text icon. Nothing else.
 ```
 
 ---
@@ -113,25 +115,25 @@ A large number "1M" in blazing golden text with an explosion of golden light ray
 ### ach_first_go — 첫 Go
 **Seed:** 74021
 ```
-A single bold red arrow pointing forward with a faint speed trail behind it. The first time choosing Go — moving forward into risk. Red arrow on dark navy.
+A single bold red arrow pointing right with a speed trail. Simple forward arrow. Nothing else.
 ```
 
 ### ach_bold_choice — 대담한 선택
 **Seed:** 74022
 ```
-Two bold red arrows stacked, both pointing forward with intensifying speed trails. Double Go — doubling down on risk. Orange-red arrows on dark navy.
+Two bold red arrows stacked, both pointing right. Simple double arrow. Nothing else.
 ```
 
 ### ach_mad_gambler — 미친 도박사
 **Seed:** 74023
 ```
-Three blazing red arrows with fire trails, pointing forward in a reckless charge. Triple Go success — the mad gambler who won against all odds. Fiery red on dark navy.
+Three blazing red arrows pointing right with fire trails. Simple triple arrow. Nothing else.
 ```
 
 ### ach_greed_price — 욕심의 대가
 **Seed:** 74024
 ```
-A broken red arrow snapped in half, with fragments falling downward. The price of greed — failing after 3 Go attempts. Broken red pieces on dark navy.
+A broken red arrow snapped in half with fragments falling. Simple broken arrow. Nothing else.
 ```
 
 ---
@@ -141,19 +143,19 @@ A broken red arrow snapped in half, with fragments falling downward. The price o
 ### ach_no_talisman — 무부적
 **Seed:** 74031
 ```
-An empty talisman slot outline with a crossed-out circle over it. No talismans — pure skill victory. Empty slot icon with prohibition mark on dark navy.
+An empty square outline with a red X across it. Simple crossed-out slot. Nothing else.
 ```
 
 ### ach_curse_lover — 저주 수용자
 **Seed:** 74032
 ```
-Three dark purple cursed talisman papers stacked together, with dark energy wisps rising from them. Embracing three curses and still winning. Purple curse papers on dark navy.
+Three dark purple talisman papers stacked with dark wisps rising. Simple cursed papers. Nothing else.
 ```
 
 ### ach_nirvana_card — 해탈
 **Seed:** 74033
 ```
-A hwatu card radiating five-star golden light, floating above an open lotus flower. Achieving the highest Nirvana enhancement tier. Golden card above white lotus on dark navy.
+A small card shape radiating golden light above a white lotus flower. Simple card-over-lotus. Nothing else.
 ```
 
 ---
@@ -163,17 +165,17 @@ A hwatu card radiating five-star golden light, floating above an open lotus flow
 ### ach_boatman_talk — ??? (뱃사공 대화)
 **Seed:** 74041
 ```
-A question mark made of faint smoke wisps with a small wooden oar silhouette barely visible behind it. Hidden achievement — talking to the boatman 5 times. Smoky question mark on dark navy.
+A smoky gray question mark with a small wooden oar behind it. Simple question-mark-oar. Nothing else.
 ```
 
 ### ach_zero_score — ??? (0점)
 **Seed:** 74042
 ```
-A large zero rendered in cracked gray stone, with dust falling from it. Hidden achievement — ending a round with exactly 0 score. Gray stone zero on dark navy.
+A large gray stone zero crumbling with dust particles. Simple cracked zero. Nothing else.
 ```
 
 ### ach_time_100h — ??? (100시간)
 **Seed:** 74043
 ```
-A question mark made of clock hands and gears, slowly rusting. Hidden achievement — 100 hours of total playtime. Mechanical question mark on dark navy.
+A question mark made of clock hands and small gear shapes. Simple mechanical question mark. Nothing else.
 ```
