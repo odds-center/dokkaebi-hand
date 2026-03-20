@@ -80,8 +80,9 @@ namespace DokkaebiHand.Cards
                 monthCounts[m]++;
             }
 
-            // 월별 합산 (끗 계산용) — 고유 월만 합산하여 중복 월 중복 계산 방지
-            int monthSum = distinctMonths.Sum(m => (int)m);
+            // 월별 합산 (끗 계산용) — 선택한 카드 2장의 월 합산
+            // 섯다 끗은 실제 카드 2장 기준이므로 전체 months 합산
+            int monthSum = months.Sum(m => (int)m);
 
             // =====================
             // Tier S 콤보
@@ -824,8 +825,8 @@ namespace DokkaebiHand.Cards
                 {
                     Id = "single", NameKR = "단일패", NameEN = "Single Card",
                     Tier = ComboTier.D, Category = ComboCategory.Fallback,
-                    Chips = selectedCards[0].BasePoints, Mult = 1f,
-                    Description = "카드 1장 (콤보 없음)"
+                    Chips = System.Math.Max(selectedCards[0].BasePoints, 10), Mult = 1f,
+                    Description = "카드 1장 (최소 10칩 보장)"
                 });
             }
 
@@ -915,7 +916,7 @@ namespace DokkaebiHand.Cards
             var result = new List<ComboResult>();
             foreach (var c in combos)
             {
-                if (c.Category == ComboCategory.Seotda && c != best)
+                if (c.Category == ComboCategory.Seotda && c.Id != best.Id)
                     continue;
                 result.Add(c);
             }
@@ -1117,8 +1118,16 @@ namespace DokkaebiHand.Cards
                 }
             }
 
-            // 티어순 정렬 (높은 것 먼저)
-            hints.Sort((a, b) => a.Tier.CompareTo(b.Tier));
+            // 티어순 정렬 (높은 것 먼저: S=0 < A=1 이므로 오름차순이 곧 S 우선)
+            hints.Sort((a, b) =>
+            {
+                int cmp = a.Tier.CompareTo(b.Tier);
+                if (cmp != 0) return cmp;
+                // 같은 티어면 예상 칩*배수 높은 순
+                float scoreA = a.EstimatedChips * a.EstimatedMult;
+                float scoreB = b.EstimatedChips * b.EstimatedMult;
+                return scoreB.CompareTo(scoreA);
+            });
 
             return hints;
         }

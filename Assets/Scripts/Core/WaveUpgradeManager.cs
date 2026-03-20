@@ -57,22 +57,36 @@ namespace DokkaebiHand.Core
 
         private List<WaveUpgrade> GetUpgradePool(int realm)
         {
+            // 나선이 올라갈수록 강화 수치도 기하급수 증가
+            // 잘 키우면 나선 50+ 까지 갈 수 있도록 설계
+            int spiral = Math.Max(1, (realm - 1) / 10 + 1);
+
+            // 칩: 기하급수 (×1.3/나선)
+            int chipAmount = (int)(20 * Math.Pow(1.3, spiral - 1));
+
+            // 배수: 나선 10 이전은 가산, 10+ 부터는 현재 배수의 30% 추가 (곱셈 성장)
+            int multAmount;
+            if (spiral < 10)
+                multAmount = Math.Max(1, (int)(1 * Math.Pow(1.25, spiral - 1)));
+            else
+                multAmount = Math.Max(5, (int)(Math.Pow(1.25, spiral - 1)));
+
             var pool = new List<WaveUpgrade>
             {
-                // === A: 패 강화 ===
+                // === A: 패 강화 (나선 비례) ===
                 new WaveUpgrade
                 {
-                    Id = "wave_chip_20", NameKR = "칩 강화", NameEN = "Chip Boost",
-                    DescKR = "이번 런 모든 족보 칩 +20", DescEN = "+20 Chips to all Yokbo",
+                    Id = "wave_chip_20", NameKR = $"칩 강화 +{chipAmount}", NameEN = "Chip Boost",
+                    DescKR = $"이번 런 모든 족보 칩 +{chipAmount}", DescEN = $"+{chipAmount} Chips to all Yokbo",
                     Category = "card",
-                    Apply = (p, g) => p.WaveChipBonus += 20
+                    Apply = (p, g) => p.WaveChipBonus += chipAmount
                 },
                 new WaveUpgrade
                 {
-                    Id = "wave_mult_1", NameKR = "배수 강화", NameEN = "Mult Boost",
-                    DescKR = "이번 런 기본 배수 +1", DescEN = "+1 base Mult",
+                    Id = "wave_mult_1", NameKR = $"배수 강화 +{multAmount}", NameEN = "Mult Boost",
+                    DescKR = $"이번 런 기본 배수 +{multAmount}", DescEN = $"+{multAmount} base Mult",
                     Category = "card",
-                    Apply = (p, g) => p.WaveMultBonus += 1
+                    Apply = (p, g) => p.WaveMultBonus += multAmount
                 },
                 new WaveUpgrade
                 {
@@ -104,7 +118,7 @@ namespace DokkaebiHand.Core
                     Id = "wave_heal_2", NameKR = "치유", NameEN = "Heal",
                     DescKR = "목숨 +2 회복", DescEN = "Restore 2 lives",
                     Category = "survival",
-                    Apply = (p, g) => p.Lives = Math.Min(p.Lives + 2, 6 + g.Upgrades.GetExtraLives())
+                    Apply = (p, g) => p.Lives = Math.Min(p.Lives + 2, PlayerState.MaxLives)
                 },
                 new WaveUpgrade
                 {
@@ -159,15 +173,16 @@ namespace DokkaebiHand.Core
                 }
             };
 
-            // 고렙 전용 강화 추가
+            // 고렙 전용 강화 추가 (나선 비례)
             if (realm >= 10)
             {
+                int megaMult = Math.Max(3, (int)(3 * Math.Pow(1.4, spiral - 1))); // 기하급수
                 pool.Add(new WaveUpgrade
                 {
-                    Id = "wave_mega_mult", NameKR = "극한 배수", NameEN = "Mega Mult",
-                    DescKR = "기본 배수 +3 (목숨 -1)", DescEN = "+3 Mult (-1 life)",
+                    Id = "wave_mega_mult", NameKR = $"극한 배수 +{megaMult}", NameEN = "Mega Mult",
+                    DescKR = $"기본 배수 +{megaMult} (목숨 -1)", DescEN = $"+{megaMult} Mult (-1 life)",
                     Category = "special",
-                    Apply = (p, g) => { p.WaveMultBonus += 3; p.Lives = Math.Max(1, p.Lives - 1); }
+                    Apply = (p, g) => { p.WaveMultBonus += megaMult; p.Lives = Math.Max(1, p.Lives - 1); }
                 });
             }
 

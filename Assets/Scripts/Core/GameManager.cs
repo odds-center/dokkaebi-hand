@@ -102,7 +102,19 @@ namespace DokkaebiHand.Core
                 OnMessage?.Invoke($"업적 달성: {def.NameKR} (+{def.SoulReward} 영혼)");
             };
 
+            // 보스 기믹 즉사 이벤트 연결 (BUG-01)
+            _bossManager.OnPlayerKilled += HandlePlayerKilled;
+
             CurrentState = GameState.MainMenu;
+        }
+
+        private void HandlePlayerKilled()
+        {
+            if (_player.Lives <= 0)
+            {
+                SetState(GameState.GameOver);
+                OnMessage?.Invoke("저승의 어둠이 너를 집어삼킨다...");
+            }
         }
 
         /// <summary>
@@ -113,8 +125,8 @@ namespace DokkaebiHand.Core
             // 사주팔자 생성
             _destiny.GenerateDestiny();
 
-            _player.Lives = 3 + _upgrades.GetExtraLives();
-            _player.Yeop = 100 + _upgrades.GetBonusStartYeop() + _destiny.GetStartYeopBonus();
+            _player.Lives = 5 + _upgrades.GetExtraLives();
+            _player.Yeop = 50 + _upgrades.GetBonusStartYeop() + _destiny.GetStartYeopBonus();
             _player.CurrentFloor = 1;
             _runSoulFragments = 0;
 
@@ -214,6 +226,7 @@ namespace DokkaebiHand.Core
                 OnMessage?.Invoke($"{CurrentBoss.DisplayName} 격파!");
             CurrentBattle.OnBossCounterAttack += msg =>
                 OnMessage?.Invoke(msg);
+            CurrentBattle.OnPlayerKilled += HandlePlayerKilled;
 
             OnBossGenerated?.Invoke(CurrentBoss);
             OnMessage?.Invoke($"{CurrentBoss.DisplayName}이(가) 판을 깔았다! (HP: {CurrentBattle.GetHPDisplay()})");
@@ -228,6 +241,24 @@ namespace DokkaebiHand.Core
         public void StartNextRound()
         {
             CurrentRoundInRealm++;
+
+            // 라운드 수 초과 시 보스 미격파 → 패배 처리
+            if (CurrentRoundInRealm > TotalRoundsInRealm && CurrentBattle != null && !CurrentBattle.IsBossDefeated)
+            {
+                _player.Lives--;
+                OnMessage?.Invoke("판이 다 끝났다! 도깨비에게 밀렸다...");
+                if (_player.Lives <= 0)
+                {
+                    SetState(GameState.GameOver);
+                    OnMessage?.Invoke("저승의 어둠이 너를 집어삼킨다...");
+                }
+                else
+                {
+                    CurrentRoundInRealm--;
+                    SetState(GameState.PostRound);
+                }
+                return;
+            }
 
             _roundManager = new RoundManager(_player, _deckManager, _talismanManager,
                 _bossManager, _cardEnhancements, _upgrades);
@@ -255,6 +286,25 @@ namespace DokkaebiHand.Core
 
             _roundManager.StartRound();
 
+            // 보스 반격 패널티 적용 (이전 판에서 발생한 패널티)
+            if (CurrentBattle != null)
+            {
+                if (CurrentBattle.CounterHandPenalty > 0)
+                {
+                    int penalty = CurrentBattle.CounterHandPenalty;
+                    for (int i = 0; i < penalty && _roundManager.HandCards.Count > 2; i++)
+                    {
+                        _roundManager.HandCards.RemoveAt(_roundManager.HandCards.Count - 1);
+                    }
+                    OnMessage?.Invoke($"보스 반격 여파! 손패 -{penalty}장!");
+                }
+                if (CurrentBattle.CounterChipPenalty > 0)
+                {
+                    _roundManager.BlessingChipBonus -= CurrentBattle.CounterChipPenalty * 0.01f;
+                    OnMessage?.Invoke($"보스 반격 여파! 칩 -{CurrentBattle.CounterChipPenalty}%!");
+                }
+            }
+
             // 동료 도깨비 쿨다운
             _companions.TickAllCooldowns();
 
@@ -273,9 +323,12 @@ namespace DokkaebiHand.Core
             // 섯다 공격 실행 (RoundManager가 누적 시너지 적용)
             var result = _roundManager.ExecuteAttack(card1, card2);
 
-            // 잘못된 공격 (페이즈 오류, 카드 누락 등) → 라운드 종료 안 함
+            // 잘못된 공격 (페이즈 오류, 카드 누락 등) → 패배 처리하여 교착 방지
             if (result.FinalDamage <= 0)
+            {
+                _roundManager.FinishRound(false);
                 return result;
+            }
 
             // 보스 HP 차감
             if (CurrentBattle != null)
@@ -308,11 +361,12 @@ namespace DokkaebiHand.Core
             // Go 3 즉사 판정
             if (_roundManager.GoCount >= 3)
             {
-                float deathChance = 0.2f;
+                float deathChance = 0.1f; // 10% (초보 친화적)
                 float insuranceChance = _upgrades.GetGoInsuranceChance();
 
                 if (_rng.NextDouble() < deathChance)
                 {
+                    // 즉사 판정 발동 → 보험 체크
                     if (insuranceChance > 0 && _rng.NextDouble() < insuranceChance)
                     {
                         OnMessage?.Invoke("Go 보험 발동! 즉사를 면했다!");
@@ -327,6 +381,11 @@ namespace DokkaebiHand.Core
                             OnMessage?.Invoke("저승의 어둠이 너를 집어삼킨다...");
                         }
                     }
+                }
+                else if (insuranceChance > 0)
+                {
+                    // 즉사 미발동이어도 보험 보유 알림 (UX)
+                    OnMessage?.Invoke("위험했지만... 무사히 넘겼다!");
                 }
             }
         }
@@ -407,6 +466,14 @@ namespace DokkaebiHand.Core
         {
             string result = _events.ExecuteChoice(_player, choiceIndex);
             OnMessage?.Invoke(result);
+
+            // 이벤트 효과로 체력 0 이하 → 게임오버
+            if (_player.Lives <= 0)
+            {
+                SetState(GameState.GameOver);
+                OnMessage?.Invoke("저승의 어둠이 너를 집어삼킨다...");
+            }
+
             return result;
         }
 
@@ -591,6 +658,35 @@ namespace DokkaebiHand.Core
             _achievements.LoadUnlocked(data.UnlockedAchievements);
 
             _runSoulFragments = 0;
+
+            // 보스 전투 상태 복원
+            if (!string.IsNullOrEmpty(data.CurrentBossId) && data.BossMaxHP > 0)
+            {
+                var bossDef = BossDatabase.GetById(data.CurrentBossId);
+                if (bossDef != null)
+                {
+                    CurrentBoss = _bossGenerator.GenerateRandomBoss(_spiral);
+                    CurrentBoss.BaseBoss = bossDef;
+
+                    CurrentBattle = new BossBattle(bossDef, _spiral.CurrentSpiral);
+                    // HP 복원: MaxHP에서 이미 받은 데미지를 차감
+                    int damageTaken = data.BossMaxHP - data.BossCurrentHP;
+                    if (damageTaken > 0)
+                        CurrentBattle.DealDamage(new ScoringEngine.ScoreResult { FinalScore = damageTaken });
+
+                    CurrentBattle.OnBossDamaged += dmg =>
+                        OnMessage?.Invoke($"{CurrentBoss.DisplayName}에게 {dmg} 타격!");
+                    CurrentBattle.OnBossDefeated += () =>
+                        OnMessage?.Invoke($"{CurrentBoss.DisplayName} 격파!");
+                    CurrentBattle.OnBossCounterAttack += msg =>
+                        OnMessage?.Invoke(msg);
+                    CurrentBattle.OnPlayerKilled += HandlePlayerKilled;
+
+                    _bossManager.SetBoss(bossDef);
+                    TotalRoundsInRealm = bossDef.Rounds;
+                    CurrentRoundInRealm = data.CurrentRoundInRealm;
+                }
+            }
 
             OnMessage?.Invoke($"세이브 로드 완료: 나선 {_spiral.CurrentSpiral} 영역 {_spiral.CurrentRealm}");
         }

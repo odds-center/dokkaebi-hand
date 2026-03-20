@@ -148,7 +148,7 @@ namespace DokkaebiHand.Core
             }
             else if (item.ConsumableType == "health")
             {
-                player.Lives = Math.Min(player.Lives + 1, 6);
+                player.Lives = Math.Min(player.Lives + 1, PlayerState.MaxLives);
             }
             else if (item.ConsumableType == "card_pack")
             {

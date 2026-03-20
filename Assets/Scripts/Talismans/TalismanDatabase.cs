@@ -149,7 +149,7 @@ namespace DokkaebiHand.Talismans
                 Rarity = TalismanRarity.Common,
                 Description = "+15 Chips at round start",
                 DescriptionKR = "라운드 시작 시 칩 +15",
-                Trigger = TalismanTrigger.OnRoundEnd,
+                Trigger = TalismanTrigger.OnRoundStart,
                 TriggerCondition = "",
                 EffectType = TalismanEffectType.AddChips,
                 EffectValue = 15f,
@@ -265,6 +265,7 @@ namespace DokkaebiHand.Talismans
                 TriggerCondition = "cheongdan",
                 EffectType = TalismanEffectType.AddChips,
                 EffectValue = 100f,
+                SecondaryMultBonus = 2f,
                 TriggerChance = 1f,
                 IsCurse = false
             });

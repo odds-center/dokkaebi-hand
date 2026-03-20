@@ -33,8 +33,11 @@ namespace DokkaebiHand.Combat
         public float AccumulatedMult { get; private set; } = 1f;
         public int AccumulatedChips { get; private set; }
         public int GoCount { get; private set; }
-        public int MaxPlays { get; set; } = 4;
+        public int MaxPlays { get; set; } = 5;
         public int PlaysUsed { get; private set; }
+
+        // === 외부 접근 ===
+        public DeckManager Deck => _deckManager;
 
         // === 의존성 ===
         private readonly DeckManager _deckManager;
@@ -77,8 +80,12 @@ namespace DokkaebiHand.Combat
             GoCount = 0;
             PlaysUsed = 0;
             AccumulatedCombos.Clear();
-            AccumulatedMult = 1f;
-            AccumulatedChips = 0;
+
+            // 기본값에 영구강화 + 웨이브 강화 반영
+            int permChips = _upgrades != null ? _upgrades.GetBonusChips() : 0;
+            int permMult = _upgrades != null ? _upgrades.GetBonusMult() : 0;
+            AccumulatedChips = permChips + _player.WaveChipBonus;
+            AccumulatedMult = 1f + permMult + _player.WaveMultBonus;
 
             _player.ResetForNewRound();
             _deckManager.InitializeDeck();
@@ -140,6 +147,17 @@ namespace DokkaebiHand.Combat
 
             // 콤보 판정
             var combos = HandEvaluator.Evaluate(selected);
+
+            // 광 무효화 기믹: 광 관련 콤보 제거 (염라대왕)
+            if (_bossManager != null && _bossManager.IsGwangDisabled())
+            {
+                combos.RemoveAll(c => c.Id != null && (
+                    c.Id.Contains("gwang") || c.Id == "ogwang" || c.Id == "samgwang" ||
+                    c.Id == "bigwang" || c.Id == "38gwangttaeng" || c.Id == "18gwangttaeng" ||
+                    c.Id == "13gwangttaeng"));
+                if (combos.Count == 0)
+                    OnMessage?.Invoke("염라대왕의 기세에 광 족보가 봉인되었다!");
+            }
 
             // 축복 보너스 적용
             if (BlessingChipBonus > 0 || BlessingMultBonus > 0)
@@ -248,10 +266,9 @@ namespace DokkaebiHand.Combat
             // 다음 상태 결정
             if (HandCards.Count < 2)
             {
-                // 공격용 카드 부족 → 시너지만으로 공격 (자동 종료)
+                // 공격용 카드 부족 → 공격 없이 판 종료 (시너지는 유지, 패배 아님)
                 OnMessage?.Invoke("손패 부족! 공격 없이 판이 끝난다!");
-                SetPhase(Phase.RoundEnd);
-                OnRoundEnded?.Invoke(false);
+                SetPhase(Phase.AttackSelect);
             }
             else if (PlaysUsed >= MaxPlays)
             {
@@ -259,10 +276,16 @@ namespace DokkaebiHand.Combat
                 OnMessage?.Invoke("내기 완료! 공격할 2장을 골라라!");
                 SetPhase(Phase.AttackSelect);
             }
+            else if (AccumulatedCombos.Count > 0)
+            {
+                // 콤보가 하나라도 있으면 Go/Stop 선택 가능
+                SetPhase(Phase.GoStopChoice);
+            }
             else
             {
-                // Go/Stop 선택 가능
-                SetPhase(Phase.GoStopChoice);
+                // 콤보 없음 → 추가 내기 계속 (Go/Stop 불가)
+                OnMessage?.Invoke("콤보 없음... 카드를 더 선택하여 내기!");
+                SetPhase(Phase.SelectCards);
             }
 
             return combos;
@@ -292,18 +315,18 @@ namespace DokkaebiHand.Combat
             {
                 case 1:
                     drawCount = 3;
-                    bossDamage = 5;
-                    goMessage = "고 1회! +3장, 보스 경공격!";
+                    bossDamage = 0;
+                    goMessage = "고 1회! +3장, 배수 ×1.5!";
                     break;
                 case 2:
                     drawCount = 2;
-                    bossDamage = 15;
-                    goMessage = "고 2회! +2장, 보스 강공격!";
+                    bossDamage = 5;
+                    goMessage = "고 2회! +2장, 배수 ×2! 보스 반격!";
                     break;
                 default: // 3+
                     drawCount = 1;
-                    bossDamage = 30;
-                    goMessage = "고 3회! +1장, 보스 필살기! 즉사 위험!";
+                    bossDamage = 10;
+                    goMessage = "고 3회! +1장, 배수 ×3! 즉사 위험!";
                     break;
             }
 
@@ -361,6 +384,16 @@ namespace DokkaebiHand.Combat
             if (card1 == card2)
                 return new SeotdaAttackResult { FinalDamage = 0 };
 
+            // 광 무효화 기믹 체크 (염라대왕)
+            if (_bossManager != null && _bossManager.IsGwangDisabled())
+            {
+                if (card1.Type == CardType.Gwang || card2.Type == CardType.Gwang)
+                {
+                    OnMessage?.Invoke("염라대왕의 기세에 광이 봉인되었다! 광 카드로 공격 불가!");
+                    return new SeotdaAttackResult { FinalDamage = 0 };
+                }
+            }
+
             // 섯다 족보 판정
             var seotda = SeotdaChallenge.Evaluate(card1, card2);
 
@@ -370,18 +403,48 @@ namespace DokkaebiHand.Combat
             // 고 배수
             float goMult = GoCount switch
             {
-                1 => 2f,
-                2 => 4f,
-                >= 3 => 10f,
+                1 => 1.5f,
+                2 => 2f,
+                >= 3 => 3f,
                 _ => 1f
             };
 
-            // 최종 데미지 = (섯다 기본 + 누적 칩) × 누적 배수 × 고 배수
-            int finalDamage = (int)((baseDamage + AccumulatedChips) * AccumulatedMult * goMult);
+            // 부적 효과: 공격 시 칩/배수 보너스
+            int talismanChips = 0;
+            float talismanMult = 1f;
+            if (_talismanManager != null)
+            {
+                var talismanResult = _talismanManager.ApplyTalismanEffects(
+                    _player,
+                    new ScoringEngine.ScoreResult { Chips = 0, Mult = 1, FinalScore = 0 },
+                    TalismanTrigger.OnStopDecision);
+                talismanChips = talismanResult.Chips;
+                if (talismanResult.Mult > 1)
+                    talismanMult = talismanResult.Mult;
+            }
 
-            // 카드 소모 (실패 시 공격 무효)
-            if (!HandCards.Remove(card1) || !HandCards.Remove(card2))
+            // 최종 데미지 = (섯다 기본 + 누적 칩 + 부적 칩) × 누적 배수 × 부적 배수 × 고 배수
+            long rawDamage = (long)((baseDamage + AccumulatedChips + talismanChips)
+                * AccumulatedMult * talismanMult * goMult);
+            int finalDamage = (int)System.Math.Min(rawDamage, int.MaxValue);
+
+            // 카드 소모 (원자적 처리: 두 장 모두 제거 가능한지 먼저 확인)
+            int idx1 = HandCards.IndexOf(card1);
+            int idx2 = HandCards.IndexOf(card2);
+            if (idx1 < 0 || idx2 < 0)
                 return new SeotdaAttackResult { FinalDamage = 0 };
+
+            // 큰 인덱스부터 제거하여 인덱스 밀림 방지
+            if (idx1 > idx2)
+            {
+                HandCards.RemoveAt(idx1);
+                HandCards.RemoveAt(idx2);
+            }
+            else
+            {
+                HandCards.RemoveAt(idx2);
+                HandCards.RemoveAt(idx1);
+            }
 
             var result = new SeotdaAttackResult
             {
@@ -423,20 +486,20 @@ namespace DokkaebiHand.Combat
             {
                 1 => new GoRiskInfo
                 {
-                    DrawCards = 3, BossDamage = 5,
-                    Description = "고 1: +3장 드로우, 보스 경공격",
+                    DrawCards = 3, BossDamage = 0,
+                    Description = "고 1: +3장 드로우, 배수 ×1.5",
                     InstantDeathRisk = false
                 },
                 2 => new GoRiskInfo
                 {
-                    DrawCards = 2, BossDamage = 15,
-                    Description = "고 2: +2장 드로우, 보스 강공격",
+                    DrawCards = 2, BossDamage = 5,
+                    Description = "고 2: +2장 드로우, 배수 ×2, 보스 반격!",
                     InstantDeathRisk = false
                 },
                 _ => new GoRiskInfo
                 {
-                    DrawCards = 1, BossDamage = 30,
-                    Description = "고 3: +1장 드로우, 보스 필살기! 즉사 위험!",
+                    DrawCards = 1, BossDamage = 10,
+                    Description = "고 3: +1장 드로우, 배수 ×3, 즉사 위험!",
                     InstantDeathRisk = true
                 }
             };
@@ -520,26 +583,26 @@ namespace DokkaebiHand.Combat
         /// </summary>
         private int CalculateSeotdaBaseDamage(SeotdaResult seotda)
         {
-            // 기본 데미지를 낮추고 시너지 배수 의존도를 높임
-            // 시너지 없이는 약하고, 시너지 쌓으면 강해지는 구조
+            // 깔끔한 숫자. 시너지 없이도 한 판에 30~80 데미지.
+            // 1관문 보스(HP 300)를 4~5판이면 잡을 수 있는 수준.
             return seotda.Rank switch
             {
-                100 => 80,      // 38광땡
+                100 => 80,      // 38광땡 — 대박!
                 99 => 70,       // 18광땡
                 98 => 65,       // 13광땡
                 95 => 60,       // 기타 광땡
                 >= 90 => 50,    // 장땡
-                >= 80 => 30 + (seotda.Rank - 80) * 2, // N땡 (30~50)
+                >= 80 => 25 + (seotda.Rank - 80) * 2, // N땡 (25~45)
                 75 => 35,       // 알리
-                74 => 30,       // 독사
-                73 => 28,       // 구삥
-                72 => 25,       // 장삥
-                71 => 22,       // 장사
-                70 => 20,       // 세륙
-                >= 7 => 10 + seotda.Rank, // 7~9끗 (17~19)
-                >= 1 => 5 + seotda.Rank,  // 1~6끗 (6~11)
-                0 => 3,         // 갑오(0끗) — 최악
-                _ => 3          // 기타
+                74 => 32,       // 독사
+                73 => 30,       // 구삥
+                72 => 28,       // 장삥
+                71 => 25,       // 장사
+                70 => 22,       // 세륙
+                >= 7 => 12 + seotda.Rank, // 7~9끗 (19~21)
+                >= 1 => 8 + seotda.Rank,  // 1~6끗 (9~14)
+                0 => 5,         // 갑오(0끗)
+                _ => 5
             };
         }
 

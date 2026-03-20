@@ -29,6 +29,7 @@ namespace DokkaebiHand.Talismans
         public string TriggerCondition;
         public TalismanEffectType EffectType;
         public float EffectValue;
+        public float SecondaryMultBonus;  // 추가 배수 보너스 (칩+배수 동시 효과용)
         public float TriggerChance;
         public bool IsCurse;
     }

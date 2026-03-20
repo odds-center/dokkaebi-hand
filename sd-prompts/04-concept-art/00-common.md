@@ -5,43 +5,34 @@
 캐릭터/보스의 **디자인 방향을 확정**하기 위한 레퍼런스.
 
 ```
-SD 컨셉아트 → "이 느낌으로 가자" 확정
-                ↓
-            도트 작업 또는 코드 스프라이트 개선의 기준점
+컨셉아트 → "이 느낌으로 가자" 확정
+             ↓
+         도트 작업 또는 코드 스프라이트 개선의 기준점
 ```
 
-## SD 설정
+## 생성 환경
 
 ```yaml
-Model: SD 1.5 (LoRA 없이 — 컨셉아트는 일반 스타일이 나을 수 있음)
-       또는 SD 1.5 + pixel-art LoRA (0.3~0.4) — 약하게
+Model: Flux-dev (ComfyUI)
 Resolution: 512 x 768 (세로 전신)
-Steps: 35~45
-CFG Scale: 7
-Sampler: DPM++ 2M Karras
+Steps: 20~30
+Guidance: 3.5~4.0
+Sampler: euler
+Scheduler: normal
 Batch: 8장씩 뽑아서 최선 선택 (컨셉은 많이 뽑아야 함)
 ```
 
-## 공통 긍정 프롬프트
+### Flux-dev 프롬프트 규칙
+- 네거티브 프롬프트 없음 — 원하지 않는 요소는 긍정 프롬프트에서 배제
+- 가중치 문법 미사용 — 자연어로 강조
+- LoRA는 ComfyUI 노드에서 별도 연결
+
+## 공통 프롬프트 프리픽스
+
+> 모든 컨셉아트 프롬프트 **앞에** 이 문장을 붙인다.
 
 ```
-(character concept art:1.3), (full body:1.2),
-(korean dark fantasy:1.3), traditional ink painting style,
-(thick black ink outlines:1.2), expressive face,
-limited color palette, single character centered,
-(simple dark background:1.2), standing pose
-```
-
-## 공통 부정 프롬프트
-
-```
-(blurry:1.3), (realistic photograph:1.4),
-multiple characters, busy background, landscape,
-text, watermark, signature,
-(cute:1.3), (chibi:1.3), (anime:1.2),
-modern clothes, western fantasy armor,
-(low quality:1.3), deformed hands, extra fingers,
-symmetrical face too perfect
+A character concept art illustration in pixel art style. Full body view of a single character centered on a simple dark background. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing. Korean dark fantasy style with thick black ink outlines, expressive face, and bold flat colors. Limited color palette matching the game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), hanji beige (#F5E6CA), bone white (#E8E8E8), deep purple (#6B2D5B). Standing pose. The character is fully contained within the image with comfortable margins on all sides — nothing is cropped or cut off at any edge.
 ```
 
 ## 게임 내 캐릭터 표시 크기
@@ -56,4 +47,4 @@ symmetrical face too perfect
 2. 선택한 이미지를 **팀 레퍼런스**로 저장
 3. img2img로 표정/포즈 변형 시도
 4. 최종적으로 이 레퍼런스를 보면서 **도트 스프라이트 제작**
-5. 또는 SD 결과물 자체를 게임 내 "일러스트 컷"으로 활용 (대화 장면 등)
+5. 또는 결과물 자체를 게임 내 "일러스트 컷"으로 활용 (대화 장면 등)

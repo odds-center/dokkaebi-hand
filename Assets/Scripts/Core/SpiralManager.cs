@@ -29,13 +29,14 @@ namespace DokkaebiHand.Core
         public int AbsoluteRealm => (CurrentSpiral - 1) * RealmsPerSpiral + CurrentRealm;
 
         /// <summary>
-        /// 현재 영역의 목표 점수 (선형 스케일링)
-        /// 기본값 × (1 + 0.12 × (AbsoluteRealm - 1))
+        /// 영역 내 목표 점수 (같은 나선 안에서는 완만하게 증가)
+        /// 나선 간 대폭 증가는 BossBattle의 spiralMult가 담당
         /// </summary>
         public int GetTargetScore(int baseTarget)
         {
-            float multiplier = 1f + 0.12f * (AbsoluteRealm - 1);
-            return (int)(baseTarget * multiplier);
+            // 같은 나선 안에서는 영역마다 5%씩만 증가
+            float realmMult = 1f + 0.05f * (CurrentRealm - 1);
+            return (int)(baseTarget * realmMult);
         }
 
         /// <summary>
@@ -115,6 +116,21 @@ namespace DokkaebiHand.Core
             CurrentSpiral = data.Spiral;
             CurrentRealm = data.Realm;
             TotalRealmsCleared = data.TotalCleared;
+
+            // 축복 복원
+            ActiveBlessing = null;
+            if (!string.IsNullOrEmpty(data.BlessingId))
+            {
+                var all = SpiralBlessing.GetAll();
+                foreach (var b in all)
+                {
+                    if (b.Id == data.BlessingId)
+                    {
+                        ActiveBlessing = b;
+                        break;
+                    }
+                }
+            }
         }
     }
 

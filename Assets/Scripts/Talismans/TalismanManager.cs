@@ -28,8 +28,11 @@ namespace DokkaebiHand.Talismans
             // 부적 효과 배율 (공허 축복, 웨이브 강화 등)
             float effectMult = 1f + player.WaveTalismanEffectBonus;
 
+            // 반복 중 컬렉션 수정 방지를 위해 복사본 사용
+            var activeTalismans = new List<TalismanInstance>(player.Talismans);
+
             // Phase 1: 가산 효과 (+)
-            foreach (var talisman in player.Talismans)
+            foreach (var talisman in activeTalismans)
             {
                 if (!talisman.IsActive || talisman.Data.Trigger != currentTrigger)
                     continue;
@@ -43,6 +46,13 @@ namespace DokkaebiHand.Talismans
                         int addedChips = (int)(talisman.Data.EffectValue * effectMult);
                         result.Chips += addedChips;
                         OnTalismanTriggered?.Invoke(talisman, $"+{addedChips} 칩");
+                        // 추가 배수 보너스 (칩+배수 동시 효과)
+                        if (talisman.Data.SecondaryMultBonus > 0)
+                        {
+                            int secMult = (int)(talisman.Data.SecondaryMultBonus * effectMult);
+                            result.Mult += secMult;
+                            OnTalismanTriggered?.Invoke(talisman, $"+{secMult} 배수");
+                        }
                         break;
 
                     case TalismanEffectType.AddMult:
@@ -54,7 +64,7 @@ namespace DokkaebiHand.Talismans
             }
 
             // Phase 2: 승산 효과 (x)
-            foreach (var talisman in player.Talismans)
+            foreach (var talisman in activeTalismans)
             {
                 if (!talisman.IsActive || talisman.Data.Trigger != currentTrigger)
                     continue;

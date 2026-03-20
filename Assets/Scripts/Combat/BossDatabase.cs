@@ -40,169 +40,169 @@ namespace DokkaebiHand.Combat
         {
             _allBosses = new List<BossDefinition>
             {
-                // 1. 먹보 도깨비 (MVP 보스)
+                // 1. 먹보 도깨비 — 입문
                 new BossDefinition
                 {
                     Id = "glutton",
                     Name = "Glutton Dokkaebi",
                     NameKR = "먹보 도깨비",
-                    Description = "매 턴 손패 중 최고가치 패 1장을 먹어치운다",
-                    TargetScore = 200,
-                    Rounds = 3,
+                    Description = "2턴마다 손패 중 최고가치 패 1장을 먹어치운다",
+                    TargetScore = 100,
+                    Rounds = 6,
                     Gimmick = BossGimmick.ConsumeHighest,
-                    GimmickInterval = 1,
+                    GimmickInterval = 2,
                     IntroDialogue = "크하하! 네 패에서 맛있는 냄새가 나는구나!",
                     DefeatDialogue = "으억... 배가 너무 불러...",
                     VictoryDialogue = "꺼억! 맛있었다! 넌 이제 내 밥이야!",
-                    YeopReward = 50,
+                    YeopReward = 30,
                     DropsLegendaryTalisman = false
                 },
 
-                // 2. 장난꾸러기 도깨비
+                // 2. 장난꾸러기 도깨비 — 입문
                 new BossDefinition
                 {
                     Id = "trickster",
                     Name = "Trickster Dokkaebi",
                     NameKR = "장난꾸러기 도깨비",
-                    Description = "모든 패를 뒤집어 기억력 게임으로 만든다",
-                    TargetScore = 250,
-                    Rounds = 3,
+                    Description = "2턴마다 패를 뒤집는다",
+                    TargetScore = 150,
+                    Rounds = 6,
                     Gimmick = BossGimmick.FlipAll,
-                    GimmickInterval = 1,
+                    GimmickInterval = 2,
                     IntroDialogue = "히히히! 눈 감고 쳐봐라~!",
                     DefeatDialogue = "에잇, 네 눈이 너무 좋구나!",
                     VictoryDialogue = "히히! 찍기의 달인이 될 뻔했는데~",
-                    YeopReward = 75,
+                    YeopReward = 35,
                     DropsLegendaryTalisman = false
                 },
 
-                // 3. 불꽃 도깨비
+                // 3. 불꽃 도깨비 — 초급
                 new BossDefinition
                 {
                     Id = "flame",
                     Name = "Flame Dokkaebi",
                     NameKR = "불꽃 도깨비",
                     Description = "3턴마다 바닥패를 전부 불태워 리셋한다",
-                    TargetScore = 300,
-                    Rounds = 3,
+                    TargetScore = 200,
+                    Rounds = 6,
                     Gimmick = BossGimmick.ResetField,
                     GimmickInterval = 3,
                     IntroDialogue = "타오르는 화투판... 재밌지 않나?",
                     DefeatDialogue = "꺼져가는 불꽃... 인정한다...",
                     VictoryDialogue = "모두 태워버리겠다!",
-                    YeopReward = 100,
+                    YeopReward = 40,
                     DropsLegendaryTalisman = false
                 },
 
-                // 4. 그림자 도깨비
+                // 4. 그림자 도깨비 — 중급
                 new BossDefinition
                 {
                     Id = "shadow",
                     Name = "Shadow Dokkaebi",
                     NameKR = "그림자 도깨비",
                     Description = "부적 1개를 랜덤으로 비활성화한다",
-                    TargetScore = 350,
-                    Rounds = 3,
+                    TargetScore = 230,
+                    Rounds = 5,
                     Gimmick = BossGimmick.DisableTalisman,
                     GimmickInterval = 2,
                     IntroDialogue = "그림자가 너의 힘을 삼켜가고 있다...",
                     DefeatDialogue = "빛이... 너무 밝다...",
                     VictoryDialogue = "어둠 속에서 영원히 헤매거라!",
-                    YeopReward = 125,
+                    YeopReward = 50,
                     DropsLegendaryTalisman = true
                 },
 
-                // 5. 여우 도깨비
+                // 5. 여우 도깨비 — 중급
                 new BossDefinition
                 {
                     Id = "fox",
                     Name = "Fox Dokkaebi",
                     NameKR = "여우 도깨비",
                     Description = "매 2턴마다 바닥패 2장의 월을 변경한다",
-                    TargetScore = 280,
-                    Rounds = 3,
+                    TargetScore = 200,
+                    Rounds = 5,
                     Gimmick = BossGimmick.FlipAll,
                     GimmickInterval = 2,
                     IntroDialogue = "후후... 눈을 잘 떠야 할 거야.",
                     DefeatDialogue = "아이고... 꼬리가 잡혔네...",
                     VictoryDialogue = "후후후, 속았지?",
-                    YeopReward = 90,
+                    YeopReward = 45,
                     DropsLegendaryTalisman = false
                 },
 
-                // 6. 거울 도깨비
+                // 6. 거울 도깨비 — 중급
                 new BossDefinition
                 {
                     Id = "mirror",
                     Name = "Mirror Dokkaebi",
                     NameKR = "거울 도깨비",
                     Description = "부적 효과를 반전시킨다",
-                    TargetScore = 320,
-                    Rounds = 3,
+                    TargetScore = 260,
+                    Rounds = 5,
                     Gimmick = BossGimmick.DisableTalisman,
                     GimmickInterval = 3,
                     IntroDialogue = "네 힘이 곧 나의 힘...",
                     DefeatDialogue = "거울이... 깨진다...",
                     VictoryDialogue = "네 그림자에 갇혀라!",
-                    YeopReward = 110,
+                    YeopReward = 50,
                     DropsLegendaryTalisman = false
                 },
 
-                // 7. 화산 도깨비
+                // 7. 화산 도깨비 — 상급
                 new BossDefinition
                 {
                     Id = "volcano",
                     Name = "Volcano Dokkaebi",
                     NameKR = "화산 도깨비",
-                    Description = "매 턴 바닥패 1장 소각 + 목표 증가",
-                    TargetScore = 350,
-                    Rounds = 3,
+                    Description = "매 2턴 바닥패 1장 소각",
+                    TargetScore = 300,
+                    Rounds = 5,
                     Gimmick = BossGimmick.ResetField,
                     GimmickInterval = 2,
                     IntroDialogue = "뜨거운 용암 위에서 패를 쳐볼 테냐!",
                     DefeatDialogue = "크윽... 식어간다...",
                     VictoryDialogue = "모든 것을 녹여버리겠다!",
-                    YeopReward = 130,
+                    YeopReward = 55,
                     DropsLegendaryTalisman = false
                 },
 
-                // 8. 황금 도깨비
+                // 8. 황금 도깨비 — 상급 (하이리스크 하이리턴)
                 new BossDefinition
                 {
                     Id = "gold",
                     Name = "Golden Dokkaebi",
                     NameKR = "황금 도깨비",
-                    Description = "목표 점수가 2배지만 보상도 2배",
-                    TargetScore = 500,
-                    Rounds = 3,
+                    Description = "강하지만 보상도 크다",
+                    TargetScore = 350,
+                    Rounds = 6,
                     Gimmick = BossGimmick.ConsumeHighest,
                     GimmickInterval = 3,
                     IntroDialogue = "금으로 된 패를 원하느냐? 그럼 이겨봐라!",
                     DefeatDialogue = "내 금은보화를... 가져가거라...",
                     VictoryDialogue = "탐욕은 모든 것을 삼킨다!",
-                    YeopReward = 250,
+                    YeopReward = 80,
                     DropsLegendaryTalisman = true
                 },
 
-                // 9. 회랑 도깨비
+                // 9. 회랑 도깨비 — 상급
                 new BossDefinition
                 {
                     Id = "corridor",
                     Name = "Corridor Dokkaebi",
                     NameKR = "회랑 도깨비",
-                    Description = "손패를 3장씩만 볼 수 있다",
-                    TargetScore = 380,
-                    Rounds = 3,
+                    Description = "매 턴 패를 뒤집는다",
+                    TargetScore = 320,
+                    Rounds = 5,
                     Gimmick = BossGimmick.FlipAll,
                     GimmickInterval = 1,
                     IntroDialogue = "이 끝없는 회랑에서 빠져나갈 수 있겠느냐...",
                     DefeatDialogue = "길을 찾다니... 대단하구나...",
                     VictoryDialogue = "영원히 이 회랑을 떠돌게 될 것이다!",
-                    YeopReward = 140,
+                    YeopReward = 60,
                     DropsLegendaryTalisman = false
                 },
 
-                // 10. 염라대왕 (10영역 최종 보스)
+                // 10. 염라대왕 — 보스 (나선 1 최종)
                 new BossDefinition
                 {
                     Id = "yeomra",
@@ -210,13 +210,13 @@ namespace DokkaebiHand.Combat
                     NameKR = "염라대왕",
                     Description = "광을 무효화시킨다. 피와 띠만으로 승부하라",
                     TargetScore = 400,
-                    Rounds = 5,
+                    Rounds = 6,
                     Gimmick = BossGimmick.NoBright,
                     GimmickInterval = 1,
                     IntroDialogue = "감히 이승으로 돌아가겠다고? 한 판 뜨자!",
                     DefeatDialogue = "허... 대단하구나. 이승의 길을 열어주마.",
                     VictoryDialogue = "저승에서 영원히 내 패거리가 되거라!",
-                    YeopReward = 300,
+                    YeopReward = 100,
                     DropsLegendaryTalisman = true
                 }
             };

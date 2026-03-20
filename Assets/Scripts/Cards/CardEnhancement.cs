@@ -99,7 +99,7 @@ namespace DokkaebiHand.Cards
         /// </summary>
         public bool MutateType(CardType originalType, CardType newType)
         {
-            if (newType > originalType) return false; // 하향 금지
+            if (newType > originalType) return false; // 하향 금지 (Gwang=0 < Tti=1 < Pi=3, 큰 값 = 하위 타입)
             MutatedType = newType;
             return true;
         }

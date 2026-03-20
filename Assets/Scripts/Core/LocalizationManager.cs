@@ -48,7 +48,7 @@ namespace DokkaebiHand.Core
             if (_table.TryGetValue(key, out var texts))
             {
                 int idx = (int)CurrentLanguage;
-                if (idx < texts.Length && !string.IsNullOrEmpty(texts[idx]))
+                if (idx >= 0 && idx < texts.Length && !string.IsNullOrEmpty(texts[idx]))
                     return texts[idx];
                 return texts[0]; // fallback: 한국어
             }

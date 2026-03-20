@@ -21,44 +21,19 @@
 **Seed:** 90031
 
 ```
-(hellish fire pit landscape:1.4), korean underworld punishment realm,
-(rivers of glowing lava:1.3) cutting through dark obsidian rock,
-(fire pillars:1.2) erupting from crevices in the ground,
-jagged sharp rock formations silhouetted against orange glow,
-sulfur vents releasing (yellow-green toxic smoke:1.1),
-heat distortion shimmer warping the air above lava,
-dark crimson sky (#C41E3A) reflecting the fires below,
-no stars visible only red-orange atmospheric glow,
-charred black ground cracked with glowing orange fissures,
-distant mountain of dark stone with lava cascading down sides,
-(oppressive unbearable heat atmosphere:1.2),
-everything is either burning or about to burn,
-color palette: obsidian black, lava orange (#FF4500), crimson red, sulfur yellow
+A pixel art scene of a hellish fire pit landscape in the Korean underworld punishment realm. Rivers of glowing bright orange lava cut through dark obsidian rock formations. Two or three fire pillars erupt from deep crevices in the ground, shooting flames upward. Jagged sharp rock formations are silhouetted against the orange glow of the lava. Sulfur vents release yellow-green toxic smoke from cracks in the earth. Heat distortion shimmers and warps the air above the lava rivers. The sky is dark crimson, reflecting the fires below — no stars visible, only a red-orange atmospheric glow. The ground is charred black, cracked with glowing orange fissures between the plates. A distant mountain of dark stone has lava cascading slowly down its sides. The atmosphere is oppressive and unbearably hot — everything is either burning or about to burn. Color palette: obsidian black, lava orange, crimson red, sulfur yellow.
 ```
 
 ## 프롬프트 B (구덩이 내려다보기)
 **Seed:** 90032
 
 ```
-(deep fire pit viewed from rocky ledge above:1.3),
-looking down into a massive circular pit of flames,
-(molten lava pool:1.3) at the bottom bubbling and churning,
-concentric rings of dark rock ledges descending into the pit,
-(flames licking upward:1.2) along the pit walls,
-sparks and embers floating up past the viewer,
-foreground rocky ledge crumbling at the edge,
-sulfurous yellow smoke rising from the depths,
-dark cave ceiling above with orange fire reflections,
-stalactites dripping something that sizzles on contact,
-vertigo-inducing depth, the pit seems bottomless,
-(merciless environment:1.2) no safe ground anywhere,
-color palette: deep black, molten orange, fire red, sulfur yellow, smoke gray
+A pixel art scene of a deep fire pit viewed from a rocky ledge above in the Korean underworld. Looking down into a massive circular pit filled with flames. A molten lava pool at the bottom bubbles and churns with intense orange light. Concentric rings of dark rock ledges descend into the pit like a hellish amphitheater. Flames lick upward along the pit walls. Sparks and embers float up past the viewer's perspective. The foreground rocky ledge is crumbling at its edge. Sulfurous yellow smoke rises from the depths. A dark cave ceiling above reflects orange firelight. The depth is vertigo-inducing — the pit appears bottomless. The environment is merciless with no safe ground anywhere. Color palette: deep black, molten orange, fire red, sulfur yellow, smoke gray.
 ```
 
 ---
 
 ## 사용 팁
 - 용암의 발광이 핵심 — 어두운 바위와의 대비로 살림
-- CFG 7~8로 높게 — 불/용암의 형태가 뚜렷해야 함
-- 열기 왜곡(heat distortion)은 SD가 잘 표현하는 편
+- Guidance 3.5~4.0 — 불/용암의 형태가 뚜렷해야 함
 - 너무 많은 불기둥을 넣으면 화면이 과하게 밝아짐 — 2~3개가 적당

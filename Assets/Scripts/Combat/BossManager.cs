@@ -29,6 +29,7 @@ namespace DokkaebiHand.Combat
         public bool IsBossActive => _currentBoss != null;
 
         public event Action<string> OnBossGimmickTriggered;
+        public event Action OnPlayerKilled;
 
         public void SetBoss(BossDefinition boss)
         {
@@ -185,6 +186,7 @@ namespace DokkaebiHand.Combat
             {
                 player.Lives = 0;
                 OnBossGimmickTriggered?.Invoke("해골이 3개 모였다... 즉사!");
+                OnPlayerKilled?.Invoke();
             }
         }
 

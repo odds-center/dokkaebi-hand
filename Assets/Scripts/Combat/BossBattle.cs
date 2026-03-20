@@ -33,18 +33,27 @@ namespace DokkaebiHand.Combat
         public event Action<int> OnPlayerDamaged;     // 데미지량
         public event Action OnBossDefeated;
         public event Action<string> OnBossCounterAttack;  // 반격 메시지
+        public event Action OnPlayerKilled;  // 반격으로 플레이어 사망
 
         private readonly BossDefinition _boss;
+        private readonly int _spiralNumber;
         private readonly Random _rng = new Random();
 
         public BossBattle(BossDefinition boss, int spiralNumber)
         {
             _boss = boss;
+            _spiralNumber = spiralNumber;
 
-            // HP = 기본 목표점수 × 15 (Balatro 스타일에서 여러 라운드 필요)
-            // 1윤회: 3000~6000, 2윤회: 4500~9000, ...
-            float spiralMult = 1f + (spiralNumber - 1) * 0.5f;
-            BossMaxHP = (int)(boss.TargetScore * 15 * spiralMult);
+            // HP = TargetScore × 나선 배수
+            // 나선 1: ×1 (300~800)   → 작고 깔끔
+            // 나선 2: ×1.8           → 적당히 상승
+            // 나선 3: ×3.2           → 도전적
+            // 나선 5: ×10            → 시너지 필수
+            // 나선 10: ×100          → K 단위 진입
+            // 나선 20: ×10,000       → M 단위 → NumberFormatter
+            // 공식: 1.8^(spiral-1) — 2보다 완만한 기하급수
+            float spiralMult = (float)System.Math.Pow(1.8, spiralNumber - 1);
+            BossMaxHP = (int)(boss.TargetScore * spiralMult);
             BossCurrentHP = BossMaxHP;
 
             // 반격 데미지 = 기믹 난이도에 따라
@@ -161,17 +170,33 @@ namespace DokkaebiHand.Combat
             }
         }
 
+        /// <summary>
+        /// 나선에 따른 보스 반격 강도 (1~5)
+        /// 나선 1: 1, 나선 5: 2, 나선 10: 3, 나선 20+: 최대 5
+        /// </summary>
+        private int GetRageDamage(int spiralNumber)
+        {
+            if (spiralNumber <= 3) return 1;
+            if (spiralNumber <= 7) return 2;
+            if (spiralNumber <= 15) return 3;
+            if (spiralNumber <= 25) return 4;
+            return 5; // 최대 5칸
+        }
+
         private string BossRageAttack(PlayerState player)
         {
             int roll = _rng.Next(3);
             switch (roll)
             {
                 case 0:
-                    // 목숨 위협 (30% 확률로 1 감소)
-                    if (_rng.NextDouble() < 0.3)
+                    // 목숨 위협 (15% 확률, 나선 비례 피해)
+                    if (_rng.NextDouble() < 0.15)
                     {
-                        player.Lives--;
-                        return "도깨비가 미쳐 날뛴다!! 목숨 -1!";
+                        int dmg = GetRageDamage(_spiralNumber);
+                        player.Lives = System.Math.Max(0, player.Lives - dmg);
+                        if (player.Lives <= 0)
+                            OnPlayerKilled?.Invoke();
+                        return $"도깨비가 미쳐 날뛴다!! 목숨 -{dmg}!";
                     }
                     return "도깨비가 미친 듯이 날뛰지만... 피했다!";
                 case 1:

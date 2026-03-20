@@ -21,54 +21,21 @@
 **Seed:** 90001
 
 ```
-(misty river at night:1.4), (thick fog hovering over still dark water:1.3),
-ancient korean underworld river crossing,
-(floating blue ghost flames:1.3) scattered across the water surface,
-(old weathered wooden boat:1.2) silhouette resting on the river,
-distant dark mountain ridges barely visible through mist,
-ink wash atmosphere with wet brush strokes,
-(dark navy sky:1.2) fading into black at top,
-(cyan light reflections:1.1) on calm water from ghost fires,
-thin layer of low-hanging fog creating depth,
-dead reeds along riverbank in foreground,
-somber tranquil mood, no wind, absolute stillness,
-color palette: dark navy, ink gray, cyan blue accents
+A pixel art scene of a misty river at night in the Korean underworld. 16-bit retro pixel art with crisp pixels and flat colors. Thick fog hovers over perfectly still dark water, creating layers of depth. Small floating blue ghost flames are scattered across the water surface, each casting a faint cyan reflection on the calm water below. An old weathered wooden boat sits as a dark silhouette on the river. Distant dark mountain ridges are barely visible through the heavy mist. The sky is deep dark navy fading to black at the top. The atmosphere is like a wet ink wash painting — somber, tranquil, absolutely still. Dead reeds line the riverbank in the foreground. The color palette is strictly dark navy, ink gray, and cyan blue accent points only. No wind, no movement, captured in perfect silence.
 ```
 
 ## 프롬프트 B (배 강조)
 **Seed:** 90002
 
 ```
-(ancient ferry boat on dark river:1.4), (korean underworld Sanzu River:1.2),
-lone wooden boat with worn oar resting across it,
-dark still water reflecting faint blue ghost lights,
-(dokkaebi fire:1.3) floating in pairs across the misty river,
-(heavy mist:1.2) rolling in from distant mountains,
-ink painting composition with strong horizontal layers,
-sky layer: deep navy (#1A1A2E) with faint stars,
-mist layer: gray-blue fog obscuring the horizon,
-water layer: dark mirror reflecting ghost lights,
-foreground: rocky riverbank with dead grass,
-atmosphere of waiting, a passage that must be crossed,
-color palette: dark navy, steel gray, cyan (#00D4FF) points
+A pixel art scene of an ancient ferry boat resting on a dark still river. 16-bit retro pixel art with crisp pixels and flat colors. in the Korean underworld Sanzu River crossing. The lone wooden boat is weathered and worn, with an oar resting across it. Dark still water reflects faint blue ghost lights — dokkaebi fire floating in pairs across the misty river surface. Heavy mist rolls in from distant mountains, obscuring the far bank completely. The composition has strong horizontal layers: deep navy sky with faint stars above, gray-blue fog band at the horizon, dark mirror water reflecting ghost lights in the middle, and a rocky riverbank with dead grass in the foreground. The atmosphere conveys waiting — a passage that must be crossed. Color palette is dark navy, steel gray, and cyan accent points only.
 ```
 
 ## 프롬프트 C (도깨비불 강조)
 **Seed:** 90003
 
 ```
-(dozens of floating ghost fires:1.4) over a dark korean river at night,
-(supernatural blue-green flames:1.3) hovering at different heights,
-each flame casting (faint cyan glow:1.2) on the misty water below,
-wide river stretching into darkness on both sides,
-ancient stone steps leading down to water's edge in foreground,
-fog so thick the far bank is invisible,
-ink wash sky blending with water at the horizon,
-(ethereal otherworldly atmosphere:1.3),
-the fires are the only light source in complete darkness,
-cold blue and dark navy color scheme,
-feeling of souls wandering along the river,
-color palette: pure black, dark navy, cyan (#00D4FF), teal
+A pixel art scene of dozens of floating ghost fires hovering over a dark Korean river at night. 16-bit retro pixel art with crisp pixels and flat colors. The supernatural blue-green flames hover at different heights above the water, each casting a faint cyan glow on the misty water surface below. A wide river stretches into darkness on both sides. Ancient stone steps lead down to the water's edge in the foreground. The fog is so thick that the far bank is completely invisible. The sky blends seamlessly with the water at the invisible horizon, ink wash style. The ghost fires are the only light source in complete darkness — everything else exists only as silhouettes. The feeling is of souls wandering along the river. Cold blue and dark navy color scheme throughout.
 ```
 
 ---
@@ -76,5 +43,5 @@ color palette: pure black, dark navy, cyan (#00D4FF), teal
 ## 사용 팁
 - 3가지 프롬프트를 모두 돌려보고 분위기가 가장 맞는 것 선택
 - 메인 메뉴는 게임의 첫인상이므로 **가장 많은 시간을 투자**할 것
-- 안개량은 CFG를 낮추면(5~6) 더 몽환적, 높이면(8~9) 더 선명
-- 도깨비불 개수가 너무 많으면 negative에 `too many lights` 추가
+- Guidance 3.0으로 낮추면 더 몽환적, 4.0으로 높이면 더 선명
+- 도깨비불 개수가 너무 많으면 프롬프트에서 "a few scattered" 등으로 조절

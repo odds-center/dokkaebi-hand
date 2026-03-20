@@ -23,6 +23,12 @@ namespace DokkaebiHand.Core
         public List<string> EquippedTalismans = new List<string>();
         public List<string> EquippedCompanions = new List<string>();
 
+        // 보스 전투 상태
+        public string CurrentBossId;
+        public int BossCurrentHP;
+        public int BossMaxHP;
+        public int CurrentRoundInRealm;
+
         // 런 내 웨이브 강화 버프
         public int WaveChipBonus;
         public int WaveMultBonus;
@@ -270,12 +276,12 @@ namespace DokkaebiHand.Core
             string json = JsonUtility.ToJson(data, true);
 
             // 1차: 로컬 저장 (항상 성공해야 함)
-            bool localOk = _localBackend.Save(MetaSaveKey, json);
+            bool localOk = _localBackend.Save(RunSaveKey, json);
             if (!localOk)
                 Debug.LogError("[SaveManager] 로컬 저장 실패! 데이터 유실 위험.");
 
             // 2차: Steam 클라우드 (있으면 추가 저장)
-            _steamBackend.Save(MetaSaveKey, json);
+            _steamBackend.Save(RunSaveKey, json);
         }
 
         /// <summary>
@@ -283,8 +289,8 @@ namespace DokkaebiHand.Core
         /// </summary>
         public SaveData Load()
         {
-            string localJson = _localBackend.Load(MetaSaveKey);
-            string steamJson = _steamBackend.Load(MetaSaveKey);
+            string localJson = _localBackend.Load(RunSaveKey);
+            string steamJson = _steamBackend.Load(RunSaveKey);
 
             SaveData localData = ParseSave(localJson);
             SaveData steamData = ParseSave(steamJson);
@@ -302,28 +308,28 @@ namespace DokkaebiHand.Core
             {
                 Debug.Log("[SaveManager] Steam 클라우드가 더 최신. 클라우드 데이터 사용.");
                 // 로컬도 최신으로 동기화
-                _localBackend.Save(MetaSaveKey, steamJson);
+                _localBackend.Save(RunSaveKey, steamJson);
                 return steamData;
             }
             else
             {
                 Debug.Log("[SaveManager] 로컬이 더 최신. 로컬 데이터 사용.");
                 // 스팀도 최신으로 동기화
-                _steamBackend.Save(MetaSaveKey, localJson);
+                _steamBackend.Save(RunSaveKey, localJson);
                 return localData;
             }
         }
 
         public bool HasSave()
         {
-            return _localBackend.HasSave(MetaSaveKey)
-                || _steamBackend.HasSave(MetaSaveKey);
+            return _localBackend.HasSave(RunSaveKey)
+                || _steamBackend.HasSave(RunSaveKey);
         }
 
         public void DeleteAll()
         {
-            _localBackend.Delete(MetaSaveKey);
-            _steamBackend.Delete(MetaSaveKey);
+            _localBackend.Delete(RunSaveKey);
+            _steamBackend.Delete(RunSaveKey);
             Debug.Log("[SaveManager] 모든 세이브 데이터 삭제 완료.");
         }
 

@@ -136,7 +136,7 @@ namespace DokkaebiHand.Core
                             TextEN = "Give up (+1 life)",
                             ResultKR = "편안한 휴식. 체력 +1.",
                             ResultEN = "Peaceful rest. +1 life.",
-                            Effect = p => p.Lives = Math.Min(p.Lives + 1, 6)
+                            Effect = p => p.Lives = Math.Min(p.Lives + 1, PlayerState.MaxLives)
                         }
                     }
                 },
@@ -164,7 +164,7 @@ namespace DokkaebiHand.Core
                             TextEN = "Blue door (+2 lives)",
                             ResultKR = "차가운 기운이 상처를 치유한다. 체력 +2!",
                             ResultEN = "Cold air heals your wounds. +2 lives!",
-                            Effect = p => p.Lives = Math.Min(p.Lives + 2, 6)
+                            Effect = p => p.Lives = Math.Min(p.Lives + 2, PlayerState.MaxLives)
                         }
                     }
                 },
@@ -225,7 +225,7 @@ namespace DokkaebiHand.Core
                                 if (p.Yeop >= 50)
                                 {
                                     p.Yeop -= 50;
-                                    p.Lives = Math.Min(p.Lives + 2, 6);
+                                    p.Lives = Math.Min(p.Lives + 2, PlayerState.MaxLives);
                                 }
                             }
                         },
@@ -424,7 +424,7 @@ namespace DokkaebiHand.Core
                             TextEN = "Reincarnate (Full HP, 0 Yeop)",
                             ResultKR = "새로운 몸으로 태어났다! 체력 전체 회복, 엽전 초기화!",
                             ResultEN = "Reborn in a new body! Full HP, Yeop reset!",
-                            Effect = p => { p.Lives = 6; p.Yeop = 0; }
+                            Effect = p => { p.Lives = PlayerState.MaxLives; p.Yeop = 0; }
                         },
                         new EventChoice
                         {

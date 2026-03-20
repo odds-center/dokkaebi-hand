@@ -164,8 +164,9 @@ namespace DokkaebiHand.Cards
                 player.CapturedGwang.Any(c => c.Month == CardMonth.December))
             { result.Chips += 90; result.Mult += 2; result.CompletedYokbo.Add("선후착"); }
 
-            // 도깨비불
-            if (player.CapturedGwang.Count == 1 && player.GetTotalPiCount() >= 7)
+            // 도깨비불 (광 1~2장 + 피 7장 이상)
+            if (player.CapturedGwang.Count >= 1 && player.CapturedGwang.Count <= 2
+                && player.GetTotalPiCount() >= 7)
             { result.Chips += 40; result.Mult += 1; result.CompletedYokbo.Add("도깨비불"); }
         }
 

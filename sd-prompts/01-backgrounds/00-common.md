@@ -1,51 +1,41 @@
 # 배경 — 공통 설정
 
-배경은 SD의 최대 강점. 큰 해상도, 분위기 전달이 핵심이므로
+배경은 이미지 생성 AI의 최대 강점. 큰 해상도, 분위기 전달이 핵심이므로
 정밀한 디테일보다 **전체 무드와 색감**이 중요하다.
 
 ---
 
-## SD 설정
+## 생성 환경
 
 ```yaml
-Model: SD 1.5 + pixel-art LoRA (0.5~0.6)
-       # 배경은 LoRA 가중치를 낮게 — 너무 높으면 도트가 과해짐
+Model: Flux-dev (ComfyUI)
 Resolution: 960 x 540
        # → Nearest Neighbor 2x 업스케일 = 1920x1080
        # 게임 UI reference resolution = 1920x1080, 16:9 (CanvasScaler)
-       # 처음부터 1920x1080으로 뽑으면 메모리 부족 + 구도 깨짐
-Steps: 40~50
-CFG Scale: 7
-Sampler: DPM++ 2M Karras
+Steps: 20~30
+Guidance: 3.5~4.0
+Sampler: euler
+Scheduler: normal
 Batch: 4장씩 뽑아서 최선 선택
 ```
 
-## 프롬프트 결합 방법
+### Flux-dev 프롬프트 규칙
+- **네거티브 프롬프트 없음** — 원하지 않는 요소는 긍정 프롬프트에서 명시적으로 배제.
+- **가중치 문법 미사용** — 자연어로 강조.
+- **LoRA는 ComfyUI 노드에서 연결** — 프롬프트에 태그 넣지 않음.
+- **자연어 서술** — 문장 형태로 장면을 묘사.
+
+## 공통 프롬프트 프리픽스
+
+> 모든 배경 프롬프트 **앞에** 이 문장을 붙인다.
 
 ```
-[공통 긍정] + [개별 긍정]
+A wide 16:9 landscape game background in Korean dark fantasy ink painting style. 16-bit retro pixel art with crisp sharp pixels, no anti-aliasing, no smooth gradients. Atmospheric lighting with limited color palette. Bold flat colors with visible pixel structure. No characters, no text, no UI elements visible. The scene fills the entire frame edge to edge as a seamless game background. Not a photograph — stylized pixel art illustration.
 ```
 
-## 공통 긍정 프롬프트 (모든 배경 앞에 붙임)
-
-```
-(pixel art game background:1.3), wide 16:9 landscape,
-(korean ink painting style:1.2), (dark fantasy:1.2),
-limited color palette, atmospheric lighting,
-(no characters:1.4), no text, no UI elements,
-<lora:pixelart-style:0.55>
-```
-
-## 공통 부정 프롬프트
-
-```
-(blurry:1.3), (3d render:1.4), (realistic photograph:1.4),
-(anime style:1.2), bright cheerful colors, daylight,
-modern buildings, cars, technology, people, characters,
-text, letters, watermark, signature, logo,
-(low quality:1.3), jpeg artifacts, cropped, frame, border,
-(anti-aliasing:1.2), soft focus, depth of field, bokeh
-```
+### 중요: 모든 배경 개별 프롬프트에도 "pixel art" 스타일을 반복 명시할 것
+Flux-dev는 프롬프트 앞부분에 집중하므로, 개별 프롬프트 첫 문장에
+"A pixel art scene of..." 형태로 시작하는 것이 안전하다.
 
 ## 후처리
 

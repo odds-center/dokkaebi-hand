@@ -198,10 +198,14 @@ namespace DokkaebiHand.Core
             if (enh.Seals.Count == 2)
                 synergy = DokkaebiSealDatabase.CheckSynergy(enh.Seals[0], enh.Seals[1]);
 
-            float effectMult = synergy != null && synergy.Seal1Id == "replication" ? 1.5f : 1f;
+            bool hasReplicationSynergy = synergy != null &&
+                (synergy.Seal1Id == "replication" || synergy.Seal2Id == "replication");
 
             foreach (var sealId in enh.Seals)
             {
+                // 복제 시너지 배율은 복제 각인 자체에만 적용
+                float sealEffectMult = (hasReplicationSynergy && sealId == "replication") ? 1.5f : 1f;
+
                 // 복제 각인: 30% 2회 적용
                 int times = 1;
                 if (sealId == "replication" && _rng.NextDouble() < 0.3)
@@ -212,14 +216,14 @@ namespace DokkaebiHand.Core
                     switch (sealId)
                     {
                         case "greed":
-                            result.TargetReduction += (int)(10 * effectMult);
+                            result.TargetReduction += (int)(10 * sealEffectMult);
                             OnSealTriggered?.Invoke("탐식: 목표 -10");
                             break;
 
                         case "delusion":
                             if (!matchSuccess)
                             {
-                                result.BonusChips += (int)(5 * effectMult);
+                                result.BonusChips += (int)(5 * sealEffectMult);
                                 OnSealTriggered?.Invoke("환혹: 칩 +5");
                             }
                             break;
@@ -232,7 +236,7 @@ namespace DokkaebiHand.Core
                             if (matchSuccess)
                             {
                                 _consecutiveMatchCount++;
-                                result.BonusChips += (int)(_consecutiveMatchCount * 10 * effectMult);
+                                result.BonusChips += (int)(_consecutiveMatchCount * 10 * sealEffectMult);
                                 OnSealTriggered?.Invoke($"분노: 연속 {_consecutiveMatchCount}회, 칩 +{_consecutiveMatchCount * 10}");
                             }
                             else
@@ -244,7 +248,7 @@ namespace DokkaebiHand.Core
                         case "avarice":
                             if (matchSuccess)
                             {
-                                result.BonusYeop += (int)(5 * effectMult);
+                                result.BonusYeop += (int)(5 * sealEffectMult);
                                 OnSealTriggered?.Invoke("탐욕: 엽전 +5");
                             }
                             break;
