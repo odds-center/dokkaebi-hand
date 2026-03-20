@@ -128,16 +128,16 @@ dokkaebi-hand/
   "generation": {
     "model": "v1-5-pruned",
     "lora": "<lora:pixelart-style:0.8>",
-    "width": 320,
-    "height": 480,
+    "width": 512,
+    "height": 768,
     "steps": 35,
     "cfg_scale": 8,
     "sampler": "DPM++ 2M Karras",
     "batch_count": 4
   },
   "postprocess": {
-    "target_width": 80,
-    "target_height": 120,
+    "target_width": 128,
+    "target_height": 192,
     "resize_method": "nearest",
     "apply_palette": true,
     "remove_background": true,
@@ -201,16 +201,16 @@ dokkaebi-hand/
   "generation": {
     "model": "sd_xl_base_1.0",
     "lora": "<lora:pixel-art-xl:0.7>",
-    "width": 512,
-    "height": 768,
+    "width": 768,
+    "height": 1152,
     "steps": 40,
     "cfg_scale": 7,
     "sampler": "DPM++ 2M Karras",
     "batch_count": 4
   },
   "postprocess": {
-    "target_width": 128,
-    "target_height": 192,
+    "target_width": 192,
+    "target_height": 288,
     "resize_method": "nearest",
     "apply_palette": false,
     "remove_background": true,
@@ -243,16 +243,16 @@ dokkaebi-hand/
   "generation": {
     "model": "sd_xl_base_1.0",
     "lora": "<lora:pixel-art-xl:0.5>",
-    "width": 960,
-    "height": 540,
+    "width": 1280,
+    "height": 720,
     "steps": 50,
     "cfg_scale": 7,
     "sampler": "DPM++ 2M Karras",
     "batch_count": 4
   },
   "postprocess": {
-    "target_width": 1920,
-    "target_height": 1080,
+    "target_width": 2560,
+    "target_height": 1440,
     "resize_method": "nearest",
     "apply_palette": false,
     "remove_background": false,
@@ -779,7 +779,7 @@ python generate.py --type backgrounds
 python generate.py --type backgrounds --id area01_market
 ```
 
-배경은 **960×540으로 생성 → Nearest Neighbor로 1920×1080 업스케일**.
+배경은 **1280×720으로 생성 → Nearest Neighbor로 2560×1440 업스케일**.
 이렇게 하면 자연스러운 픽셀아트 느낌이 유지된다.
 
 ---
@@ -791,7 +791,7 @@ python generate.py --type backgrounds --id area01_market
 python generate.py --type talismans
 ```
 
-48×48 최종 크기. 192×192로 생성 → 다운스케일.
+64×64 최종 크기. 256×256으로 생성 → 다운스케일.
 등급별 색상 자동 적용 (postprocess에서 프레임 색 입힘).
 
 ---

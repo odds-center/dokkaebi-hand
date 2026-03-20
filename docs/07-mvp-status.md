@@ -82,6 +82,51 @@
 - [x] card_pack 소모품 효과 구현 (NextRoundHandBonus)
 - [x] SpiralStart에서 축복 선택 UI 분리
 
+## Phase 3: Love2D 프로토타입 (진행 중)
+
+### 오디오
+- [x] BGM 시스템 (`bgm.lua`) — 5 CC0 트랙(OpenGameArt), 게임 상태 기반 자동 전환, 1초 크로스페이드
+- [x] SFX 절차적 생성 (`sfx.lua`) — 24종 효과음, 외부 파일 없이 코드로 생성
+
+### 전투 UI
+- [x] 손패 정렬 — 4가지 모드 (없음/월/타입/값), CardEnums.CardTypeValue 기반
+- [x] 콤보 카테고리 그룹핑 — 6개 분류(gostop/seotda/jeoseung/seasonal/collection/monthpair), 카테고리별 고유 색상
+- [x] 중앙 메시지 시스템 — 보스 등장/격파/판 시작 시 시네마틱 페이드인/아웃 메시지
+- [x] 보스 패널 UI 개선 — 이중 패널 배경, HP 비율 컬러바, 기믹 빨간 뱃지, HP바 광택 효과, 콤보 카테고리 태그
+- [x] 데미지 패널 UI 개선 — 칼럼 구분선, 파란 칩 색상, 금색 데미지 배경, 460px 패널
+
+### 설정 UI
+- [x] 볼륨 슬라이더 — 1% 단위 드래그 지원 (기존 20% 단계)
+- [x] 픽셀아트 16x16 도트 아이콘 — 지구본(언어), 번개(속도), 흔들림(화면흔들림), 음표(BGM), 스피커(SFX)
+- [x] 아이콘 생성기 (`icon_generator.lua`) — 설정 아이콘 절차적 생성
+
+### 저승 장터
+- [x] TalismanDatabase 연동 — `talisman_database.lua`(20종)에서 직접 목록 참조
+- [x] 보유 부적 제외 + 저주 부적 제외
+- [x] 등급별 가격: 일반=40, 희귀=70, 전설=120
+
+### 이벤트
+- [x] 5종 이벤트 구현 — 운명의 갈림길, 저승 방랑자, 도깨비불 시험, 삼도천 강가, 과거의 도전자
+- [x] 선택이 다음 보스전에 직접 영향 — HP 변조(`_next_boss_hp_mult`), 기믹 봉인(`_next_boss_gimmick_seal`)
+- [x] 동전 던지기(삼도천) — 50% 도박 + 중앙 연출 메시지
+
+### 축복/강화
+- [x] 축복 카드 레이아웃 — 80px 이미지 영역 추가, 카드 높이 210→280px
+- [x] 중복 없는 강화 선택 — gen_upgrades() 셔플 후 3개 선택 (기존 랜덤 중복 가능)
+
+### Love2D 파일 목록
+```
+dokkaebi-love2d/
+  main.lua, conf.lua
+  src/core/       — sfx.lua, bgm.lua, player_state.lua, spiral_manager.lua, number_formatter.lua
+  src/cards/      — deck_manager.lua, hand_evaluator.lua, card_enums.lua
+  src/combat/     — seotda_challenge.lua, boss_data.lua, boss_battle.lua
+  src/talismans/  — talisman_data.lua, talisman_database.lua, talisman_manager.lua
+  src/ui/         — card_renderer.lua, button.lua, draw_utils.lua, effects.lua, icon_generator.lua, yokbo_guide.lua
+  assets/bgm/     — 5 CC0 BGM tracks
+  assets/fonts/   — Pretendard fonts
+```
+
 ## 전체 파일 목록
 
 ### Core

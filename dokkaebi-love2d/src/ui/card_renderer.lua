@@ -10,16 +10,16 @@ CardRenderer.CARD_H = 125
 -- 월별 도트 아이콘 (픽셀아트 도형으로 대체)
 local MONTH_ICON = nil  -- 한자 제거, 도형으로 직접 그림
 
--- 저승/오컬트 테마 카드 색상
+-- 저승 화투 — 카드 색상
 local HEADER_COLORS = {
-    [CT.Gwang]    = {0.95, 0.72, 0.05},   -- 도깨비불 금색
-    [CT.Geurim]= {0.30, 0.55, 0.70},      -- 삼도천 청록
-    [CT.Pi]       = {0.35, 0.30, 0.40},    -- 혼백 회보라
+    [CT.Gwang]    = {0.92, 0.68, 0.12},   -- 도깨비불 금색
+    [CT.Geurim]= {0.45, 0.58, 0.68},      -- 삼도천 물빛
+    [CT.Pi]       = {0.38, 0.32, 0.38},    -- 먹물 회
 }
 local RIBBON_COLORS = {
-    [RT.HongDan]  = {0.72, 0.08, 0.08},   -- 핏빛 홍단
-    [RT.CheongDan]= {0.10, 0.25, 0.65},   -- 심연 청단
-    [RT.ChoDan]   = {0.10, 0.48, 0.15},   -- 귀화 초단
+    [RT.HongDan]  = {0.72, 0.10, 0.08},   -- 핏빛 홍단
+    [RT.CheongDan]= {0.15, 0.28, 0.58},   -- 심연 청단
+    [RT.ChoDan]   = {0.35, 0.50, 0.20},   -- 마른 풀빛 초단
 }
 
 local TYPE_ICONS = {
@@ -122,22 +122,22 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
     if is_selected then y = y - 10
     elseif is_hovered then y = y - 4 end
 
-    -- 그림자 (저승 어둠)
-    love.graphics.setColor(0.02, 0.01, 0.04, is_selected and 0.5 or 0.3)
+    -- 그림자
+    love.graphics.setColor(0.03, 0.02, 0.05, is_selected and 0.5 or 0.3)
     love.graphics.rectangle("fill", x+2, y+2, w, h)
 
-    -- 카드 배경 (짙은 보라~흑)
-    if is_selected then love.graphics.setColor(0.22, 0.14, 0.06)
-    elseif is_hovered then love.graphics.setColor(0.10, 0.07, 0.18)
-    else love.graphics.setColor(0.06, 0.04, 0.10) end
+    -- 카드 배경
+    if is_selected then love.graphics.setColor(0.20, 0.14, 0.06)       -- 선택: 따뜻한 금빛 어둠
+    elseif is_hovered then love.graphics.setColor(0.10, 0.08, 0.15)    -- 호버: 살짝 밝은 연기
+    else love.graphics.setColor(0.07, 0.05, 0.11) end                  -- 기본: 심연
     love.graphics.rectangle("fill", x, y, w, h)
 
-    -- 테두리 (귀화 보라)
+    -- 테두리
     if is_selected then
-        love.graphics.setColor(0.95, 0.72, 0.05, 0.9)
+        love.graphics.setColor(0.92, 0.68, 0.12, 0.9)  -- 금색 테두리
         love.graphics.setLineWidth(2)
     else
-        love.graphics.setColor(0.28, 0.12, 0.38)
+        love.graphics.setColor(0.30, 0.15, 0.22)        -- 핏빛 테두리
         love.graphics.setLineWidth(1)
     end
     love.graphics.rectangle("line", x, y, w, h)

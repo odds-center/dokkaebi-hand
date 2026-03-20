@@ -39,33 +39,33 @@ function Button:draw(font)
     local hov = self.hovered and self.enabled
     local br = hov and 0.15 or 0
 
-    -- 그림자 (저승 어둠)
-    love.graphics.setColor(0.02, 0.01, 0.04, hov and 0.45 or 0.25)
+    -- 그림자
+    love.graphics.setColor(0.03, 0.02, 0.05, hov and 0.45 or 0.25)
     love.graphics.rectangle("fill", self.x+2, self.y+2, self.w, self.h)
 
     -- 배경
     if not self.enabled then
-        love.graphics.setColor(0.08, 0.06, 0.12)
+        love.graphics.setColor(0.09, 0.07, 0.12)
     else
         love.graphics.setColor(c[1]+br, c[2]+br, c[3]+br)
     end
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 
-    -- 상단 광택 (귀화 보라 빛)
-    love.graphics.setColor(0.6, 0.3, 0.8, hov and 0.08 or 0.03)
+    -- 상단 광택 (따뜻한 금빛)
+    love.graphics.setColor(0.9, 0.7, 0.3, hov and 0.06 or 0.02)
     love.graphics.rectangle("fill", self.x+1, self.y+1, self.w-2, self.h*0.35)
 
     -- 하단 어두움
-    love.graphics.setColor(0.02, 0.01, 0.04, 0.15)
+    love.graphics.setColor(0.03, 0.02, 0.05, 0.18)
     love.graphics.rectangle("fill", self.x+1, self.y+self.h*0.65, self.w-2, self.h*0.35-1)
 
-    -- 테두리 (보라빛 귀화)
-    love.graphics.setColor(0.5, 0.2, 0.6, hov and 0.25 or 0.08)
+    -- 테두리 (핏빛)
+    love.graphics.setColor(0.45, 0.18, 0.15, hov and 0.30 or 0.10)
     love.graphics.rectangle("line", self.x, self.y, self.w, self.h)
 
-    -- 텍스트 (한지 빛 따뜻한 백색)
+    -- 텍스트
     if font then love.graphics.setFont(font) end
-    love.graphics.setColor(0.92, 0.88, 0.82, self.enabled and (hov and 1 or 0.88) or 0.35)
+    love.graphics.setColor(0.90, 0.86, 0.78, self.enabled and (hov and 1 or 0.88) or 0.35)
     local fh = love.graphics.getFont():getHeight()
     love.graphics.printf(self.text, self.x, self.y + math.floor((self.h - fh) / 2), self.w, "center")
 end

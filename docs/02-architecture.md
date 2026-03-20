@@ -59,6 +59,23 @@ Go 배수 적용
 최종 점수 = Chips × Mult
 ```
 
+## Love2D 프로토타입 구조
+
+```
+dokkaebi-love2d/
+  main.lua
+  conf.lua
+  src/core/       — sfx.lua, bgm.lua, player_state.lua, spiral_manager.lua, number_formatter.lua
+  src/cards/      — deck_manager.lua, hand_evaluator.lua, card_enums.lua
+  src/combat/     — seotda_challenge.lua, boss_data.lua, boss_battle.lua
+  src/talismans/  — talisman_data.lua, talisman_database.lua, talisman_manager.lua
+  src/ui/         — card_renderer.lua, button.lua, draw_utils.lua, effects.lua, icon_generator.lua, yokbo_guide.lua
+  assets/bgm/     — 5 CC0 BGM tracks (OpenGameArt)
+  assets/fonts/   — Pretendard fonts
+```
+
+---
+
 ## 설계 원칙
 1. **비MonoBehaviour 로직 우선:** 게임 로직은 순수 C# 클래스로 구현, Unity 의존성 최소화
 2. **테스트 가능성:** 핵심 로직(매칭, 족보, 점수)은 유닛 테스트로 검증

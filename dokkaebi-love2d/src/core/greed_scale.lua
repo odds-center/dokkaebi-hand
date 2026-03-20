@@ -119,10 +119,10 @@ end
 
 --- UI 표시용: 저울 시각적 문자열
 function GreedScale:get_scale_visual()
-    if self.go_count == 0 then return "    ◇━━━━━◇    " end
-    if self.go_count == 1 then return "   ◇━━━━━━◇   " end
-    if self.go_count == 2 then return "  ◇━━━━━━━◇  " end
-    return " ◇━━━━━━━━◇ "
+    if self.go_count == 0 then return "    o=====o    " end
+    if self.go_count == 1 then return "   o======o   " end
+    if self.go_count == 2 then return "  o=======o  " end
+    return " o========o "
 end
 
 return {

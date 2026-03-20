@@ -78,6 +78,16 @@ Assets/Scripts/
   UI/         — MockupSceneBuilder, MockupSpriteFactory, GameUIManager, CardUI,
                 GameEffects
 Assets/Tests/ — 12개 테스트 파일
+
+dokkaebi-love2d/        (Love2D 프로토타입)
+  src/core/     — sfx.lua, bgm.lua, player_state.lua, spiral_manager.lua, number_formatter.lua
+  src/cards/    — deck_manager.lua, hand_evaluator.lua, card_enums.lua
+  src/combat/   — seotda_challenge.lua, boss_data.lua, boss_battle.lua
+  src/talismans/ — talisman_data.lua, talisman_database.lua, talisman_manager.lua
+  src/ui/       — card_renderer.lua, button.lua, draw_utils.lua, effects.lua,
+                  icon_generator.lua, yokbo_guide.lua
+  assets/bgm/   — 5 CC0 BGM tracks
+  assets/fonts/ — Pretendard fonts
 ```
 
 ## 개발 원칙

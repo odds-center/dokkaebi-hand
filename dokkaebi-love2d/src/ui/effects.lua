@@ -39,6 +39,12 @@ function Effects.text_popup(x, y, text, color)
     }
 end
 
+--- 흔들림 즉시 중단
+function Effects.stop_shake()
+    shake_t = 0
+    shake_intensity = 0
+end
+
 --- 화면 흔들림
 function Effects.shake(intensity, duration)
     shake_intensity = intensity or 5
