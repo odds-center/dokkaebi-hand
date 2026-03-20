@@ -4,7 +4,8 @@
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 264 x 400 (내부 66x100 기준, 4x 생성 → 다운스케일 66x100)
+Resolution: 528 x 800 (픽셀 그리드 132x200 기준, 4x 생성)
+       # → 다운스케일 396x600 (@1920x1080 기본 저장)
 Steps: 25~30
 Guidance: 3.5
 Batch: 8장

@@ -18,8 +18,8 @@
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 400 x 400 (내부 100x100 기준, 4x 생성)
-       # → 다운스케일 100x100 / 윈도우: 2x=200, 3x=300
+Resolution: 800 x 800 (픽셀 그리드 200x200 기준, 4x 생성)
+       # → 다운스케일 600x600 (@1920x1080 기본 저장)
 Steps: 25~30
 Guidance: 3.5
 Batch: 4장
@@ -30,7 +30,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art game sprite of a Korean dokkaebi demon, made of large visible square pixels like a sprite from Stardew Valley or Undertale. Drawn on a 100x100 pixel grid then scaled up — each individual pixel is clearly visible and distinguishable. Blocky jagged edges, no smooth curves, no anti-aliasing. Bold flat color fills with thick black pixel outlines. No gradients, no blending. Same character design as base sprite but with different expression and body state. Plain solid bright green (#00FF00) background for chroma key. Fully contained. Front-facing centered. Character only.
+A low-resolution pixel art game sprite of a Korean dokkaebi demon, made of large visible square pixels like a sprite from Stardew Valley or Undertale. Drawn on a 200x200 pixel grid then scaled up — each individual pixel is clearly visible and distinguishable. Blocky jagged edges, no smooth curves, no anti-aliasing. Bold flat color fills with thick black pixel outlines. No gradients, no blending. Same character design as base sprite but with different expression and body state. Plain solid bright green (#00FF00) background for chroma key. Fully contained. Front-facing centered. Character only.
 ```
 
 ## 후처리

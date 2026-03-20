@@ -6,9 +6,8 @@
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 400 x 400 (내부 100x100 기준, 4x 생성)
-       # → 다운스케일 100x100 (640x360 내부)
-       # → 1280x720: 200x200 (2x) / 1920x1080: 300x300 (3x)
+Resolution: 800 x 800 (픽셀 그리드 200x200 기준, 4x 생성)
+       # → 다운스케일 600x600 (@1920x1080 기본 저장)
 Steps: 25~30
 Guidance: 3.5~4.0
 Batch: 8장씩 뽑아서 최선 선택
@@ -17,7 +16,7 @@ Batch: 8장씩 뽑아서 최선 선택
 ## 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art game sprite of a Korean dokkaebi demon, made of large visible square pixels like a sprite from Stardew Valley or Undertale. Drawn on a 100x100 pixel grid then scaled up — each individual pixel is clearly visible and distinguishable. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges whatsoever. Bold flat color fills with thick black pixel outlines. No gradients, no blending between pixels. NES/SNES era sprite art aesthetic. Plain solid bright green (#00FF00) background for chroma key removal. Limited color palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), bone white (#E8E8E8), deep purple (#6B2D5B), plus character's unique colors. Fully contained within frame with margins. Front-facing centered composition.
+A low-resolution pixel art game sprite of a Korean dokkaebi demon, made of large visible square pixels like a sprite from Stardew Valley or Undertale. Drawn on a 200x200 pixel grid then scaled up — each individual pixel is clearly visible and distinguishable. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges whatsoever. Bold flat color fills with thick black pixel outlines. No gradients, no blending between pixels. NES/SNES era sprite art aesthetic. Plain solid bright green (#00FF00) background for chroma key removal. Limited color palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), bone white (#E8E8E8), deep purple (#6B2D5B), plus character's unique colors. Fully contained within frame with margins. Front-facing centered composition.
 ```
 
 ## 후처리
@@ -25,9 +24,8 @@ A low-resolution pixel art game sprite of a Korean dokkaebi demon, made of large
 ```
 1. 8장 중 최선 선택
 2. 크로마키 그린 배경 제거 → 투명 알파
-3. Nearest Neighbor 다운스케일 → 100x100 (640x360 내부 크기)
+3. Nearest Neighbor 다운스케일 → 600x600 (@1920x1080 기준)
 4. PNG (알파) → Assets/Art/Sprites/Boss/
-5. 게임 엔진이 윈도우 크기에 따라 정수 스케일 (2x=200, 3x=300)
 ```
 
 ---

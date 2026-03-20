@@ -31,7 +31,7 @@ A single low-resolution pixel art VFX particle texture on a solid black (#000000
 
 ```
 Texture Type: Sprite (2D and UI)
-Filter Mode: Bilinear (VFX는 부드럽게)
+Filter Mode: Point (Nearest Neighbor) ← 픽셀아트 통일
 Compression: None
 ```
 

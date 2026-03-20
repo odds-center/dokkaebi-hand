@@ -43,7 +43,8 @@
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 400 x 400 (내부 100x100 기준, 4x 생성 → 다운스케일 100x100)
+Resolution: 800 x 800 (픽셀 그리드 200x200 기준, 4x 생성)
+       # → 다운스케일 600x600 (@1920x1080 기본 저장)
 Steps: 25~30
 Guidance: 3.5
 Batch: 4장
@@ -52,7 +53,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art equipment overlay sprite on a plain solid bright green (#00FF00) background for chroma key removal. Made of large visible square pixels like a sprite from Stardew Valley — each individual pixel is clearly visible. Drawn on a 100x100 pixel grid then scaled up. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. This is a SINGLE piece of equipment to be layered ON TOP of an existing boss sprite. Only the equipment piece itself — no character body. Positioned correctly for front-facing overlay.
+A low-resolution pixel art equipment overlay sprite on a plain solid bright green (#00FF00) background for chroma key removal. Made of large visible square pixels like a sprite from Stardew Valley — each individual pixel is clearly visible. Drawn on a 200x200 pixel grid then scaled up. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. This is a SINGLE piece of equipment to be layered ON TOP of an existing boss sprite. Only the equipment piece itself — no character body. Positioned correctly for front-facing overlay.
 ```
 
 ## 후처리

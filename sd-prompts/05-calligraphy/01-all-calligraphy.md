@@ -62,7 +62,7 @@ Low-resolution pixel art text logo for a Korean underworld card game, made of la
 ```
 Texture Type: Sprite (2D and UI)
 Sprite Mode: Single
-Filter Mode: Bilinear
+Filter Mode: Point (Nearest Neighbor)
 Compression: None
 Pixels Per Unit: 100
 ```

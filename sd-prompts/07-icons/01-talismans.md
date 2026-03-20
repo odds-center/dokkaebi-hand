@@ -8,8 +8,8 @@
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 64 x 64 (내부 16x16 기준, 4x 생성)
-       # → 다운스케일 16x16 / 윈도우: 2x=32, 3x=48
+Resolution: 128 x 128 (픽셀 그리드 32x32 기준, 4x 생성)
+       # → 다운스케일 96x96 (@1920x1080 기본 저장)
 Steps: 20~25
 Guidance: 3.5
 Batch: 4장
@@ -18,7 +18,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A single low-resolution pixel art item icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 16x16 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple silhouette. Square 1:1. Only the item, nothing else.
+A single low-resolution pixel art item icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 32x32 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple silhouette. Square 1:1. Only the item, nothing else.
 ```
 
 ## 후처리

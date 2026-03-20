@@ -40,7 +40,7 @@ Batch: 2~4장
 Texture Type: Default (2D)
 Wrap Mode: Repeat       ← 타일링 필수
 Filter Mode: Point       ← 카드/UI용
-             Bilinear    ← 배경/테이블용
+             Point    ← 배경/테이블용
 Compression: None
 ```
 
@@ -189,14 +189,14 @@ A score display panel texture — a dark ornate rectangular frame. The backgroun
 |--------|----------|------|-------------|
 | 한지 | 카드 배경, UI 패널 | 512x512 | Point |
 | 먹물 얼룩 | 점수판, 장식 오버레이 | 512x512 | Point |
-| 어두운 천 | 게임 테이블 | 512x512 | Bilinear |
-| 붉은 천 | 보스전 테이블 | 512x512 | Bilinear |
-| 돌 | 다리, 궁전 바닥 | 512x512 | Bilinear |
-| 나무 | 상점, 서가 | 512x512 | Bilinear |
-| 금 표면 | 황금 미궁 | 512x512 | Bilinear |
-| 용암 균열 | 지옥 바닥 | 512x512 | Bilinear |
-| UI 패널 | 상점/이벤트/축복 패널 | 512x512 | Bilinear |
-| 버튼 | UI 버튼 배경 | 600x110 | Bilinear |
-| 카드 테이블 | 손패/바닥패 영역 | 950x160 | Bilinear |
-| 보스 HP 바 | 보스 체력바 | 1200x60 | Bilinear |
-| 점수 패널 | 칩/배수 표시 | 800x160 | Bilinear |
+| 어두운 천 | 게임 테이블 | 512x512 | Point |
+| 붉은 천 | 보스전 테이블 | 512x512 | Point |
+| 돌 | 다리, 궁전 바닥 | 512x512 | Point |
+| 나무 | 상점, 서가 | 512x512 | Point |
+| 금 표면 | 황금 미궁 | 512x512 | Point |
+| 용암 균열 | 지옥 바닥 | 512x512 | Point |
+| UI 패널 | 상점/이벤트/축복 패널 | 512x512 | Point |
+| 버튼 | UI 버튼 배경 | 600x110 | Point |
+| 카드 테이블 | 손패/바닥패 영역 | 950x160 | Point |
+| 보스 HP 바 | 보스 체력바 | 1200x60 | Point |
+| 점수 패널 | 칩/배수 표시 | 800x160 | Point |

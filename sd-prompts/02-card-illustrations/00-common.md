@@ -13,8 +13,8 @@
 
 ```yaml
 Model: Flux-dev (ComfyUI)
-Resolution: 120 x 168 (내부 30x42 기준, 4x 생성)
-       # → 다운스케일 30x42 / 윈도우: 2x=60x84, 3x=90x126
+Resolution: 240 x 336 (픽셀 그리드 60x84 기준, 4x 생성)
+       # → 다운스케일 180x252 (@1920x1080 기본 저장)
 Steps: 20~30
 Guidance: 3.5~4.0
 Sampler: euler
@@ -80,7 +80,7 @@ Batch: 4장씩 뽑아서 최선 선택
 > 모든 개별 카드 프롬프트 **앞에** 이 문장을 붙여 사용한다.
 
 ```
-A single low-resolution pixel art illustration of a traditional Korean hwatu (flower card), made of large visible square pixels like a sprite from Stardew Valley. Drawn on a 30x42 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Flat bold color fills with thick black pixel outlines on every shape. Woodblock print aesthetic. Limited color palette: red, black, gold, blue, green, and white only. Light cream-ivory background like aged hanji paper. No card frame, no border, no text overlay — only the interior illustration. All elements fully contained within image boundaries with comfortable margins — nothing cropped. Centered composition with breathing room on all sides.
+A single low-resolution pixel art illustration of a traditional Korean hwatu (flower card), made of large visible square pixels like a sprite from Stardew Valley. Drawn on a 60x84 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Flat bold color fills with thick black pixel outlines on every shape. Woodblock print aesthetic. Limited color palette: red, black, gold, blue, green, and white only. Light cream-ivory background like aged hanji paper. No card frame, no border, no text overlay — only the interior illustration. All elements fully contained within image boundaries with comfortable margins — nothing cropped. Centered composition with breathing room on all sides.
 ```
 
 ### 이미지 넘침 방지 (필수)
