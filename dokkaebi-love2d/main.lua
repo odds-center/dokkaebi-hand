@@ -17,6 +17,7 @@ local SM             = require("src.core.spiral_manager")
 local SpiralManager  = SM.SpiralManager
 local SpiralBlessing = SM.SpiralBlessing
 local DU             = require("src.ui.draw_utils")
+local FX             = require("src.ui.effects")
 
 -- ===========================
 -- 디자인 토큰 (전역 통일)
@@ -340,7 +341,9 @@ local function do_go()
     local d = ({3,2,1})[math.min(S.go_count,3)] or 1
     for i=1,d do local c=S.deck:draw_from_pile(); if c then S.hand[#S.hand+1]=c end end
     if S.go_count >= 3 and math.random() < 0.10 then
-        S.player.lives = S.player.lives - 1; msg("즉사! 도깨비의 일격!")
+        S.player.lives = S.player.lives - 1
+        FX.instant_death()
+        msg("즉사! 도깨비의 일격!")
         if S.player.lives <= 0 then S.state = "game_over"; save_meta(); return end
     end
     msg(({"고 1! +3장 ×1.5","고 2! +2장 ×2","고 3! +1장 ×3 위험!"})[math.min(S.go_count,3)])
@@ -368,10 +371,36 @@ local function do_attack()
     local gm = ({[1]=1.5,[2]=2,[3]=3})[S.go_count] or 1
     local dmg = math.floor((base + S.chips) * S.mult * gm)
     S.battle:deal_damage(dmg)
-    msg(string.format("[%s] %d + %s칩 ×%.1f ×고%.1f = %s!", seotda.name, base, NumFmt.format_score(S.chips), S.mult, gm, NumFmt.format_score(dmg)))
+    -- 이펙트
+    FX.boss_hit(dmg)
+    msg(string.format("[%s] %d + %s칩 ×%.1f ×고%.1f = %s", seotda.name, base, NumFmt.format_score(S.chips), S.mult, gm, NumFmt.format_score(dmg)))
     for _, sel in ipairs(S.selected) do for i, h in ipairs(S.hand) do if h == sel then table.remove(S.hand, i); break end end end
     S.selected = {}
-    if S.battle:is_boss_defeated() then after_defeat() else S.state = "post_round" end
+    if S.battle:is_boss_defeated() then
+        FX.boss_defeat(S.boss.name_kr)
+        after_defeat()
+    else
+        -- 보스 반격
+        local hp_ratio = S.battle.boss_current_hp / math.max(S.battle.boss_max_hp, 1)
+        if hp_ratio < 0.3 then
+            -- 광분: 15% 확률 체력 -1
+            if math.random() < 0.15 then
+                S.player.lives = S.player.lives - 1
+                FX.shake(8, 0.4)
+                FX.flash({0.8, 0.1, 0.05}, 0.2)
+                msg("보스 광분! 체력 -1!")
+                if S.player.lives <= 0 then S.state = "game_over"; save_meta(); return end
+            else
+                msg("보스가 날뛰지만... 피했다!")
+            end
+        elseif hp_ratio < 0.6 then
+            -- 짜증: 엽전 도둑
+            local stolen = math.min(S.player.yeop, 10)
+            S.player.yeop = S.player.yeop - stolen
+            if stolen > 0 then msg("보스 반격! 엽전 -" .. stolen .. "냥") end
+        end
+        S.state = "post_round"
+    end
 end
 
 -- ===========================
@@ -429,6 +458,7 @@ end
 
 function love.update(dt)
     W, H = love.graphics.getDimensions()
+    FX.update(dt)
     local mx, my = love.mouse.getPosition()
     for _, b in ipairs(btns) do b:update_hover(mx, my) end
     hover_idx = nil
@@ -558,51 +588,60 @@ local function scr_battle()
 
         panel(bx, by, bw, bh)
 
-        -- 보스 아이콘 (도형으로 도깨비 실루엣)
+        -- 보스 아이콘 (픽셀아트 도깨비 — 투명 배경)
         local is = 105
         local ix0, iy0 = bx+10, by+10
-
-        -- 배경
-        set({0.10, 0.04, 0.04})
-        love.graphics.rectangle("fill", ix0, iy0, is, is, 8)
-
-        -- 도깨비 몸통 (큰 원)
         local cx0, cy0 = ix0 + is/2, iy0 + is/2 + 8
+        local px = 4  -- 픽셀 크기 단위
+
+        -- 도깨비 몸통 (사각 블록으로 도트)
         set({0.55, 0.10, 0.08})
-        love.graphics.circle("fill", cx0, cy0, 32)
+        for dy = -6, 6 do
+            local hw = (dy >= -2 and dy <= 4) and 8 or (dy >= -5 and dy <= 5) and 6 or 4
+            for dx = -hw, hw do
+                love.graphics.rectangle("fill", cx0 + dx*px - px/2, cy0 + dy*px - px/2, px, px)
+            end
+        end
 
-        -- 머리
+        -- 머리 (사각 블록)
         set({0.65, 0.15, 0.10})
-        love.graphics.circle("fill", cx0, cy0-28, 22)
+        for dy = -12, -7 do
+            local hw = (dy >= -11 and dy <= -8) and 5 or 3
+            for dx = -hw, hw do
+                love.graphics.rectangle("fill", cx0 + dx*px - px/2, cy0 + dy*px - px/2, px, px)
+            end
+        end
 
-        -- 뿔 (왼쪽)
+        -- 뿔 (왼쪽, 픽셀 블록)
         love.graphics.setColor(0.8, 0.7, 0.2)
-        love.graphics.polygon("fill", cx0-14, cy0-44, cx0-20, cy0-68, cx0-8, cy0-48)
+        love.graphics.rectangle("fill", cx0 - 4*px, cy0 - 13*px, px, px*3)
+        love.graphics.rectangle("fill", cx0 - 5*px, cy0 - 16*px, px, px*3)
         -- 뿔 (오른쪽)
-        love.graphics.polygon("fill", cx0+14, cy0-44, cx0+20, cy0-68, cx0+8, cy0-48)
+        love.graphics.rectangle("fill", cx0 + 3*px, cy0 - 13*px, px, px*3)
+        love.graphics.rectangle("fill", cx0 + 4*px, cy0 - 16*px, px, px*3)
 
-        -- 눈 (빛나는 빨간)
+        -- 눈 (빛나는 빨간, 도트)
         set({1, 0.2, 0.1})
-        love.graphics.circle("fill", cx0-8, cy0-30, 4)
-        love.graphics.circle("fill", cx0+8, cy0-30, 4)
+        love.graphics.rectangle("fill", cx0 - 3*px, cy0 - 10*px, px*2, px*2)
+        love.graphics.rectangle("fill", cx0 + 1*px, cy0 - 10*px, px*2, px*2)
         -- 눈 하이라이트
         set({1, 0.8, 0.3})
-        love.graphics.circle("fill", cx0-7, cy0-31, 1.5)
-        love.graphics.circle("fill", cx0+9, cy0-31, 1.5)
+        love.graphics.rectangle("fill", cx0 - 3*px, cy0 - 10*px, px, px)
+        love.graphics.rectangle("fill", cx0 + 1*px, cy0 - 10*px, px, px)
 
-        -- 입 (이빨)
+        -- 입 (이빨, 도트)
         set({0.3, 0.05, 0.05})
-        love.graphics.arc("fill", cx0, cy0-18, 12, 0, math.pi)
+        love.graphics.rectangle("fill", cx0 - 3*px, cy0 - 7*px, px*6, px*2)
         set({1, 1, 1})
         -- 송곳니
-        love.graphics.polygon("fill", cx0-6, cy0-18, cx0-4, cy0-12, cx0-8, cy0-12)
-        love.graphics.polygon("fill", cx0+6, cy0-18, cx0+4, cy0-12, cx0+8, cy0-12)
+        love.graphics.rectangle("fill", cx0 - 2*px, cy0 - 7*px, px, px*3)
+        love.graphics.rectangle("fill", cx0 + 1*px, cy0 - 7*px, px, px*3)
 
-        -- 방망이 (오른손)
+        -- 방망이 (오른손, 도트)
         set({0.5, 0.35, 0.15})
-        love.graphics.rectangle("fill", cx0+22, cy0-10, 8, 35, 3)
+        love.graphics.rectangle("fill", cx0 + 7*px, cy0 - 3*px, px*2, px*8)
         set({0.6, 0.45, 0.2})
-        love.graphics.circle("fill", cx0+26, cy0-12, 8)
+        love.graphics.rectangle("fill", cx0 + 6*px, cy0 - 5*px, px*4, px*3)
 
         -- Lv 표시
         love.graphics.setFont(fonts.s); set(PAL.dim)
@@ -1240,8 +1279,13 @@ end
 -- love.draw
 -- ===========================
 function love.draw()
-    set(PAL.bg); love.graphics.rectangle("fill", 0, 0, W, H)
-    DU.vignette(W, H)  -- 화면 가장자리 어두움 (세련됨)
+    -- 화면 흔들림 적용
+    local sx, sy = FX.get_shake_offset()
+    love.graphics.push()
+    love.graphics.translate(sx, sy)
+
+    set(PAL.bg); love.graphics.rectangle("fill", -10, -10, W+20, H+20)
+    DU.vignette(W, H)
     btns = {}; card_rects = {}
     local screens = {
         main_menu = scr_main_menu,
@@ -1258,4 +1302,9 @@ function love.draw()
         upgrade_tree = scr_upgrade_tree,
     }
     local fn = screens[S.state]; if fn then fn() end
+
+    love.graphics.pop()
+
+    -- 이펙트 (화면 흔들림 위에)
+    FX.draw(fonts)
 end

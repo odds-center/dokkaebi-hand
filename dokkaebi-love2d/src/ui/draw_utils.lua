@@ -1,22 +1,21 @@
 --- UI 유틸: CSS처럼 그림자/글로우/그라데이션
 local U = {}
 
---- 그림자가 있는 패널 (box-shadow 느낌)
-function U.shadow_panel(x, y, w, h, r, bg_color, shadow_alpha)
-    r = r or 6
+--- 그림자가 있는 패널 (도트 스타일 — 직각)
+function U.shadow_panel(x, y, w, h, _r, bg_color, shadow_alpha)
     shadow_alpha = shadow_alpha or 0.3
     -- 그림자 (아래 오른쪽 4px)
     love.graphics.setColor(0, 0, 0, shadow_alpha)
-    love.graphics.rectangle("fill", x+3, y+3, w, h, r)
+    love.graphics.rectangle("fill", x+3, y+3, w, h)
     -- 배경
     love.graphics.setColor(bg_color[1], bg_color[2], bg_color[3], bg_color[4] or 0.94)
-    love.graphics.rectangle("fill", x, y, w, h, r)
+    love.graphics.rectangle("fill", x, y, w, h)
     -- 상단 하이라이트 (inner glow)
     love.graphics.setColor(1, 1, 1, 0.04)
-    love.graphics.rectangle("fill", x+1, y+1, w-2, h*0.3, r)
+    love.graphics.rectangle("fill", x+1, y+1, w-2, h*0.3)
     -- 테두리
     love.graphics.setColor(1, 1, 1, 0.08)
-    love.graphics.rectangle("line", x, y, w, h, r)
+    love.graphics.rectangle("line", x, y, w, h)
 end
 
 --- 글로우 텍스트 (text-shadow 느낌)
