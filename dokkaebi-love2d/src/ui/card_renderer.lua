@@ -12,7 +12,7 @@ local MONTH_ICON = nil  -- 한자 제거, 도형으로 직접 그림
 
 local HEADER_COLORS = {
     [CT.Gwang]    = {1, 0.82, 0},
-    [CT.Yeolkkeut]= {0.25, 0.65, 0.85},
+    [CT.Geurim]= {0.25, 0.65, 0.85},
     [CT.Pi]       = {0.45, 0.45, 0.50},
 }
 local RIBBON_COLORS = {
@@ -24,7 +24,7 @@ local RIBBON_COLORS = {
 local TYPE_ICONS = {
     [CT.Gwang]    = "★",
     [CT.Tti]      = "━",
-    [CT.Yeolkkeut]= "◆",
+    [CT.Geurim]= "◆",
     [CT.Pi]       = "·",
 }
 
@@ -151,14 +151,16 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
     love.graphics.setColor(1, 1, 1, 0.12)
     love.graphics.rectangle("fill", x+1, y+1, w-2, 12)
 
-    -- 헤더 텍스트: 타입만 표시 (숫자/한자 제거)
+    -- 헤더 텍스트: 타입 + 월 숫자
     if font_small then love.graphics.setFont(font_small) end
     love.graphics.setColor(0, 0, 0, 0.8)
     local type_labels = {
-        [CT.Gwang] = "광", [CT.Tti] = "띠",
-        [CT.Yeolkkeut] = "열끗", [CT.Pi] = "피",
+        [CT.Gwang] = "광",
+        [CT.Tti] = "띠",
     }
-    love.graphics.printf(type_labels[card.card_type] or "", x, y + 5, w, "center")
+    local label = type_labels[card.card_type] or ""
+    if label ~= "" then label = label .. " " end
+    love.graphics.printf(label .. card.month .. "월", x, y + 5, w, "center")
 
     -- 중앙: 월별 도트 아이콘 (픽셀아트 도형)
     local px = 3  -- 픽셀 단위
@@ -190,8 +192,8 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
         love.graphics.rectangle("fill", cx - 6*px, cy + 5*px, 12*px, 2*px)
         love.graphics.setColor(1, 1, 1, 0.5)
         love.graphics.rectangle("fill", cx - 6*px, cy + 5*px, 12*px, px)
-    elseif card.card_type == CT.Yeolkkeut then
-        -- 열끗: 픽셀 다이아몬드
+    elseif card.card_type == CT.Geurim then
+        -- 그림: 픽셀 다이아몬드
         love.graphics.setColor(0.25, 0.65, 0.85, 0.5)
         love.graphics.rectangle("fill", cx - px/2, cy + 3*px, px, px)
         love.graphics.rectangle("fill", cx - px*3/2, cy + 4*px, 3*px, px)
@@ -209,11 +211,7 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
 
     -- 카드 이름 (하단)
     love.graphics.setColor(0.75, 0.75, 0.80)
-    love.graphics.printf(card.name_kr, x + 3, y + 78, w - 6, "center")
-
-    -- 포인트
-    love.graphics.setColor(0.4, 0.4, 0.48)
-    love.graphics.printf(card.base_points .. "점", x, y + h - 18, w, "center")
+    love.graphics.printf(card.name_kr, x + 3, y + 82, w - 6, "center")
 
     -- 선택 시 상단 체크마크
     if is_selected then

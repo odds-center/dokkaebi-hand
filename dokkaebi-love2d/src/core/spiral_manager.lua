@@ -56,7 +56,7 @@ end
 local SpiralManager = {}
 SpiralManager.__index = SpiralManager
 
-SpiralManager.REALMS_PER_SPIRAL = 10
+SpiralManager.REALMS_PER_SPIRAL = 20
 
 function SpiralManager.new()
     local self = setmetatable({

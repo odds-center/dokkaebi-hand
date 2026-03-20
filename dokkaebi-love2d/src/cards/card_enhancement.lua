@@ -79,7 +79,7 @@ function CardEnhancement:mutate_month(new_month)
 end
 
 --- 타입 변이 적용 (하향 변이 금지: 광→피 불가)
---- CardTypeValue: gwang=4, yeolkkeut=3, tti=2, pi=1
+--- CardTypeValue: gwang=4, geurim=3, tti=2, pi=1
 --- 높은 값 = 상위 타입, newType의 value가 원본보다 낮으면 하향이므로 금지
 function CardEnhancement:mutate_type(original_type, new_type)
     local orig_val = Enums.CardTypeValue[original_type] or 0

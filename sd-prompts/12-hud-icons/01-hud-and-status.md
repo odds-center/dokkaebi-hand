@@ -166,7 +166,7 @@ A pixel art empty companion dokkaebi slot frame. A circular frame with dark navy
 **Seed:** 85052 | **크기:** 192x192 (→64x64)
 
 ```
-A pixel art companion slot frame with skill ready indicator. Same circular frame but with a bright green (#39FF14) pulsing border glow — the companion's ability is ready to use. A small exclamation mark or star appears at the top of the circle. The slot is energized and ready for activation.
+A pixel art companion slot frame with skill ready indicator. Same circular frame but with a ghost fire cyan (#00D4FF) pulsing border glow — the companion's ability is ready to use. A small exclamation mark or star appears at the top of the circle. The slot is energized and ready for activation.
 ```
 
 ---

@@ -2,7 +2,7 @@
 --- 통일 UI 시스템: 모든 화면이 동일한 디자인 언어 사용
 
 love.graphics.setDefaultFilter("nearest", "nearest")
-math.randomseed(os.time())
+math.randomseed(os.time() + (os.clock() * 1000) % 1000000)
 
 local DeckManager    = require("src.cards.deck_manager")
 local HandEvaluator  = require("src.cards.hand_evaluator")
@@ -231,10 +231,13 @@ local function gen_upgrades()
     for i = 1, 3 do S.upgrades[i] = pool[math.random(#pool)] end
 end
 
+local save_meta  -- forward declaration (정의는 433행)
+
 local function start_realm()
     if not S.spiral then return end
     local realm = S.spiral.current_realm
-    if realm > 10 then
+    local REALMS = SpiralManager.REALMS_PER_SPIRAL  -- 20
+    if realm > REALMS then
         -- 나선 완료 보너스
         local sp = S.spiral and S.spiral.current_spiral or 1
         local bonus = sp == 1 and 100 or (50 + sp * 20)
@@ -242,8 +245,8 @@ local function start_realm()
         msg(string.format("윤회 %d 완료! +%d넋", sp, bonus))
         S.state = "gate"; save_meta(); return
     end
-    -- 10관문: 염라대왕 고정, 나머지: 염라 제외 랜덤 (연속 불가)
-    if realm == 10 then
+    -- 마지막 관문: 염라대왕 고정, 나머지: 염라 제외 랜덤 (연속 불가)
+    if realm == REALMS then
         S.boss = bosses[10]  -- 염라대왕
     else
         local prev_id = S._prev_boss_id
@@ -396,6 +399,15 @@ local function do_attack()
     msg(string.format("[%s] %d + %s칩 ×%.1f ×고%.1f = %s", seotda.name, base, NumFmt.format_score(S.chips), S.mult, gm, NumFmt.format_score(dmg)))
     for _, sel in ipairs(S.selected) do for i, h in ipairs(S.hand) do if h == sel then table.remove(S.hand, i); break end end end
     S.selected = {}
+
+    -- 사구파토 재경기: 4+9 조합이면 남은 손패로 한번 더 공격!
+    if seotda.rematch and #S.hand >= 2 and not S.battle:is_boss_defeated() then
+        FX.flash({1, 0.8, 0.2}, 0.3)
+        msg("사구파토! 재경기 — 한번 더 공격!")
+        S.state = "attack"
+        return
+    end
+
     if S.battle:is_boss_defeated() then
         FX.boss_defeat(S.boss.name_kr)
         after_defeat()
@@ -430,7 +442,7 @@ end
 -- 세이브/로드 (영구 데이터만)
 local json = require("lib.json")
 
-local function save_meta()
+save_meta = function()
     local data = {
         soul = S.soul,
         perm_chips = S.perm_chips, perm_mult = S.perm_mult,
@@ -594,7 +606,7 @@ end
 -- ===========================
 
 -- 먹은 카드 추적
-S._eaten = S._eaten or { gwang=0, tti=0, yeolkkeut=0, pi=0, combos={} }
+S._eaten = S._eaten or { gwang=0, tti=0, geurim=0, pi=0, combos={} }
 
 local function scr_battle()
     topbar()
@@ -614,8 +626,14 @@ local function scr_battle()
         local cx0, cy0 = ix0 + is/2, iy0 + is/2 + 8
         local px = 4  -- 픽셀 크기 단위
 
+        -- 보스별 고유 색상
+        local bc = S.boss.body_color or {0.55, 0.10, 0.08}
+        local hc = S.boss.head_color or {0.65, 0.15, 0.10}
+        local hrc = S.boss.horn_color or {0.80, 0.70, 0.20}
+        local ec = S.boss.eye_color or {1.00, 0.20, 0.10}
+
         -- 도깨비 몸통 (사각 블록으로 도트)
-        set({0.55, 0.10, 0.08})
+        set(bc)
         for dy = -6, 6 do
             local hw = (dy >= -2 and dy <= 4) and 8 or (dy >= -5 and dy <= 5) and 6 or 4
             for dx = -hw, hw do
@@ -624,7 +642,7 @@ local function scr_battle()
         end
 
         -- 머리 (사각 블록)
-        set({0.65, 0.15, 0.10})
+        set(hc)
         for dy = -12, -7 do
             local hw = (dy >= -11 and dy <= -8) and 5 or 3
             for dx = -hw, hw do
@@ -633,19 +651,19 @@ local function scr_battle()
         end
 
         -- 뿔 (왼쪽, 픽셀 블록)
-        love.graphics.setColor(0.8, 0.7, 0.2)
+        set(hrc)
         love.graphics.rectangle("fill", cx0 - 4*px, cy0 - 13*px, px, px*3)
         love.graphics.rectangle("fill", cx0 - 5*px, cy0 - 16*px, px, px*3)
         -- 뿔 (오른쪽)
         love.graphics.rectangle("fill", cx0 + 3*px, cy0 - 13*px, px, px*3)
         love.graphics.rectangle("fill", cx0 + 4*px, cy0 - 16*px, px, px*3)
 
-        -- 눈 (빛나는 빨간, 도트)
-        set({1, 0.2, 0.1})
+        -- 눈 (보스 고유색, 도트)
+        set(ec)
         love.graphics.rectangle("fill", cx0 - 3*px, cy0 - 10*px, px*2, px*2)
         love.graphics.rectangle("fill", cx0 + 1*px, cy0 - 10*px, px*2, px*2)
         -- 눈 하이라이트
-        set({1, 0.8, 0.3})
+        set({math.min(ec[1]+0.3, 1), math.min(ec[2]+0.5, 1), math.min(ec[3]+0.3, 1)})
         love.graphics.rectangle("fill", cx0 - 3*px, cy0 - 10*px, px, px)
         love.graphics.rectangle("fill", cx0 + 1*px, cy0 - 10*px, px, px)
 
@@ -710,14 +728,20 @@ local function scr_battle()
     love.graphics.setFont(fonts.l)
     love.graphics.printf(string.format("= %s", NumFmt.format_score(math.floor(S.chips*S.mult))), CX+score_w*0.1, score_y+1, score_w*0.38, "center")
 
-    -- ======= 획득 족보 표시 (점수 아래) =======
-    local combo_y = 182
+    -- ======= 획득 족보 표시 (점수 패널 바로 아래) =======
     if S._eaten_combos and #S._eaten_combos > 0 then
-        love.graphics.setFont(fonts.s)
+        local combo_y = score_y + 42
         local combo_str = ""
         for _, cn in ipairs(S._eaten_combos) do combo_str = combo_str .. "[" .. cn .. "] " end
+        -- 배경 패널
+        love.graphics.setFont(fonts.s)
+        local combo_w = math.min(#combo_str * 7 + 20, W * 0.6)
+        set({0.04, 0.06, 0.15, 0.85})
+        love.graphics.rectangle("fill", CX - combo_w/2, combo_y, combo_w, 20, UI.radius)
+        set(PAL.border)
+        love.graphics.rectangle("line", CX - combo_w/2, combo_y, combo_w, 20, UI.radius)
         set(PAL.gold)
-        love.graphics.printf(combo_str, 0, combo_y, W, "center")
+        love.graphics.printf(combo_str, CX - combo_w/2, combo_y + 3, combo_w, "center")
     end
 
     -- ======= 메시지 로그 (좌측) =======
@@ -730,11 +754,11 @@ local function scr_battle()
     local card_sx = CX - total_card_w / 2
     local card_y = H - ch - 58
 
-    -- 선택 카운트
+    -- 선택 카운트 (카드 위 충분한 여백)
     love.graphics.setFont(fonts.s); set(PAL.gold)
     local mode_text = S.state == "attack" and "공격 카드" or "족보 카드"
     local max_sel = S.state == "attack" and 2 or 5
-    love.graphics.printf(string.format("%s: %d/%d장", mode_text, #S.selected, max_sel), 0, card_y-16, W, "center")
+    love.graphics.printf(string.format("%s: %d/%d장", mode_text, #S.selected, max_sel), 0, card_y-22, W, "center")
 
     card_rects = {}
     for i, card in ipairs(S.hand) do
@@ -788,22 +812,23 @@ local function scr_battle()
         end
     end
 
-    -- ======= 1. 큰 안내 텍스트 (화면 중앙 상단) =======
+    -- ======= 1. 큰 안내 텍스트 (카드 위 충분한 여백) =======
     love.graphics.setFont(fonts.m)
+    local guide_y = card_y - 58
     if S.state == "in_round" then
         if #S.selected == 0 then
             set({0.5, 0.8, 1.0})
-            love.graphics.printf("↓ 카드를 클릭해서 선택한 뒤 [선택 cards, then press [족보 등록]", 0, card_y - 36, W, "center")
+            love.graphics.printf("↓ 카드를 클릭해서 선택한 뒤 [족보 등록]을 눌러라", 0, guide_y, W, "center")
         else
             set({0.3, 1, 0.5})
-            love.graphics.printf(#S.selected .. "cards selected — Press [족보 등록] to activate combo!", 0, card_y - 36, W, "center")
+            love.graphics.printf(#S.selected .. "장 선택 — [족보 등록]을 눌러 콤보 발동!", 0, guide_y, W, "center")
         end
     elseif S.state == "go_stop" then
         set({1, 0.8, 0.3})
-        love.graphics.printf("GO = Draw more cards + higher multiplier / 스톱 = Attack now!", 0, card_y - 36, W, "center")
+        love.graphics.printf("고 = 추가 드로우 + 배수 상승 / 스톱 = 즉시 공격!", 0, guide_y, W, "center")
     elseif S.state == "attack" then
         set({1, 0.5, 0.3})
-        love.graphics.printf("선택 2 cards for Seotda Attack — Same month = Ttaeng!", 0, card_y - 36, W, "center")
+        love.graphics.printf("섯다 공격 2장 선택 — 그림패만 족보! 피는 끗만", 0, guide_y, W, "center")
     end
 
     -- ======= 2. 실시간 콤보 미리보기 (선택 중) =======
@@ -991,7 +1016,7 @@ end
 local function scr_gate()
     title("이승의 문", H*0.25)
     love.graphics.setFont(fonts.m); set(PAL.white)
-    love.graphics.printf("10관문을 모두 통과했다!\n이승으로 돌아갈 수 있다...", 0, H*0.25+40, W, "center")
+    love.graphics.printf(SpiralManager.REALMS_PER_SPIRAL .. "관문을 모두 통과했다!\n이승으로 돌아갈 수 있다...", 0, H*0.25+40, W, "center")
 
     local sp = S.spiral and S.spiral.current_spiral or 1
     ui_btn("이승으로 돌아간다 (엔딩)", W/2-220, H*0.5, 200, UI.btn_h, PAL.gold, function()
@@ -1150,10 +1175,10 @@ local function scr_collection()
             {tier="B", name="삼광", desc="광 3장(비광 없이)", chips=200, mult=3},
             {tier="B", name="홍단", desc="1,2,3월 홍단", chips=150, mult=3},
             {tier="B", name="청단", desc="6,9,10월 청단", chips=150, mult=3},
-            {tier="B", name="고도리", desc="2,4,8월 열끗", chips=150, mult=3},
+            {tier="B", name="고도리", desc="2,4,8월 그림", chips=20, mult=1.5},
             {tier="B", name="알리", desc="1월+2월", chips=130, mult=2.8},
             {tier="C", name="세륙", desc="4월+6월", chips=70, mult=1.8},
-            {tier="C", name="월하독작", desc="8월광+9월열끗", chips=90, mult=2},
+            {tier="C", name="월하독작", desc="8월광+9월그림", chips=12, mult=1.3},
             {tier="D", name="단일패", desc="카드 1장", chips=10, mult=1},
         }
         local tier_colors = {S=PAL.gold, A=PAL.cyan, B=PAL.green, C=PAL.dim, D={0.4,0.3,0.3}}

@@ -58,7 +58,10 @@
       "Bash(luajit -bl src/ui/hud.lua /dev/null)",
       "Bash(head -10 echo \"\" echo \"상점 아이템 구조:\" grep -A2 \"pool = {\" main.lua)",
       "Bash(grep \"\\\\.md$\")",
-      "Bash(claude mcp:*)"
+      "Bash(claude mcp:*)",
+      "Bash(find /Users/risingcore/Desktop/work/dokkaebi-hand/Assets -maxdepth 3 -type f \\\\\\(-name *.unity -o -name *.prefab \\\\\\))",
+      "mcp__stitch__list_projects",
+      "Bash(/usr/local/bin/luajit tests/test_runner.lua)"
     ]
   }
 }

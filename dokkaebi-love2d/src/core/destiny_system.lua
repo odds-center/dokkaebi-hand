@@ -100,7 +100,7 @@ function DestinyProfile:get_desc_kr()
         [DestinyElement.WOOD]  = "목: 띠 칩 +20%",
         [DestinyElement.FIRE]  = "화: 광 배수 +1",
         [DestinyElement.EARTH] = "토: 시작 엽전 +50",
-        [DestinyElement.METAL] = "금: 열끗 칩 +20%",
+        [DestinyElement.METAL] = "금: 그림 칩 +20%",
         [DestinyElement.WATER] = "수: 피 활성화 -2장 (피 족보 8장부터)",
     }
     table.insert(lines, el_desc[self.element] or "")
@@ -164,7 +164,7 @@ function DestinySystem:get_chip_bonus(yokbo_type)
     if el == DestinyElement.WOOD and yokbo_type and string.find(yokbo_type, "단") then
         return 20
     end
-    if el == DestinyElement.METAL and yokbo_type and string.find(yokbo_type, "열끗") then
+    if el == DestinyElement.METAL and yokbo_type and string.find(yokbo_type, "그림") then
         return 20
     end
     return 0

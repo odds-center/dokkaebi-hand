@@ -16,7 +16,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A pixel art visual effect texture on a solid black background. 16-bit retro pixel art with crisp sharp pixels. A single dramatic effect meant to flash on screen when a boss ability activates. Bold and immediately readable. The black background will be converted to transparency for in-game use with additive blending. Centered composition.
+A pixel art visual effect texture on a solid black (#000000) background — the black will be converted to transparency via alpha channel in post-processing. 16-bit retro pixel art with crisp sharp pixels. A single dramatic effect meant to flash on screen when a boss ability activates. Bold and immediately readable. Centered composition. Only the effect, nothing else.
 ```
 
 ## 후처리

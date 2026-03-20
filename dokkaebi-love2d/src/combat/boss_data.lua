@@ -31,6 +31,11 @@ local function BossDefinition(t)
         victory_dialogue = t.victory_dialogue or "",
         yeop_reward = t.yeop_reward or 50,
         drops_legendary_talisman = t.drops_legendary_talisman or false,
+        -- 비주얼: 보스별 고유 색상 {몸통, 머리, 뿔, 눈}
+        body_color = t.body_color or {0.55, 0.10, 0.08},
+        head_color = t.head_color or {0.65, 0.15, 0.10},
+        horn_color = t.horn_color or {0.80, 0.70, 0.20},
+        eye_color  = t.eye_color  or {1.00, 0.20, 0.10},
     }
 end
 
@@ -38,7 +43,7 @@ end
 -- 일반 보스 10종
 -- ============================================================
 local all_bosses = {
-    -- 1. 먹보 도깨비 — 입문
+    -- 1. 먹보 도깨비 — 입문 (녹색 톤, 뚱뚱한 느낌)
     BossDefinition({
         id = "glutton",
         name = "Glutton Dokkaebi",
@@ -53,9 +58,11 @@ local all_bosses = {
         victory_dialogue = "꺼억! 맛있었다! 넌 이제 내 밥이야!",
         yeop_reward = 30,
         drops_legendary_talisman = false,
+        body_color = {0.15, 0.45, 0.12}, head_color = {0.20, 0.55, 0.15},
+        horn_color = {0.60, 0.50, 0.10}, eye_color = {1.0, 0.8, 0.1},
     }),
 
-    -- 2. 장난꾸러기 도깨비 — 입문
+    -- 2. 장난꾸러기 도깨비 — 입문 (보라 톤)
     BossDefinition({
         id = "trickster",
         name = "Trickster Dokkaebi",
@@ -70,9 +77,11 @@ local all_bosses = {
         victory_dialogue = "히히! 찍기의 달인이 될 뻔했는데~",
         yeop_reward = 35,
         drops_legendary_talisman = false,
+        body_color = {0.40, 0.15, 0.55}, head_color = {0.50, 0.20, 0.65},
+        horn_color = {0.90, 0.50, 0.90}, eye_color = {0.3, 1.0, 0.3},
     }),
 
-    -- 3. 불꽃 도깨비 — 초급
+    -- 3. 불꽃 도깨비 — 초급 (붉은/주황 톤)
     BossDefinition({
         id = "flame",
         name = "Flame Dokkaebi",
@@ -87,9 +96,11 @@ local all_bosses = {
         victory_dialogue = "모두 태워버리겠다!",
         yeop_reward = 40,
         drops_legendary_talisman = false,
+        body_color = {0.70, 0.20, 0.05}, head_color = {0.85, 0.25, 0.08},
+        horn_color = {1.0, 0.6, 0.1}, eye_color = {1.0, 0.9, 0.2},
     }),
 
-    -- 4. 그림자 도깨비 — 중급
+    -- 4. 그림자 도깨비 — 중급 (짙은 남색)
     BossDefinition({
         id = "shadow",
         name = "Shadow Dokkaebi",
@@ -104,9 +115,11 @@ local all_bosses = {
         victory_dialogue = "어둠 속에서 영원히 헤매거라!",
         yeop_reward = 50,
         drops_legendary_talisman = true,
+        body_color = {0.08, 0.08, 0.20}, head_color = {0.12, 0.10, 0.28},
+        horn_color = {0.30, 0.25, 0.50}, eye_color = {0.6, 0.2, 1.0},
     }),
 
-    -- 5. 여우 도깨비 — 중급
+    -- 5. 여우 도깨비 — 중급 (주황/흰 톤)
     BossDefinition({
         id = "fox",
         name = "Fox Dokkaebi",
@@ -121,9 +134,11 @@ local all_bosses = {
         victory_dialogue = "후후후, 속았지?",
         yeop_reward = 45,
         drops_legendary_talisman = false,
+        body_color = {0.75, 0.45, 0.10}, head_color = {0.85, 0.55, 0.15},
+        horn_color = {0.95, 0.85, 0.60}, eye_color = {0.2, 0.8, 0.9},
     }),
 
-    -- 6. 거울 도깨비 — 중급
+    -- 6. 거울 도깨비 — 중급 (은색/하늘)
     BossDefinition({
         id = "mirror",
         name = "Mirror Dokkaebi",
@@ -138,9 +153,11 @@ local all_bosses = {
         victory_dialogue = "네 그림자에 갇혀라!",
         yeop_reward = 50,
         drops_legendary_talisman = false,
+        body_color = {0.50, 0.55, 0.65}, head_color = {0.60, 0.65, 0.75},
+        horn_color = {0.80, 0.85, 0.95}, eye_color = {0.3, 0.7, 1.0},
     }),
 
-    -- 7. 화산 도깨비 — 상급
+    -- 7. 화산 도깨비 — 상급 (짙은 빨강/검정)
     BossDefinition({
         id = "volcano",
         name = "Volcano Dokkaebi",
@@ -155,9 +172,11 @@ local all_bosses = {
         victory_dialogue = "모든 것을 녹여버리겠다!",
         yeop_reward = 55,
         drops_legendary_talisman = false,
+        body_color = {0.35, 0.05, 0.02}, head_color = {0.45, 0.08, 0.03},
+        horn_color = {1.0, 0.3, 0.0}, eye_color = {1.0, 0.5, 0.0},
     }),
 
-    -- 8. 황금 도깨비 — 상급 (하이리스크 하이리턴)
+    -- 8. 황금 도깨비 — 상급 (금색)
     BossDefinition({
         id = "gold",
         name = "Golden Dokkaebi",
@@ -172,9 +191,11 @@ local all_bosses = {
         victory_dialogue = "탐욕은 모든 것을 삼킨다!",
         yeop_reward = 80,
         drops_legendary_talisman = true,
+        body_color = {0.70, 0.55, 0.10}, head_color = {0.85, 0.68, 0.15},
+        horn_color = {1.0, 0.84, 0.0}, eye_color = {1.0, 0.2, 0.1},
     }),
 
-    -- 9. 회랑 도깨비 — 상급
+    -- 9. 회랑 도깨비 — 상급 (청록)
     BossDefinition({
         id = "corridor",
         name = "Corridor Dokkaebi",
@@ -189,9 +210,11 @@ local all_bosses = {
         victory_dialogue = "영원히 이 회랑을 떠돌게 될 것이다!",
         yeop_reward = 60,
         drops_legendary_talisman = false,
+        body_color = {0.08, 0.35, 0.40}, head_color = {0.10, 0.45, 0.50},
+        horn_color = {0.20, 0.70, 0.75}, eye_color = {0.0, 1.0, 0.8},
     }),
 
-    -- 10. 염라대왕 — 보스 (나선 1 최종)
+    -- 10. 염라대왕 — 보스 (최종, 검정/금)
     BossDefinition({
         id = "yeomra",
         name = "King Yeomra",
@@ -206,6 +229,8 @@ local all_bosses = {
         victory_dialogue = "저승에서 영원히 내 패거리가 되거라!",
         yeop_reward = 100,
         drops_legendary_talisman = true,
+        body_color = {0.10, 0.08, 0.08}, head_color = {0.15, 0.10, 0.10},
+        horn_color = {1.0, 0.84, 0.0}, eye_color = {1.0, 0.0, 0.0},
     }),
 }
 

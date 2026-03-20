@@ -1,14 +1,36 @@
 --- 섯다 2장 족보 판정
+--- 규칙: 그림 패(광/띠/그림)만 섯다 족보 인정.
+---       피는 끗(숫자값)으로만 계산.
 local Enums = require("src.cards.card_enums")
+local CT = Enums.CardType
 
 local SeotdaChallenge = {}
+
+--- 카드가 "그림 패"인지 (광/띠/그림 = 족보 대상)
+local function is_picture(card)
+    return card.card_type == CT.Gwang
+        or card.card_type == CT.Tti
+        or card.card_type == CT.Geurim
+end
 
 --- 2장 평가 → { name, rank }
 function SeotdaChallenge.evaluate(a, b)
     local mA = a.month
     local mB = b.month
-    local a_gwang = a.card_type == Enums.CardType.Gwang
-    local b_gwang = b.card_type == Enums.CardType.Gwang
+    local a_pic = is_picture(a)
+    local b_pic = is_picture(b)
+
+    -- 피가 섞이면 끗 계산만
+    if not a_pic or not b_pic then
+        local kkeut = (mA + mB) % 10
+        if kkeut == 0 then return { name = "갑오", rank = 0 } end
+        return { name = kkeut .. "끗", rank = kkeut }
+    end
+
+    -- 이하: 두 장 모두 그림 패 → 정식 섯다 족보
+
+    local a_gwang = a.card_type == CT.Gwang
+    local b_gwang = b.card_type == CT.Gwang
 
     -- 광땡 (두 장 모두 광)
     if a_gwang and b_gwang then
@@ -41,29 +63,34 @@ function SeotdaChallenge.evaluate(a, b)
     if small == 4 and big == 10 then return { name = "장사", rank = 71 } end
     if small == 4 and big == 6 then return { name = "세륙", rank = 70 } end
 
+    -- 사구파토 (4+9=13, 끗3이지만 재경기 기회)
+    if (small == 4 and big == 9) then
+        return { name = "사구파토", rank = 3, rematch = true }
+    end
+
     -- 끗
     local kkeut = (mA + mB) % 10
     if kkeut == 0 then return { name = "갑오", rank = 0 } end
     return { name = kkeut .. "끗", rank = kkeut }
 end
 
---- 섯다 기본 데미지 테이블
+--- 섯다 기본 데미지 테이블 (보스 HP 100~400 기준)
 function SeotdaChallenge.base_damage(rank)
-    if rank == 100 then return 80      -- 38광땡
-    elseif rank == 99 then return 70   -- 18광땡
-    elseif rank == 98 then return 65   -- 13광땡
-    elseif rank == 95 then return 60   -- 기타 광땡
-    elseif rank >= 90 then return 50   -- 장땡
-    elseif rank >= 80 then return 25 + (rank - 80) * 2  -- N땡
-    elseif rank == 75 then return 35   -- 알리
-    elseif rank == 74 then return 32   -- 독사
-    elseif rank == 73 then return 30   -- 구삥
-    elseif rank == 72 then return 28   -- 장삥
-    elseif rank == 71 then return 25   -- 장사
-    elseif rank == 70 then return 22   -- 세륙
-    elseif rank >= 7 then return 12 + rank  -- 7~9끗
-    elseif rank >= 1 then return 8 + rank   -- 1~6끗
-    else return 5  -- 갑오
+    if rank == 100 then return 35      -- 38광땡
+    elseif rank == 99 then return 30   -- 18광땡
+    elseif rank == 98 then return 28   -- 13광땡
+    elseif rank == 95 then return 25   -- 기타 광땡
+    elseif rank >= 90 then return 22   -- 장땡
+    elseif rank >= 80 then return 12 + (rank - 80)  -- N땡
+    elseif rank == 75 then return 18   -- 알리
+    elseif rank == 74 then return 16   -- 독사
+    elseif rank == 73 then return 15   -- 구삥
+    elseif rank == 72 then return 14   -- 장삥
+    elseif rank == 71 then return 13   -- 장사
+    elseif rank == 70 then return 12   -- 세륙
+    elseif rank >= 7 then return 6 + rank   -- 7~9끗
+    elseif rank >= 1 then return 4 + rank   -- 1~6끗
+    else return 3  -- 갑오
     end
 end
 

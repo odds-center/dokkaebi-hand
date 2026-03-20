@@ -16,7 +16,7 @@ Batch: 4장
 ## 공통 프롬프트 프리픽스
 
 ```
-A single VFX particle texture sprite on a solid black background. Simple soft-edged shape designed to be used as a game particle effect texture. The shape glows from center outward with smooth falloff. No hard outlines — soft organic edges that blend into the black background. The black background will be used as transparency in-game. Centered composition.
+A single VFX particle texture sprite on a solid black (#000000) background — the black will be converted to transparency via alpha channel in post-processing. Simple soft-edged shape designed to be used as a game particle effect texture. The shape glows from center outward with smooth falloff. No hard outlines — soft organic edges that blend into the black background. Centered composition. Only the glowing particle shape, nothing else.
 ```
 
 ## 후처리

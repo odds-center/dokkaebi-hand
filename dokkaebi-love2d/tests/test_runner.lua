@@ -67,33 +67,41 @@ test("38광땡 = Rank 100", function()
     assert_eq(r.name, "38광땡")
 end)
 
-test("알리 (1+2) = Rank 75", function()
-    local c1 = CardInstance.new(1, { name="1p", name_kr="1월피", month=1, card_type="pi", base_points=1 })
-    local c2 = CardInstance.new(2, { name="2p", name_kr="2월피", month=2, card_type="pi", base_points=1 })
+test("알리 (1+2 그림패) = Rank 75", function()
+    local c1 = CardInstance.new(1, { name="1g", name_kr="1월그림", month=1, card_type="geurim", base_points=10 })
+    local c2 = CardInstance.new(2, { name="2g", name_kr="2월그림", month=2, card_type="geurim", base_points=10 })
     local r = Seotda.evaluate(c1, c2)
     assert_eq(r.rank, 75)
     assert_eq(r.name, "알리")
 end)
 
-test("갑오 (2+8=10) = Rank 0", function()
-    local c1 = CardInstance.new(1, { name="2p", name_kr="2월피", month=2, card_type="pi", base_points=1 })
-    local c2 = CardInstance.new(2, { name="8p", name_kr="8월피", month=8, card_type="pi", base_points=1 })
+test("피 2장 → 끗만 (족보 불가)", function()
+    local c1 = CardInstance.new(1, { name="1p", name_kr="1월피", month=1, card_type="pi", base_points=1 })
+    local c2 = CardInstance.new(2, { name="2p", name_kr="2월피", month=2, card_type="pi", base_points=1 })
+    local r = Seotda.evaluate(c1, c2)
+    assert_eq(r.rank, 3)  -- (1+2)%10 = 3끗
+    assert_eq(r.name, "3끗")
+end)
+
+test("갑오 (2+8=10 그림패) = Rank 0", function()
+    local c1 = CardInstance.new(1, { name="2g", name_kr="2월그림", month=2, card_type="geurim", base_points=10 })
+    local c2 = CardInstance.new(2, { name="8g", name_kr="8월그림", month=8, card_type="geurim", base_points=10 })
     local r = Seotda.evaluate(c1, c2)
     assert_eq(r.rank, 0)
     assert_eq(r.name, "갑오")
 end)
 
-test("장땡 (10+10) = Rank 90", function()
-    local c1 = CardInstance.new(1, { name="10p", name_kr="10월피", month=10, card_type="pi", base_points=1 })
+test("장땡 (10+10 그림패) = Rank 90", function()
+    local c1 = CardInstance.new(1, { name="10g", name_kr="10월그림", month=10, card_type="geurim", base_points=10 })
     local c2 = CardInstance.new(2, { name="10t", name_kr="10월띠", month=10, card_type="tti", base_points=10 })
     local r = Seotda.evaluate(c1, c2)
     assert_eq(r.rank, 90)
     assert_eq(r.name, "장땡")
 end)
 
-test("섯다 데미지: 38광땡=80, 갑오=5", function()
-    assert_eq(Seotda.base_damage(100), 80)
-    assert_eq(Seotda.base_damage(0), 5)
+test("섯다 데미지: 38광땡=35, 갑오=3", function()
+    assert_eq(Seotda.base_damage(100), 35)
+    assert_eq(Seotda.base_damage(0), 3)
 end)
 
 print("\n=== 덱 매니저 ===")
@@ -177,13 +185,13 @@ test("칩/배수 합산", function()
     assert_true(math.abs(mult - 3.0) < 0.01, "mult should be 3.0")
 end)
 
-test("단일패 최소 10칩", function()
+test("단일패 최소 3칩", function()
     local c1 = CardInstance.new(1, { name="1p", name_kr="1월피", month=1, card_type="pi", base_points=1 })
     local combos = HE.evaluate({c1})
     local found = false
     for _, c in ipairs(combos) do
         if c.id == "single" then
-            assert_true(c.chips >= 10, "단일패 최소 10칩")
+            assert_true(c.chips >= 3, "단일패 최소 3칩")
             found = true
         end
     end
@@ -259,20 +267,20 @@ test("시작 = 나선1 영역1", function()
     assert_eq(sp.current_realm, 1)
 end)
 
-test("10영역 → Gate 발생", function()
+test("20영역 → Gate 발생", function()
     local sp = SpiralManager.new()
     local gate = false
-    for i = 1, 9 do
+    for i = 1, 19 do
         gate = sp:advance_realm()
-        assert_true(not gate, "9번째까지 gate 아님")
+        assert_true(not gate, "19번째까지 gate 아님")
     end
     gate = sp:advance_realm()
-    assert_true(gate, "10번째에 gate")
+    assert_true(gate, "20번째에 gate")
 end)
 
 test("ContinueToNextSpiral → 나선 증가", function()
     local sp = SpiralManager.new()
-    for i = 1, 10 do sp:advance_realm() end
+    for i = 1, 20 do sp:advance_realm() end
     sp:continue_to_next_spiral()
     assert_eq(sp.current_spiral, 2)
     assert_eq(sp.current_realm, 1)

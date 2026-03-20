@@ -170,15 +170,15 @@ local function initialize()
             trigger_chance = 1,
         }),
 
-        -- 12. 기린 각 (희귀) - 열끗 5장 이상일 때 배수 +3
+        -- 12. 기린 각 (희귀) - 그림 5장 이상일 때 배수 +3
         TalismanData({
             name = "Girin Horn",
             name_kr = "기린 각",
             rarity = Rarity.Rare,
-            description = "+3 Mult when 5+ Animal cards captured",
-            description_kr = "열끗 5장 이상 시 배수 +3",
+            description = "+3 Mult when 5+ Picture cards captured",
+            description_kr = "그림 5장 이상 시 배수 +3",
             trigger = Trigger.OnRoundEnd,
-            trigger_condition = "yeolkkeut_5",
+            trigger_condition = "geurim_5",
             effect_type = Effect.AddMult,
             effect_value = 3,
             trigger_chance = 1,

@@ -6,10 +6,10 @@ local CardMonth = {
 }
 
 local CardType = {
-    Gwang = "gwang",         -- 광
-    Tti = "tti",             -- 띠
-    Yeolkkeut = "yeolkkeut", -- 열끗
-    Pi = "pi"                -- 피
+    Gwang = "gwang",       -- 광
+    Tti = "tti",           -- 띠
+    Geurim = "geurim",     -- 그림 (짐승/물건이 그려진 패)
+    Pi = "pi"              -- 피
 }
 
 local RibbonType = {
@@ -19,10 +19,10 @@ local RibbonType = {
     ChoDan = "chodan"        -- 초단
 }
 
--- 카드 타입 가치 순서 (광 > 열끗 > 띠 > 피)
+-- 카드 타입 가치 순서 (광 > 그림 > 띠 > 피)
 local CardTypeValue = {
     [CardType.Gwang] = 4,
-    [CardType.Yeolkkeut] = 3,
+    [CardType.Geurim] = 3,
     [CardType.Tti] = 2,
     [CardType.Pi] = 1,
 }
