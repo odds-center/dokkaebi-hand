@@ -715,37 +715,65 @@ local function scr_battle()
         end
     end
 
-    -- ======= 족보 점수 (보스 아래 중앙) =======
+    -- ======= 데미지 패널 (보스 아래 중앙, 크고 눈에 띄게) =======
     local score_y = 185
-    local score_w = 320
-    panel(CX - score_w/2, score_y, score_w, 38)
-    love.graphics.setFont(fonts.m)
-    set(PAL.white)
-    love.graphics.printf(string.format("칩 %s", NumFmt.format_score(S.chips)), CX-score_w/2, score_y+3, score_w*0.35, "center")
-    set(PAL.cyan)
-    love.graphics.printf(string.format("× %.1f", S.mult), CX-score_w*0.15, score_y+3, score_w*0.3, "center")
-    set(PAL.gold)
-    love.graphics.setFont(fonts.l)
-    love.graphics.printf(string.format("= %s", NumFmt.format_score(math.floor(S.chips*S.mult))), CX+score_w*0.1, score_y+1, score_w*0.38, "center")
+    local score_w = 400
+    local score_h = 65
+    panel(CX - score_w/2, score_y, score_w, score_h)
 
-    -- ======= 획득 족보 표시 (점수 패널 바로 아래) =======
+    -- 라벨
+    love.graphics.setFont(fonts.s)
+    set(PAL.dim)
+    love.graphics.printf("공격력 계산", CX - score_w/2, score_y + 3, score_w, "center")
+
+    -- 칩 × 배수 = 데미지 (큰 글씨, 한 줄)
+    local dmg_y = score_y + 18
+    love.graphics.setFont(fonts.l)
+    set(PAL.white)
+    love.graphics.printf(NumFmt.format_score(S.chips), CX - score_w/2, dmg_y, score_w * 0.28, "center")
+    set(PAL.dim)
+    love.graphics.printf("칩", CX - score_w/2, dmg_y + 22, score_w * 0.28, "center")
+
+    set(PAL.cyan)
+    love.graphics.setFont(fonts.xl)
+    love.graphics.printf("×", CX - score_w * 0.12, dmg_y + 2, score_w * 0.24, "center")
+
+    love.graphics.setFont(fonts.l)
+    set(PAL.cyan)
+    love.graphics.printf(string.format("%.1f", S.mult), CX + score_w * 0.05, dmg_y, score_w * 0.28, "center")
+    love.graphics.setFont(fonts.s)
+    set(PAL.dim)
+    love.graphics.printf("배수", CX + score_w * 0.05, dmg_y + 22, score_w * 0.28, "center")
+
+    set(PAL.gold)
+    love.graphics.setFont(fonts.xl)
+    love.graphics.printf("=", CX + score_w * 0.25, dmg_y + 2, 30, "center")
+
+    -- 최종 데미지 (가장 크게)
+    local final_dmg = math.floor(S.chips * S.mult)
+    love.graphics.setFont(fonts.xl)
+    set(PAL.gold)
+    love.graphics.printf(NumFmt.format_score(final_dmg), CX + score_w * 0.30, dmg_y - 2, score_w * 0.2, "center")
+    love.graphics.setFont(fonts.s)
+    set(PAL.dim)
+    love.graphics.printf("데미지", CX + score_w * 0.30, dmg_y + 22, score_w * 0.2, "center")
+
+    -- ======= 등록된 족보 (데미지 패널 아래) =======
+    local combo_y = score_y + score_h + 4
     if S._eaten_combos and #S._eaten_combos > 0 then
-        local combo_y = score_y + 42
-        local combo_str = ""
-        for _, cn in ipairs(S._eaten_combos) do combo_str = combo_str .. "[" .. cn .. "] " end
-        -- 배경 패널
         love.graphics.setFont(fonts.s)
-        local combo_w = math.min(#combo_str * 7 + 20, W * 0.6)
-        set({0.04, 0.06, 0.15, 0.85})
-        love.graphics.rectangle("fill", CX - combo_w/2, combo_y, combo_w, 20, UI.radius)
-        set(PAL.border)
-        love.graphics.rectangle("line", CX - combo_w/2, combo_y, combo_w, 20, UI.radius)
         set(PAL.gold)
-        love.graphics.printf(combo_str, CX - combo_w/2, combo_y + 3, combo_w, "center")
+        local combo_str = "족보: "
+        for _, cn in ipairs(S._eaten_combos) do combo_str = combo_str .. "[" .. cn .. "] " end
+        love.graphics.printf(combo_str, 0, combo_y, W, "center")
+    else
+        love.graphics.setFont(fonts.s)
+        set({0.3, 0.3, 0.38})
+        love.graphics.printf("족보를 등록하면 칩과 배수가 올라갑니다", 0, combo_y, W, "center")
     end
 
     -- ======= 메시지 로그 (좌측) =======
-    draw_msgs(200)
+    draw_msgs(combo_y + 20)
 
     -- ======= 손패 (중앙 하단) =======
     local cw, ch = CardRenderer.CARD_W, CardRenderer.CARD_H
@@ -831,20 +859,45 @@ local function scr_battle()
         love.graphics.printf("섯다 공격 2장 선택 — 그림패만 족보! 피는 끗만", 0, guide_y, W, "center")
     end
 
-    -- ======= 2. 실시간 콤보 미리보기 (선택 중) =======
+    -- ======= 설정(톱니바퀴) 버튼 (우상단) =======
+    ui_btn("⚙", W-42, 36, 30, 24, PAL.btn_dim, function()
+        S._return_from_settings = S.state
+        S.state = "settings"
+    end)
+
+    -- ======= 카드 색상 가이드 (우측) =======
+    love.graphics.setFont(fonts.s)
+    local guide_x = W - 110
+    local gy = 190
+    set(PAL.dim)
+    love.graphics.print("카드 종류:", guide_x, gy)
+    gy = gy + 15
+    set({1, 0.82, 0})
+    love.graphics.print("■ 광 (최강)", guide_x, gy); gy = gy + 13
+    set({0.80, 0.12, 0.12})
+    love.graphics.print("■ 홍단", guide_x, gy); gy = gy + 13
+    set({0.12, 0.35, 0.78})
+    love.graphics.print("■ 청단", guide_x, gy); gy = gy + 13
+    set({0.15, 0.60, 0.18})
+    love.graphics.print("■ 초단", guide_x, gy); gy = gy + 13
+    set({0.25, 0.65, 0.85})
+    love.graphics.print("■ 그림", guide_x, gy); gy = gy + 13
+    set({0.45, 0.45, 0.50})
+    love.graphics.print("■ 피 (약)", guide_x, gy)
+
+    -- ======= 2. 실시간 콤보 미리보기 (우측 패널) =======
     if (S.state == "in_round" or S.state == "attack") and #S.selected > 0 then
         local preview_combos = HandEvaluator.evaluate(S.selected)
+        local pw = 180
+        local px = W - pw - 10
+        local py = 310
+
         if #preview_combos > 0 then
-            local pw = 300
-            local px = CX - pw/2
-            local py = 200
-
-            set({0.04, 0.06, 0.15, 0.88})
-            love.graphics.rectangle("fill", px, py, pw, 14 + #preview_combos * 16, UI.radius)
-            set(PAL.border)
-            love.graphics.rectangle("line", px, py, pw, 14 + #preview_combos * 16, UI.radius)
-
+            local ph = 16 + #preview_combos * 15
+            panel(px, py, pw, ph, true)
             love.graphics.setFont(fonts.s)
+            set(PAL.dim)
+            love.graphics.print("콤보 미리보기:", px+5, py+2)
             for ci, combo in ipairs(preview_combos) do
                 local tier_colors = {
                     [1]={1,0.84,0}, [2]={0.25,0.9,0.85}, [3]={0.15,0.7,0.2},
@@ -852,16 +905,16 @@ local function scr_battle()
                 }
                 set(tier_colors[combo.tier] or PAL.white)
                 love.graphics.printf(
-                    string.format("[%s] %s  칩%d ×%.1f",
+                    string.format("[%s] %s +%d ×%.1f",
                         ({"S","A","B","C","D"})[combo.tier] or "?",
                         combo.name_kr, combo.chips, combo.mult),
-                    px + 8, py + 2 + (ci-1)*16, pw - 16, "left")
+                    px + 5, py + 14 + (ci-1)*15, pw - 10, "left")
             end
         else
-            -- 콤보 없음 표시
+            panel(px, py, pw, 30, true)
             love.graphics.setFont(fonts.s)
-            set({0.6, 0.3, 0.3})
-            love.graphics.printf("(이 조합에는 콤보가 없음)", 0, 210, W, "center")
+            set({0.5, 0.3, 0.3})
+            love.graphics.printf("콤보 없음", px, py+8, pw, "center")
         end
 
         -- 공격 모드 2장 → 섯다 미리보기
@@ -1261,8 +1314,11 @@ local function scr_settings()
     love.graphics.setFont(fonts.s); set(PAL.dim)
     love.graphics.printf("도깨비의 패 v0.1.0\n© 2026 Dokkaebi Studio", 0, H*0.82, W, "center")
 
-    -- 뒤로가기
-    ui_btn("← 돌아가기", W/2-55, H*0.90, 110, UI.btn_h, PAL.btn_dim, function() S.state = "main_menu" end)
+    -- 뒤로가기 (게임 중이면 게임으로, 아니면 메인메뉴)
+    ui_btn("← 돌아가기", W/2-55, H*0.90, 110, UI.btn_h, PAL.btn_dim, function()
+        S.state = S._return_from_settings or "main_menu"
+        S._return_from_settings = nil
+    end)
 end
 
 -- ===========================
