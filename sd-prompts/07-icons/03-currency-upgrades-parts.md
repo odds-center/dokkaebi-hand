@@ -23,13 +23,13 @@ score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green bac
 ### icon_yeop — 엽전 (런 내 화폐)
 **Seed:** 75001
 ```
-Three traditional Korean brass coins stacked slightly offset. Round golden-brown coins with square holes in the center. Simple coin stack. Nothing else.
+three traditional Korean brass coins, stacked slightly offset, round golden-brown coins, square holes in center, simple coin stack
 ```
 
 ### icon_soul — 넋 (영구 강화 화폐)
 **Seed:** 75002
 ```
-A small floating pale blue-white spirit orb with tiny wisp trails. Translucent glowing blue-cyan sphere. Simple soul fragment. Nothing else.
+small floating pale blue-white spirit orb, tiny wisp trails, translucent glowing blue-cyan sphere, simple soul fragment
 ```
 
 ---
@@ -53,32 +53,32 @@ score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green bac
 
 #### upgrade_base_chips — 기본 칩 증가
 ```
-Three stacked red poker chips with a small white plus symbol above. Simple chip stack. Nothing else.
+three stacked red poker chips, small white plus symbol above, simple chip stack
 ```
 
 #### upgrade_base_mult — 기본 배수 증가
 ```
-A bold red multiplication symbol (×) with small radiating lines around it. Simple math symbol. Nothing else.
+bold red multiplication symbol, small radiating lines around it, simple math symbol
 ```
 
 #### upgrade_start_hand — 시작 손패 증가
 ```
-A fan of three small card shapes spreading outward with a plus symbol. Simple card fan. Nothing else.
+fan of three small card shapes spreading outward, plus symbol, simple card fan
 ```
 
 #### upgrade_deck_compress — 덱 압축
 ```
-A deck of cards being squeezed by two inward-pointing arrows from both sides. Simple compressed deck. Nothing else.
+deck of cards squeezed by two inward-pointing arrows from both sides, simple compressed deck
 ```
 
 #### upgrade_yokbo_bonus — 족보 보너스
 ```
-A small scroll with a golden star on it. Simple scroll with star. Nothing else.
+small scroll with golden star on it, simple scroll with star
 ```
 
 #### upgrade_sweep_bonus — 쓸 보너스
 ```
-A horizontal brush stroke with small gold sparkles trailing behind. Simple sweep line. Nothing else.
+horizontal brush stroke, small gold sparkles trailing behind, simple sweep line
 ```
 
 ### 부적의 길 (Talisman Path) — 6종
@@ -87,32 +87,32 @@ A horizontal brush stroke with small gold sparkles trailing behind. Simple sweep
 
 #### upgrade_talisman_slots — 부적 슬롯 확장
 ```
-An empty square outline with a plus symbol next to it and a second square appearing. Simple slot expansion. Nothing else.
+empty square outline, plus symbol next to it, second square appearing, simple slot expansion
 ```
 
 #### upgrade_talisman_trigger — 부적 발동률 증가
 ```
-A talisman paper with a small lightning bolt on it. Simple paper with bolt. Nothing else.
+talisman paper with small lightning bolt on it, simple paper with bolt
 ```
 
 #### upgrade_talisman_fusion — 부적 합성 해금
 ```
-Two small talisman papers merging into one with fusion sparks between them. Simple merge icon. Nothing else.
+two small talisman papers merging into one, fusion sparks between them, simple merge icon
 ```
 
 #### upgrade_legend_rate — 전설 등장률 증가
 ```
-A golden star rising above a small gray pile. Simple star-over-pile. Nothing else.
+golden star rising above small gray pile, simple star-over-pile
 ```
 
 #### upgrade_start_talisman — 시작 부적
 ```
-A talisman paper with a small gift ribbon bow on top. Simple paper with bow. Nothing else.
+talisman paper with small gift ribbon bow on top, simple paper with bow
 ```
 
 #### upgrade_curse_resist — 저주 저항
 ```
-A small dark purple talisman with a tiny shield symbol blocking it. Simple curse-blocked icon. Nothing else.
+small dark purple talisman, tiny shield symbol blocking it, simple curse-blocked icon
 ```
 
 ### 생존의 길 (Survival Path) — 7종
@@ -121,37 +121,37 @@ A small dark purple talisman with a tiny shield symbol blocking it. Simple curse
 
 #### upgrade_max_lives — 최대 목숨 증가
 ```
-A red heart with a small white plus symbol next to it. Simple heart-plus. Nothing else.
+red heart, small white plus symbol next to it, simple heart-plus
 ```
 
 #### upgrade_go_insurance — Go 보험
 ```
-A red downward arrow caught by a small safety net below it. Simple net-catch. Nothing else.
+red downward arrow caught by small safety net below, simple net-catch
 ```
 
 #### upgrade_start_yeop — 시작 엽전 증가
 ```
-A small brown pouch with golden coins spilling out of the top. Simple coin pouch. Nothing else.
+small brown pouch, golden coins spilling out of top, simple coin pouch
 ```
 
 #### upgrade_shop_discount — 상점 할인
 ```
-A small tag with a red downward arrow on it. Simple discount tag. Nothing else.
+small tag with red downward arrow on it, simple discount tag
 ```
 
 #### upgrade_event_bonus — 이벤트 보너스
 ```
-A small gift box with sparkle marks around it. Simple gift box. Nothing else.
+small gift box, sparkle marks around it, simple gift box
 ```
 
 #### upgrade_revive — 부활
 ```
-A cracked skull with a golden light shining through the crack. Simple cracked-skull-glow. Nothing else.
+cracked skull, golden light shining through crack, simple cracked-skull-glow
 ```
 
 #### upgrade_target_reduce — 목표 점수 감소
 ```
-A number symbol with a red downward arrow beside it. Simple score-reduction icon. Nothing else.
+number symbol, red downward arrow beside it, simple score-reduction icon
 ```
 
 ---
@@ -174,42 +174,42 @@ score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green bac
 
 #### parts_iron_horn — 쇠뿔
 ```
-A single short gray iron horn pointing upward. Simple horn shape. Nothing else.
+single short gray iron horn pointing upward, simple horn shape
 ```
 
 #### parts_fire_horn — 화염 뿔
 ```
-A horn with orange flame at its tip. Dark horn, orange fire top. Nothing else.
+horn with orange flame at tip, dark horn, orange fire top
 ```
 
 #### parts_ice_crown — 얼음 왕관
 ```
-A small crown made of pale blue ice crystal spikes. Simple frozen crown. Nothing else.
+small crown of pale blue ice crystal spikes, simple frozen crown
 ```
 
 #### parts_third_eye — 제3의 눈
 ```
-A single large eye with a red iris. Simple floating eye. Nothing else.
+single large eye with red iris, simple floating eye
 ```
 
 #### parts_ghost_helm — 도깨비불 투구
 ```
-A dark helmet with a cyan flame burning on top as a crest. Simple helmet-flame. Nothing else.
+dark helmet, cyan flame burning on top as crest, simple helmet-flame
 ```
 
 #### parts_skull_crown — 해골 면류관
 ```
-A crown made of small white skulls. Simple bone crown. Nothing else.
+crown made of small white skulls, simple bone crown
 ```
 
 #### parts_fog_mask — 독안개 면
 ```
-A face mask with green wisps leaking from it. Simple mask with fog. Nothing else.
+face mask, green wisps leaking from it, simple mask with fog
 ```
 
 #### parts_king_helm — 천왕 투구
 ```
-A grand golden helmet with wing decorations on the sides. Simple royal helmet. Nothing else.
+grand golden helmet, wing decorations on sides, simple royal helmet
 ```
 
 ### 팔(Arm) 파츠 — 8종
@@ -217,42 +217,42 @@ A grand golden helmet with wing decorations on the sides. Simple royal helmet. N
 
 #### parts_chain_arm — 쇠사슬
 ```
-A dark iron chain link with a small lock. Simple chain-lock. Nothing else.
+dark iron chain link with small lock, simple chain-lock
 ```
 
 #### parts_fire_glove — 불꽃 장갑
 ```
-A gauntlet glove with orange flame aura around the fist. Simple fiery glove. Nothing else.
+gauntlet glove, orange flame aura around fist, simple fiery glove
 ```
 
 #### parts_shadow_arm — 그림자 팔
 ```
-A dark arm silhouette with purple glow edges. Simple shadow arm shape. Nothing else.
+dark arm silhouette, purple glow edges, simple shadow arm shape
 ```
 
 #### parts_gold_brace — 황금 팔찌
 ```
-A golden bracelet ring shape. Simple gold circle brace. Nothing else.
+golden bracelet ring shape, simple gold circle brace
 ```
 
 #### parts_poison_claw — 독 발톱
 ```
-A sharp claw with green poison drops dripping from the tip. Simple toxic claw. Nothing else.
+sharp claw, green poison drops dripping from tip, simple toxic claw
 ```
 
 #### parts_seal_arm — 봉인 부적 팔
 ```
-An arm shape wrapped in red talisman papers. Simple sealed arm. Nothing else.
+arm shape wrapped in red talisman papers, simple sealed arm
 ```
 
 #### parts_web_hand — 거미줄 손
 ```
-A hand with sticky white web strands between spread fingers. Simple web hand. Nothing else.
+hand with sticky white web strands between spread fingers, simple web hand
 ```
 
 #### parts_bone_pincer — 뼈 집게
 ```
-White bone pincers like crab claws. Simple bone claw. Nothing else.
+white bone pincers like crab claws, simple bone claw
 ```
 
 ### 몸통(Body) 파츠 — 8종
@@ -260,42 +260,42 @@ White bone pincers like crab claws. Simple bone claw. Nothing else.
 
 #### parts_iron_plate — 철갑
 ```
-A dark iron chest plate armor shape. Simple armor front. Nothing else.
+dark iron chest plate armor shape, simple armor front
 ```
 
 #### parts_fire_mark — 화문
 ```
-A body outline with a glowing orange fire rune symbol on the chest. Simple fire-marked torso. Nothing else.
+body outline, glowing orange fire rune symbol on chest, simple fire-marked torso
 ```
 
 #### parts_ice_armor — 빙결 갑옷
 ```
-A chest covered in blue ice crystal formations. Simple frozen armor. Nothing else.
+chest covered in blue ice crystal formations, simple frozen armor
 ```
 
 #### parts_shadow_armor — 그림자 갑옷
 ```
-A dark shifting chest shape with purple edge glow. Simple shadow torso. Nothing else.
+dark shifting chest shape, purple edge glow, simple shadow torso
 ```
 
 #### parts_talisman_absorb — 부적 흡수체
 ```
-A dark body shape with small talisman papers being pulled into its surface. Simple absorb effect. Nothing else.
+dark body shape, small talisman papers pulled into surface, simple absorb effect
 ```
 
 #### parts_mirror_plate — 거울 흉갑
 ```
-A chest plate with bright reflective silver surface. Simple mirror armor. Nothing else.
+chest plate with bright reflective silver surface, simple mirror armor
 ```
 
 #### parts_thorn_armor — 가시 갑옷
 ```
-An armor shape with sharp thorns sticking outward from the surface. Simple thorny armor. Nothing else.
+armor shape with sharp thorns sticking outward, simple thorny armor
 ```
 
 #### parts_smoke_body — 연기 몸
 ```
-A body outline dissolving into wispy smoke at the edges. Simple smoky form. Nothing else.
+body outline dissolving into wispy smoke at edges, simple smoky form
 ```
 
 ## 후처리 (공통)

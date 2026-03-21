@@ -21,14 +21,14 @@
 **Seed:** 90061
 
 ```
-A pixel art scene of a ghost vendor stall in the Korean underworld market, viewed from the front. 16-bit retro pixel art with crisp pixels and flat colors. A wooden counter displays various mystical items — glowing talismans and card packs arranged neatly on shelves behind the counter. Two warm paper lanterns hang above the stall, creating a warm inviting glow over the merchandise. Mysterious bottles with colored liquids sit on the counter. Rolled scrolls tied with red ribbons line a shelf. Small glowing crystals rest in wooden boxes. Dark navy darkness surrounds the warm stall on all sides. The wooden stall frame has traditional Korean roof tiles on top. A few faint blue sparkles accent the rarest items. This is a cozy corner in the underworld where you can breathe — the stall feels safe, but the darkness around it does not. Color palette: warm orange, wood brown, dark navy, cyan item glow accents.
+ghost vendor stall in Korean underworld market, front view, wooden counter displaying mystical items, glowing talismans and card packs on shelves behind counter, two warm paper lanterns above stall, warm inviting glow over merchandise, mysterious bottles with colored liquids on counter, rolled scrolls tied with red ribbons on shelf, small glowing crystals in wooden boxes, dark navy darkness surrounding warm stall, traditional Korean roof tiles on stall frame, faint blue sparkles on rarest items, cozy safe corner in underworld, warm orange and wood brown palette, dark navy, cyan item glow accents
 ```
 
 ## 프롬프트 B (측면 시점, 분위기)
 **Seed:** 90062
 
 ```
-A pixel art scene showing a side view of a mystical shop in a dark underground market of the Korean underworld. Wooden shelves lining the back wall are filled with curiosities — glass jars with floating lights inside, stacks of worn playing cards tied with string, an old wooden abacus on the counter. A single large paper lantern casts a warm pool of light over the scene. Moths circle the lantern flame. Dark shadows fill every corner beyond the reach of the light. The wooden floor has scattered coins. A small incense stick burns on the counter corner, its smoke rising in a thin line. The atmosphere is intimate and quiet — a temporary refuge away from danger in the land of the dead. Color palette: lantern amber, aged wood, shadow black, copper coin accents.
+side view of mystical shop in dark underground market, Korean underworld, wooden shelves on back wall filled with curiosities, glass jars with floating lights inside, stacks of worn playing cards tied with string, old wooden abacus on counter, single large paper lantern casting warm pool of light, moths circling lantern flame, dark shadows filling every corner beyond light reach, scattered coins on wooden floor, small incense stick burning on counter corner with thin smoke line, intimate quiet atmosphere, temporary refuge in land of the dead, lantern amber and aged wood palette, shadow black, copper coin accents
 ```
 
 ---

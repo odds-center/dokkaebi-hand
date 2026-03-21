@@ -15,28 +15,28 @@
 **Seed:** 9001 | **등급:** 중간
 
 ```
-A small ceremonial sake cup resting among chrysanthemum flowers. The cup is a shallow wide-rimmed bowl in solid red with bold black outlines, positioned in the upper portion of the composition among the flower heads. Below and around the cup, chrysanthemum flowers bloom abundantly. Each chrysanthemum has many thin pointed petals radiating outward from the center in a star-like pattern, colored in vivid golden yellow and deep orange-red. The petals are rendered with bold black outlines on each one. Dark green-black leaves with jagged deeply-lobed edges surround the flowers. A gold-yellow ribbon is tied near the cup. Cream-ivory background peeks through gaps in the foliage. The composition is moderately full with flowers in the lower two-thirds and the cup nestled at the top-center. Flat graphic style with bold outlines throughout. As an underworld touch, the liquid inside the cup has a faint silvery spectral glow.
+small ceremonial sake cup among chrysanthemum flowers, shallow wide-rimmed bowl in solid red, positioned upper portion among flower heads, chrysanthemum flowers blooming abundantly below and around cup, many thin pointed petals radiating outward in star-like pattern, vivid golden yellow and deep orange-red chrysanthemums, dark green-black leaves with jagged deeply-lobed edges, gold-yellow ribbon tied near cup, moderately full composition, flowers in lower two-thirds, cup nestled at top-center, liquid inside cup with faint silvery spectral glow, underworld touch
 ```
 
 ### m09_cheongdan — 청단 (국화 + 청단 띠)
 **Seed:** 9002 | **등급:** 중간
 
 ```
-Chrysanthemum flowers blooming from the bottom of the frame upward. Multiple chrysanthemum blooms with many thin pointed petals radiating outward — the flowers are vivid golden yellow and deep orange, each petal outlined in bold black. Dark green-black leaves with deeply jagged lobed edges frame the flowers. A bright vivid blue ribbon is draped diagonally across the chrysanthemum stems from upper-left to lower-right. The ribbon is solid flat blue with bold black outline edges and has a vertical text area for 청단 characters. Cream-ivory background shows above the flowers. Chrysanthemums and leaves fill the lower 55% of the card. The blue ribbon stands out sharply against the warm golden flower colors. All colors are flat fills with thick bold outlines and no gradients.
+chrysanthemum flowers blooming from bottom upward, multiple blooms with many thin pointed petals radiating outward, vivid golden yellow and deep orange flowers, dark green-black leaves with deeply jagged lobed edges, bright vivid blue ribbon draped diagonally, upper-left to lower-right, solid flat blue ribbon, vertical text area for cheongdan characters, chrysanthemums and leaves fill lower 55 percent, blue ribbon sharp contrast against warm golden flowers
 ```
 
 ### m09_pi1 — 피 (국화)
 **Seed:** 9003 | **등급:** 간결
 
 ```
-A single chrysanthemum flower with surrounding leaves at the bottom-center of the card. The bloom has many thin pointed petals radiating outward in vivid golden yellow with bold black outlines on each petal. Two or three dark green-black leaves with jagged edges sit below the flower. Cream-ivory background fills the upper 65% with clean white space. Simple single-flower composition — the chrysanthemum sits alone in the lower portion. Flat color rendering with bold outlines, no shading.
+single chrysanthemum flower with surrounding leaves, bottom-center of card, many thin pointed petals radiating outward, vivid golden yellow bloom, two or three dark green-black leaves with jagged edges below flower, upper 65 percent clean white space, simple single-flower composition, chrysanthemum alone in lower portion
 ```
 
 ### m09_pi2 — 피 (국화)
 **Seed:** 9004 | **등급:** 간결
 
 ```
-A small chrysanthemum bloom and compact leaf cluster at the bottom-right of the frame. The flower is smaller than usual with golden yellow pointed petals and bold black outlines. Dark green-black leaves partially surround it. Cream-ivory background dominates over 70% of the card. Minimal composition with the flower tucked at the bottom corner. Clean flat pixel rendering with crisp bold outlines.
+small chrysanthemum bloom and compact leaf cluster, bottom-right of frame, smaller than usual, golden yellow pointed petals, dark green-black leaves partially surrounding, over 70 percent background space, minimal composition, flower tucked at bottom corner
 ```
 
 ---
@@ -52,28 +52,28 @@ A small chrysanthemum bloom and compact leaf cluster at the bottom-right of the 
 **Seed:** 10001 | **등급:** 중간
 
 ```
-A deer standing beneath maple branches, looking back over its shoulder to the left. The deer has a warm golden-brown body with a lighter belly, rendered in flat solid color with bold black outlines. Its antlers branch upward with two or three points on each side. The deer stands with graceful long legs in a calm but alert pose. Above and around the deer, maple branches extend with vivid red and orange five-pointed star-shaped maple leaves. The leaves are solid bright red with bold black outlines, scattered along dark branches. Some leaves are falling, drifting downward through the air. A bright blue ribbon with 청단 text area is draped diagonally among the maple branches. Cream-ivory background fills the spaces between elements. The deer occupies the lower-center while maple canopy fills the upper portion. Flat graphic style with bold colors — the red maple against golden deer is visually striking. As an underworld touch, the deer's eye is an eerily calm, empty pale white.
+deer standing beneath maple branches, looking back over shoulder to left, warm golden-brown body, lighter belly, flat solid color, antlers branching upward two or three points each side, graceful long legs, calm alert pose, vivid red and orange five-pointed star-shaped maple leaves above and around deer, solid bright red leaves along dark branches, some leaves falling drifting downward, bright blue ribbon with cheongdan text area draped diagonally among maple branches, deer at lower-center, maple canopy filling upper portion, red maple against golden deer visually striking, deer eye eerily calm empty pale white, underworld touch
 ```
 
 ### m10_cheongdan — 청단 (단풍 + 청단 띠)
 **Seed:** 10002 | **등급:** 중간
 
 ```
-Maple tree branches extending from the bottom-left upward to the right, covered in vivid red five-pointed star-shaped maple leaves. The leaves are solid bright red and orange with bold black outlines, clustered densely along dark brown-black angular branches. Some leaves drift freely in the air, falling downward. A bright vivid blue ribbon is draped diagonally across the branches from upper-left to lower-right. The ribbon is solid flat blue with bold black outline edges and has a vertical text area for 청단 characters. Cream-ivory background is visible in the upper right and gaps between branches. Branches and leaves fill the lower 60% of the card in a rich autumn display. The contrast of blue ribbon against red maple leaves is visually bold. All colors are flat fills with thick outlines, no gradients.
+maple tree branches from bottom-left upward to right, vivid red five-pointed star-shaped maple leaves, solid bright red and orange leaves, clustered densely along dark brown-black angular branches, some leaves drifting freely falling downward, bright vivid blue ribbon draped diagonally, upper-left to lower-right, solid flat blue ribbon, vertical text area for cheongdan characters, branches and leaves fill lower 60 percent, rich autumn display, blue ribbon contrast against red maple leaves
 ```
 
 ### m10_pi1 — 피 (단풍)
 **Seed:** 10003 | **등급:** 간결
 
 ```
-A maple branch with a cluster of red five-pointed star-shaped leaves, extending from the bottom-center of the frame upward. The dark branch carries six to eight vivid red-orange maple leaves with bold black outlines. One or two leaves are detaching and floating downward. Cream-ivory background fills the upper 60% of the card with generous white space. Simple branch-and-leaves composition in the lower portion only. Flat color rendering with bold outlines, clean pixel art.
+maple branch with cluster of red five-pointed star-shaped leaves, extending from bottom-center upward, dark branch carrying six to eight vivid red-orange maple leaves, one or two leaves detaching and floating downward, upper 60 percent generous white space, simple branch-and-leaves composition in lower portion only
 ```
 
 ### m10_pi2 — 피 (단풍)
 **Seed:** 10004 | **등급:** 간결
 
 ```
-A few scattered red maple leaves at the bottom of the frame, some still on a short dark branch segment and some loose and falling. The five-pointed star-shaped leaves are vivid red-orange with bold black outlines. Fewer leaves than pi1 — a sparser, quieter composition. Cream-ivory background dominates over 70% of the card. Minimal autumn foliage at the bottom edge. Clean flat pixel rendering with crisp bold outlines.
+few scattered red maple leaves at bottom, some still on short dark branch segment, some loose and falling, five-pointed star-shaped leaves, vivid red-orange, fewer leaves than usual, sparser quieter composition, over 70 percent background space, minimal autumn foliage at bottom edge
 ```
 
 ---
@@ -89,28 +89,28 @@ A few scattered red maple leaves at the bottom of the frame, some still on a sho
 **Seed:** 11001 | **등급:** 화려/가득 참
 
 ```
-A magnificent phoenix with wings spread wide, rising above a paulownia tree. The phoenix has bold crimson red and golden orange plumage, with long elaborate tail feathers flowing downward. Its wings stretch to fill the upper width of the card, each feather rendered in flat vivid red and gold with bold black outlines. The phoenix's head has a small crest and a sharp beak, facing left. Below the phoenix, the paulownia tree has a dark trunk with large broad heart-shaped leaves in dark green-black, each leaf with bold outlines and visible vein patterns. The leaves spread outward creating a base platform for the phoenix above. A small solid red circle is placed at the bottom-left for the 광 badge. The entire composition is packed and ornate — the phoenix fills the top 60% while the paulownia fills the bottom. Cream-ivory background barely peeks through gaps. Maximum visual drama and color intensity. As an underworld touch, faint blue spirit flames flicker at the very tips of the phoenix's longest tail feathers.
+magnificent phoenix with wings spread wide, rising above paulownia tree, bold crimson red and golden orange plumage, long elaborate tail feathers flowing downward, wings stretch to fill upper card width, each feather in flat vivid red and gold, phoenix head with small crest and sharp beak, facing left, paulownia tree below with dark trunk, large broad heart-shaped leaves in dark green-black, visible vein patterns on leaves, leaves spreading outward as base platform, small solid red circle at bottom-left for gwang badge, composition packed and ornate, phoenix fills top 60 percent, paulownia fills bottom, faint blue spirit flames at tips of longest tail feathers, underworld touch
 ```
 
 ### m11_pi1 — 피 (오동)
 **Seed:** 11002 | **등급:** 간결
 
 ```
-Paulownia tree leaves and branches growing from the bottom of the frame. A dark brown-black trunk extends upward with two or three large broad heart-shaped leaves in dark green-black. Each leaf has bold black outlines and simple vein patterns. The leaves are the prominent element, broad and decorative. Cream-ivory background fills the upper portion with clean white space. Simple botanical composition with the paulownia in the lower half only. Flat graphic rendering with bold outlines and no shading.
+paulownia tree leaves and branches, growing from bottom, dark brown-black trunk extending upward, two or three large broad heart-shaped leaves in dark green-black, simple vein patterns on leaves, leaves as prominent broad decorative element, upper portion clean white space, simple botanical composition in lower half only
 ```
 
 ### m11_pi2 — 피 (오동)
 **Seed:** 11003 | **등급:** 간결
 
 ```
-A smaller paulownia branch segment with one or two broad heart-shaped leaves at the bottom of the frame. Dark green-black leaves with bold outlines, smaller and fewer than pi1. The composition is minimal — just a compact leaf cluster at the bottom edge. Cream-ivory background dominates over 75% of the card. Clean flat pixel rendering with crisp outlines.
+smaller paulownia branch segment, one or two broad heart-shaped leaves at bottom, dark green-black leaves, smaller and fewer than usual, minimal composition, compact leaf cluster at bottom edge, over 75 percent background space
 ```
 
 ### m11_pi3 — 피 (오동)
 **Seed:** 11004 | **등급:** 간결
 
 ```
-A single large paulownia leaf lying flat at the bottom-center of the frame, as if it has fallen from the tree. The leaf is broad and heart-shaped in dark green-black with bold black outlines and visible vein lines. One edge of the leaf curls slightly upward. Cream-ivory background fills the vast majority of the card above the fallen leaf. Extremely minimal composition — one leaf, vast empty space. Clean flat pixel rendering.
+single large paulownia leaf lying flat at bottom-center, fallen from tree, broad heart-shaped dark green-black leaf, visible vein lines, one edge curling slightly upward, vast majority of card empty above fallen leaf, extremely minimal composition, one leaf vast empty space
 ```
 
 ---
@@ -126,26 +126,26 @@ A single large paulownia leaf lying flat at the bottom-center of the frame, as i
 **Seed:** 12001 | **등급:** 화려/가득 참
 
 ```
-A solitary figure standing in heavy rain beneath a willow tree, holding a red umbrella. The figure wears a traditional Korean black ceremonial robe and a tall black gat hat, standing in a dignified upright pose facing slightly left. The figure is rendered as a dark silhouette with bold black outlines — the face is not visible under the hat brim, only suggesting mystery. The red umbrella is vivid bright red with bold black outlines, held at an angle against the diagonal rain. Rain streaks fill the background as thin diagonal lines running from upper-right to lower-left across the entire image. A willow tree trunk is visible at the right side with long thin drooping branch fronds hanging downward. The sky area has a reddish tint behind the rain. A golden-yellow lightning bolt or golden aura accent appears near the figure. A small solid red circle is placed at the bottom-left for the 광 badge. The composition is dramatic and full — the figure stands at center, rain fills the space, willow frames the right side. Bold flat colors with thick outlines throughout. The figure evokes the feeling of a grim reaper or death messenger, a collector of souls walking through a blood-colored storm.
+solitary figure standing in heavy rain beneath willow tree, holding red umbrella, traditional Korean black ceremonial robe, tall black gat hat, dignified upright pose facing slightly left, dark silhouette figure, face not visible under hat brim mysterious, vivid bright red umbrella held at angle against diagonal rain, rain streaks as thin diagonal lines upper-right to lower-left across entire image, willow tree trunk at right side, long thin drooping branch fronds hanging downward, reddish tint sky behind rain, golden-yellow lightning bolt or golden aura accent near figure, small solid red circle at bottom-left for gwang badge, dramatic full composition, figure at center rain fills space willow frames right, grim reaper death messenger feel, collector of souls in blood-colored storm
 ```
 
 ### m12_yeolkkeut — 열끗 (제비 + 버드나무)
 **Seed:** 12002 | **등급:** 중간
 
 ```
-A swallow bird in dynamic flight among drooping willow branches with rain falling. The swallow has a dark blue-black back and wings with a red-orange throat patch and white belly, wings spread in a swift flying pose angled diagonally. Bold black outlines define the bird crisply. Willow branches hang from the top of the frame — long thin dark drooping fronds swaying in the rain. Diagonal rain streaks cross the background as thin lines. A gold-yellow ribbon flows near the bird among the willow branches. The background is cream-ivory with a subtle grey-blue rain atmosphere. The swallow occupies the center of the composition, flying between the hanging willow fronds. Dynamic sense of movement in the rain. Flat graphic style with bold outlines on every element.
+swallow bird in dynamic flight among drooping willow branches, rain falling, dark blue-black back and wings, red-orange throat patch, white belly, wings spread in swift flying pose angled diagonally, willow branches hanging from top, long thin dark drooping fronds swaying in rain, diagonal rain streaks as thin lines, gold-yellow ribbon flowing near bird among willow branches, subtle grey-blue rain atmosphere, swallow at center flying between hanging willow fronds, dynamic movement sense in rain
 ```
 
 ### m12_pi1 — 피 (버드나무 + 비)
 **Seed:** 12003 | **등급:** 간결
 
 ```
-Drooping willow branches hanging from the top of the frame with light rain falling. Thin dark willow fronds hang downward in long graceful curves. Diagonal rain streaks appear as thin lines across the background. The willow occupies the upper portion of the card while rain fills the space. Cream-ivory background with subtle grey tint from the rain atmosphere. Simple composition — just willow and rain, no figures or birds. Flat graphic rendering with bold black outlines on the willow branches.
+drooping willow branches hanging from top, light rain falling, thin dark willow fronds hanging downward in long graceful curves, diagonal rain streaks as thin lines, willow in upper portion, rain fills space, subtle grey tint from rain atmosphere, just willow and rain no figures or birds
 ```
 
 ### m12_pi2 — 피 (버드나무 + 비)
 **Seed:** 12004 | **등급:** 간결
 
 ```
-A few thin willow branch fronds hanging from the upper-right corner with sparse rain. Less vegetation than pi1 — just two or three thin drooping dark branches. Light diagonal rain lines cross the background. Cream-ivory background dominates over 75% of the card. Minimal composition with willow and rain confined to one corner and scattered across the space. Clean flat pixel art rendering with bold outlines.
+few thin willow branch fronds hanging from upper-right corner, sparse rain, just two or three thin drooping dark branches, light diagonal rain lines, over 75 percent background space, minimal composition, willow and rain confined to one corner and scattered
 ```

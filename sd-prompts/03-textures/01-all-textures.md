@@ -61,12 +61,12 @@ Compression: None
 **참고:** 카드 앞면 배경 크기: 90x130 (UI) / 80x120 (텍스처)
 
 ```
-A seamless tileable low-resolution pixel art texture of Korean handmade hanji paper, made of visible square pixels with blocky edges and no anti-aliasing. Warm beige color with subtle cream variations throughout. Natural plant fiber texture with organic irregularities — tiny visible fibers are embedded in the paper surface. The surface is slightly rough and uneven to the touch. The paper has a gently aged antique quality with very subtle yellowing. Uniform flat lighting with no shadows or highlights — pure material texture only. No patterns, no symbols, no objects — just the paper surface itself. The texture must tile perfectly with no visible seams when repeated.
+Korean handmade hanji paper, visible square pixels, warm beige with subtle cream variations, natural plant fiber texture, organic irregularities tiny visible fibers embedded, slightly rough uneven surface, gently aged antique quality subtle yellowing, uniform flat lighting no shadows, pure material texture only, no patterns no symbols no objects, tiles perfectly no visible seams
 ```
 
 **변형 — 오래된 한지:**
 ```
-A seamless tileable low-resolution pixel art texture of heavily aged Korean hanji paper, made of visible square pixels with blocky edges. Darker beige color with brown age spots scattered randomly. The surface is creased and wrinkled with visible fold lines. Some areas appear thinner and more translucent than others. Centuries of use and handling are visible in the worn texture. Uniform flat lighting, pure texture only — no objects or patterns. Must tile seamlessly.
+heavily aged Korean hanji paper, visible square pixels, darker beige with brown age spots scattered randomly, creased wrinkled surface visible fold lines, some areas thinner more translucent, centuries of wear visible, uniform flat lighting pure texture only, tiles seamlessly
 ```
 
 ---
@@ -76,7 +76,7 @@ A seamless tileable low-resolution pixel art texture of heavily aged Korean hanj
 **용도:** 점수판 배경, 장식 오버레이, 전환 효과
 
 ```
-A seamless tileable low-resolution pixel art texture of Korean ink spill patterns on light paper, made of visible square pixels with blocky edges. Dark black pixel ink is splattered across the surface with varying opacity — some areas are dense opaque black while others are thin gray wash. Organic flowing ink spread with feathered wet edges where the ink bled into paper. Calligraphy brush splash marks of different sizes are scattered throughout. The pattern is abstract with no recognizable shapes or letters. Uniform flat lighting with no 3D shadows. Must tile seamlessly when repeated.
+Korean ink spill patterns on light paper, visible square pixels, dark black ink splattered varying opacity, dense opaque black areas and thin gray wash areas, organic flowing ink spread feathered wet edges, calligraphy brush splash marks different sizes, abstract pattern no recognizable shapes or letters, uniform flat lighting no 3D shadows, tiles seamlessly
 ```
 
 ---
@@ -87,12 +87,12 @@ A seamless tileable low-resolution pixel art texture of Korean ink spill pattern
 **참고:** 게임 테이블 영역: 950x160 (손패/바닥패 각각)
 
 ```
-A seamless tileable low-resolution pixel art texture of dark fabric cloth material, made of visible square pixels with blocky edges. Very dark navy woven textile with a subtle thread weave pattern that is barely visible. The surface has a felt-like soft matte finish with no shine or reflection. Slight color variation between individual threads creates organic textile depth. Uniform flat lighting — pure fabric texture only, resembling a high-quality game table surface. Must tile seamlessly.
+dark fabric cloth material, visible square pixels, very dark navy woven textile, subtle thread weave pattern barely visible, felt-like soft matte finish no shine, slight color variation between threads organic textile depth, uniform flat lighting pure fabric texture, game table surface, tiles seamlessly
 ```
 
 **변형 — 붉은 천 (상점/보스전):**
 ```
-A seamless tileable low-resolution pixel art texture of dark crimson woven fabric. Deep blood red cloth material with a subtle thread weave pattern. Rich heavy fabric feel like silk or satin, but with no shine — just deep saturated color. Uniform flat lighting, pure texture. Must tile seamlessly.
+dark crimson woven fabric, visible square pixels, deep blood red cloth subtle thread weave pattern, rich heavy silk-like feel no shine deep saturated color, uniform flat lighting pure texture, tiles seamlessly
 ```
 
 ---
@@ -102,7 +102,7 @@ A seamless tileable low-resolution pixel art texture of dark crimson woven fabri
 **용도:** 삼도천 다리, 염라전 바닥, 이정표
 
 ```
-A seamless tileable low-resolution pixel art texture of a dark stone surface. Gray-brown rough hewn stone with subtle crack lines and weathering marks from centuries of erosion. Occasional darker mineral veins run through the stone. The surface has natural rock irregularities but is relatively flat. Uniform flat lighting — pure natural rock texture with no carved patterns or symbols. Must tile seamlessly.
+dark stone surface, visible square pixels, gray-brown rough hewn stone, subtle crack lines, weathering marks centuries of erosion, occasional darker mineral veins, natural rock irregularities relatively flat, uniform flat lighting pure natural rock texture, no carved patterns no symbols, tiles seamlessly
 ```
 
 ---
@@ -112,7 +112,7 @@ A seamless tileable low-resolution pixel art texture of a dark stone surface. Gr
 **용도:** 상점 카운터, 서가, 뱃사공 배
 
 ```
-A seamless tileable low-resolution pixel art texture of dark aged wood grain. Deep brown wood with clearly visible grain lines running in one direction. The surface has been worn smooth from years of use. Occasional knot holes and darker patches add character. The color and feel is like traditional Korean furniture wood. Uniform flat lighting — pure wood material texture only. Must tile seamlessly.
+dark aged wood grain, visible square pixels, deep brown clearly visible grain lines one direction, worn smooth from years of use, occasional knot holes darker patches, traditional Korean furniture wood feel, uniform flat lighting pure wood material texture, tiles seamlessly
 ```
 
 ---
@@ -122,7 +122,7 @@ A seamless tileable low-resolution pixel art texture of dark aged wood grain. De
 **용도:** 7영역 황금 미궁 벽면
 
 ```
-A seamless tileable low-resolution pixel art texture of a hammered gold metal surface. Warm gold color with a slightly uneven hammered texture showing subtle dents and tool marks. The surface is reflective but not mirror-smooth — it has a handcrafted beaten metal quality. Uniform flat lighting — pure precious metal surface texture only. Must tile seamlessly.
+hammered gold metal surface, visible square pixels, warm gold slightly uneven hammered texture, subtle dents and tool marks, reflective but not mirror-smooth handcrafted beaten metal quality, uniform flat lighting pure precious metal surface, tiles seamlessly
 ```
 
 ---
@@ -132,7 +132,7 @@ A seamless tileable low-resolution pixel art texture of a hammered gold metal su
 **용도:** 3영역, 6영역 바닥 오버레이
 
 ```
-A seamless tileable low-resolution pixel art texture of cracked dark ground with lava visible in the cracks. The surface is black charred earth broken into irregular plates. Bright glowing orange molten lava is visible in the fissures between the dark plates. The crack edges glow with heat — orange light bleeds slightly into the surrounding dark stone. The crack pattern is irregular and organic. Dark overall with bright orange accent lines. Must tile seamlessly.
+cracked dark ground with lava in cracks, visible square pixels, black charred earth broken into irregular plates, bright glowing orange molten lava in fissures, crack edges glowing with heat orange light bleeding into dark stone, irregular organic crack pattern, dark overall bright orange accent lines, tiles seamlessly
 ```
 
 ---
@@ -143,7 +143,7 @@ A seamless tileable low-resolution pixel art texture of cracked dark ground with
 **크기:** 512x512 (타일링)
 
 ```
-A seamless tileable texture for a dark UI panel background. Very dark navy color with a subtle purple undertone. A faint geometric pattern is barely visible beneath the surface. Subtle ink wash texture is layered under the geometric hints. The surface is smooth and matte with no shine. The overall impression is dark, elegant, and unobtrusive — a background that supports overlaid content without competing for attention. Uniform flat lighting. Must tile seamlessly.
+dark UI panel background, very dark navy subtle purple undertone, faint geometric pattern barely visible beneath surface, subtle ink wash texture layered under geometric hints, smooth matte no shine, dark elegant unobtrusive supporting overlaid content, uniform flat lighting, tiles seamlessly
 ```
 
 ---
@@ -154,7 +154,7 @@ A seamless tileable texture for a dark UI panel background. Very dark navy color
 **크기:** 600x110 (2x of 300x55 실제 버튼 크기)
 
 ```
-A button background texture — a dark navy rectangular panel with slightly rounded corners. The panel has a subtle border glow in faint cyan along its edges. The interior is very dark navy with a slight gradient from slightly lighter center to darker edges. A thin bright edge highlight runs along the top and left sides. A darker shadow sits on the bottom and right sides, creating a subtle raised effect. Clean minimal design with no text, no symbols — just the button shape itself. Color palette: dark navy, faint cyan edge glow, near-black center.
+button background texture, dark navy rectangular panel slightly rounded corners, subtle border glow faint cyan along edges, very dark navy interior slight lighter center to darker edges, thin bright edge highlight top and left sides, darker shadow bottom and right sides subtle raised effect, clean minimal no text no symbols just button shape, color palette dark navy faint cyan edge glow near-black center
 ```
 
 ---
@@ -165,7 +165,7 @@ A button background texture — a dark navy rectangular panel with slightly roun
 **크기:** 950x160 (실제 영역 크기) 또는 475x80 (절반 크기로 생성 후 2x 업스케일)
 
 ```
-A game table surface texture — a dark navy felt-like material forming a wide rectangular card-laying area. A thin decorative border line runs along the edges in faint gold. The center area is very slightly lighter where cards would be placed, creating a subtle play zone. A faint traditional Korean pattern is embossed at the corners as decoration. The surface has a subtle worn texture from card play. Wide rectangular format optimized for laying cards in a row. Uniform flat lighting. Color palette: dark navy, faint gold border, near-black.
+game table surface texture, dark navy felt-like material, wide rectangular card-laying area, thin decorative border line faint gold along edges, center slightly lighter card placement zone, faint traditional Korean pattern embossed at corners, subtle worn texture from card play, wide rectangular format for laying cards in row, uniform flat lighting, color palette dark navy faint gold border near-black
 ```
 
 ---
@@ -176,7 +176,7 @@ A game table surface texture — a dark navy felt-like material forming a wide r
 **크기:** 1200x60 (2x of 600x30 실제 크기)
 
 ```
-A health bar background texture — a dark ornate horizontal bar frame. The frame is made of dark metal with subtle engravings — a Korean traditional cloud pattern is etched into the metal surface. A faint blood red inner glow emanates from the center of the bar. The base color is very dark navy. Metallic edge highlights run along the top and bottom borders. Wide narrow rectangular format designed as a health bar container. Color palette: dark metal, blood red accent, navy base.
+health bar background texture, dark ornate horizontal bar frame, dark metal subtle engravings, Korean traditional cloud pattern etched into metal surface, faint blood red inner glow from center, very dark navy base, metallic edge highlights top and bottom borders, wide narrow rectangular health bar container, color palette dark metal blood red accent navy base
 ```
 
 ---
@@ -187,7 +187,7 @@ A health bar background texture — a dark ornate horizontal bar frame. The fram
 **크기:** 800x160 (2x of 400x80 실제 크기)
 
 ```
-A score display panel texture — a dark ornate rectangular frame. The background is dark navy with a subtle ink wash texture layered beneath. A thin gold border line frames the rectangle. Subtle hanji paper texture is faintly visible underneath the dark surface. Faint ink splatter accents decorate the corners. The center area is clean and uncluttered for text overlay. Uniform flat lighting throughout. Color palette: dark navy base, gold border line, parchment hint underneath.
+score display panel texture, dark ornate rectangular frame, dark navy with subtle ink wash texture, thin gold border line framing rectangle, faint hanji paper texture underneath dark surface, faint ink splatter accents at corners, center clean uncluttered for text overlay, uniform flat lighting, color palette dark navy base gold border line parchment hint underneath
 ```
 
 ---

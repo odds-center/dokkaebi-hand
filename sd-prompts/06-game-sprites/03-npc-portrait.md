@@ -33,7 +33,7 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 72001
 
 ```
-A low-resolution pixel art portrait of a ghost merchant in the Korean underworld market, made of large visible square pixels like a character from Stardew Valley or Undertale. Each individual pixel is clearly visible and countable. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. On plain solid bright green (#00FF00) background for chroma key. Upper body visible — the lower half pixelates into nothingness. Ghostly form with pale white-gray skin. Traditional Korean merchant clothes in faded gray-brown. Sly knowing smile — shrewd but not unfriendly. Hands spread on counter. Warm lantern light from one side. Fully contained with margins. Color palette: faded whites, grays, warm amber.
+ghost merchant portrait, Korean underworld market, large visible square pixels, Stardew Valley Undertale style, upper body visible, lower half pixelates into nothingness, ghostly form, pale white-gray skin, traditional Korean merchant clothes, faded gray-brown, sly knowing smile, shrewd expression, hands spread on counter, warm lantern light from one side, color palette faded whites grays warm amber
 ```
 
 ## 후처리

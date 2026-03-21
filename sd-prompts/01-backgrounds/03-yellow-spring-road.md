@@ -21,14 +21,14 @@
 **Seed:** 90021
 
 ```
-A pixel art scene of an endless foggy dirt road disappearing into thick mist in the Korean underworld yellow spring path. Dense volumetric fog obscures everything beyond a short distance. Old weathered wooden signposts with faded text stand along the road at irregular intervals. Faint glowing footprints on the ground emit an eerie green light. An occasional thin beam of light cuts through the fog from somewhere above. Dead trees with bare twisted branches line the path on both sides. The ground is damp dark earth with scattered pebbles. No sky is visible — only endless gray-white fog above. Depth is created by fog layers getting progressively thicker in the distance. The road curves slightly to the right and vanishes into nothing. The atmosphere is desolate and lonely — no other souls are in sight. Color palette: blue-gray, white fog, dark earth, faint green accents.
+endless foggy dirt road disappearing into thick mist, Korean underworld yellow spring path, dense volumetric fog obscuring everything beyond short distance, old weathered wooden signposts with faded text at irregular intervals, faint glowing footprints emitting eerie green light, thin beam of light cutting through fog from above, dead trees with bare twisted branches on both sides, damp dark earth with scattered pebbles, no sky visible only endless gray-white fog, fog layers getting progressively thicker in distance, road curving slightly right vanishing into nothing, desolate lonely atmosphere, blue-gray and white fog palette, dark earth, faint green accents
 ```
 
 ## 프롬프트 B (이정표 클로즈업)
 **Seed:** 90022
 
 ```
-A pixel art scene of an ancient stone crossroads on a foggy underworld path. 16-bit retro pixel art with crisp pixels and flat colors. A tall central wooden signpost with multiple direction boards points in different directions, each board bearing faded Korean text. Thick fog rolls in from all directions surrounding the crossroads. The ground is covered in strange glowing green moss. Faint dokkaebi claw marks are scratched into the signpost wood. One dim beam of light from above illuminates only the crossroads itself. Three paths diverge into fog in different directions. Dead leaves lie scattered on the ground, completely still — no wind. Complete silence is captured in this still image. The feeling of being watched from within the fog is palpable. Ink wash style with heavy use of negative space. Color palette: gray-white fog, dark wood brown, moss green, stone gray.
+ancient stone crossroads on foggy underworld path, tall central wooden signpost with multiple direction boards, faded Korean text on boards, thick fog rolling in from all directions, ground covered in strange glowing green moss, faint dokkaebi claw marks on signpost wood, dim beam of light from above illuminating crossroads only, three paths diverging into fog, dead leaves scattered on ground completely still, feeling of being watched from fog, ink wash style, heavy negative space, gray-white fog palette, dark wood brown, moss green, stone gray
 ```
 
 ---

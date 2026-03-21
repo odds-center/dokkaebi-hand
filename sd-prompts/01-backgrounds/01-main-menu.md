@@ -21,21 +21,21 @@
 **Seed:** 90001
 
 ```
-A pixel art scene of a misty river at night in the Korean underworld. 16-bit retro pixel art with crisp pixels and flat colors. Thick fog hovers over perfectly still dark water, creating layers of depth. Small floating blue ghost flames are scattered across the water surface, each casting a faint cyan reflection on the calm water below. An old weathered wooden boat sits as a dark silhouette on the river. Distant dark mountain ridges are barely visible through the heavy mist. The sky is deep dark navy fading to black at the top. The atmosphere is like a wet ink wash painting — somber, tranquil, absolutely still. Dead reeds line the riverbank in the foreground. The color palette is strictly dark navy, ink gray, and cyan blue accent points only. No wind, no movement, captured in perfect silence.
+misty river at night, Korean underworld sanzu river, thick fog hovering over still dark water, layered depth, small floating blue ghost flames on water surface, faint cyan reflections on calm water, old weathered wooden boat silhouette, distant dark mountain ridges through heavy mist, deep dark navy sky fading to black, wet ink wash painting mood, somber tranquil atmosphere, dead reeds on riverbank foreground, dark navy and ink gray palette, cyan blue accent points, perfect silence and stillness
 ```
 
 ## 프롬프트 B (배 강조)
 **Seed:** 90002
 
 ```
-A pixel art scene of an ancient ferry boat resting on a dark still river. 16-bit retro pixel art with crisp pixels and flat colors. in the Korean underworld Sanzu River crossing. The lone wooden boat is weathered and worn, with an oar resting across it. Dark still water reflects faint blue ghost lights — dokkaebi fire floating in pairs across the misty river surface. Heavy mist rolls in from distant mountains, obscuring the far bank completely. The composition has strong horizontal layers: deep navy sky with faint stars above, gray-blue fog band at the horizon, dark mirror water reflecting ghost lights in the middle, and a rocky riverbank with dead grass in the foreground. The atmosphere conveys waiting — a passage that must be crossed. Color palette is dark navy, steel gray, and cyan accent points only.
+ancient ferry boat on dark still river, Korean underworld sanzu river crossing, lone weathered wooden boat with oar resting across, dark still water reflecting faint blue ghost lights, dokkaebi fire floating in pairs on misty river surface, heavy mist from distant mountains, far bank completely obscured, strong horizontal layers, deep navy sky with faint stars, gray-blue fog band at horizon, dark mirror water reflecting ghost lights, rocky riverbank with dead grass foreground, atmosphere of waiting, passage that must be crossed, dark navy and steel gray palette, cyan accent points
 ```
 
 ## 프롬프트 C (도깨비불 강조)
 **Seed:** 90003
 
 ```
-A pixel art scene of dozens of floating ghost fires hovering over a dark Korean river at night. 16-bit retro pixel art with crisp pixels and flat colors. The supernatural blue-green flames hover at different heights above the water, each casting a faint cyan glow on the misty water surface below. A wide river stretches into darkness on both sides. Ancient stone steps lead down to the water's edge in the foreground. The fog is so thick that the far bank is completely invisible. The sky blends seamlessly with the water at the invisible horizon, ink wash style. The ghost fires are the only light source in complete darkness — everything else exists only as silhouettes. The feeling is of souls wandering along the river. Cold blue and dark navy color scheme throughout.
+dozens of floating ghost fires over dark Korean river at night, supernatural blue-green flames hovering at different heights above water, faint cyan glow on misty water surface, wide river stretching into darkness, ancient stone steps leading to water edge foreground, extremely thick fog, far bank completely invisible, sky blending seamlessly with water at invisible horizon, ink wash style, ghost fires as only light source in complete darkness, silhouettes only, souls wandering along river, cold blue and dark navy color scheme
 ```
 
 ---

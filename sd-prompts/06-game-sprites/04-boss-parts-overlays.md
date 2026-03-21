@@ -84,56 +84,56 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 80101
 
 ```
-A pair of short stubby iron horns positioned at the top of the canvas, designed to sit on a character's head. The horns are dull gray metallic iron with visible rivet marks and slight rust. They curve slightly outward and upward. Thick black outlines. The horns look old, heavy, and utilitarian — common equipment with no special glow. Positioned in the upper-center of a 300x300 transparent canvas, spaced apart as if sitting on a head. Gray metallic color, no glow effect.
+pair of short stubby iron horns, top of canvas for head overlay, dull gray metallic iron, visible rivet marks, slight rust, curved slightly outward and upward, old heavy utilitarian, common equipment no glow, upper-center on 300x300 transparent canvas, gray metallic color
 ```
 
 ### head_fire_horn — 화염 뿔 (희귀, 불 세트)
 **Seed:** 80102
 
 ```
-A pair of curved horns engulfed in orange fire, positioned at the top of the canvas for head overlay. The horns themselves are dark charcoal black, with vivid orange-red flames constantly burning from their surface. Small embers and sparks fly upward from the horn tips. The fire illuminates the surrounding area with a warm orange glow. Thick black outlines on the horn shapes, fire rendered as flat pixel art flames. Positioned upper-center on 300x300 transparent canvas. The equipment radiates heat and danger — rare fire-set equipment with blue-bordered glow.
+pair of curved horns engulfed in orange fire, head overlay position, dark charcoal black horns, vivid orange-red flames burning from surface, embers and sparks flying upward from tips, warm orange glow, fire rendered as flat pixel art flames, upper-center on 300x300 transparent canvas, rare fire-set equipment, blue-bordered glow
 ```
 
 ### head_ice_crown — 얼음 왕관 (희귀, 얼음 세트)
 **Seed:** 80103
 
 ```
-A crown made of sharp ice crystals, positioned at the top of the canvas for head overlay. The crown is made of translucent pale blue ice shards pointing upward in a jagged ring shape. Frost particles cling to the surface. Small ice crystals float near the crown. The ice has a cold cyan inner glow. Thick black outlines on major ice shapes. Positioned upper-center on 300x300 transparent canvas. The equipment radiates freezing cold — rare ice-set equipment.
+crown of sharp ice crystals, head overlay position, translucent pale blue ice shards pointing upward, jagged ring shape, frost particles on surface, small floating ice crystals, cold cyan inner glow, upper-center on 300x300 transparent canvas, rare ice-set equipment
 ```
 
 ### head_third_eye — 제3의 눈 (일반)
 **Seed:** 80104
 
 ```
-A single large floating eye positioned at the upper-center forehead area of the canvas. The eye is bloodshot red with a slit pupil, surrounded by dark veiny flesh. The eye hovers slightly above where a forehead would be, looking directly at the viewer. It has a dim reddish glow. Thick black outlines. Simple common equipment on 300x300 transparent canvas. Unsettling but not powerful-looking.
+single large floating eye, upper-center forehead area, bloodshot red slit pupil, dark veiny flesh surrounding, hovers above forehead position, dim reddish glow, common equipment on 300x300 transparent canvas, unsettling but not powerful-looking
 ```
 
 ### head_ghost_helm — 도깨비불 투구 (희귀)
 **Seed:** 80105
 
 ```
-A dark iron warrior helmet with a cyan ghost flame burning on top as a crest. The helmet covers the upper head area, with a T-shaped face opening. The metal is dark blue-gray with blue-tinted edges. A vivid cyan dokkaebi fire burns steadily from the helmet's crown, casting cyan light downward. Thick black outlines. Positioned upper-center on 300x300 transparent canvas. Rare equipment with supernatural fire crest.
+dark iron warrior helmet, cyan ghost flame burning on top as crest, T-shaped face opening, dark blue-gray metal, blue-tinted edges, vivid cyan dokkaebi fire from crown, cyan light casting downward, upper-center on 300x300 transparent canvas, rare equipment, supernatural fire crest
 ```
 
 ### head_skull_crown — 해골 면류관 (전설, 해골 세트)
 **Seed:** 80106
 
 ```
-An elaborate crown constructed from multiple small skulls stacked and fused together. The skulls are bone-white with dark hollow eye sockets. The crown sits grandly at the top of the canvas, with the largest skull at the center front and smaller ones forming the ring. A faint golden-white glow emanates from the eye sockets. Thick black outlines on each skull shape. Positioned upper-center on 300x300 transparent canvas. Legendary skull-set equipment — terrifyingly ornate with golden legendary border glow.
+elaborate crown of multiple small skulls stacked and fused, bone-white dark hollow eye sockets, largest skull center front, smaller skulls forming ring, faint golden-white glow from eye sockets, upper-center on 300x300 transparent canvas, legendary skull-set equipment, golden legendary border glow
 ```
 
 ### head_fog_mask — 독안개 면 (희귀)
 **Seed:** 80107
 
 ```
-A dark face mask covering the lower face area, with toxic green fog wisps leaking from its edges. The mask is dark leather-brown with metal rivets. Thin streams of green poisonous gas seep from the mask's ventilation holes and edges, curling upward. Thick black outlines on the mask shape. Positioned at the face level on 300x300 transparent canvas. Rare equipment with toxic gas effect.
+dark face mask covering lower face, toxic green fog wisps leaking from edges, dark leather-brown with metal rivets, green poisonous gas from ventilation holes, curling upward, face level on 300x300 transparent canvas, rare equipment, toxic gas effect
 ```
 
 ### head_king_helm — 천왕 투구 (전설)
 **Seed:** 80108
 
 ```
-A grand ornate golden warrior helmet with sweeping wing-like decorations on both sides. The helmet is brilliant gold with intricate engraved patterns on its surface. A large central crest rises from the top. The gold glows with divine radiance — this is legendary equipment. Thick black outlines defining the ornate metalwork. Positioned upper-center on 300x300 transparent canvas. The most impressive head equipment — golden legendary glow radiating outward.
+grand ornate golden warrior helmet, sweeping wing-like decorations both sides, brilliant gold with engraved patterns, large central crest, divine radiance glow, upper-center on 300x300 transparent canvas, most impressive head equipment, golden legendary glow radiating outward
 ```
 
 ---
@@ -146,56 +146,56 @@ A grand ornate golden warrior helmet with sweeping wing-like decorations on both
 **Seed:** 80201
 
 ```
-Heavy dark iron chains wrapped around both arm positions on the canvas. The chains are thick dark metal links with a padlock hanging from one chain end. The chains drape across the arm areas — left and right sides of the canvas. A faint blue metallic sheen on the chain links. Thick black outlines. Positioned at left and right arm areas on 300x300 transparent canvas. Rare equipment — heavy and oppressive.
+heavy dark iron chains wrapped around both arm positions, thick dark metal links, padlock hanging from one end, chains draping across left and right sides, faint blue metallic sheen, left and right arm areas on 300x300 transparent canvas, rare equipment, heavy and oppressive
 ```
 
 ### arm_fire_glove — 불꽃 장갑 (일반, 불 세트)
 **Seed:** 80202
 
 ```
-A pair of gauntlet gloves with orange flame aura, positioned at both hand areas of the canvas. The gauntlets are dark iron with flame patterns etched into the metal. Small orange flames flicker from the knuckles and fingertips. The fire is moderate — common equipment, not too flashy. Thick black outlines on the gauntlet shapes. Positioned at left and right hand areas on 300x300 transparent canvas. Common fire-set equipment with subtle flame effect.
+pair of gauntlet gloves with orange flame aura, both hand positions, dark iron with flame patterns etched, small orange flames from knuckles and fingertips, moderate fire common equipment, left and right hand areas on 300x300 transparent canvas, common fire-set, subtle flame effect
 ```
 
 ### arm_shadow — 그림자 팔 (희귀, 그림자 세트)
 **Seed:** 80203
 
 ```
-Dark shadowy tendrils wrapping around both arm positions, made of living shadow. The shadow material is semi-transparent dark purple-black, with wisps of dark smoke rising from the surface. The shadows shift and flow like liquid darkness. A faint purple glow outlines the shadow mass. Thick outlines where the shadow is densest. Positioned at left and right arm areas on 300x300 transparent canvas. Rare shadow-set equipment — the arms are consumed by darkness.
+dark shadowy tendrils wrapping both arm positions, living shadow, semi-transparent dark purple-black, wisps of dark smoke rising, shadows shift like liquid darkness, faint purple glow outline, left and right arm areas on 300x300 transparent canvas, rare shadow-set equipment, arms consumed by darkness
 ```
 
 ### arm_gold_brace — 황금 팔찌 (일반)
 **Seed:** 80204
 
 ```
-A pair of golden bracelets with coin symbols, positioned at both wrist areas. The bracelets are simple gold bands with small coin medallions hanging from them. Dull gold color — common equipment without much glow. A few small coin shapes dangle from the bands. Thick black outlines. Positioned at left and right wrist areas on 300x300 transparent canvas. Simple common equipment suggesting greed.
+pair of golden bracelets with coin symbols, both wrist positions, simple gold bands, small coin medallions dangling, dull gold common equipment, left and right wrist areas on 300x300 transparent canvas, simple common equipment suggesting greed
 ```
 
 ### arm_poison_claw — 독 발톱 (희귀)
 **Seed:** 80205
 
 ```
-Sharp curved claws extending from both hand positions, dripping with green poison. The claws are dark bone-gray with razor-sharp tips. Green toxic liquid drips from each claw tip, forming small droplets that fall downward. A faint green toxic glow surrounds the claw area. Thick black outlines on the claw shapes. Positioned at left and right hand areas on 300x300 transparent canvas. Rare equipment — deadly and venomous.
+sharp curved claws from both hand positions, dripping green poison, dark bone-gray razor-sharp tips, green toxic liquid droplets falling, faint green toxic glow, left and right hand areas on 300x300 transparent canvas, rare equipment, deadly and venomous
 ```
 
 ### arm_seal — 봉인 부적 팔 (전설)
 **Seed:** 80206
 
 ```
-Both arms wrapped tightly in glowing red talisman papers with black calligraphy writing. The papers spiral around the arm positions like bandages, each covered in Korean/Chinese seal script. A bright red-gold glow emanates from the paper wrappings. Small paper fragments float free from the binding. Thick black outlines on the talisman paper edges. Positioned at left and right arm areas on 300x300 transparent canvas. Legendary equipment — divine sealing power with golden glow.
+both arms wrapped in glowing red talisman papers, black calligraphy writing, papers spiraling like bandages, Korean Chinese seal script, bright red-gold glow, small paper fragments floating free, left and right arm areas on 300x300 transparent canvas, legendary equipment, divine sealing power, golden glow
 ```
 
 ### arm_web_hand — 거미줄 손 (희귀)
 **Seed:** 80207
 
 ```
-Sticky white web strands stretching between the fingers at both hand positions. The webbing is pale gray-white, thin and sticky, connecting finger to finger and stretching outward. Some web strands extend beyond the hands into the surrounding space. A faint silvery sheen on the web material. Thick black outlines where the web is thickest. Positioned at left and right hand areas on 300x300 transparent canvas. Rare equipment — ensnaring and trapping.
+sticky white web strands between fingers at both hand positions, pale gray-white thin sticky webbing, connecting finger to finger, extending outward, faint silvery sheen, left and right hand areas on 300x300 transparent canvas, rare equipment, ensnaring and trapping
 ```
 
 ### arm_bone_pincer — 뼈 집게 (전설, 해골 세트)
 **Seed:** 80208
 
 ```
-Large bone-white crab-like pincers replacing both hands, made entirely of fused skull bones. Each pincer is constructed from interlocking bone segments with sharp jagged edges. The pincers are open and threatening, ready to snap shut. A golden-white glow emanates from the bone joints. Thick black outlines on each bone segment. Positioned at left and right hand areas on 300x300 transparent canvas. Legendary skull-set equipment — terrifying bone weapons with golden legendary glow.
+large bone-white crab-like pincers replacing both hands, fused skull bones, interlocking bone segments, sharp jagged edges, pincers open and threatening, golden-white glow from bone joints, left and right hand areas on 300x300 transparent canvas, legendary skull-set equipment, golden legendary glow
 ```
 
 ---
@@ -208,54 +208,54 @@ Large bone-white crab-like pincers replacing both hands, made entirely of fused 
 **Seed:** 80301
 
 ```
-A dark iron chest plate covering the torso center area. Simple utilitarian armor with visible rivets and dents. Dull gray metallic color with no special effects. The armor has a basic shape — covering the chest and upper abdomen. Thick black outlines. Positioned at center-chest on 300x300 transparent canvas. Common equipment — sturdy but unremarkable.
+dark iron chest plate covering torso center, utilitarian armor, visible rivets and dents, dull gray metallic no special effects, basic chest and upper abdomen shape, center-chest on 300x300 transparent canvas, common equipment, sturdy but unremarkable
 ```
 
 ### body_fire_mark — 화문 (희귀, 불 세트)
 **Seed:** 80302
 
 ```
-A glowing orange fire rune symbol on the chest center, with heat ripples radiating outward. The rune is an angular geometric Korean traditional pattern rendered in bright orange-red, as if branded onto the skin with fire. Small flames lick outward from the rune's edges. An orange glow radiates from the mark. Thick black outlines on the rune shape. Positioned at center-chest on 300x300 transparent canvas. Rare fire-set equipment — a burning brand of power.
+glowing orange fire rune symbol on chest center, heat ripples radiating outward, angular geometric Korean traditional pattern, bright orange-red branded mark, small flames from rune edges, orange glow, center-chest on 300x300 transparent canvas, rare fire-set equipment, burning brand of power
 ```
 
 ### body_ice_armor — 빙결 갑옷 (희귀, 얼음 세트)
 **Seed:** 80303
 
 ```
-Crystalline blue ice encasing the entire torso area like frozen armor. The ice is translucent pale blue with visible crystal facets and frost patterns. Sharp ice shards protrude from the shoulders and edges. Frozen mist clings to the surface. A cold cyan glow emanates from within the ice. Thick black outlines on major ice formations. Positioned covering the torso on 300x300 transparent canvas. Rare ice-set equipment — the body is frozen solid.
+crystalline blue ice encasing entire torso, frozen armor, translucent pale blue crystal facets, frost patterns, sharp ice shards from shoulders and edges, frozen mist on surface, cold cyan glow from within, covering torso on 300x300 transparent canvas, rare ice-set equipment, body frozen solid
 ```
 
 ### body_shadow_armor — 그림자 갑옷 (일반, 그림자 세트)
 **Seed:** 80304
 
 ```
-A shifting dark shadow covering the torso area, like living darkness clinging to the body. The shadow is semi-transparent dark purple-black, with edges that dissolve into wisps. The darkness shifts and flows slowly. A very faint purple tint at the core. Thick outlines only where the shadow is densest. Positioned covering the torso on 300x300 transparent canvas. Common shadow-set equipment — subtle darkness, not flashy.
+shifting dark shadow covering torso, living darkness clinging to body, semi-transparent dark purple-black, edges dissolving into wisps, faint purple tint at core, covering torso on 300x300 transparent canvas, common shadow-set equipment, subtle darkness
 ```
 
 ### body_talisman_absorb — 부적 흡수체 (전설)
 **Seed:** 80305
 
 ```
-Multiple talisman papers being violently sucked into the chest center, as if absorbed by a dark vortex. The papers spiral inward toward a dark void at the chest center. Each paper has red calligraphy that glows as it gets pulled in. A dark hole at the center pulls everything toward it. Golden-red glow at the absorption point. Thick black outlines on the talisman papers. Positioned at center-chest on 300x300 transparent canvas. Legendary equipment — absorbing all talisman power with golden glow.
+multiple talisman papers violently sucked into chest center, absorbed by dark vortex, papers spiraling inward toward dark void, red calligraphy glowing as pulled in, dark hole at center, golden-red glow at absorption point, center-chest on 300x300 transparent canvas, legendary equipment, absorbing talisman power, golden glow
 ```
 
 ### body_mirror_plate — 거울 흉갑 (전설)
 **Seed:** 80306
 
 ```
-A large polished mirror surface covering the chest, reflecting distorted images. The mirror is silver-chrome with ornate dark frame edges. The reflection shows a warped ghostly image — not a true reflection but something otherworldly. A brilliant silver-gold glow radiates from the mirror surface. Thick black outlines on the mirror frame. Positioned at center-chest on 300x300 transparent canvas. Legendary equipment — reflecting attacks back with divine mirror power. Golden legendary glow.
+large polished mirror surface covering chest, silver-chrome with ornate dark frame edges, warped ghostly reflection not true mirror, brilliant silver-gold glow, center-chest on 300x300 transparent canvas, legendary equipment, reflecting attacks, divine mirror power, golden legendary glow
 ```
 
 ### body_thorn_armor — 가시 갑옷 (희귀)
 **Seed:** 80307
 
 ```
-Armor covered in sharp protruding thorns across the entire torso. The armor base is dark iron, but dozens of sharp pointed thorns protrude outward at various angles. Some thorns have dark red tips as if stained with blood. A faint blue metallic sheen on the thorn tips. Thick black outlines on each thorn. Positioned covering the torso on 300x300 transparent canvas. Rare equipment — anyone who attacks gets hurt.
+armor with sharp protruding thorns across entire torso, dark iron base, dozens of pointed thorns at various angles, dark red tips as if blood-stained, faint blue metallic sheen on thorn tips, covering torso on 300x300 transparent canvas, rare equipment, attackers get hurt
 ```
 
 ### body_smoke — 연기 몸 (일반)
 **Seed:** 80308
 
 ```
-The torso area partially dissolved into smoke wisps, as if the body is becoming vapor. Dark gray smoke pours from the chest and sides, with the body outline barely visible through the haze. The smoke curls upward and outward naturally. Very faint and ghostly — common equipment without much visual impact. Thin outlines visible through the smoke. Positioned covering the torso on 300x300 transparent canvas. Common equipment — the body is half-smoke, hard to hit.
+torso partially dissolved into smoke wisps, body becoming vapor, dark gray smoke from chest and sides, body outline barely visible through haze, smoke curling upward and outward, faint and ghostly common equipment, covering torso on 300x300 transparent canvas, half-smoke body, hard to hit
 ```

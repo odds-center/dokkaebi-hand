@@ -41,47 +41,47 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 71001
 
 ```
-A small round-bodied dokkaebi sitting happily. Same reddish-orange skin and broken horns as the boss version, but with a friendly goofy grin instead of a menacing laugh. Smaller belly, more like a chubby mascot. Holding a small rice cake in one hand. Sitting cross-legged on the ground in a relaxed pose. Eyes are cheerful crescents. The greedy monster is now a lovable glutton companion. Color palette: reddish orange, warm brown.
+small round-bodied dokkaebi sitting happily, reddish-orange skin, broken horns, friendly goofy grin, chubby mascot body, holding small rice cake in one hand, sitting cross-legged relaxed, cheerful crescent eyes, lovable glutton companion, color palette reddish orange warm brown
 ```
 
 ### comp_trickster — 장난꾸러기 도깨비 (속임수)
 **Seed:** 71002
 
 ```
-A small lean dokkaebi crouching playfully. Same blue-gray skin and curved horns as the boss, but with a mischievous wink instead of a crazy stare. Holding its dokkaebi club casually over one shoulder. One hand making a peace sign. Crouching like a friendly imp ready to help with a prank. The chaos gremlin is now a helpful trickster ally. Color palette: blue-gray, teal.
+small lean dokkaebi crouching playfully, blue-gray skin, curved horns, mischievous wink, holding dokkaebi club over one shoulder, one hand peace sign, crouching like friendly imp, helpful trickster ally, color palette blue-gray teal
 ```
 
 ### comp_fox — 여우 도깨비 (환혹)
 **Seed:** 71003
 
 ```
-A small elegant fox spirit sitting gracefully with tail curled around its body. Same pale skin and fox ears as the boss version, but with warm gentle eyes instead of predatory ones. Wearing a simplified purple hanbok. One hand resting on its lap, the other holding a small glowing orb. The dangerous beauty is now a wise mystical companion. Color palette: soft purple, lavender, pale white.
+small elegant fox spirit sitting gracefully, tail curled around body, pale skin, fox ears, warm gentle eyes, simplified purple hanbok, one hand on lap other holding small glowing orb, wise mystical companion, color palette soft purple lavender pale white
 ```
 
 ### comp_mirror — 거울 도깨비 (반사)
 **Seed:** 71004
 
 ```
-A small crystalline dokkaebi made of reflective mirror-like surfaces. Angular geometric body with flat reflective panels for skin. A calm neutral expression. Holding a small round mirror in both hands. The body catches and reflects light in multiple colors. Peaceful standing pose. An enigmatic mirror spirit ally. Color palette: silver, crystal blue, mirror reflections.
+small crystalline dokkaebi, reflective mirror-like surfaces, angular geometric body, flat reflective panels for skin, calm neutral expression, holding small round mirror in both hands, body catching and reflecting light in multiple colors, peaceful standing pose, enigmatic mirror spirit ally, color palette silver crystal blue mirror reflections
 ```
 
 ### comp_flame — 불꽃 도깨비 (소각)
 **Seed:** 71005
 
 ```
-A small fire dokkaebi with gentle warming flames instead of raging inferno. Same charcoal-black cracked skin but with softer orange glow in the cracks — like cozy campfire embers. A calm serious expression instead of pure rage. Arms crossed in a confident but non-threatening pose. Small controlled flames float above its horns like candles. The raging inferno is now a controlled warming fire. Color palette: charcoal, warm ember orange, gentle flame.
+small fire dokkaebi, gentle warming flames not raging inferno, charcoal-black cracked skin, softer orange glow in cracks like campfire embers, calm serious expression, arms crossed confident non-threatening, small controlled flames above horns like candles, controlled warming fire, color palette charcoal warm ember orange gentle flame
 ```
 
 ### comp_shadow — 그림자 도깨비 (잠식)
 **Seed:** 71006
 
 ```
-A small shadow dokkaebi hovering slightly off the ground. Less formless than the boss — more defined cat-like silhouette shape. Same glowing purple eyes but softer and curious instead of predatory. Small shadow wisps trail behind it like a smoky tail. A subtle head tilt suggesting curiosity. The terrifying void is now a quiet shadow cat companion. Color palette: dark gray-black, soft purple glow.
+small shadow dokkaebi hovering slightly, more defined cat-like silhouette, glowing purple eyes softer and curious, small shadow wisps trailing like smoky tail, subtle head tilt suggesting curiosity, quiet shadow cat companion, color palette dark gray-black soft purple glow
 ```
 
 ### comp_boatman — 뱃사공 (항해)
 **Seed:** 71007
 
 ```
-A small pixel art figure of the Sanzu River ferryman as a companion. Weathered elderly Korean man with cone-shaped straw hat casting shadow over face. Wearing simple dark ferryman clothes. Holding a miniature oar in one hand. A faint knowing smile visible under the hat brim. Standing calmly with stoic dignity. The mysterious boatman now travels with you. Color palette: dark browns, straw yellow, gray.
+small Sanzu River ferryman companion, weathered elderly Korean man, cone-shaped straw hat casting shadow over face, simple dark ferryman clothes, holding miniature oar in one hand, faint knowing smile under hat brim, standing calmly with stoic dignity, mysterious boatman traveling with you, color palette dark browns straw yellow gray
 ```

@@ -19,7 +19,7 @@
 **Seed:** 30001 | 8장 배치
 
 ```
-A gluttonous Korean dokkaebi demon. A large round-bodied creature with a massive protruding belly and stubby thick limbs. The skin is reddish-orange, rough and textured. Short broken horns protrude from the top of a round head. The mouth is enormous, stretched wide in a laugh, showing large uneven teeth — some capped in gold. Small greedy eyes sit deep-set in the fat face. The creature wears only a tattered dark loincloth. The body is covered in food stains and scratch marks. The dokkaebi stands with arms akimbo in a confident pose, laughing with its mouth wide open. Ink painting style with bold thick outlines on every shape. Color palette: reddish orange, blood red accents, dark shadows. The character is menacing yet comedic — like a dangerous overgrown child. Full body front-facing pose, fully contained within the frame with comfortable margins.
+gluttonous Korean dokkaebi demon, large round body, massive protruding belly, stubby thick limbs, reddish-orange rough textured skin, short broken horns on round head, enormous mouth stretched wide laughing, large uneven teeth some gold-capped, small greedy deep-set eyes, tattered dark loincloth only, body covered in food stains and scratch marks, arms akimbo confident pose mouth wide open, ink painting style, color palette reddish orange blood red accents dark shadows, menacing yet comedic dangerous overgrown child, full body front-facing pose
 ```
 
 ---
@@ -35,7 +35,7 @@ A gluttonous Korean dokkaebi demon. A large round-bodied creature with a massive
 **Seed:** 30101 | 8장 배치
 
 ```
-A fox dokkaebi spirit. A slender elegant feminine demon with pointed fox ears and a large fluffy tail. Beautiful but deeply unsettling — the kind of beauty that feels like a trap. Pale white porcelain-like skin. Long dark hair with purple highlights flowing behind. An ornate purple Korean hanbok with decorative hair ornaments and ribbon accessories. Seductive half-lidded eyes with purple irises. A subtle knowing smile that hides danger. Beneath the beautiful face, the faintest suggestion of a skull structure is visible — the duality of beauty and death. One hand is raised gracefully, revealing sharp hidden claws. A light purple magical aura shimmers around the entire figure. Ink painting style with elegant thin outlines. Color palette: purples, whites, pale skin, dark accents. A dangerous beauty — a predator disguised perfectly as prey. Full body standing pose slightly turned, fully contained within the frame.
+fox dokkaebi spirit, slender elegant feminine demon, pointed fox ears, large fluffy tail, beautiful deeply unsettling beauty like a trap, pale white porcelain skin, long dark hair purple highlights flowing behind, ornate purple Korean hanbok, decorative hair ornaments ribbon accessories, seductive half-lidded eyes purple irises, subtle knowing dangerous smile, faintest skull structure beneath beautiful face duality of beauty and death, one hand raised gracefully revealing sharp hidden claws, light purple magical aura shimmering, ink painting style elegant thin outlines, color palette purples whites pale skin dark accents, dangerous predator disguised as prey, full body standing pose slightly turned
 ```
 
 ---
@@ -51,7 +51,7 @@ A fox dokkaebi spirit. A slender elegant feminine demon with pointed fox ears an
 **Seed:** 30201 | 8장 배치
 
 ```
-A fire dokkaebi demon. A large muscular demon completely engulfed in flames. The skin is charcoal-black and cracked, with glowing bright orange lava visible in the fissures of the body. Sharp angular features — pointed chin, brow ridges, and jaw. Tall pointed horns are fully ablaze, burning fiercely. The eyes burn with intense orange-white light. Smoke and ash constantly rise from the shoulders and head. The creature stands in an aggressive wide stance, ready to attack at any moment. Clenched fists drip with liquid flame. Tattered burnt cloth remnants hang around the waist. Ink painting style with jagged aggressive outlines. Color palette: charcoal black, flame orange, fire yellow. This is uncontrolled destructive fury personified. Full body action-ready pose, fully contained within the frame.
+fire dokkaebi demon, large muscular completely engulfed in flames, charcoal-black cracked skin, glowing bright orange lava in fissures, sharp angular features pointed chin brow ridges jaw, tall pointed horns fully ablaze, eyes burning intense orange-white light, smoke and ash rising from shoulders and head, aggressive wide stance ready to attack, clenched fists dripping liquid flame, tattered burnt cloth remnants at waist, ink painting style jagged aggressive outlines, color palette charcoal black flame orange fire yellow, uncontrolled destructive fury personified, full body action-ready pose
 ```
 
 ---
@@ -67,7 +67,7 @@ A fire dokkaebi demon. A large muscular demon completely engulfed in flames. The
 **Seed:** 30301 | 8장 배치
 
 ```
-A shadow dokkaebi demon made of living darkness and shadow. The form is semi-transparent and constantly shifting — edges dissolve into wisps of dark smoke. The body is ink-black, barely distinguishable from the dark background. Only faint glowing purple eyes are clearly visible, hovering in the dark mass. Wispy shadow tendrils extend from the body edges in all directions. There is no clear boundary between the creature and the surrounding darkness — it bleeds into shadow. The posture is hunched and predatory, leaning forward. Suggestions of claws and teeth are barely visible within the shadow mass. A faint dark purple glow emanates from the creature's core. Ink painting style — the creature IS made of ink itself. Color palette: pure black and dark purple only. This is a barely visible threat — the darkness itself is alive. Full body emerging-from-shadows pose against a dark background, the creature blending into it.
+shadow dokkaebi demon made of living darkness and shadow, semi-transparent constantly shifting form, edges dissolving into dark smoke wisps, ink-black barely distinguishable from dark background, only faint glowing purple eyes clearly visible, wispy shadow tendrils extending from body edges all directions, no clear boundary between creature and surrounding darkness, hunched predatory posture leaning forward, suggestions of claws and teeth barely visible, faint dark purple glow from core, ink painting style creature IS made of ink itself, color palette pure black dark purple only, barely visible threat darkness itself alive, full body emerging-from-shadows pose
 ```
 
 ---
@@ -83,7 +83,7 @@ A shadow dokkaebi demon made of living darkness and shadow. The form is semi-tra
 **Seed:** 30401 | 8장 배치
 
 ```
-King Yama, the Korean underworld judge. A massive imposing figure radiating divine authority. Six arms extend from the body, each holding a different symbolic object — the right hands hold a judgment scroll, a sword of punishment, and a skull; the left hands hold a karma mirror, scales of justice, and a lotus flower. The figure wears elaborate royal Korean robes in deep gold and red with intricate patterns. An ornate crown of judgment with intricate metalwork sits on the head. The face is aged but immensely powerful — deep-set golden eyes that see through all deception. Bronze-gold skin with divine radiance. A long dark beard is braided with gold thread. The expression is solemn and authoritative. Blood red sash and rope accents decorate the golden robes. A divine golden aura emanates from behind the figure. Ink painting style with majestic bold outlines. Color palette: gold, blood red, black, deep purple. This is absolute divine authority — the final judge of all souls. Full body seated or standing judgment pose, fully contained within the frame.
+King Yama Korean underworld judge, massive imposing figure radiating divine authority, six arms each holding symbolic object, right hands judgment scroll sword of punishment skull, left hands karma mirror scales of justice lotus flower, elaborate royal Korean robes deep gold and red intricate patterns, ornate crown of judgment intricate metalwork, aged immensely powerful face deep-set golden eyes seeing through deception, bronze-gold skin divine radiance, long dark beard braided with gold thread, solemn authoritative expression, blood red sash and rope accents on golden robes, divine golden aura behind figure, ink painting style majestic bold outlines, color palette gold blood red black deep purple, absolute divine authority final judge of all souls, full body judgment pose
 ```
 
 ---
@@ -98,7 +98,7 @@ King Yama, the Korean underworld judge. A massive imposing figure radiating divi
 **Seed:** 30501 | 8장 배치
 
 ```
-A transcendent underworld deity — even larger and more cosmic than King Yama. Six arms each hold symbols from different underworld realms. The body appears to shift between forms and materials — one arm is made of fire, another of shadow, another of gold. Iridescent shifting colors play across the entire body surface. The face is serene and alien, beyond human emotion — not angry, not kind, simply beyond. The surroundings warp and bend around the figure as if reality cannot contain it. Elaborate robes seem to contain galaxies and entire realms within their fabric. A crown extends into impossible dimensions. The eyes contain the cycle of life and death itself. The figure floats slightly above the ground. Ink painting style that breaks into abstract patterns at the edges. Color palette: all colors shifting and clashing simultaneously. This being is transcendent — beyond mortal comprehension. Full body floating cosmic pose, fully contained within the frame.
+transcendent underworld deity, even larger more cosmic than King Yama, six arms each holding symbols from different underworld realms, body shifting between forms and materials one arm fire another shadow another gold, iridescent shifting colors across body surface, face serene alien beyond human emotion, surroundings warping and bending reality cannot contain it, elaborate robes containing galaxies and realms within fabric, crown extending into impossible dimensions, eyes containing cycle of life and death, figure floating slightly above ground, ink painting style breaking into abstract patterns at edges, color palette all colors shifting and clashing simultaneously, transcendent beyond mortal comprehension, full body floating cosmic pose
 ```
 
 ---

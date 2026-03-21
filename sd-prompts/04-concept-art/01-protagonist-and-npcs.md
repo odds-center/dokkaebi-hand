@@ -13,12 +13,12 @@
 **Seed:** 20001 | 8장 배치
 
 ```
-A dead soul wandering the Korean underworld. A slim young Korean figure with a slightly translucent ghostly body — you can almost see through the edges of their form. They wear a worn faded gray-blue traditional Korean hanbok, tattered at the hem. Their black hair is disheveled as if from drowning, hanging loose and tangled. Their skin is pale gray-blue with an ethereal quality. They stand barefoot on dark ground. Their expression is neutral and contemplative with distant sad eyes that glow faintly pale white-blue. The figure has a thin frame suggesting fragility but also inner strength. Ink painting style with thick dark outlines defining the form. Color palette is strictly muted blues, grays, and whites only. The character looks ghostly and sorrowful but not frightening. Full body standing pose facing slightly to the left, fully contained within the frame with margins on all sides.
+dead soul wandering Korean underworld, slim young Korean figure, slightly translucent ghostly body, edges almost see-through, worn faded gray-blue traditional Korean hanbok, tattered hem, black disheveled hair as if from drowning hanging loose and tangled, pale gray-blue skin ethereal quality, standing barefoot on dark ground, neutral contemplative expression, distant sad eyes faintly pale white-blue glow, thin frame suggesting fragility and inner strength, ink painting style, color palette strictly muted blues grays whites only, ghostly sorrowful not frightening, full body standing pose facing slightly left
 ```
 
 ### 표정 변형 (img2img, denoising 0.4)
-- **놀람:** `The character has a surprised expression with eyes wide open, mouth slightly open, and eyebrows raised high.`
-- **결의:** `The character has a determined resolute expression with a clenched jaw, eyes glowing brighter, and fists clenched at their sides.`
+- **놀람:** `surprised expression, eyes wide open, mouth slightly open, eyebrows raised high`
+- **결의:** `determined resolute expression, clenched jaw, eyes glowing brighter, fists clenched at sides`
 
 ---
 
@@ -33,7 +33,7 @@ A dead soul wandering the Korean underworld. A slim young Korean figure with a s
 **Seed:** 20101 | 8장 배치
 
 ```
-An underworld ferryman of the Korean Sanzu River. A weathered middle-aged to elderly Korean man with deep wrinkles and dark sun-beaten skin. He wears traditional dark Korean ferryman clothes in black and brown, simple and functional. A large cone-shaped straw hat casts a deep shadow over his face, partially hiding his features. He holds a long wooden oar resting on one shoulder. His expression is stoic and impassive with knowing ancient eyes that have seen countless souls pass. His posture is slightly hunched from years of rowing. He wears bare feet or simple straw sandals. Ink painting style with thick bold outlines. Color palette: blacks, grays, and dark browns only. He is mysterious and calm, like the river he serves. Full body standing pose, fully contained within the frame.
+underworld ferryman of Korean Sanzu River, weathered middle-aged to elderly Korean man, deep wrinkles dark sun-beaten skin, traditional dark Korean ferryman clothes black and brown simple functional, large cone-shaped straw hat casting deep shadow over face, long wooden oar resting on one shoulder, stoic impassive expression, knowing ancient eyes seen countless souls, slightly hunched posture from years of rowing, bare feet or simple straw sandals, ink painting style, color palette blacks grays dark browns only, mysterious calm like the river he serves, full body standing pose
 ```
 
 ---
@@ -48,9 +48,9 @@ An underworld ferryman of the Korean Sanzu River. A weathered middle-aged to eld
 **Seed:** 20201 | 8장 배치
 
 ```
-A ghost merchant of the Korean underworld market. Only the upper body is visible behind a wooden counter — the lower half fades into translucent nothing. The figure has a semi-transparent ghostly form with pale white-gray skin. They wear traditional Korean merchant clothes in faded gray-brown. A sly knowing smile stretches across their slightly round face with crinkled eyes — shrewd and calculating. Their hands are spread out, gesturing toward invisible merchandise on the counter. Wispy translucent edges dissolve where the body fades into nothingness below. Warm lantern light illuminates the figure from one side. Ink painting style with thick outlines on the visible portions. Color palette: faded whites, grays, with warm light accents. This is someone trustworthy enough to buy from, but never fully trust. Upper body portrait composition with the figure fully contained within the frame.
+ghost merchant of Korean underworld market, upper body visible behind wooden counter, lower half fades into translucent nothing, semi-transparent ghostly form, pale white-gray skin, traditional Korean merchant clothes faded gray-brown, sly knowing smile slightly round face crinkled eyes, shrewd calculating, hands spread gesturing toward invisible merchandise, wispy translucent edges dissolving below, warm lantern light from one side, ink painting style, color palette faded whites grays warm light accents, trustworthy enough to buy from never fully trust, upper body portrait composition
 ```
 
 ### 표정 변형 (img2img, denoising 0.4)
-- **의심:** `The merchant has a suspicious calculating expression with narrowed eyes, stroking their chin, appraising the customer carefully.`
-- **만족:** `The merchant has a pleased satisfied expression with a broad smile, rubbing their hands together — the deal is complete.`
+- **의심:** `suspicious calculating expression, narrowed eyes, stroking chin, appraising customer carefully`
+- **만족:** `pleased satisfied expression, broad smile, rubbing hands together, deal complete`

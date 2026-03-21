@@ -21,14 +21,14 @@
 **Seed:** 90011
 
 ```
-A pixel art scene of a narrow dark alley in a Korean ghost night market. 16-bit retro pixel art with crisp pixels and flat colors. Rows of wooden vendor stalls line both sides of the narrow street. Warm orange paper lanterns hang on strings overhead, their light pooling on the ground in warm circles. Ghostly translucent vendor silhouettes stand behind their counters — barely visible figures suggesting presence without detail. Mysterious items are displayed on wooden tables. Wisps of incense smoke rise between the stalls. Beyond the lantern light, everything fades to dark navy darkness. Traditional Korean tile roofs are visible above the stalls. The cobblestone path appears wet with unknown moisture. The scene has strong contrast between warm lantern pools and cold dark shadows. The atmosphere suggests otherworldly commerce and strange bargains. Color palette: dark navy, warm orange, smoke gray, wood brown.
+narrow dark alley in Korean ghost night market, rows of wooden vendor stalls on both sides, warm orange paper lanterns on strings overhead, light pooling on ground in warm circles, ghostly translucent vendor silhouettes behind counters, mysterious items on wooden tables, wisps of incense smoke between stalls, dark navy darkness beyond lantern light, traditional Korean tile roofs above stalls, wet cobblestone path, strong contrast between warm lantern pools and cold dark shadows, otherworldly commerce atmosphere, dark navy and warm orange palette, smoke gray, wood brown
 ```
 
 ## 프롬프트 B (넓은 시장 조감)
 **Seed:** 90012
 
 ```
-A pixel art scene showing a wide elevated view of an underground ghost market in the Korean underworld. Dozens of small wooden stalls stretch into the distance, with paper lanterns clustered together creating scattered islands of warm amber light. Paths between the stalls are filled with faint misty figures — ghostly shoppers browsing translucent wares. Signboards with unreadable spirit writing hang from stalls. Smoke and steam rise from food stalls in the background. A large dark cavern ceiling above has stalactites faintly visible in the darkness. The atmosphere is dark navy with warm orange pockets of light scattered throughout. Ink painting style with strong light and shadow contrast. The scene is bustling yet eerie — alive yet dead. Color palette: dark navy, amber, warm orange, mist gray.
+wide elevated view of underground ghost market, Korean underworld, dozens of small wooden stalls stretching into distance, paper lanterns clustered creating scattered islands of warm amber light, faint misty ghostly shoppers between stalls, signboards with unreadable spirit writing, smoke and steam rising from food stalls background, large dark cavern ceiling with faint stalactites, dark navy atmosphere with warm orange pockets of light, ink painting style, strong light and shadow contrast, bustling yet eerie, dark navy and amber palette, warm orange, mist gray
 ```
 
 ---

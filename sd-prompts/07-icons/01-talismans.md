@@ -44,37 +44,37 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 ### talisman_blood_oath — 피의 맹세
 **Seed:** 73001
 ```
-A single crimson blood drop with a small white paper talisman behind it. The blood drop is bright red, the paper is pale. Two simple objects overlapping. Nothing else.
+single crimson blood drop, small white paper talisman behind it, bright red drop, pale paper, two overlapping objects
 ```
 
 ### talisman_red_gate — 홍살문
 **Seed:** 73002
 ```
-A tiny red Korean gate — two red pillars with a red beam across the top. Simple torii-like silhouette in vivid red. The iconic hongsalmun shape. Nothing else.
+tiny red Korean gate, two red pillars, red beam across top, torii-like silhouette, vivid red hongsalmun shape
 ```
 
 ### talisman_samdo_ferry — 삼도천의 나룻배
 **Seed:** 73003
 ```
-A small brown wooden boat with a single tiny cyan ghost flame floating above it. Simple side-view boat shape. Dark brown hull, cyan wisp on top. Nothing else.
+small brown wooden boat, single tiny cyan ghost flame floating above, side-view boat shape, dark brown hull, cyan wisp on top
 ```
 
 ### talisman_dokkaebi_club — 도깨비 방망이
 **Seed:** 73004
 ```
-A short thick wooden club with metal studs — the classic dokkaebi bangmangi. Dark brown wood, gray metal dots. Angled slightly. One simple weapon. Nothing else.
+short thick wooden club, metal studs, classic dokkaebi bangmangi, dark brown wood, gray metal dots, angled slightly, single weapon
 ```
 
 ### talisman_virtue_gate — 열녀문
 **Seed:** 73005
 ```
-A small stone arch gate with a green ribbon tied at the top. Gray stone, bright green ribbon bow. Simple arch shape. Nothing else.
+small stone arch gate, green ribbon tied at top, gray stone, bright green ribbon bow, simple arch shape
 ```
 
 ### talisman_samsara_bead — 윤회의 구슬
 **Seed:** 73006
 ```
-A single round jade-green prayer bead with a tiny spiral mark inside. Bright green sphere with black outline. One simple glowing orb. Nothing else.
+single round jade-green prayer bead, tiny spiral mark inside, bright green sphere, single glowing orb
 ```
 
 ---
@@ -84,37 +84,37 @@ A single round jade-green prayer bead with a tiny spiral mark inside. Bright gre
 ### talisman_dokkaebi_hat — 도깨비 감투
 **Seed:** 73011
 ```
-A cone-shaped dark hat — the Korean dokkaebi invisibility hat. Dark fabric with a faint purple shimmer line. Simple triangular hat shape. Nothing else.
+cone-shaped dark hat, Korean dokkaebi invisibility hat, dark fabric, faint purple shimmer line, triangular hat shape
 ```
 
 ### talisman_moonlight_fox — 달빛 여우
 **Seed:** 73012
 ```
-A small white fox silhouette sitting below a yellow crescent moon. The fox is tiny and simple, the moon is a clear crescent above. White fox, yellow moon. Nothing else.
+small white fox silhouette sitting, yellow crescent moon above, tiny simple fox, clear crescent, white fox, yellow moon
 ```
 
 ### talisman_underworld_mirror — 황천의 거울
 **Seed:** 73013
 ```
-A small round bronze mirror — traditional Korean bronze mirror shape. Dark bronze rim, bright reflective silver center. Simple circle with a frame. Nothing else.
+small round bronze mirror, traditional Korean bronze mirror shape, dark bronze rim, bright reflective silver center, circle with frame
 ```
 
 ### talisman_girin_horn — 기린 각
 **Seed:** 73014
 ```
-A single curved golden horn. Bright gold color with a slight upward curve. Simple horn shape like a crescent. Nothing else.
+single curved golden horn, bright gold color, slight upward curve, crescent-like horn shape
 ```
 
 ### talisman_fate_dice — 사주팔자의 주사위
 **Seed:** 73015
 ```
-Two small wooden dice side by side. Dark brown cubes with red dot marks on the faces. Simple pair of dice. Nothing else.
+two small wooden dice side by side, dark brown cubes, red dot marks on faces, simple pair of dice
 ```
 
 ### talisman_scale_desire — 욕망의 저울
 **Seed:** 73017
 ```
-A tiny golden balance scale tilted to one side. One pan lower than the other. Simple gold scale shape. Nothing else.
+tiny golden balance scale, tilted to one side, one pan lower, simple gold scale shape
 ```
 
 ---
@@ -124,31 +124,31 @@ A tiny golden balance scale tilted to one side. One pan lower than the other. Si
 ### talisman_reaper_ledger — 저승사자의 명부
 **Seed:** 73021
 ```
-A dark scroll partially unrolled with a red seal stamp on it. Dark brown scroll, bright red seal mark. Simple scroll shape. Nothing else.
+dark scroll partially unrolled, red seal stamp on it, dark brown scroll, bright red seal mark, simple scroll shape
 ```
 
 ### talisman_madness_bright — 광기의 광
 **Seed:** 73022
 ```
-A bright golden star shape with jagged chaotic rays shooting outward. Gold center, gold rays — the hwatu bright symbol gone wild. Simple starburst. Nothing else.
+bright golden star shape, jagged chaotic rays shooting outward, gold center, gold rays, hwatu bright symbol gone wild, simple starburst
 ```
 
 ### talisman_yeomra_seal — 염라왕의 도장
 **Seed:** 73023
 ```
-A square red seal stamp — official seal shape. Bright crimson red square with dark impression lines inside. Simple square stamp. Nothing else.
+square red seal stamp, official seal shape, bright crimson red square, dark impression lines inside, simple square stamp
 ```
 
 ### talisman_heavenly_lute — 천상의 비파
 **Seed:** 73024
 ```
-A small traditional Korean biwa lute instrument. Dark brown body with pale strings. Simple instrument silhouette. Nothing else.
+small traditional Korean biwa lute instrument, dark brown body, pale strings, simple instrument silhouette
 ```
 
 ### talisman_hellflame — 지옥불꽃
 **Seed:** 73025
 ```
-A single intense flame — orange-red outer flame with white-hot center. Classic fire shape with pointed tips. Simple flame icon. Nothing else.
+single intense flame, orange-red outer flame, white-hot center, classic fire shape, pointed tips, simple flame icon
 ```
 
 ---
@@ -158,17 +158,17 @@ A single intense flame — orange-red outer flame with white-hot center. Classic
 ### talisman_doom — 흉살
 **Seed:** 73031
 ```
-A cracked black talisman paper with a single glowing red eye in the center. Dark cracked rectangle, one red eye. Simple cursed paper. Nothing else.
+cracked black talisman paper, single glowing red eye in center, dark cracked rectangle, one red eye, cursed paper
 ```
 
 ### talisman_phantom — 허깨비
 **Seed:** 73032
 ```
-A pale ghostly hand reaching upward with fingers spread. Translucent pale gray-white hand shape. Simple upward-reaching hand. Nothing else.
+pale ghostly hand reaching upward, fingers spread, translucent pale gray-white hand shape, upward-reaching hand
 ```
 
 ### talisman_oblivion_ribbon — 망각의 띠
 **Seed:** 73033
 ```
-A dark gray ribbon tied in a loose knot with fraying ends. The ribbon ends dissolve into tiny scattered pixels. Simple knotted ribbon. Nothing else.
+dark gray ribbon, loose knot, fraying ends, ribbon ends dissolve into scattered pixels, knotted ribbon
 ```

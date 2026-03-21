@@ -47,21 +47,21 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 84001 | **크기:** 512x512
 
 ```
-A decorative rectangular panel frame with Korean traditional border patterns. The border is dark navy with thin gold inner-line trim. The four corners have subtle Korean interlocking geometric patterns (격자문) rendered in gold on dark navy. The border width is approximately 16 pixels on each side. The center area is semi-transparent dark navy with very subtle hanji paper texture underneath. The overall impression is elegant, dark, and authoritative — fitting for a Korean underworld aesthetic. Suitable for 9-slice scaling.
+decorative rectangular panel frame, Korean traditional border patterns, dark navy border, thin gold inner-line trim, four corners with Korean interlocking geometric patterns in gold on dark navy, border width approximately 16 pixels each side, semi-transparent dark navy center, subtle hanji paper texture underneath, elegant dark authoritative Korean underworld aesthetic, suitable for 9-slice scaling
 ```
 
 ### frame_panel_ornate — 화려한 패널 (보스전/중요 이벤트용)
 **Seed:** 84002 | **크기:** 512x512
 
 ```
-An ornate decorative rectangular panel frame with elaborate Korean traditional patterns. The border is wider (about 24 pixels) with gold and blood red decorative motifs. The four corners have elaborate cloud-and-crane (운학문) patterns in gold. Small dokkaebi ghost fire cyan accent dots at each corner. The border has layered detail — outer dark navy edge, middle gold pattern band, inner blood red thin line. The center is semi-transparent dark navy. More elaborate and imposing than the default panel — used for important game moments. Suitable for 9-slice scaling.
+ornate decorative rectangular panel frame, elaborate Korean traditional patterns, wider border about 24 pixels, gold and blood red decorative motifs, four corners with cloud-and-crane patterns in gold, small dokkaebi ghost fire cyan accent dots at each corner, layered border outer dark navy edge middle gold pattern band inner blood red thin line, semi-transparent dark navy center, elaborate imposing important game moments, suitable for 9-slice scaling
 ```
 
 ### frame_panel_shop — 상점 패널
 **Seed:** 84003 | **크기:** 512x512
 
 ```
-A warm-toned decorative panel frame for a shop/merchant UI. The border uses dark brown wood texture with gold coin motifs at the corners. Warm orange-amber inner glow along the border edges, as if lit by nearby lanterns. The border has a carved wood appearance with subtle grain texture. Small hanging paper lantern decorations at the top corners. The center is semi-transparent warm dark brown. The frame feels inviting and cozy — a merchant's display case in the underworld market. Suitable for 9-slice scaling.
+warm-toned decorative panel frame, shop merchant UI, dark brown wood texture border, gold coin motifs at corners, warm orange-amber inner glow along border edges, lantern-lit appearance, carved wood border with subtle grain texture, small hanging paper lantern decorations at top corners, semi-transparent warm dark brown center, inviting cozy merchant display case underworld market, suitable for 9-slice scaling
 ```
 
 ---
@@ -75,28 +75,28 @@ A warm-toned decorative panel frame for a shop/merchant UI. The border uses dark
 **Seed:** 84011
 
 ```
-A pixel art button background in normal/idle state. A dark navy rectangular panel with slightly rounded corners. A thin gold border line runs along all edges. The interior is dark navy (#1A1A2E) with a very subtle lighter center gradient. A thin bright highlight line runs along the top edge only, suggesting a slight raised 3D effect. Clean and minimal — ready for text overlay. No text or symbols on the button. Wide rectangular format.
+button background normal idle state, dark navy rectangular panel, slightly rounded corners, thin gold border line all edges, dark navy #1A1A2E interior, subtle lighter center, thin bright highlight line along top edge only, slight raised 3D effect, clean minimal ready for text overlay, no text no symbols, wide rectangular format
 ```
 
 ### btn_hover — 호버 상태
 **Seed:** 84012
 
 ```
-A pixel art button background in hover/highlighted state. Same shape as normal button but with brighter gold border that glows slightly. The interior is slightly lighter dark navy. A faint cyan (#00D4FF) inner glow along the border edges suggests the button is active/highlighted. The overall brightness is increased compared to normal state. The button looks "alive" and ready to be clicked.
+button background hover highlighted state, same shape as normal, brighter gold border glowing slightly, slightly lighter dark navy interior, faint cyan #00D4FF inner glow along border edges, active highlighted, overall brightness increased, button looks alive ready to click
 ```
 
 ### btn_pressed — 눌린 상태
 **Seed:** 84013
 
 ```
-A pixel art button background in pressed/clicked state. Same shape but the button appears pushed inward — the highlight line moves from top to bottom edge, and the interior is slightly darker than normal. The gold border remains but dims slightly. A subtle shadow appears at the top edge instead of highlight. The button is visually depressed.
+button background pressed clicked state, same shape pushed inward, highlight line moved from top to bottom edge, interior slightly darker than normal, gold border dims slightly, subtle shadow at top edge instead of highlight, visually depressed button
 ```
 
 ### btn_disabled — 비활성 상태
 **Seed:** 84014
 
 ```
-A pixel art button background in disabled/grayed-out state. Same shape but all colors are desaturated and dimmed. The gold border becomes dull gray. The interior is flat dark gray without any glow or highlight. The button looks inactive and unresponsive — clearly not clickable.
+button background disabled grayed-out state, same shape all colors desaturated and dimmed, gold border becomes dull gray, flat dark gray interior no glow no highlight, inactive unresponsive clearly not clickable
 ```
 
 ---
@@ -109,14 +109,14 @@ A pixel art button background in disabled/grayed-out state. Same shape but all c
 **Seed:** 84021 | **크기:** 800x200
 
 ```
-A pixel art dialog box background for character speech. A wide horizontal panel with rounded corners in dark navy. A thin gold border frames the box. The left side has a small square portrait area (about 120x120 pixels) outlined in a thicker gold frame — where the speaker's portrait goes. The rest of the panel is open for text content. A small triangular speech indicator points downward from the bottom of the portrait area. The style matches the game's Korean underworld aesthetic. Semi-transparent dark navy interior.
+dialog box background for character speech, wide horizontal panel, rounded corners dark navy, thin gold border frame, left side small square portrait area about 120x120 pixels thicker gold frame, rest open for text content, small triangular speech indicator pointing downward from portrait area bottom, Korean underworld aesthetic, semi-transparent dark navy interior
 ```
 
 ### frame_dialog_boss — 보스 대화 (위협적)
 **Seed:** 84022 | **크기:** 800x200
 
 ```
-A pixel art dialog box for boss character speech. Same layout as normal dialog but with blood red accent border instead of gold. The corners have subtle claw-scratch marks or crack patterns. A faint red inner glow along the edges. The portrait area frame is thicker and more aggressive — blood red with dark spikes. The overall impression is threatening and ominous — this speaker is dangerous. Semi-transparent dark navy-red interior.
+dialog box for boss character speech, same layout as normal, blood red accent border instead of gold, subtle claw-scratch marks or crack patterns at corners, faint red inner glow along edges, portrait area frame thicker more aggressive blood red with dark spikes, threatening ominous dangerous speaker, semi-transparent dark navy-red interior
 ```
 
 ---
@@ -125,7 +125,7 @@ A pixel art dialog box for boss character speech. Same layout as normal dialog b
 **Seed:** 84031 | **크기:** 960x400
 
 ```
-A pixel art split-screen decision panel for the Go/Stop choice in a card game. The panel is divided vertically into two halves with a jagged lightning-bolt line down the center. The LEFT half has a warm red-orange background tint with bold energy — this is the "Go" side, representing risk and greed. A subtle upward arrow motif in the background suggests escalation. The RIGHT half has a cool blue-cyan background tint with calm stability — this is the "Stop" side, representing safety. A subtle shield motif in the background suggests protection. Both halves have thin gold borders on their outer edges. The center dividing line crackles with energy — the tension of the decision. The panel sits on a dark navy base. No text — just the visual split between risk (left/red) and safety (right/blue).
+split-screen decision panel for Go Stop choice, divided vertically into two halves, jagged lightning-bolt line down center, LEFT half warm red-orange background tint bold energy Go side risk and greed, subtle upward arrow motif suggesting escalation, RIGHT half cool blue-cyan background tint calm stability Stop side safety, subtle shield motif suggesting protection, both halves thin gold borders outer edges, center dividing line crackling with energy decision tension, dark navy base, no text just visual split risk left red safety right blue
 ```
 
 ---
@@ -139,28 +139,28 @@ A pixel art split-screen decision panel for the Go/Stop choice in a card game. T
 **Seed:** 84041
 
 ```
-A pixel art blessing card frame with fire theme. A tall card-shaped frame with dark border. The border has orange-red flame motifs running along the edges — small pixel art flames licking upward along both sides. The corners have ember/spark decorations. A thin orange inner-glow line. The center is empty/transparent for blessing content. The top has a small flame icon badge. Color palette: flame orange, deep red, dark navy.
+blessing card frame fire theme, tall card-shaped frame dark border, orange-red flame motifs along edges, small pixel art flames licking upward both sides, ember spark decorations at corners, thin orange inner-glow line, center empty transparent for content, small flame icon badge at top, color palette flame orange deep red dark navy
 ```
 
 ### frame_blessing_ice — 빙결
 **Seed:** 84042
 
 ```
-A pixel art blessing card frame with ice theme. A tall card-shaped frame with dark border. The border has ice crystal formations growing along the edges — sharp angular frost patterns. The corners have snowflake decorations. A thin cyan inner-glow line. The center is empty/transparent. The top has a small ice crystal icon badge. Color palette: ice cyan, pale blue, dark navy.
+blessing card frame ice theme, tall card-shaped frame dark border, ice crystal formations along edges, sharp angular frost patterns, snowflake decorations at corners, thin cyan inner-glow line, center empty transparent, small ice crystal icon badge at top, color palette ice cyan pale blue dark navy
 ```
 
 ### frame_blessing_void — 공허
 **Seed:** 84043
 
 ```
-A pixel art blessing card frame with void/emptiness theme. A tall card-shaped frame with dark border. The border appears to be dissolving at the edges — pieces crumbling away into dark particles. The corners have void-hole decorations where the frame seems to break into nothingness. A thin purple inner-glow line. The center is empty/transparent. The top has a small void symbol badge. Color palette: deep purple, near-black, dark navy.
+blessing card frame void emptiness theme, tall card-shaped frame dark border, border dissolving at edges crumbling into dark particles, void-hole decorations at corners frame breaking into nothingness, thin purple inner-glow line, center empty transparent, small void symbol badge at top, color palette deep purple near-black dark navy
 ```
 
 ### frame_blessing_chaos — 혼돈
 **Seed:** 84044
 
 ```
-A pixel art blessing card frame with chaos theme. A tall card-shaped frame with dark border. The border has distorted warped patterns — as if reality is unstable along the edges. The decorations glitch between multiple colors (red, green, purple) in a chaotic pattern. The corners have spiral/vortex decorations. A thin multicolor shifting inner-glow line. The center is empty/transparent. The top has a small chaos spiral badge. Color palette: crimson, toxic green, purple — all clashing.
+blessing card frame chaos theme, tall card-shaped frame dark border, distorted warped patterns along edges reality unstable, decorations glitching between red green purple chaotic pattern, spiral vortex decorations at corners, thin multicolor shifting inner-glow line, center empty transparent, small chaos spiral badge at top, color palette crimson toxic green purple all clashing
 ```
 
 ---
@@ -174,14 +174,14 @@ A pixel art blessing card frame with chaos theme. A tall card-shaped frame with 
 **Seed:** 84051
 
 ```
-A thin horizontal decorative separator line with Korean traditional pattern. A dark navy line with a small diamond-shaped gold ornament at the center. Very thin gold pinstripes run along both sides of the main line. The overall width fills the image and the height is minimal — a clean elegant divider. Transparent background above and below the line.
+thin horizontal decorative separator line, Korean traditional pattern, dark navy line, small diamond-shaped gold ornament at center, thin gold pinstripes along both sides, full width minimal height, clean elegant divider, transparent background above and below
 ```
 
 ### separator_ornate — 화려한 구분선
 **Seed:** 84052
 
 ```
-A wider horizontal decorative separator with elaborate Korean cloud pattern (구름문). Gold interlocking cloud motifs spread across a dark navy band. Small red accent dots punctuate the pattern at regular intervals. More decorative than the default — used for important section dividers. Transparent background above and below.
+wider horizontal decorative separator, elaborate Korean cloud pattern, gold interlocking cloud motifs on dark navy band, small red accent dots at regular intervals, more decorative than default for important section dividers, transparent background above and below
 ```
 
 ---
@@ -190,7 +190,7 @@ A wider horizontal decorative separator with elaborate Korean cloud pattern (구
 **Seed:** 84061 | **크기:** 360x480
 
 ```
-A pixel art shop item card frame for displaying purchasable items. A tall card-shaped frame with dark brown wood border suggesting a merchant's display. A gold price tag area at the bottom (about 60 pixels tall) for showing the cost. The top has a small banner area for the item name. The center is empty/transparent for the item icon/illustration. Small coin decorations at the bottom corners near the price area. The frame feels like a merchant's product display card in an underworld bazaar. Color palette: dark brown wood, gold trim, warm amber accents on dark navy.
+shop item card frame for purchasable items, tall card-shaped frame, dark brown wood border merchant display, gold price tag area at bottom about 60 pixels for cost, small banner area at top for item name, center empty transparent for item icon, small coin decorations at bottom corners near price area, merchant product display card underworld bazaar, color palette dark brown wood gold trim warm amber accents dark navy
 ```
 
 ---
@@ -199,7 +199,7 @@ A pixel art shop item card frame for displaying purchasable items. A tall card-s
 **Seed:** 84071 | **크기:** 270x390 (카드 크기와 동일)
 
 ```
-A pixel art card selection highlight overlay. A glowing golden border that fits exactly over a hwatu card shape. The border glows with warm gold light — thicker and brighter than a normal card frame. The center is completely transparent so the card underneath shows through. Small sparkle effects at the four corners. The glow extends slightly beyond the card edges, creating a "selected" aura effect. This overlay indicates the player has selected this card. Color: warm gold glow border, transparent center.
+card selection highlight overlay, glowing golden border fitting hwatu card shape, warm gold light thicker brighter than normal card frame, center completely transparent card underneath shows through, small sparkle effects at four corners, glow extends slightly beyond card edges selected aura effect, player selected this card indicator, color warm gold glow border transparent center
 ```
 
 ---
@@ -213,14 +213,14 @@ A pixel art card selection highlight overlay. A glowing golden border that fits 
 **Seed:** 84081
 
 ```
-A pixel art phase indicator banner reading area for the card matching phase. A horizontal banner with dark navy background and gold border trim. The left side has a small hwatu card icon motif. The right side has a decorative tassel/end. Warm amber-gold coloring suggesting the collection phase — gathering cards. The center is open for text overlay. Color: dark navy, gold trim, warm amber accents.
+phase indicator banner for card matching phase, horizontal banner dark navy background gold border trim, small hwatu card icon motif on left, decorative tassel end on right, warm amber-gold coloring collection phase gathering cards, center open for text overlay, color dark navy gold trim warm amber accents
 ```
 
 ### banner_attack_phase — 공격 페이즈
 **Seed:** 84082
 
 ```
-A pixel art phase indicator banner for the attack/scoring phase. Same shape as the gostop phase banner but with blood red accent coloring instead of amber. The left side has a small sword or fist icon motif suggesting attack. More aggressive and intense than the collection phase banner. The center is open for text overlay. Color: dark navy, gold trim, blood red accents.
+phase indicator banner for attack scoring phase, same shape as gostop banner, blood red accent coloring instead of amber, small sword or fist icon motif on left suggesting attack, more aggressive intense than collection phase, center open for text overlay, color dark navy gold trim blood red accents
 ```
 
 ---
@@ -233,12 +233,12 @@ A pixel art phase indicator banner for the attack/scoring phase. Same shape as t
 **Seed:** 84091
 
 ```
-A pixel art victory screen background. A dramatic dark navy background with brilliant golden light rays bursting from the center outward. Small gold particles and sparkles drift across the scene. Faint traditional Korean celebratory patterns (like flying cranes or auspicious clouds) are visible in the golden light. The atmosphere is triumphant and liberating — a gate has been passed. The center area is relatively clear for text/score overlay. 16-bit retro pixel art with crisp pixels. Color palette: dark navy, brilliant gold, warm white light.
+victory screen background, dramatic dark navy background, brilliant golden light rays bursting from center outward, small gold particles and sparkles drifting, faint traditional Korean celebratory patterns flying cranes auspicious clouds in golden light, triumphant liberating atmosphere gate passed, center area clear for text score overlay, 16-bit retro crisp pixels, color palette dark navy brilliant gold warm white light
 ```
 
 ### screen_defeat — 패배 (게임 오버)
 **Seed:** 84092
 
 ```
-A pixel art game over screen background. A dark scene fading to near-black from the edges inward. Faint red cracks spread across the dark surface like broken glass. A dim blood red glow emanates weakly from the center, fading. Ghost fire wisps in pale blue drift slowly downward — souls descending. The atmosphere is somber and final — everything is lost. The center area has enough contrast for text overlay. 16-bit retro pixel art. Color palette: near-black, fading blood red, dim ghost blue wisps.
+game over screen background, dark scene fading to near-black from edges inward, faint red cracks across dark surface like broken glass, dim blood red glow from center fading, ghost fire wisps pale blue drifting slowly downward souls descending, somber final atmosphere everything lost, center area enough contrast for text overlay, 16-bit retro, color palette near-black fading blood red dim ghost blue wisps
 ```

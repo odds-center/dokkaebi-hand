@@ -21,14 +21,14 @@
 **Seed:** 90041
 
 ```
-A pixel art scene of an enormous ancient library hall in the Korean underworld records archive. Towering wooden bookshelves reach up into complete darkness above. Hundreds of rolled scrolls fill every shelf, stacked tightly in rows. Old leather-bound books are piled in precarious stacks on various surfaces. Warm candlelight from dozens of candles on reading tables creates pools of golden warm light. Dust particles float visibly in the candle beams. Long dramatic shadows stretch across the worn wooden floor. A single large reading desk sits at the center with an open scroll laid upon it. The dark upper area fades into complete blackness above the tallest shelves. Wooden ladders lean against the tall shelves at various angles. The atmosphere is silent and reverent — like a temple of knowledge that holds every dead soul's story. Color palette: dark wood brown, candlelight gold, parchment beige, deep black.
+enormous ancient library hall, Korean underworld records archive, towering wooden bookshelves reaching into complete darkness above, hundreds of rolled scrolls filling every shelf stacked tightly, old leather-bound books in precarious stacks, warm candlelight from dozens of candles on reading tables, pools of golden warm light, dust particles floating in candle beams, long dramatic shadows on worn wooden floor, single large reading desk at center with open scroll, complete blackness above tallest shelves, wooden ladders leaning against tall shelves, silent reverent atmosphere, temple of knowledge, dark wood brown and candlelight gold palette, parchment beige, deep black
 ```
 
 ## 프롬프트 B (복도 시점)
 **Seed:** 90042
 
 ```
-A pixel art scene of a long narrow corridor between massive scroll shelves in the Korean underworld archive. The passage stretches deep into the distance with towering shelves on both sides. Scrolls and books are packed from floor to ceiling, with some scrolls protruding slightly to create an irregular wall texture. A single line of candles sits on a low wooden rail along the corridor, casting a path of warm golden illumination. Darkness closes in from above and from the far distant end. The wooden floor shows centuries of wear patterns. An occasional scroll lies on the ground as if dropped long ago and never retrieved. Cobwebs connect shelf to shelf in the upper corners. Strong perspective lines draw the eye deep into the corridor. The atmosphere is dusty and ancient — undisturbed for centuries. This place holds every dead soul's story. Color palette: aged wood, candle gold, shadow black, dust gray, parchment cream.
+long narrow corridor between massive scroll shelves, Korean underworld archive, passage stretching deep into distance, towering shelves on both sides, scrolls and books packed floor to ceiling, some scrolls protruding creating irregular wall texture, single line of candles on low wooden rail along corridor, warm golden illumination path, darkness closing in from above and far end, wooden floor with centuries of wear patterns, occasional scroll on ground dropped long ago, cobwebs connecting shelves in upper corners, strong perspective lines drawing eye deep into corridor, dusty ancient atmosphere undisturbed for centuries, aged wood and candle gold palette, shadow black, dust gray, parchment cream
 ```
 
 ---

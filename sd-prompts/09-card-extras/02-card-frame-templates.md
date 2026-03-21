@@ -77,28 +77,28 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 78101
 
 ```
-A golden card frame for the highest-tier Gwang (bright) card type. Bold gold (#FFD700) header bar at top. Thick gold border with subtle decorative pixel notches at corners. A tiny star symbol in the top-left corner of the header. The center is completely empty bright green — only the outer frame exists. Bottom section has a dark bar for text. The gold frame radiates prestige — this is the best card type. Frame colors: gold border, dark navy (#1A1A2E) bottom bar, black outlines.
+golden card frame, highest-tier Gwang bright card type, bold gold #FFD700 header bar at top, thick gold border, subtle decorative pixel notches at corners, tiny star symbol in top-left header, center completely empty bright green, dark bar at bottom for text, gold frame radiating prestige, frame colors gold border dark navy #1A1A2E bottom bar
 ```
 
 ### frame_tti — 띠 프레임 (3종 겸용: 홍단/청단/초단)
 **Seed:** 78102
 
 ```
-A ribbon card frame for the Tti (ribbon) card type. The header bar color will be set by code (red/blue/green). For this template, use a neutral red (#C41E3A) header bar at top. Thin clean border with a small horizontal ribbon decoration at the mid-right edge. The center is completely empty bright green — only the outer frame exists. Bottom section has dark bar for text. Simple and clean — the ribbon color tells the player what type it is. Frame colors: neutral border, dark navy bottom bar, black outlines.
+ribbon card frame, Tti ribbon card type, neutral red #C41E3A header bar at top, thin clean border, small horizontal ribbon decoration at mid-right edge, center completely empty bright green, dark bar at bottom for text, ribbon color tells player type, frame colors neutral border dark navy bottom bar
 ```
 
 ### frame_yeolkkeut — 열끗 프레임 (하늘색)
 **Seed:** 78103
 
 ```
-A card frame for the Yeolkkeut (animal/10-point) card type. Light blue (#4488CC) header bar at top. Medium-weight border with a small diamond symbol at the top-right corner of the header. The center is completely empty bright green — only the outer frame exists. Bottom section has dark bar for text. Moderate prestige — better than Pi but not as grand as Gwang. Frame colors: light blue border, dark navy bottom bar, black outlines.
+card frame for Yeolkkeut animal 10-point card type, light blue #4488CC header bar at top, medium-weight border, small diamond symbol at top-right header corner, center completely empty bright green, dark bar at bottom for text, moderate prestige better than Pi not as grand as Gwang, frame colors light blue border dark navy bottom bar
 ```
 
 ### frame_pi — 피 프레임 (회색)
 **Seed:** 78104
 
 ```
-A card frame for the Pi (chaff/1-point) card type. Muted gray (#666666) header bar at top. Thin minimal border — the simplest and most basic frame. No decorative elements. The center is completely empty bright green — only the outer frame exists. Bottom section has dark bar for text. Plain and humble — the lowest card tier. Frame colors: gray border, dark navy bottom bar, black outlines.
+card frame for Pi chaff 1-point card type, muted gray #666666 header bar at top, thin minimal border, simplest most basic frame, no decorative elements, center completely empty bright green, dark bar at bottom for text, plain humble lowest card tier, frame colors gray border dark navy bottom bar
 ```
 
 ## 후처리

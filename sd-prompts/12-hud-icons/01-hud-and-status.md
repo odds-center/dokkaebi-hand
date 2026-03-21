@@ -44,21 +44,21 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 85001 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art heart icon representing one life point — full and healthy. The heart is vivid blood red with a bold black outline. A tiny bright highlight spot on the upper-left suggests a healthy shiny surface. Simple classic heart shape. This is the player's life counter icon when HP is available.
+small heart icon, one life point full and healthy, vivid blood red, tiny bright highlight spot upper-left, healthy shiny surface, simple classic heart shape, life counter icon HP available
 ```
 
 ### hud_life_empty — 목숨 (빈)
 **Seed:** 85002 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art heart icon representing a lost life point — empty and dark. The same heart shape but filled with dark gray instead of red. The outline is still black but thinner and duller. A small crack runs across the surface. This is the life counter icon when HP has been lost.
+small heart icon, lost life point empty and dark, same heart shape filled dark gray instead of red, thinner duller outline, small crack across surface, life counter icon HP lost
 ```
 
 ### hud_life_danger — 목숨 (위험 — 마지막 1개)
 **Seed:** 85003 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art heart icon pulsing with danger — the last remaining life. The heart is vivid red but flickering with a bright white-red glow around it. Small urgency lines radiate outward from the heart. The heart appears to be beating intensely. This icon signals "last chance — one more hit and you're dead."
+small heart icon pulsing with danger, last remaining life, vivid red flickering bright white-red glow around it, small urgency lines radiating outward, heart beating intensely, last chance one more hit dead signal
 ```
 
 ---
@@ -69,28 +69,28 @@ A small pixel art heart icon pulsing with danger — the last remaining life. Th
 **Seed:** 85011 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art icon of a stack of hwatu cards seen from the side. Three or four cards stacked neatly, showing their dark navy card backs with a faint gold trim line. The stack is slightly fanned to show depth. This represents the remaining draw deck during gameplay.
+small icon of stacked hwatu cards from side, three or four cards stacked neatly, dark navy card backs faint gold trim line, stack slightly fanned for depth, remaining draw deck icon
 ```
 
 ### hud_hand — 손패 수 아이콘
 **Seed:** 85012 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art icon of a hand of cards spread in a fan shape. Three cards fanned outward, showing their colorful front sides (cream with faint red/blue marks). A small open hand silhouette holds them from below. This represents the player's current hand card count.
+small icon of hand of cards in fan shape, three cards fanned outward, colorful front sides cream with faint red blue marks, small open hand silhouette holding from below, player hand card count icon
 ```
 
 ### hud_captured — 먹은 패 아이콘
 **Seed:** 85013 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art icon of a pile of captured/collected cards. Several cards stacked messily in a pile, slightly overlapping. The cards show various colors (red, blue, gold hints) from their front sides. This represents the player's captured card collection during a round.
+small icon of pile of captured collected cards, several cards stacked messily overlapping, various colors red blue gold hints from fronts, player captured card collection icon
 ```
 
 ### hud_field — 바닥패 아이콘
 **Seed:** 85014 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art icon of cards laid out flat on a surface. Three cards placed face-up in a row on a dark surface, showing their fronts. This represents the field/table cards available for matching.
+small icon of cards laid flat on surface, three cards face-up in row on dark surface, showing fronts, field table cards for matching icon
 ```
 
 ---
@@ -101,28 +101,28 @@ A small pixel art icon of cards laid out flat on a surface. Three cards placed f
 **Seed:** 85021 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art hourglass icon. A traditional hourglass shape with dark navy frame and golden sand flowing from top to bottom. The sand glows faintly gold. This represents the current turn number during gameplay.
+small hourglass icon, traditional hourglass shape, dark navy frame, golden sand flowing top to bottom, sand glows faintly gold, current turn number icon
 ```
 
 ### hud_round — 라운드 카운터 아이콘
 **Seed:** 85022 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art circular badge icon representing the current round/판. A dark navy circle with a gold border and a small traditional Korean pattern inside. A number would overlay on top. This represents "which 판 (round) are you in?"
+small circular badge icon, current round counter, dark navy circle gold border, small traditional Korean pattern inside, number overlay on top, which round you are in icon
 ```
 
 ### hud_spiral — 윤회 카운터 아이콘
 **Seed:** 85023 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art spiral/ouroboros icon. A circular spiral pattern in ghost fire cyan, suggesting the cycle of death and rebirth. The spiral turns inward, representing the endless loop of reincarnation. This represents the current spiral/윤회 number.
+small spiral ouroboros icon, circular spiral pattern in ghost fire cyan, cycle of death and rebirth, spiral turning inward, endless loop of reincarnation, current spiral number icon
 ```
 
 ### hud_floor — 관문 카운터 아이콘
 **Seed:** 85024 | **크기:** 192x192 (→48x48)
 
 ```
-A small pixel art gate/torii icon. A simple dark stone gate arch shape — the traditional Korean gateway to the next realm. A faint light shines through the gate opening. This represents the current floor/관문 number within a spiral.
+small gate torii icon, simple dark stone gate arch shape, traditional Korean gateway to next realm, faint light through gate opening, current floor number icon
 ```
 
 ---
@@ -131,7 +131,7 @@ A small pixel art gate/torii icon. A simple dark stone gate arch shape — the t
 **Seed:** 85031 | **크기:** 600x48 (가로로 길고 얇은 바)
 
 ```
-A pixel art horizontal gauge bar frame for the greed scale. The bar frame is dark navy with thin gold border. The left end has a small calm blue icon (safety/stop). The right end has a small aggressive red icon (danger/greed). Between them, the bar interior shows a gradient zone divided into segments — from cool blue on the left through neutral in the center to hot red on the right. Tick marks divide the bar into sections. The actual fill level will be overlaid in code, but the frame and background gradient should be pre-rendered. This represents how much greed/risk the player has accumulated. Wide horizontal format.
+horizontal gauge bar frame for greed scale, dark navy frame thin gold border, left end small calm blue icon safety stop, right end small aggressive red icon danger greed, bar interior gradient zone divided into segments, cool blue left neutral center hot red right, tick marks dividing bar into sections, fill level overlaid in code, greed risk accumulation indicator, wide horizontal format
 ```
 
 ---
@@ -142,21 +142,21 @@ A pixel art horizontal gauge bar frame for the greed scale. The bar frame is dar
 ### hud_talisman_slot — 부적 슬롯 (빈)
 
 ```
-A pixel art empty talisman equipment slot frame. A square frame with dark navy interior and thin gold border. A faint talisman paper outline shape is barely visible in the center — suggesting where a talisman would go. Small corner brackets in gold at each corner. The slot looks empty and waiting to be filled. This is the frame behind each talisman icon in the talisman bar.
+empty talisman equipment slot frame, square frame dark navy interior thin gold border, faint talisman paper outline in center suggesting placement, small corner brackets in gold at each corner, empty waiting to be filled, frame behind talisman icon in talisman bar
 ```
 
 ### hud_talisman_slot_active — 부적 슬롯 (활성)
 **Seed:** 85042 | **크기:** 192x192 (→64x64)
 
 ```
-A pixel art active talisman equipment slot frame. Same square frame but with a brighter cyan (#00D4FF) border glow — the talisman in this slot just triggered its effect. Small energy particles at the corners. The slot is highlighted and active. This frame shows when a talisman activates during gameplay.
+active talisman equipment slot frame, same square frame, brighter cyan #00D4FF border glow, talisman just triggered its effect, small energy particles at corners, highlighted active slot
 ```
 
 ### hud_talisman_slot_cursed — 부적 슬롯 (저주)
 **Seed:** 85043 | **크기:** 192x192 (→64x64)
 
 ```
-A pixel art cursed talisman slot frame. Same square frame but with a sinister dark purple (#6B2D5B) border and small chain links crossing over the slot — the talisman cannot be removed. Dark wisps leak from the slot edges. The slot is locked by a curse. This indicates a forced-equipped cursed talisman.
+cursed talisman slot frame, same square frame, sinister dark purple #6B2D5B border, small chain links crossing over slot talisman cannot be removed, dark wisps from slot edges, locked by curse, forced-equipped cursed talisman indicator
 ```
 
 ---
@@ -167,14 +167,14 @@ A pixel art cursed talisman slot frame. Same square frame but with a sinister da
 ### hud_companion_slot — 동료 슬롯 (빈)
 
 ```
-A pixel art empty companion dokkaebi slot frame. A circular frame with dark navy interior and thin gold border. A faint dokkaebi horn silhouette is visible in the center — suggesting where a companion portrait would go. The circle has a small cooldown indicator arc at the bottom. Empty and waiting for a tamed dokkaebi.
+empty companion dokkaebi slot frame, circular frame dark navy interior thin gold border, faint dokkaebi horn silhouette in center suggesting companion portrait, small cooldown indicator arc at bottom, empty waiting for tamed dokkaebi
 ```
 
 ### hud_companion_ready — 동료 슬롯 (스킬 준비됨)
 **Seed:** 85052 | **크기:** 192x192 (→64x64)
 
 ```
-A pixel art companion slot frame with skill ready indicator. Same circular frame but with a ghost fire cyan (#00D4FF) pulsing border glow — the companion's ability is ready to use. A small exclamation mark or star appears at the top of the circle. The slot is energized and ready for activation.
+companion slot frame skill ready indicator, same circular frame, ghost fire cyan #00D4FF pulsing border glow, companion ability ready to use, small exclamation mark or star at top of circle, energized ready for activation
 ```
 
 ---
@@ -183,7 +183,7 @@ A pixel art companion slot frame with skill ready indicator. Same circular frame
 **Seed:** 85061 | **크기:** 192x192 (→48x48)
 
 ```
-A pixel art warning icon for boss gimmick activation. A triangular warning sign shape in blood red with a dark exclamation mark in the center. The triangle has a thin gold border. Small danger lines radiate from the triangle corners. This icon flashes on screen when a boss gimmick is about to activate — a universal "danger incoming" symbol.
+warning icon for boss gimmick activation, triangular warning sign in blood red, dark exclamation mark in center, thin gold border, small danger lines from triangle corners, flashes when boss gimmick about to activate, universal danger incoming symbol
 ```
 
 ---
@@ -194,21 +194,21 @@ A pixel art warning icon for boss gimmick activation. A triangular warning sign 
 **Seed:** 85071 | **크기:** 256x80
 
 ```
-A pixel art horizontal score display frame for chip count. A small wide panel with dark navy background and gold border. A small chip/coin icon on the left side. The rest is open for the number display. Gold color theme — chips are the base score currency. Transparent areas around the frame.
+horizontal score display frame for chip count, small wide panel dark navy background gold border, small chip coin icon on left side, rest open for number display, gold color theme base score currency, transparent areas around frame
 ```
 
 ### hud_mult_frame — 배수 표시
 **Seed:** 85072 | **크기:** 256x80
 
 ```
-A pixel art horizontal score display frame for multiplier count. Same shape as chip frame but with blood red accent coloring instead of gold. A small "×" multiplication symbol icon on the left side in red. The rest is open for the number. Red color theme — the multiplier amplifies danger and reward.
+horizontal score display frame for multiplier count, same shape as chip frame, blood red accent coloring instead of gold, small multiplication symbol icon on left side in red, rest open for number, red color theme amplifies danger and reward
 ```
 
 ### hud_total_frame — 합계 표시
 **Seed:** 85073 | **크기:** 256x80
 
 ```
-A pixel art horizontal score display frame for total damage/score. Wider and more prominent than chip or mult frames. Dark navy background with brilliant gold border and a subtle golden inner glow. A small sword/impact icon on the left side. The rest is open for the final calculated number. This is the "bottom line" — the actual damage dealt to the boss.
+horizontal score display frame for total damage score, wider more prominent than chip or mult frames, dark navy background brilliant gold border subtle golden inner glow, small sword impact icon on left side, rest open for final calculated number, bottom line actual damage to boss
 ```
 
 ---

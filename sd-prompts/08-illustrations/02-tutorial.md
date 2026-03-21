@@ -39,26 +39,26 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 77001
 
 ```
-The old ferryman sitting beside a low table with hwatu cards laid out. His hand points toward two cards that share the same flower pattern — the matching pair glows faintly with a connecting line of light between them. A few other cards are scattered on the table face-up. The composition clearly shows "these two go together." The dark navy background frames the warm lantern-lit table scene. The ferryman's expression is patient and encouraging. Simple clear visual of the matching concept.
+old ferryman sitting beside low table, hwatu cards laid out, hand pointing toward two matching flower pattern cards, matching pair glowing with connecting light line, other cards scattered face-up on table, composition showing these two go together, dark navy background, warm lantern-lit table scene, patient encouraging expression, clear matching concept visual
 ```
 
 ### tutorial_02_yokbo — 족보와 데미지
 **Seed:** 77002
 
 ```
-The ferryman standing beside a display of collected hwatu cards arranged in a yokbo (combination) pattern — three red ribbon cards forming Hong Dan. Above the cards, stylized damage numbers float upward toward a boss silhouette at the top. A visual equation is implied: cards form pattern → pattern creates damage → damage hits boss. The composition flows from bottom (cards) to middle (yokbo glow) to top (boss taking damage). Warm gold light emanates from the completed yokbo.
+ferryman standing beside collected hwatu cards in yokbo pattern, three red ribbon cards forming Hong Dan, stylized damage numbers floating upward toward boss silhouette above, visual equation cards form pattern creates damage hits boss, composition flowing bottom cards middle yokbo glow top boss taking damage, warm gold light from completed yokbo
 ```
 
 ### tutorial_03_talisman — 부적 시스템
 **Seed:** 77003
 
 ```
-The ferryman holding a glowing talisman paper in one hand, with his other hand pointing to a collection of pi (junk) cards on the table. A visual connection shows: talisman activates when pi cards are collected, creating a multiplier boost effect shown as ascending energy lines. The talisman glows with cyan light while the pi cards glow faintly in response. A talisman slot UI area is suggested at the bottom of the scene. The concept is clear: talisman powers up based on card collection.
+ferryman holding glowing talisman paper in one hand, other hand pointing to collection of pi junk cards on table, visual connection talisman activates when pi collected, multiplier boost effect as ascending energy lines, talisman glowing cyan, pi cards glowing faintly in response, talisman slot UI area suggested at bottom, concept clear talisman powers up based on card collection
 ```
 
 ### tutorial_04_gostop — 고/스톱 결정
 **Seed:** 77004
 
 ```
-A dramatic split-screen composition. On the left side, a bold red "Go" path leads upward with golden multiplier symbols (×2, ×3) getting progressively brighter but the path gets narrower and more dangerous with cracks. On the right side, a calm blue "Stop" path leads to a safe glowing treasure chest containing the current score. The ferryman stands at the fork between the two paths, arms spread indicating both options. The visual tension between greed (left, bright but dangerous) and safety (right, modest but secure) is the core message.
+dramatic split-screen composition, left side bold red Go path leading upward, golden multiplier symbols x2 x3 getting brighter, path narrower and more dangerous with cracks, right side calm blue Stop path, safe glowing treasure chest with current score, ferryman at fork between paths arms spread indicating both options, visual tension between greed left bright dangerous and safety right modest secure
 ```

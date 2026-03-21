@@ -81,7 +81,7 @@ Pixels Per Unit: 100
 
 ### 프롬프트
 ```
-The Korean title "도깨비의 패" written in dramatic golden ink pixel art text on a very dark navy background. The characters are written with a large brush in sweeping powerful strokes — each stroke shows clear pressure variation from thick to thin. The ink color is rich gold with subtle warm orange undertones, as if written with molten gold ink. Dramatic ink splatter and drips surround the main text, adding energy and chaos. Ghostly wisps of faint smoke curl around the edges of the characters. A small red seal stamp impression sits in one corner as a traditional artist's mark. The pixel rendering is ornate and grand — bold thick strokes with thin elegant tails that trail off into wisps. Wide horizontal banner composition. The calligraphy sits centered with generous margins — nothing touches or extends beyond any edge of the image. The overall atmosphere is supernatural and eerie yet beautiful.
+Korean title text 도깨비의 패, dramatic golden ink, very dark navy background, large brush sweeping powerful strokes, pressure variation thick to thin, rich gold with warm orange undertones, molten gold ink, ink splatter and drips, ghostly smoke wisps, red seal stamp in corner, ornate grand strokes, thin elegant trailing tails, wide horizontal banner, centered composition with generous margins, supernatural eerie atmosphere, dark fantasy, beautiful calligraphy
 ```
 
 ### 후처리
@@ -107,7 +107,7 @@ The Korean title "도깨비의 패" written in dramatic golden ink pixel art tex
 **용도:** 축복 "업화" 이름 뱃지
 
 ```
-The Chinese characters "業火" written in fierce burning pixel art text on a dark background. The pixel letter blocks appear to be made of fire — the ink is glowing orange-red like molten lava, with the edges of each stroke flickering as if ablaze. Sparks and floating embers drift away from the character strokes. The pixel rendering is aggressive and wild — fast powerful strokes with charred black edges where the fire burned hottest. A smoky heat haze distortion surrounds the text. Wide horizontal banner format. The characters are centered with comfortable margins — fully contained within the image. Color palette: deep red, flame orange, charcoal black.
+Chinese characters 業火, fierce burning text, dark background, fire-made letter blocks, glowing orange-red molten lava ink, flickering ablaze edges, sparks and floating embers, aggressive wild strokes, charred black edges, smoky heat haze distortion, wide horizontal banner, centered with comfortable margins, deep red, flame orange, charcoal black
 ```
 
 ### 2-2. 빙결(氷結) — 빙결 서예
@@ -115,7 +115,7 @@ The Chinese characters "業火" written in fierce burning pixel art text on a da
 **용도:** 축복 "빙결" 이름 뱃지
 
 ```
-The Chinese characters "氷結" written in frozen crystalline pixel art text on a dark background. The pixel letter blocks appear to be made of ice — pale blue with crystalline frost forming along every edge. The ink looks as if it froze the moment it touched the paper, with tiny ice crystal formations growing outward from the stroke edges. Cold mist and a few snowflakes drift in the air around the characters. Small icicle formations drip downward from the lowest strokes. The pixel rendering is precise and sharp — the cold made every stroke brittle and angular. Wide horizontal banner format. Characters centered with generous margins. Color palette: ice blue, pale white, dark navy background.
+Chinese characters 氷結, frozen crystalline text, dark background, ice-made letter blocks, pale blue with crystalline frost edges, frozen ink, ice crystal formations on stroke edges, cold mist, snowflakes, icicle formations dripping downward, precise sharp brittle strokes, wide horizontal banner, centered with generous margins, ice blue, pale white, dark navy background
 ```
 
 ### 2-3. 공허(空虛) — 공허 서예
@@ -123,7 +123,7 @@ The Chinese characters "氷結" written in frozen crystalline pixel art text on 
 **용도:** 축복 "공허" 이름 뱃지
 
 ```
-The Chinese characters "空虛" written in dissolving dark pixel art text on a pitch black background. The pixel letter blocks appear to be consumed by void — parts of each character are fading away into nothingness, with fragments of ink floating and disintegrating into dark particles. A faint deep purple glow outlines the remaining visible portions. The pixel rendering shows strokes that were once bold but are now being erased by darkness itself. The surrounding space feels like a cosmic void — an absence of everything. Wide horizontal banner format. Characters centered with margins — parts dissolve but the composition stays within bounds. Color palette: deep purple, pitch black, faint violet.
+Chinese characters 空虛, dissolving dark text, pitch black background, void-consumed letters, fading into nothingness, ink fragments disintegrating into dark particles, faint deep purple glow outline, bold strokes erased by darkness, cosmic void atmosphere, wide horizontal banner, centered composition within bounds, deep purple, pitch black, faint violet
 ```
 
 ### 2-4. 혼돈(混沌) — 혼돈 서예
@@ -131,7 +131,7 @@ The Chinese characters "空虛" written in dissolving dark pixel art text on a p
 **용도:** 축복 "혼돈" 이름 뱃지
 
 ```
-The Chinese characters "混沌" written in chaotic swirling pixel art text on a dark background. The pixel letters are warped and distorted — bending in unnatural directions as if reality itself is unstable. Multiple clashing colors appear within the same strokes — crimson bleeds into toxic green which shifts to purple. Chaotic energy spirals and vortex patterns swirl around the characters. The ink appears to glitch with prismatic color splits and fragmentation. The pixel rendering is wild and unpredictable — no two strokes follow the same rules. Wide horizontal banner format. Characters centered within the image bounds despite the chaos. Color palette: crimson, toxic green, purple, all clashing on dark.
+Chinese characters 混沌, chaotic swirling text, dark background, warped distorted letters, unnatural bending, reality unstable, clashing colors within strokes, crimson bleeding into toxic green shifting to purple, chaotic energy spirals, vortex patterns, prismatic color splits, glitch fragmentation, wild unpredictable strokes, wide horizontal banner, centered within bounds, crimson, toxic green, purple, clashing colors
 ```
 
 ### 축복 후처리
@@ -158,7 +158,7 @@ The Chinese characters "混沌" written in chaotic swirling pixel art text on a 
 **용도:** 족보 "오광" 달성 표시
 
 ```
-The Korean text "오광" written in bold golden pixel art text with radiant light. The pixel letters are thick and confident, made with rich gold ink that glows brilliantly. Golden light rays burst outward from behind the characters. Five small light accent points are scattered around the text like stars. The pixel rendering conveys divine heavenly illumination — powerful strokes that radiate sacred energy. Dark background with the gold calligraphy as the brilliant focal point. Horizontal banner format. Characters centered and fully contained within the image. Color palette: brilliant gold, white light, dark navy background.
+Korean text 오광, bold golden text, radiant light, thick confident letters, rich gold ink, brilliant glow, golden light rays bursting outward, five star-like light accent points, divine heavenly illumination, sacred energy, dark background, gold focal point, horizontal banner, centered and fully contained, brilliant gold, white light, dark navy
 ```
 
 ### 3-2. 사광 (四光)
@@ -166,7 +166,7 @@ The Korean text "오광" written in bold golden pixel art text with radiant ligh
 **용도:** 족보 "사광" 달성 표시
 
 ```
-The Korean text "사광" written in silver-gold pixel art text with bright moonlight glow. The strokes are bold and graceful in mixed silver and pale gold pixel color. Four subtle light points are arranged around the text. The atmosphere is celestial — bright but slightly more subdued than 오광. Pixel art style with silver-gold coloring on a dark background. Horizontal banner format. Characters centered and fully contained. Color palette: silver, pale gold, dark navy.
+Korean text 사광, silver-gold text, bright moonlight glow, bold graceful strokes, mixed silver and pale gold, four subtle light points, celestial atmosphere, subdued luminance, dark background, horizontal banner, centered and fully contained, silver, pale gold, dark navy
 ```
 
 ### 3-3. 삼광 (三光)
@@ -174,7 +174,7 @@ The Korean text "사광" written in silver-gold pixel art text with bright moonl
 **용도:** 족보 "삼광" 달성 표시
 
 ```
-The Korean text "삼광" written in warm amber pixel art text with a soft golden glow. The pixel letters are bold and warm, in amber-gold pixel color. Three gentle light accents surround the text. The atmosphere is warmly illuminated — gentle and inviting. Pixel art style with amber-gold tones on a dark background. Horizontal banner format. Characters centered and fully contained. Color palette: amber, warm gold, dark background.
+Korean text 삼광, warm amber text, soft golden glow, bold warm letters, amber-gold color, three gentle light accents, warmly illuminated atmosphere, gentle and inviting, dark background, horizontal banner, centered and fully contained, amber, warm gold, dark background
 ```
 
 ### 3-4. 홍단 (紅丹)
@@ -182,7 +182,7 @@ The Korean text "삼광" written in warm amber pixel art text with a soft golden
 **용도:** 족보 "홍단" 달성 표시
 
 ```
-The Korean text "홍단" written in deep crimson red pixel art text. The pixel letters are bold and flowing, in rich blood-red pixel color on a dark background. A red ribbon accent element flows elegantly around the text. The ink is deep crimson with darker shadows in the thickest parts of each stroke. The pixel rendering is elegant and traditional. Horizontal banner format. Characters centered and fully contained. Color palette: crimson red, dark red, black.
+Korean text 홍단, deep crimson red text, bold flowing letters, rich blood-red color, dark background, red ribbon accent element, deep crimson with darker shadows, elegant traditional style, horizontal banner, centered and fully contained, crimson red, dark red, black
 ```
 
 ### 3-5. 청단 (靑丹)
@@ -190,7 +190,7 @@ The Korean text "홍단" written in deep crimson red pixel art text. The pixel l
 **용도:** 족보 "청단" 달성 표시
 
 ```
-The Korean text "청단" written in deep royal blue pixel art text. The pixel letters are bold and refined, in rich blue pixel color on a dark background. A blue ribbon accent element flows around the text. The color is deep royal blue with cyan highlights catching the light. The pixel rendering is cool and refined. Horizontal banner format. Characters centered and fully contained. Color palette: royal blue, cyan accents, dark navy.
+Korean text 청단, deep royal blue text, bold refined letters, rich blue color, dark background, blue ribbon accent element, cyan highlights, cool refined style, horizontal banner, centered and fully contained, royal blue, cyan accents, dark navy
 ```
 
 ### 3-6. 초단 (草丹)
@@ -198,7 +198,7 @@ The Korean text "청단" written in deep royal blue pixel art text. The pixel le
 **용도:** 족보 "초단" 달성 표시
 
 ```
-The Korean text "초단" written in dark forest green pixel art text. The pixel letters are bold and organic, in deep green pixel color on a dark background. Subtle grass and vine accents grow along the edges of the strokes as natural decoration. The color is deep forest green with brighter green highlights. The pixel rendering has an organic natural quality. Horizontal banner format. Characters centered and fully contained. Color palette: forest green, bright green accents, dark background.
+Korean text 초단, dark forest green text, bold organic letters, deep green color, dark background, grass and vine accents on stroke edges, natural decoration, brighter green highlights, organic natural quality, horizontal banner, centered and fully contained, forest green, bright green accents, dark background
 ```
 
 ### 3-7. 고도리
@@ -206,7 +206,7 @@ The Korean text "초단" written in dark forest green pixel art text. The pixel 
 **용도:** 족보 "고도리" 달성 표시
 
 ```
-The Korean text "고도리" written in warm brown pixel art text with bird silhouette accents. The pixel letters are elegant and flowing, in warm brown-orange pixel color on a dark background. Tiny bird silhouette shapes are scattered decoratively around the text — small flying birds in ink. The atmosphere is warm and autumnal. Naturalistic pixel art style. Horizontal banner format. Characters centered and fully contained. Color palette: warm brown, orange, dark background.
+Korean text 고도리, warm brown text, bird silhouette accents, elegant flowing letters, warm brown-orange color, dark background, tiny flying bird silhouettes scattered decoratively, warm autumnal atmosphere, naturalistic style, horizontal banner, centered and fully contained, warm brown, orange, dark background
 ```
 
 ### 3-8. 총통
@@ -214,7 +214,7 @@ The Korean text "고도리" written in warm brown pixel art text with bird silho
 **용도:** 족보 "총통" 달성 표시
 
 ```
-The Korean text "총통" written in explosive bold pixel art text with impact energy. The pixel letters are extremely thick and aggressive, made with black pixel color with bright yellow flash accents. Shockwave-like radial lines burst outward from the center of the text. The pixel rendering conveys powerful commanding force — each stroke slams onto the paper with maximum impact. Dark background with bright yellow flash energy. Horizontal banner format. Characters centered and fully contained. Color palette: bright yellow, white flash, dark navy.
+Korean text 총통, explosive bold text, impact energy, extremely thick aggressive letters, black color with bright yellow flash accents, shockwave radial lines bursting outward, powerful commanding force, maximum impact strokes, dark background, bright yellow flash energy, horizontal banner, centered and fully contained, bright yellow, white flash, dark navy
 ```
 
 ### 3-9. 사계 (四季)
@@ -222,7 +222,7 @@ The Korean text "총통" written in explosive bold pixel art text with impact en
 **용도:** 족보 "사계" 달성 표시 (저승 족보)
 
 ```
-The Korean text "사계" written in flowing pixel art text with four-season color transitions within the strokes. The pixel rendering flows from left to right, with the ink color transitioning smoothly: pink cherry blossom tones at the start, transitioning through green summer, then orange autumn, ending in white winter. Seasonal elements are subtly woven into the brush texture — a petal here, a snowflake there. Dark background behind the colorful calligraphy. Horizontal banner format. Characters centered and fully contained. Color palette: pink, green, orange, white — all transitioning on dark.
+Korean text 사계, flowing text, four-season color transitions within strokes, left to right color flow, pink cherry blossom tones, green summer, orange autumn, white winter, seasonal elements in brush texture, petals and snowflakes, dark background, colorful calligraphy, horizontal banner, centered and fully contained, pink, green, orange, white transitioning on dark
 ```
 
 ### 3-10. 도깨비불
@@ -230,7 +230,7 @@ The Korean text "사계" written in flowing pixel art text with four-season colo
 **용도:** 족보 "도깨비불" 달성 표시 (저승 족보)
 
 ```
-The Korean text "도깨비불" written in ghostly blue-green pixel art text with supernatural fire. The pixel letters are made with spectral blue-green ink that glows with an eerie inner light. Will-o-wisp flames dance and flicker around the characters — small floating supernatural fires in pale blue-green. The atmosphere is ghostly and otherworldly. The ink seems to glow from within, as if the calligraphy itself is a ghost flame. Dark background with spectral green glow. Horizontal banner format. Characters centered and fully contained. Color palette: spectral green, ghostly blue, dark navy.
+Korean text 도깨비불, ghostly blue-green text, supernatural fire, spectral blue-green ink, eerie inner glow, will-o-wisp flames dancing and flickering, small floating supernatural fires, ghostly otherworldly atmosphere, calligraphy glowing from within, ghost flame, dark background, spectral green glow, horizontal banner, centered and fully contained, spectral green, ghostly blue, dark navy
 ```
 
 ### 족보 후처리
@@ -256,7 +256,7 @@ The Korean text "도깨비불" written in ghostly blue-green pixel art text with
 **용도:** 보스 "먹보 도깨비" 등장 연출
 
 ```
-The Korean text "먹보 도깨비" written in thick greedy pixel art text with dripping ink. The pixel letters are bloated and heavy — overloaded with too much ink, dripping and splattering as if the brush itself is gluttonous. The ink is dark black with reddish-orange undertones glowing from within. Ink drips and splatters suggest excess and gluttony. The pixel rendering is menacing and ominous with a dark fantasy atmosphere. Dark background with reddish-orange glow behind the text. Horizontal banner format. Characters centered and fully contained with no overflow. Color palette: reddish orange, blood red, black.
+Korean text 먹보 도깨비, thick greedy text, dripping ink, bloated heavy letters, overloaded ink, dripping and splattering, gluttonous brush, dark black with reddish-orange undertones, glowing from within, excess and gluttony, menacing ominous, dark fantasy atmosphere, dark background, reddish-orange glow, horizontal banner, centered and fully contained, reddish orange, blood red, black
 ```
 
 ### 4-2. 여우 도깨비
@@ -264,7 +264,7 @@ The Korean text "먹보 도깨비" written in thick greedy pixel art text with d
 **용도:** 보스 "여우 도깨비" 등장 연출
 
 ```
-The Korean text "여우 도깨비" written in elegant sinuous pixel art text with seductive curves. The pixel letters are thin, graceful, and dangerously beautiful — each stroke curves like a fox's tail. The ink is dark with purple fox-fire glow along the edges. Wisps of purple energy curl around the characters like smoke. The pixel rendering is beautiful but unsettling — elegant danger. Dark background with purple glow. Horizontal banner format. Characters centered and fully contained. Color palette: purple, lavender, dark navy.
+Korean text 여우 도깨비, elegant sinuous text, seductive curves, thin graceful dangerously beautiful letters, fox tail curved strokes, dark ink with purple fox-fire glow, purple energy wisps like smoke, beautiful but unsettling, elegant danger, dark background, purple glow, horizontal banner, centered and fully contained, purple, lavender, dark navy
 ```
 
 ### 4-3. 불꽃 도깨비
@@ -272,7 +272,7 @@ The Korean text "여우 도깨비" written in elegant sinuous pixel art text wit
 **용도:** 보스 "불꽃 도깨비" 등장 연출
 
 ```
-The Korean text "불꽃 도깨비" written in burning aggressive pixel art text made of fire and rage. The strokes appear to be literally on fire — trailing sparks and embers fly from each character. The ink is orange-red flame with charred cracked black edges. Scorching heat distortion warps the air around the text. The pixel rendering is violent and aggressive — each stroke attacks the paper. Dark background with intense flame glow. Horizontal banner format. Characters centered and fully contained. Color palette: flame orange, bright orange, charcoal black.
+Korean text 불꽃 도깨비, burning aggressive text, fire and rage, strokes on fire, trailing sparks and embers, orange-red flame ink, charred cracked black edges, scorching heat distortion, violent aggressive strokes, dark background, intense flame glow, horizontal banner, centered and fully contained, flame orange, bright orange, charcoal black
 ```
 
 ### 4-4. 그림자 도깨비
@@ -280,7 +280,7 @@ The Korean text "불꽃 도깨비" written in burning aggressive pixel art text 
 **용도:** 보스 "그림자 도깨비" 등장 연출
 
 ```
-The Korean text "그림자 도깨비" written in fading shadow pixel art text that partially dissolves into darkness. The strokes appear and disappear — parts of each character are invisible, consumed by shadow. Shadowy tendrils extend from the remaining visible pixel letter blocks into the surrounding darkness. The near-black background barely distinguishes the dark ink from the void. Only a faint dark blue undertone reveals where the characters are. The pixel rendering conveys oppressive suffocating darkness. Horizontal banner format. Characters centered within the image bounds. Color palette: near-black, dark blue, pitch black.
+Korean text 그림자 도깨비, fading shadow text, partially dissolving into darkness, strokes appearing and disappearing, shadow-consumed characters, shadowy tendrils extending into darkness, near-black background, faint dark blue undertone, oppressive suffocating darkness, horizontal banner, centered within bounds, near-black, dark blue, pitch black
 ```
 
 ### 4-5. 염라대왕
@@ -288,7 +288,7 @@ The Korean text "그림자 도깨비" written in fading shadow pixel art text th
 **용도:** 보스 "염라대왕" 등장 연출
 
 ```
-The Korean text "염라대왕" and Chinese characters "閻羅大王" written in commanding imperial pixel art text with divine authority. The main Korean text is large and bold; the Chinese characters are smaller beneath. The pixel letter blocks radiate regal power — thick commanding strokes made with absolute confidence. The ink is blood red with gold accents highlighting the edges of the most powerful strokes. Royal gold detailing ornaments the characters. The atmosphere conveys the absolute authority of the judge of the dead. Dark background with blood red and gold glow. Horizontal banner format. All text centered and fully contained. Color palette: blood red, gold, black.
+Korean text 염라대왕, Chinese characters 閻羅大王 smaller beneath, commanding imperial text, divine authority, large bold Korean text, regal power, thick commanding confident strokes, blood red ink with gold accents, royal gold detailing, absolute authority of judge of the dead, dark background, blood red and gold glow, horizontal banner, centered and fully contained, blood red, gold, black
 ```
 
 ### 4-6. 오도전륜왕
@@ -296,7 +296,7 @@ The Korean text "염라대왕" and Chinese characters "閻羅大王" written in 
 **용도:** 최종 보스 "오도전륜왕" 등장 연출
 
 ```
-The Korean text "오도전륜왕" written in cosmic overwhelming pixel art text with transcendent power. The pixel letters are impossibly large and powerful — each stroke seems to warp reality around it. The ink shifts through multiple otherworldly colors — cosmic purple, divine gold, ethereal white — all within the same characters. Reality-warping distortion bends the space around each stroke. Cosmic energy and circular dharma wheel motifs orbit the characters. The atmosphere is beyond mortal comprehension — not merely powerful but transcendent. Dark background with otherworldly multicolor glow. Horizontal banner format. Characters centered and fully contained. Color palette: cosmic purple, gold, white light, deep black.
+Korean text 오도전륜왕, cosmic overwhelming text, transcendent power, impossibly large powerful letters, reality-warping strokes, ink shifting through cosmic purple divine gold ethereal white, otherworldly color shifts, reality-warping distortion, cosmic energy, circular dharma wheel motifs orbiting, beyond mortal comprehension, transcendent atmosphere, dark background, otherworldly multicolor glow, horizontal banner, centered and fully contained, cosmic purple, gold, white light, deep black
 ```
 
 ### 보스 후처리
@@ -323,7 +323,7 @@ The Korean text "오도전륜왕" written in cosmic overwhelming pixel art text 
 **용도:** "고" 선택 시 화면 팝업
 
 ```
-The Korean text "고!" written as a single explosive bold brush stroke impact badge. One powerful character with maximum energy — the brush hit the paper hard and fast. Bright cyan energy bursts outward from the character like a shockwave. Dynamic speed lines radiate outward from the text. The brush stroke is thick, bold, and charged with forward momentum. Dark background with bright cyan energy glow. Square badge format. The character is centered with comfortable margins — fully contained within the image. Color palette: bright cyan, white flash, dark navy.
+Korean text 고!, single explosive bold brush stroke, impact badge, maximum energy, bright cyan energy burst shockwave, dynamic speed lines radiating outward, thick bold stroke, forward momentum, dark background, bright cyan energy glow, square badge format, centered with comfortable margins, bright cyan, white flash, dark navy
 ```
 
 ### 5-2. 스톱! (STOP!)
@@ -331,7 +331,7 @@ The Korean text "고!" written as a single explosive bold brush stroke impact ba
 **용도:** "스톱" 선택 시 화면 팝업
 
 ```
-The Korean text "스톱!" written as a heavy final brush stroke impact badge that slams down with decisive weight. The brush stroke is thick and absolute — it hit the paper with maximum force and stopped dead. Crimson red energy and impact crack lines radiate from where the stroke landed. The feeling is of absolute finality — no going back. Dark background with crimson red glow. Square badge format. Text centered and fully contained. Color palette: crimson red, dark red, white impact flash.
+Korean text 스톱!, heavy final brush stroke, impact badge, decisive weight, thick absolute stroke, maximum force, crimson red energy, impact crack lines radiating, absolute finality, dark background, crimson red glow, square badge format, centered and fully contained, crimson red, dark red, white impact flash
 ```
 
 ### 5-3. 격파! (DEFEATED!)
@@ -339,7 +339,7 @@ The Korean text "스톱!" written as a heavy final brush stroke impact badge tha
 **용도:** 보스 격파 시 화면 팝업
 
 ```
-The Korean text "격파!" written in shattering explosive pixel art text with destructive triumphant force. The pixel letters are breaking apart — fragments of ink fly outward from the characters like an explosion. A golden burst of victory energy radiates from the center. Cracks and fragments radiate outward in all directions. The atmosphere is triumphant and victorious. Dark background with golden explosion glow. Square badge format. The main characters are centered — fragments spread but the core composition stays within bounds. Color palette: gold, bright yellow, dark background.
+Korean text 격파!, shattering explosive text, destructive triumphant force, letters breaking apart, ink fragments flying outward like explosion, golden burst of victory energy, cracks and fragments radiating, triumphant victorious atmosphere, dark background, golden explosion glow, square badge format, centered within bounds, gold, bright yellow, dark background
 ```
 
 ### 5-4. 매칭! (MATCH!)
@@ -347,7 +347,7 @@ The Korean text "격파!" written in shattering explosive pixel art text with de
 **용도:** 카드 매칭 성공 시 피드백
 
 ```
-The Korean text "매칭!" written in swift connecting pixel art text with linking energy. Two brush elements visually merge together at the center of the text, suggesting connection and combination. A green success glow surrounds the point where the elements connect. The pixel rendering is swift and dynamic — quick confident strokes that found each other. Dark background with green success glow. Square badge format. Text centered and fully contained. Color palette: green, bright green, white, dark background.
+Korean text 매칭!, swift connecting text, linking energy, two brush elements merging at center, connection and combination, green success glow at connection point, swift dynamic strokes, quick confident, dark background, green success glow, square badge format, centered and fully contained, green, bright green, white, dark background
 ```
 
 ### 5-5. 쓸! (SWEEP!)
@@ -355,7 +355,7 @@ The Korean text "매칭!" written in swift connecting pixel art text with linkin
 **용도:** 바닥패 쓸 시 피드백
 
 ```
-The Korean text "쓸!" written as a sweeping horizontal brush stroke with gathering motion. One powerful wide horizontal sweep — the brush moved fast across the paper in a collecting motion, gathering everything in one stroke. A golden sweep glow trails behind the stroke's motion. Horizontal sweeping motion lines emphasize the direction of movement. Dark background with golden sweep glow. Square badge format. Text centered and fully contained. Color palette: gold, warm amber, dark navy.
+Korean text 쓸!, sweeping horizontal brush stroke, gathering motion, powerful wide horizontal sweep, collecting motion, golden sweep glow trailing behind, horizontal sweeping motion lines, dark background, golden sweep glow, square badge format, centered and fully contained, gold, warm amber, dark navy
 ```
 
 ### 5-6. 관문 돌파! (GATE CLEAR!)
@@ -363,7 +363,7 @@ The Korean text "쓸!" written as a sweeping horizontal brush stroke with gather
 **용도:** 관문(스테이지) 클리어 시 팝업
 
 ```
-The Korean text "관문 돌파!" written in breakthrough ascending pixel art text with rising energy. The pixel letter blocks angle upward dramatically — piercing through an invisible barrier above. Bright white-gold light streams upward from the characters. The feeling is of triumphant ascension — breaking through and rising. Dark background with bright white-gold upward light. Square badge format. Text centered and fully contained. Color palette: white, gold, bright light, dark navy.
+Korean text 관문 돌파!, breakthrough ascending text, rising energy, letters angling upward dramatically, piercing through invisible barrier, bright white-gold light streaming upward, triumphant ascension, breaking through and rising, dark background, bright white-gold upward light, square badge format, centered and fully contained, white, gold, bright light, dark navy
 ```
 
 ### 5-7. 게임 오버 (GAME OVER)
@@ -371,7 +371,7 @@ The Korean text "관문 돌파!" written in breakthrough ascending pixel art tex
 **용도:** 사망 시 화면 표시
 
 ```
-The Korean text "게임 오버" written in somber fading pixel art text with dissolving strokes. The pixel letters are crumbling and disintegrating — the ink is falling apart into particles that drift downward. A faint red glow fades behind the dissolving text. Everything is fading to darkness — the calligraphy itself is dying. The atmosphere is mournful and final. Dark background with fading gray tones. Square badge format. Text centered — the dissolution stays within image bounds. Color palette: fading gray, dark red, near-black.
+Korean text 게임 오버, somber fading text, dissolving strokes, crumbling disintegrating letters, ink falling apart into particles drifting downward, faint red glow fading, everything fading to darkness, dying calligraphy, mournful final atmosphere, dark background, fading gray tones, square badge format, centered within bounds, fading gray, dark red, near-black
 ```
 
 ### 5-8. 윤회 (REINCARNATION)
@@ -379,7 +379,7 @@ The Korean text "게임 오버" written in somber fading pixel art text with dis
 **용도:** 윤회(새 사이클) 시작 표시
 
 ```
-The Korean text "윤회" written in mystical circular flowing pixel art text that forms a spiral cycle. The pixel letter blocks flow in a circular pattern — the end of the last stroke connects back to the beginning of the first, creating an ouroboros-like loop. Ethereal blue-white glow emanates from the circular composition. Cyclical spiraling energy orbits around the text. The feeling is of eternal renewal — death leading to rebirth leading to death. Dark background with ethereal blue-white glow. Square badge format. The circular composition is centered and fully contained. Color palette: ethereal blue, white spirit-glow, dark navy.
+Korean text 윤회, mystical circular flowing text, spiral cycle, circular pattern flow, ouroboros-like loop connecting last stroke to first, ethereal blue-white glow, cyclical spiraling energy orbiting, eternal renewal, death and rebirth cycle, dark background, ethereal blue-white glow, square badge format, centered and fully contained, ethereal blue, white spirit-glow, dark navy
 ```
 
 ### UI 텍스트 후처리
@@ -405,7 +405,7 @@ The Korean text "윤회" written in mystical circular flowing pixel art text tha
 **용도:** 광 카드 분류 아이콘
 
 ```
-A single large Chinese character "光" (meaning light) written in bold pixel art text, centered on a golden yellow background. The character is written in thick confident black pixel color — one powerful brush stroke per element, filling most of the square frame. The golden background glows with subtle radiance. The pixel rendering shows clear pressure variation and natural ink texture. Square 1:1 format. The character is fully contained with comfortable margins on all sides. Color palette: gold background, black pixel color, white highlight accents.
+single large Chinese character 光, meaning light, bold text, centered, golden yellow background, thick confident black color, powerful brush strokes, filling most of square frame, subtle radiance glow, clear pressure variation, natural ink texture, square 1:1 format, fully contained with comfortable margins, gold background, black color, white highlight accents
 ```
 
 ### 6-2. 紅 (홍) 뱃지
@@ -413,7 +413,7 @@ A single large Chinese character "光" (meaning light) written in bold pixel art
 **용도:** 홍단 카드 분류 아이콘
 
 ```
-A single large Chinese character "紅" (meaning red) written in bold pixel art text, centered on a deep crimson red background. The character is written in thick confident black pixel color with powerful pixel letter blocks. The crimson background is deep and rich like blood. The pixel rendering shows natural variation and pixel texture. Square 1:1 format. Character fully contained with margins. Color palette: crimson red background, black pixel color, dark red shadows.
+single large Chinese character 紅, meaning red, bold text, centered, deep crimson red background, thick confident black color, powerful letter blocks, deep rich blood-like crimson, natural variation and texture, square 1:1 format, fully contained with margins, crimson red background, black color, dark red shadows
 ```
 
 ### 6-3. 靑 (청) 뱃지
@@ -421,7 +421,7 @@ A single large Chinese character "紅" (meaning red) written in bold pixel art t
 **용도:** 청단 카드 분류 아이콘
 
 ```
-A single large Chinese character "靑" (meaning blue/green) written in bold pixel art text, centered on a deep royal blue background. The character is written in thick confident white pixel color — standing out brightly against the blue. The royal blue background is deep and rich. Square 1:1 format. Character fully contained with margins. Color palette: royal blue background, white pixel color, navy shadows.
+single large Chinese character 靑, meaning blue/green, bold text, centered, deep royal blue background, thick confident white color, standing out brightly against blue, deep rich royal blue, square 1:1 format, fully contained with margins, royal blue background, white color, navy shadows
 ```
 
 ### 6-4. 草 (초) 뱃지
@@ -429,7 +429,7 @@ A single large Chinese character "靑" (meaning blue/green) written in bold pixe
 **용도:** 초단 카드 분류 아이콘
 
 ```
-A single large Chinese character "草" (meaning grass) written in bold pixel art text, centered on a deep forest green background. The character is written in thick confident black pixel color. The forest green background is deep and natural. Square 1:1 format. Character fully contained with margins. Color palette: forest green background, black pixel color, dark green shadows.
+single large Chinese character 草, meaning grass, bold text, centered, deep forest green background, thick confident black color, deep natural forest green, square 1:1 format, fully contained with margins, forest green background, black color, dark green shadows
 ```
 
 ### 6-5. 피 뱃지
@@ -437,7 +437,7 @@ A single large Chinese character "草" (meaning grass) written in bold pixel art
 **용도:** 피/쌍피 카드 분류 아이콘
 
 ```
-A single large Korean character "피" (meaning junk card) written in bold pixel art text, centered on a warm amber-orange background. The character is written in thick confident black pixel color. The amber-orange background has a warm fiery glow. Square 1:1 format. Character fully contained with margins. Color palette: amber orange background, black pixel color, dark red accents.
+single large Korean character 피, meaning junk card, bold text, centered, warm amber-orange background, thick confident black color, warm fiery glow, square 1:1 format, fully contained with margins, amber orange background, black color, dark red accents
 ```
 
 ### 시스템 뱃지 후처리
@@ -463,21 +463,21 @@ A single large Korean character "피" (meaning junk card) written in bold pixel 
 **Seed:** 60071
 
 ```
-The Korean characters "홍단" written vertically in bold black pixel art text on a bright vivid red ribbon background. The text is written top-to-bottom in traditional vertical Korean writing direction. The red ribbon fills the entire tall narrow image. The pixel letters are thick and confident with blocky pixel edges — written with a traditional horsehair brush. The calligraphy has visible pressure variation and slight ink bleed into the ribbon surface. Tall narrow vertical format. Characters centered on the red ribbon with margins at top and bottom — nothing extends beyond the edges.
+Korean characters 홍단, vertical writing, bold black text, bright vivid red ribbon background, top-to-bottom traditional vertical direction, red ribbon filling tall narrow image, thick confident letters, blocky edges, horsehair brush, visible pressure variation, slight ink bleed, tall narrow vertical format, centered on red ribbon with top and bottom margins
 ```
 
 ### 7-2. 청단 띠 텍스트
 **Seed:** 60072
 
 ```
-The Korean characters "청단" written vertically in bold white pixel art text on a bright vivid blue ribbon background. The text is written top-to-bottom in traditional vertical direction. The blue ribbon fills the entire tall narrow image. The pixel letters are thick and confident with blocky pixel edges. White ink stands out brightly against the blue ribbon. Tall narrow vertical format. Characters centered with margins — fully contained.
+Korean characters 청단, vertical writing, bold white text, bright vivid blue ribbon background, top-to-bottom traditional vertical direction, blue ribbon filling tall narrow image, thick confident letters, blocky edges, white ink standing out brightly against blue, tall narrow vertical format, centered with margins, fully contained
 ```
 
 ### 7-3. 초단 띠 텍스트
 **Seed:** 60073
 
 ```
-The Korean characters "초단" written vertically in bold black pixel art text on a red ribbon with grass-green tint. The text is written top-to-bottom. The ribbon fills the entire tall narrow image. The pixel letters are thick with blocky pixel edges. Tall narrow vertical format. Characters centered with margins — fully contained.
+Korean characters 초단, vertical writing, bold black text, red ribbon with grass-green tint, top-to-bottom direction, ribbon filling tall narrow image, thick letters, blocky edges, tall narrow vertical format, centered with margins, fully contained
 ```
 
 ### 띠 텍스트 후처리

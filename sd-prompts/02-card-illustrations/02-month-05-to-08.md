@@ -16,28 +16,28 @@
 **Seed:** 5001 | **등급:** 중간
 
 ```
-A traditional wooden plank bridge in the upper background portion of the card, made of dark brown wooden planks with simple railing posts on both sides, all drawn with thick black outlines. Below and in front of the bridge, iris flowers grow prominently. The iris blooms are vivid blue-purple with three elegantly drooping petals, each petal rendered in flat solid purple with bold black outlines. Long pointed dark green-black iris leaves grow upward like sword blades, tall and narrow, framing the flowers on both sides. Three to four iris blooms are positioned at different heights among the leaves. A gold-yellow ribbon is tied diagonally across the bridge railing. The cream-ivory background fills the space around the scene. The bridge occupies the upper third while the iris fills the lower two-thirds of the card. Flat graphic style with strong bold botanical shapes. As an underworld hint, the water beneath the bridge is a dark, still void suggesting the river between worlds.
+traditional wooden plank bridge in upper background, dark brown wooden planks, simple railing posts on both sides, iris flowers growing below and in front of bridge, vivid blue-purple iris blooms, three elegantly drooping petals, flat solid purple, long pointed dark green-black iris leaves, upward like sword blades, tall and narrow, framing flowers on both sides, three to four iris blooms at different heights, gold-yellow ribbon tied diagonally across bridge railing, bridge occupies upper third, iris fills lower two-thirds, dark still void water beneath bridge suggesting river between worlds, underworld hint
 ```
 
 ### m05_chodan — 초단 (창포 + 초단 띠)
 **Seed:** 5002 | **등급:** 중간
 
 ```
-Iris plants growing from the bottom of the frame upward. Tall dark green-black sword-like leaves point straight up in a cluster, sharp and angular. Blue-purple iris blooms with three drooping petals each are rendered in flat vivid purple with bold black outlines. Two to three blooms sit at different heights among the leaves. A red ribbon is draped diagonally across the iris stems from upper-left to lower-right. The ribbon is solid red with bold black outline edges and has a vertical text area for calligraphy characters. Cream-ivory background is visible above the iris cluster. The leaves and flowers fill the lower 60% of the card. Clean flat botanical composition with thick outlines on every element, no shading or gradients.
+iris plants growing from bottom upward, tall dark green-black sword-like leaves pointing straight up in cluster, sharp angular leaves, blue-purple iris blooms, three drooping petals each, flat vivid purple, two to three blooms at different heights among leaves, red ribbon draped diagonally, upper-left to lower-right, solid red ribbon, vertical text area for calligraphy, leaves and flowers fill lower 60 percent
 ```
 
 ### m05_pi1 — 피 (창포)
 **Seed:** 5003 | **등급:** 간결
 
 ```
-A small cluster of iris leaves and a single bloom growing from the bottom-center of the frame. Tall dark green-black sword-like leaves in a tight cluster, with one blue-purple iris flower at the top featuring three drooping petals in flat solid color. Bold black outlines on all leaf and petal shapes. Cream-ivory background fills the upper 65% of the card. Simple vertical composition with the plant contained at the bottom. Flat color rendering with no shading — clean pixel art.
+small cluster of iris leaves and single bloom, growing from bottom-center, tall dark green-black sword-like leaves in tight cluster, one blue-purple iris flower at top, three drooping petals in flat solid color, upper 65 percent open white space, simple vertical composition, plant contained at bottom
 ```
 
 ### m05_pi2 — 피 (창포)
 **Seed:** 5004 | **등급:** 간결
 
 ```
-A small cluster of iris leaves at the bottom-right of the frame, without any flowers — just dark green-black pointed leaves with bold outlines. The leaves are shorter and fewer than usual, forming a compact group. Cream-ivory background dominates the card, filling 75% of the space. Minimal vegetation at the corner only. Clean flat pixel rendering with crisp outlines and no gradients.
+small cluster of iris leaves at bottom-right, no flowers, just dark green-black pointed leaves, shorter and fewer than usual, compact group, 75 percent background space, minimal vegetation at corner only
 ```
 
 ---
@@ -53,28 +53,28 @@ A small cluster of iris leaves at the bottom-right of the frame, without any flo
 **Seed:** 6001 | **등급:** 중간
 
 ```
-Two large peony flowers in full luxurious bloom filling the lower half of the card. Each peony has many overlapping layered petals in solid vivid red, with bold black outlines defining each petal layer. The petals are round and full, creating a lush dense flower head. Large broad dark green-black peony leaves with jagged edges and bold outlines surround the flowers. Two butterflies hover above the blooms — their wings are spread open, rendered in black and red-orange with flat color fill and bold black outlines. The butterfly wings have distinct pattern markings. A gold-yellow ribbon is draped across the flower stems in the lower area. Cream-ivory background is visible in the upper portion of the card. The composition is lush and abundant — flowers and leaves fill the bottom 55%. Maximum color impact with flat graphic style. As an underworld touch, a faint skull-like pattern is barely suggested in one butterfly's wing markings.
+two large peony flowers in full luxurious bloom, lower half of card, many overlapping layered petals in solid vivid red, round full petals, lush dense flower heads, large broad dark green-black peony leaves, jagged edges, two butterflies hovering above blooms, wings spread open, black and red-orange butterfly wings, distinct pattern markings, gold-yellow ribbon across flower stems, composition lush and abundant, flowers and leaves fill bottom 55 percent, faint skull-like pattern in one butterfly wing, underworld touch
 ```
 
 ### m06_cheongdan — 청단 (모란 + 청단 띠)
 **Seed:** 6002 | **등급:** 중간
 
 ```
-Peony flowers blooming from the bottom of the frame. Red peony blooms with many overlapping layered petals in solid vivid red, each petal outlined in bold black. Large dark green-black leaves frame the flowers with jagged edges and thick outlines. A bright vivid blue ribbon is draped diagonally across the composition from upper-left to lower-right. The ribbon is solid flat blue with bold black outline edges on both sides. The ribbon has a vertical text area where the characters 청단 would be placed in contrasting color. The cream-ivory background is visible above the flowers. Flowers and leaves fill the lower 55% of the card. The blue ribbon creates a strong visual contrast against the red flowers. All colors are flat bold fills with thick outlines — no gradients anywhere.
+peony flowers blooming from bottom, red peony blooms, many overlapping layered petals in solid vivid red, large dark green-black leaves, jagged edges, bright vivid blue ribbon draped diagonally, upper-left to lower-right, solid flat blue ribbon, vertical text area for cheongdan characters, contrasting color text, flowers and leaves fill lower 55 percent, blue ribbon strong contrast against red flowers
 ```
 
 ### m06_pi1 — 피 (모란)
 **Seed:** 6003 | **등급:** 간결
 
 ```
-A single peony flower with surrounding leaves positioned at the bottom-center of the card. One red bloom with layered round petals in solid vivid red, outlined in bold black. Two or three large dark green-black leaves with jagged edges surround the bloom. The flower and leaves are a compact cluster. Cream-ivory background fills the upper 65% of the card, creating generous white space. Simple single-flower composition. Flat graphic rendering with clean bold outlines, no shading.
+single peony flower with surrounding leaves, bottom-center of card, one red bloom, layered round petals in solid vivid red, two or three large dark green-black leaves, jagged edges, compact cluster, upper 65 percent generous white space, simple single-flower composition
 ```
 
 ### m06_pi2 — 피 (모란)
 **Seed:** 6004 | **등급:** 간결
 
 ```
-A partially opened peony bud with leaves at the bottom edge of the frame. The bud shows one or two red petals beginning to unfurl, with bold black outlines. Dark green-black leaves surround the bud in a compact cluster. The composition is minimal — a small cluster of vegetation at the very bottom of the card. Cream-ivory background dominates the space above, filling 70%+ of the card. Flat bold outlines with clean pixel rendering.
+partially opened peony bud with leaves, bottom edge of frame, one or two red petals beginning to unfurl, dark green-black leaves surrounding bud, compact cluster, minimal composition at very bottom, 70 percent or more background space above
 ```
 
 ---
@@ -90,28 +90,28 @@ A partially opened peony bud with leaves at the bottom edge of the frame. The bu
 **Seed:** 7001 | **등급:** 중간
 
 ```
-A wild boar running powerfully through bush clover from right to left. The boar has a solid dark brown-black body with bristly fur texture suggested through angular pixel shapes, in a dynamic running pose with legs extended. Small sharp white tusks are visible against its dark snout. Bold black outlines define the entire boar silhouette crisply. Red bush clover branches arch over and around the boar — thin graceful arching branches with tiny round red flower dots clustered in groups of three to five. Small dark green rounded leaves are scattered along the branches. A gold-yellow ribbon is visible among the upper branches. Cream-ivory background fills the surrounding space. The boar occupies the center of the composition, running through the arching foliage. Dynamic action pose with bold flat graphic shapes. As an underworld touch, the boar's eye glows with a faint red ember light.
+wild boar running powerfully right to left, solid dark brown-black body, bristly fur texture in angular pixel shapes, dynamic running pose, legs extended, small sharp white tusks against dark snout, red bush clover branches arching over and around boar, thin graceful arching branches, tiny round red flower dots in clusters of three to five, small dark green rounded leaves along branches, gold-yellow ribbon among upper branches, boar at center running through arching foliage, dynamic action pose, boar eye glows faint red ember, underworld touch
 ```
 
 ### m07_cheongdan — 청단 (홍싸리 + 청단 띠)
 **Seed:** 7002 | **등급:** 중간
 
 ```
-Bush clover branches arching gracefully from the bottom of the frame upward and outward. Thin dark branches curve in sweeping elegant arcs. Along each branch, tiny red flower clusters appear — small red dots in groups of three to five. Small round dark green leaves are interspersed with the flower clusters. A bright vivid blue ribbon is draped diagonally across the branches from upper-left to lower-right. The ribbon is solid flat blue with bold black outline edges and has a vertical text area for the characters 청단. Cream-ivory background is visible in the upper area of the card. The arching branches fill the lower 60% of the composition in a graceful flowing pattern. Flat color fills throughout with thick bold outlines on everything — no shading or gradients.
+bush clover branches arching gracefully from bottom upward, thin dark branches in sweeping elegant arcs, tiny red flower clusters along branches, small red dots in groups of three to five, small round dark green leaves interspersed with flower clusters, bright vivid blue ribbon draped diagonally, upper-left to lower-right, solid flat blue ribbon, vertical text area for cheongdan characters, arching branches fill lower 60 percent, graceful flowing pattern
 ```
 
 ### m07_pi1 — 피 (홍싸리)
 **Seed:** 7003 | **등급:** 간결
 
 ```
-A single bush clover branch arching from the bottom-left of the frame upward to the right. The thin dark branch curves gently in a graceful arc. Small red flower dots appear along the branch in tiny clusters. Small round dark leaves sit on short stems along the branch. Bold black outlines on the branch and all leaf shapes. Cream-ivory background fills most of the card with generous white space above the branch. Simple single-branch composition. Flat graphic rendering with clean lines.
+single bush clover branch, arching from bottom-left upward to right, thin dark branch curving gently in graceful arc, small red flower dots along branch in tiny clusters, small round dark leaves on short stems, generous white space above branch, simple single-branch composition
 ```
 
 ### m07_pi2 — 피 (홍싸리)
 **Seed:** 7004 | **등급:** 간결
 
 ```
-Two thin bush clover branches at the bottom of the frame, shorter than usual with fewer flower dots. Tiny red spots and small dark green rounded leaves along the thin dark branches. The branches curve gently upward in modest arcs. Cream-ivory background dominates over 70% of the card. Minimal vegetation at the bottom edge only. Clean flat pixel art rendering with bold outlines.
+two thin bush clover branches at bottom, shorter than usual, fewer flower dots, tiny red spots, small dark green rounded leaves, thin dark branches curving gently upward, modest arcs, over 70 percent background space, minimal vegetation at bottom edge only
 ```
 
 ---
@@ -127,26 +127,26 @@ Two thin bush clover branches at the bottom of the frame, shorter than usual wit
 **Seed:** 8001 | **등급:** 화려/가득 참
 
 ```
-The most iconic hwatu card composition. A giant full moon dominates the upper center of the card — a large perfect white circle with a bold black outline, brilliantly bright against the surrounding sky. The sky around the moon is solid vivid red, filling the entire upper half of the card behind the moon. Below the red sky, a smooth curved black hill silhouette stretches across the entire width of the lower third. From this black hill, tall pampas grass stalks grow upward as thin black silhouettes with feathery seed heads at their tips. Several grass stalks extend high enough to cross in front of the moon, creating dramatic dark lines against the white circle. The composition is starkly graphic — pure white moon, vivid red sky, solid black earth and grass silhouettes. A small solid red circle is placed at the bottom-left for the 광 badge. Every shape has bold outlines and flat color fills — absolutely no gradients. This is a maximum contrast image of white, red, and black. As a very subtle underworld hint, the faintest suggestion of a skull pattern exists on the moon's surface, barely perceptible.
+most iconic hwatu card, giant full moon at upper center, large perfect white circle, brilliantly bright, solid vivid red sky filling entire upper half behind moon, smooth curved black hill silhouette across entire lower third width, tall pampas grass stalks growing from black hill, thin black silhouettes with feathery seed heads, several grass stalks crossing in front of moon, dramatic dark lines against white circle, starkly graphic composition, pure white moon vivid red sky solid black earth, small solid red circle at bottom-left for gwang badge, maximum contrast white red black, faintest skull pattern on moon surface barely perceptible, underworld hint
 ```
 
 ### m08_yeolkkeut — 열끗 (기러기)
 **Seed:** 8002 | **등급:** 중간
 
 ```
-A formation of three wild geese flying across an open sky. The geese are arranged in a loose V-formation, rendered as dark silhouettes with spread wings and bold black outlines. Each bird has a distinct dynamic flying pose with wings at different angles. A gold-yellow ribbon flows diagonally near the birds, rendered in flat golden color with black outlines. Small pampas grass silhouettes appear at the very bottom as a subtle horizon reference. The cream-ivory background serves as the open sky, filling most of the card. The birds are positioned in the upper-center area, creating a dynamic diagonal composition following their flight path. Flat graphic silhouette style with bold outlines — the geese are solid dark shapes against the light background.
+formation of three wild geese flying across open sky, loose V-formation, dark silhouettes with spread wings, each bird in distinct dynamic flying pose, wings at different angles, gold-yellow ribbon flowing diagonally near birds, flat golden color ribbon, small pampas grass silhouettes at very bottom as horizon reference, birds positioned upper-center area, dynamic diagonal composition following flight path, geese as solid dark shapes against light background
 ```
 
 ### m08_pi1 — 피 (억새)
 **Seed:** 8003 | **등급:** 간결
 
 ```
-Pampas grass silhouettes growing from a black hill at the bottom of the card. A smooth curved dark black hill shape stretches across the bottom quarter of the frame. Three to four tall grass stalks rise from the hill with feathery seed heads at their tips, the stalks thin and slightly curved as if swaying in wind. Everything is rendered as solid black silhouettes with bold outlines. Cream-ivory background fills the upper 70% of the card as empty sky — no moon visible, just the lonely grass against pale sky. Simple stark composition with dark shapes confined to the bottom. Flat graphic rendering.
+pampas grass silhouettes growing from black hill at bottom, smooth curved dark black hill across bottom quarter, three to four tall grass stalks rising from hill, feathery seed heads at tips, stalks thin and slightly curved as if swaying in wind, solid black silhouettes, upper 70 percent empty sky no moon, lonely grass against pale sky, dark shapes confined to bottom
 ```
 
 ### m08_pi2 — 피 (억새)
 **Seed:** 8004 | **등급:** 간결
 
 ```
-A small cluster of pampas grass at the bottom-right of the card. Fewer and shorter grass stalks than usual, with feathery seed heads rendered as black silhouette shapes. A small section of dark hill is barely visible at the very bottom edge. Cream-ivory background dominates over 80% of the card. Minimal vegetation cluster at the corner — sparse and quiet. Clean flat pixel art rendering with bold black outlines.
+small cluster of pampas grass at bottom-right, fewer and shorter grass stalks, feathery seed heads as black silhouette shapes, small section of dark hill barely visible at very bottom edge, over 80 percent background space, minimal vegetation cluster at corner, sparse and quiet
 ```

@@ -53,33 +53,33 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 81001
 
 ```
-A blazing fire aura surrounding an empty center body space. Vivid orange-red flames roar outward from all sides of the empty center. The flames are rendered as bold pixel art fire shapes — flat orange and red with thick black outlines on the largest flame tongues. Embers and sparks scatter upward and outward. The flames are thickest at the bottom (rising from below) and sides, with tongues of fire reaching upward at the top. Small lava drops fall from the flame edges. The empty center space is roughly body-shaped. The fire casts a warm orange ambient glow on everything near it. Color palette: vivid orange, deep red, fire yellow tips, ember orange sparks. This boss is surrounded by an inferno.
+blazing fire aura, empty center body space, vivid orange-red flames roaring outward from all sides, bold pixel art fire shapes, flat orange and red, embers and sparks scattering upward, flames thickest at bottom and sides, tongues of fire reaching upward at top, small lava drops from flame edges, roughly body-shaped empty center, warm orange ambient glow, color palette vivid orange deep red fire yellow tips ember orange sparks, inferno surrounding
 ```
 
 ### set_aura_ice — 얼음의 군주 오라
 **Seed:** 81002
 
 ```
-A freezing ice crystal aura surrounding an empty center body space. Sharp ice crystal formations grow outward from all edges of the empty center. The crystals are pale translucent blue with sharp geometric facets, rendered as angular pixel art shapes. Frost particles float in the air around the ice formations. Frozen mist clings to the bottom area. Icicles hang downward from the upper edges. The empty center space is roughly body-shaped. A cold cyan glow radiates from the ice crystals, with frost patterns spreading outward on the surrounding transparent space. Color palette: pale ice blue, crystal cyan, frost white, deep blue shadows. This boss is encased in a blizzard.
+freezing ice crystal aura, empty center body space, sharp ice crystal formations growing outward from all edges, pale translucent blue shards, angular pixel art shapes, frost particles floating, frozen mist at bottom, icicles hanging from upper edges, roughly body-shaped empty center, cold cyan glow from crystals, frost patterns spreading outward, color palette pale ice blue crystal cyan frost white deep blue shadows, blizzard encasing
 ```
 
 ### set_aura_shadow — 그림자의 군주 오라
 **Seed:** 81003
 
 ```
-A dark shadow aura surrounding an empty center body space. Living darkness pours outward from the empty center, with tendrils of shadow reaching in all directions. The shadows are dark purple-black with wispy smoke-like edges that dissolve into transparency. The darkness is thickest near the center edges and gets thinner as it extends outward. Faint purple-violet glow points appear within the shadow mass like distant stars. The empty center space is roughly body-shaped but the shadow edges creep slightly inward, partially obscuring the character. The overall effect is of a creature consumed by darkness — barely visible. Color palette: pure black, dark purple, violet glow points. This boss exists within a void of shadow.
+dark shadow aura, empty center body space, living darkness pouring outward, shadow tendrils reaching all directions, dark purple-black wispy smoke-like edges dissolving into transparency, thickest near center edges thinner outward, faint purple-violet glow points like distant stars, roughly body-shaped empty center, shadow edges creeping slightly inward, creature consumed by darkness, color palette pure black dark purple violet glow points, void of shadow
 ```
 
 ### set_aura_skull — 해골의 군주 오라
 **Seed:** 81004
 
 ```
-A bone and skull aura surrounding an empty center body space. Small floating skulls orbit around the empty center in a slow circular pattern. Bone fragments and teeth drift in the air around the body space. The skulls are bone-white with dark hollow eye sockets, rendered as small pixel art shapes. A pale white-golden glow connects the orbiting skulls like a ghostly chain. Faint bone dust particles fill the air. The empty center space is roughly body-shaped. The orbiting skulls create a crown-like ring at head level and a scattered field at body level. Color palette: bone white, dark hollow sockets, pale golden connecting glow. This boss commands the dead.
+bone and skull aura, empty center body space, small floating skulls orbiting in slow circular pattern, bone fragments and teeth drifting in air, bone-white dark hollow eye sockets, small pixel art skull shapes, pale white-golden glow connecting orbiting skulls like ghostly chain, faint bone dust particles, roughly body-shaped empty center, crown-like skull ring at head level, scattered field at body level, color palette bone white dark sockets pale golden connecting glow, commanding the dead
 ```
 
 ### set_aura_seal — 봉인의 군주 오라
 **Seed:** 81005
 
 ```
-A talisman paper vortex aura surrounding an empty center body space. Dozens of red talisman papers with black calligraphy orbit and spiral around the empty center in a swirling vortex pattern. The papers spin at different speeds and distances — some close to the body, some far out. Each paper has bold black calligraphy strokes visible on its red surface. A red-gold energy glow connects the swirling papers. The vortex rotates clockwise with papers trailing energy wisps behind them. The empty center space is roughly body-shaped. The effect is of overwhelming sealing power — talisman magic run wild. Color palette: vivid red papers, black calligraphy, golden-red energy glow. This boss has absorbed all talisman power.
+talisman paper vortex aura, empty center body space, dozens of red talisman papers with black calligraphy orbiting and spiraling in swirling vortex, papers spinning at different speeds and distances, bold black calligraphy strokes on red surface, red-gold energy glow connecting papers, clockwise rotation with trailing energy wisps, roughly body-shaped empty center, overwhelming sealing power, color palette vivid red papers black calligraphy golden-red energy glow, absorbed all talisman power
 ```

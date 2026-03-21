@@ -15,7 +15,7 @@
 **Seed:** 90071
 
 ```
-A pixel art scene of a volcanic hellscape in the Korean underworld fire realm. 16-bit retro pixel art with crisp pixels and flat colors. Massive lava rivers carve through black volcanic rock, glowing bright orange. Towering fire pillars erupt skyward from the ground in two or three places. Sulfur vents release toxic yellow-green smoke from fissures. Obsidian rock formations with razor-sharp edges jut upward as dark silhouettes. Extreme heat distortion warps the air above every lava flow. The sky is dark crimson, choked with volcanic ash. A distant volcanic mountain has glowing lava streams running down its slopes. The ground is cracked into plates with molten orange visible between them. Sparks and embers are carried by hot wind across the entire scene. No safe ground exists anywhere — the environment is entirely hostile. This is more violent and chaotic than the basic hell pit area. Color palette: obsidian black, lava orange, crimson, sulfur yellow, ash gray.
+volcanic hellscape, Korean underworld fire realm, massive lava rivers carving through black volcanic rock glowing bright orange, towering fire pillars erupting skyward in two or three places, sulfur vents releasing toxic yellow-green smoke from fissures, obsidian rock formations with razor-sharp edges jutting upward as dark silhouettes, extreme heat distortion above every lava flow, dark crimson sky choked with volcanic ash, distant volcanic mountain with glowing lava streams down slopes, ground cracked into plates with molten orange between them, sparks and embers carried by hot wind, entirely hostile environment, more violent and chaotic than basic hell pit, obsidian black and lava orange palette, crimson, sulfur yellow, ash gray
 ```
 
 ---
@@ -24,7 +24,7 @@ A pixel art scene of a volcanic hellscape in the Korean underworld fire realm. 1
 **Seed:** 90081
 
 ```
-A pixel art scene of a golden labyrinth corridor in the Korean underworld treasure maze. 16-bit retro pixel art with crisp pixels and flat colors. The walls are made of stacked gold bars and coins, gleaming under their own golden light. Intricate maze passages extend in multiple directions from a junction point. The golden light reflects off every surface creating a warm overwhelming glow. Treasure piles overflow from alcoves built into the walls. Jewels and golden ornaments are scattered on the ground. Mirrors of polished gold create infinite reflections in every direction. The beauty is suspiciously perfect — thin trip wires are barely visible across the golden floor. The ceiling drips with gold that hardens into stalactites. The scene is alluring but dangerous — the wealth itself is a prison. Greed made manifest as architecture. Color palette: gold, warm yellow, amber, dark shadow pockets, silver mirror accents.
+golden labyrinth corridor, Korean underworld treasure maze, walls made of stacked gold bars and coins gleaming under own golden light, intricate maze passages extending multiple directions from junction point, golden light reflecting off every surface, warm overwhelming glow, treasure piles overflowing from wall alcoves, jewels and golden ornaments scattered on ground, mirrors of polished gold creating infinite reflections, suspiciously perfect beauty, thin trip wires barely visible across golden floor, ceiling dripping with gold hardening into stalactites, alluring but dangerous, greed made manifest as architecture, gold and warm yellow palette, amber, dark shadow pockets, silver mirror accents
 ```
 
 ---
@@ -33,7 +33,7 @@ A pixel art scene of a golden labyrinth corridor in the Korean underworld treasu
 **Seed:** 90091
 
 ```
-A pixel art scene of an infinite repeating corridor in the Korean underworld endless passage. 16-bit retro pixel art with crisp pixels and flat colors. Identical stone archways repeat perfectly into the vanishing point, stretching endlessly ahead. The geometric repetition is perfect — each arch is identical to the last. Dim uniform cold lighting comes from unseen sources embedded in the walls. There is no variation between each arch and the next. The stone floor has a perfectly regular tile pattern. Empty doorways on both sides lead to more identical corridors. No sound, no wind, no life — captured in perfect stillness. The space is claustrophobic despite being infinite. Slight gray fog makes the most distant arches fade gradually. The monotony itself is the punishment. Color palette: cold stone gray, blue-gray, muted dark tones — no warm colors at all.
+infinite repeating corridor, Korean underworld endless passage, identical stone archways repeating perfectly into vanishing point, perfect geometric repetition, dim uniform cold lighting from unseen wall sources, no variation between arches, stone floor with perfectly regular tile pattern, empty doorways on both sides leading to more identical corridors, perfect stillness, claustrophobic despite being infinite, slight gray fog making distant arches fade gradually, monotony as punishment, cold stone gray and blue-gray palette, muted dark tones, no warm colors
 ```
 
 ---
@@ -42,7 +42,7 @@ A pixel art scene of an infinite repeating corridor in the Korean underworld end
 **Seed:** 90101
 
 ```
-A pixel art scene of a city made of living shadows in the Korean underworld mirror realm. 16-bit retro pixel art with crisp pixels and flat colors. Dark building silhouettes stand against a slightly lighter dark sky. Everything is near-black — only edges and outlines are barely visible. The architecture shifts and appears unstable at its edges, as if not fully real. Reflections in the dark glossy ground show different angles than the buildings above them. Duplicate structures mirror each other on both sides of a dark street. A faint dark purple glow outlines some building edges. There are no light sources, yet somehow shapes are barely distinguishable from the background. A figure's shadow lies on the ground, but no figure casts it. The geometry is disorienting and impossible — buildings lean in wrong directions. The city watches you and copies everything you do. Color palette: pure near-black, dark purple, charcoal gray — nothing bright.
+city made of living shadows, Korean underworld mirror realm, dark building silhouettes against slightly lighter dark sky, near-black with only edges and outlines barely visible, architecture shifting and unstable at edges as if not fully real, reflections in dark glossy ground showing different angles than buildings above, duplicate structures mirroring each other on both sides of dark street, faint dark purple glow outlining some building edges, no light sources yet shapes barely distinguishable, figure shadow on ground with no figure casting it, disorienting impossible geometry, buildings leaning in wrong directions, pure near-black and dark purple palette, charcoal gray, nothing bright
 ```
 
 ---
@@ -51,7 +51,7 @@ A pixel art scene of a city made of living shadows in the Korean underworld mirr
 **Seed:** 90111
 
 ```
-A pixel art scene of a surreal chaos realm at the gate of reincarnation in the Korean underworld. Fragments of all previous realms are visible simultaneously — a piece of fiery lava landscape floats next to a golden maze wall, misty path fragments are suspended in void alongside library shelves, market lanterns hang in empty space near shadow city buildings. Reality has fractured into floating islands of different environments. Gravity shifts in multiple directions — some fragments are upside down, others tilted at impossible angles. Iridescent color shifts appear where fragments meet the void between them. Swirling energy connects the floating fragments like glowing veins. A massive glowing gate or portal is visible in the far center of the chaos. Everything known has been broken and reassembled wrong. The scene is transcendent and beyond comprehension. Color palette: all previous area palettes clashing simultaneously — gold meets lava meets shadow meets fog meets ghost fire.
+surreal chaos realm at gate of reincarnation, Korean underworld, fragments of all previous realms visible simultaneously, fiery lava landscape piece floating next to golden maze wall, misty path fragments suspended in void alongside library shelves, market lanterns hanging in empty space near shadow city buildings, reality fractured into floating islands of different environments, gravity shifting in multiple directions, some fragments upside down others at impossible angles, iridescent color shifts where fragments meet void, swirling energy connecting floating fragments like glowing veins, massive glowing gate portal in far center of chaos, everything broken and reassembled wrong, transcendent beyond comprehension, all previous area palettes clashing simultaneously, gold meets lava meets shadow meets fog meets ghost fire
 ```
 
 ---

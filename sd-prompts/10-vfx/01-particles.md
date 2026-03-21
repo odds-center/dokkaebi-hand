@@ -49,40 +49,40 @@ Compression: None
 **Seed:** 79001
 
 ```
-A single ghostly flame particle in pixel art on solid black background. Made of large visible square pixels. The flame is vivid cyan-blue pixel blocks with a brighter white-cyan core. Elongated upward teardrop shape built from stacked pixel blocks — wider at bottom, single pixel at top. Blocky jagged stair-step edges, no smooth curves. Stepped brightness: white core → cyan → dark cyan → black. A single dokkaebi ghost fire. Color: vivid cyan-blue, white-cyan center.
+single ghostly flame particle, large visible square pixels, vivid cyan-blue pixel blocks, brighter white-cyan core, elongated upward teardrop shape, stacked pixel blocks wider at bottom single pixel at top, stair-step edges, stepped brightness white core cyan dark cyan, single dokkaebi ghost fire, color vivid cyan-blue white-cyan center
 ```
 
 ### vfx_ink_bloom — 먹물 퍼짐 파티클
 **Seed:** 79002
 
 ```
-A circular ink bloom splash in pixel art on solid black background. Made of large visible square pixels. A gray-white pixel cluster with irregular blocky edges — scattered pixel blocks radiating from a bright center. The center is brightest white pixels, outer pixels are darker gray. Jagged irregular shape made of pixel blocks — not a smooth circle. Used for ink bloom effect when yokbo activates. Color: white center pixels, gray outer pixels.
+circular ink bloom splash, large visible square pixels, gray-white pixel cluster, irregular blocky edges, scattered pixel blocks radiating from bright center, brightest white center darker gray outer, jagged irregular pixel block shape not smooth circle, ink bloom effect for yokbo activation, color white center pixels gray outer pixels
 ```
 
 ### vfx_blood_splash — 핏빛 스플래시 파티클
 **Seed:** 79003
 
 ```
-A blood splash particle in pixel art on solid black background. Made of large visible square pixels. Vivid crimson red pixel blocks splattered outward — the center is bright red pixels, outer scattered single pixels in dark red. Small secondary pixel dots scattered around main cluster. Blocky jagged splash shape. Used for damage effects. Color: vivid crimson red center, dark red scattered pixels.
+blood splash particle, large visible square pixels, vivid crimson red pixel blocks splattered outward, bright red center dark red scattered outer, small secondary pixel dots around main cluster, blocky jagged splash shape, damage effect, color vivid crimson red center dark red scattered pixels
 ```
 
 ### vfx_gold_sparkle — 금빛 광채 파티클
 **Seed:** 79004
 
 ```
-A golden star sparkle particle in pixel art on solid black background. Made of large visible square pixels. A four-pointed star shape built from pixel blocks — cross pattern with single pixels extending in four directions. Bright gold center pixel, gold arm pixels extending outward. No smooth glow — stepped brightness in pixel blocks only. Classic NES/SNES sparkle effect. Color: bright gold pixels, white center pixel.
+golden star sparkle particle, large visible square pixels, four-pointed star from pixel blocks, cross pattern with single pixels extending four directions, bright gold center pixel gold arm pixels extending outward, stepped brightness no smooth glow, classic NES SNES sparkle effect, color bright gold pixels white center pixel
 ```
 
 ### vfx_burning_paper — 종이 타래 파티클
 **Seed:** 79005
 
 ```
-A burning paper fragment particle on solid black background. A small irregular rectangular shape like a piece of hanji paper that is burning at its edges. The center is cream-beige (the intact paper), the edges are charred dark brown transitioning to glowing orange where the fire is actively burning. Small ember sparks at the burning edge. Used for card destruction and deck-burning effects. Color: cream paper center, brown char edge, orange fire border.
+burning paper fragment particle, small irregular rectangular hanji paper shape, burning at edges, center cream-beige intact paper, edges charred dark brown, glowing orange active fire border, small ember sparks at burning edge, card destruction deck-burning effect, color cream paper center brown char edge orange fire border
 ```
 
 ### vfx_smoke_wisp — 연기/안개 파티클
 **Seed:** 79006
 
 ```
-A smoke wisp particle in pixel art on solid black background. Made of large visible square pixels. A loose cluster of gray pixel blocks — not a solid shape but scattered pixels forming a rough cloud. Lighter gray pixels at center, darker gray single pixels at edges. Blocky and chunky — clearly pixel art, not smooth fog. Used for smoke, ghost effects, atmosphere. Color: light gray center pixels, dark gray scattered edge pixels.
+smoke wisp particle, large visible square pixels, loose cluster of gray pixel blocks, not solid shape scattered pixels forming rough cloud, lighter gray center darker gray edges, blocky chunky clearly pixel art not smooth fog, smoke ghost atmosphere effect, color light gray center pixels dark gray scattered edge pixels
 ```

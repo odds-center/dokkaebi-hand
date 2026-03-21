@@ -33,9 +33,10 @@ score_9, score_8_up, score_7_up, pixel art, game assets, chibi, wide 16:9 landsc
 score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
-### 중요: 모든 배경 개별 프롬프트에도 "pixel art" 스타일을 반복 명시할 것
-Pony는 프롬프트 앞부분에 집중하므로, 개별 프롬프트 첫 문장에
-"A pixel art scene of..." 형태로 시작하는 것이 안전하다.
+### 중요: 공통 프리픽스에 "pixel art" 등 스타일 태그가 이미 포함됨
+개별 프롬프트는 Pony 태그 스타일(쉼표 구분)로 작성하며,
+"pixel art", "flat colors", "no anti-aliasing", "16:9", "no characters" 등은
+공통 프리픽스에 포함되어 있으므로 개별 프롬프트에서 반복하지 않는다.
 
 ## 후처리
 

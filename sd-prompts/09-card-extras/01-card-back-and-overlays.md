@@ -23,7 +23,7 @@ Batch: 8장
 **Seed:** 78001
 
 ```
-A low-resolution pixel art hwatu card back design, made of large visible square pixels where each pixel is clearly distinguishable. Drawn on a 32x45 pixel grid. Blocky jagged edges, no smooth curves, no anti-aliasing, no gradients, no blending between pixels. The design features a traditional Korean taegeuk (yin-yang) symbol at the center in red and blue, surrounded by a circular border of eight trigram (팔괘) symbols. The background is aged hanji paper cream-ivory color with subtle paper fiber texture. A decorative geometric border pattern frames the entire design — traditional Korean interlocking rectangular pattern in dark navy and gold. Four small cyan dokkaebi ghost flames sit in each corner as underworld accents. The overall impression is a blend of traditional Korean cosmology and supernatural underworld energy. All elements are fully contained within the image with comfortable margins. Bold flat colors with thick black outlines throughout. Color palette: cream hanji background, red-blue taegeuk, dark navy border, gold accents, cyan ghost flames.
+hwatu card back design, 32x45 pixel grid, large visible square pixels, taegeuk yin-yang symbol at center in red and blue, circular border of eight trigram symbols, aged hanji paper cream-ivory background, subtle paper fiber texture, decorative geometric border pattern, traditional Korean interlocking rectangular pattern in dark navy and gold, four small cyan dokkaebi ghost flames in each corner, blend of traditional Korean cosmology and supernatural underworld energy, bold flat colors
 ```
 
 ### 후처리
@@ -70,35 +70,35 @@ score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth 
 **Seed:** 78011
 
 ```
-A simple thin dark border frame with no special effects. Plain clean edge — just a basic card outline. Single tiny star symbol at the bottom center. Minimal and understated. Most of the image is empty transparent space. Color: dark navy thin border.
+simple thin dark border frame, no special effects, plain clean edge basic card outline, single tiny star symbol at bottom center, minimal understated, mostly empty transparent space, color dark navy thin border
 ```
 
 ### enhance_tier1 — 연마 (★★)
 **Seed:** 78012
 
 ```
-A slightly thicker border frame with a faint warm glow along the edges. The border has subtle metallic bronze shimmer. Two small star symbols at the bottom center. A very faint warm amber aura hugs the border corners. Most of the image is empty transparent space — only edges glow. Color: warm bronze border with amber edge glow.
+slightly thicker border frame, faint warm glow along edges, subtle metallic bronze shimmer, two small star symbols at bottom center, very faint warm amber aura at border corners, mostly empty transparent space, color warm bronze border amber edge glow
 ```
 
 ### enhance_tier2 — 신통 (★★★)
 **Seed:** 78013
 
 ```
-A glowing border frame with visible silver-blue energy running along the edges. Small sparkle particles appear at the four corners. Three star symbols at the bottom glow faintly. The border pulses with a subtle inner light. The energy effect stays tightly on the border — the center is completely clear. Color: silver-blue glowing border, sparkle white corners.
+glowing border frame, visible silver-blue energy running along edges, small sparkle particles at four corners, three star symbols at bottom glowing faintly, border pulsing with subtle inner light, energy stays tightly on border center completely clear, color silver-blue glowing border sparkle white corners
 ```
 
 ### enhance_tier3 — 전설 (★★★★)
 **Seed:** 78014
 
 ```
-A dramatic golden border frame with brilliant golden energy flowing along all edges. The corners have ornate golden filigree decorations that extend slightly inward. Four star symbols at the bottom blaze with gold light. Faint golden particles drift along the border. The border itself appears to be made of liquid gold. Center is completely clear — only edges are decorated. Color: brilliant gold border, warm golden particles, ornate corner decorations.
+dramatic golden border frame, brilliant golden energy flowing along all edges, ornate golden filigree decorations at corners extending slightly inward, four star symbols at bottom blazing gold light, faint golden particles along border, border of liquid gold, center completely clear edges only, color brilliant gold border warm golden particles ornate corner decorations
 ```
 
 ### enhance_tier4 — 해탈 (★★★★★)
 **Seed:** 78015
 
 ```
-A transcendent border frame with prismatic rainbow energy flowing along all edges. The corners have lotus flower motifs radiating divine light. Five star symbols at the bottom blaze with white-gold brilliance. The border shimmers with iridescent colors that shift between gold, white, and celestial blue. Faint mandala patterns appear in the corner decorations. This is the maximum tier — nirvana achieved. Center is completely clear. Color: prismatic iridescent border, white-gold stars, lotus corner motifs.
+transcendent border frame, prismatic rainbow energy flowing along all edges, lotus flower motifs at corners radiating divine light, five star symbols at bottom blazing white-gold brilliance, iridescent shimmer shifting gold white celestial blue, faint mandala patterns in corner decorations, maximum tier nirvana achieved, center completely clear, color prismatic iridescent border white-gold stars lotus corner motifs
 ```
 
 ### 오버레이 후처리

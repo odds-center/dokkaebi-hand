@@ -21,14 +21,14 @@
 **Seed:** 90051
 
 ```
-A pixel art scene of a grand throne room of the Korean underworld king. 16-bit retro pixel art with crisp pixels and flat colors. A massive judgment hall with towering golden pillars lining both sides. An ornate jade throne sits centered on an elevated stone platform at the far end, with wide stone steps leading up to it. A dramatic golden light beam streams down from high above, illuminating the throne directly. Gold particles float in the light beam like divine dust. Hell murals depicting judgment scenes are painted on both side walls. The dark ceiling vanishes into deep shadows far above the light. The polished dark stone floor reflects the golden light. Blood red silk banners hang from the pillars. Faint wisps of spirit energy are visible at the very edges of the room. The sense of absolute divine authority and final judgment fills the space. The room's scale dwarfs any human who might stand in it. Color palette: gold, blood red, deep black, dark purple, stone gray.
+grand throne room of Korean underworld king, massive judgment hall, towering golden pillars lining both sides, ornate jade throne on elevated stone platform at far end, wide stone steps leading up to throne, dramatic golden light beam from high above illuminating throne, gold particles floating in light beam like divine dust, hell murals depicting judgment scenes on side walls, dark ceiling vanishing into deep shadows, polished dark stone floor reflecting golden light, blood red silk banners hanging from pillars, faint wisps of spirit energy at room edges, absolute divine authority atmosphere, overwhelming scale, gold and blood red palette, deep black, dark purple, stone gray
 ```
 
 ## 프롬프트 B (업경대 — 업의 거울)
 **Seed:** 90052
 
 ```
-A pixel art scene of a massive ornate mirror standing in a dark palace hall in the Korean underworld. This is the karma mirror — the 업경대 — that reflects the sins of the dead. The mirror has an intricate golden frame with dragon and phoenix carvings. The mirror surface shows swirling ghostly images within, like trapped memories. Golden light emanates from the mirror surface itself, illuminating the surrounding dark hall. Tall golden pillars flank the mirror on each side. The stone floor has engraved judgment symbols. Blood red light mixes with gold from the mirror's reflections. Incense burners on pedestals release thin trails of smoke on either side. The mirror sees everything and forgives nothing. The overwhelming sense of being watched and judged fills the scene. Color palette: mirror silver, gold, blood red, obsidian black.
+massive ornate karma mirror in dark palace hall, Korean underworld, intricate golden frame with dragon and phoenix carvings, mirror surface showing swirling ghostly images like trapped memories, golden light emanating from mirror surface illuminating dark hall, tall golden pillars flanking mirror on each side, stone floor with engraved judgment symbols, blood red light mixing with gold from mirror reflections, incense burners on pedestals releasing thin smoke trails, overwhelming sense of being watched and judged, mirror silver and gold palette, blood red, obsidian black
 ```
 
 ---
