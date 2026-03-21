@@ -2,6 +2,12 @@
 
 > **아이작 스타일** — 1:1 정사각, 투명 배경, 오브젝트만. 심플한 도트 실루엣.
 
+## 공통 네거티브 프롬프트 (모든 섹션에 적용)
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
+```
+
 ---
 
 ## 1. 통화 아이콘 (2종)

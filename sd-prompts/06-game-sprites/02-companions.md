@@ -21,6 +21,12 @@ Batch: 4~8장
 score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, small friendly companion sprite, tamed Korean dokkaebi, loyal helpful expression, smaller than boss version, front-facing centered, flat colors, thick black outlines, dark fantasy, fully contained with margins, character only
 ```
 
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
+```
+
 ## 후처리
 
 ```
