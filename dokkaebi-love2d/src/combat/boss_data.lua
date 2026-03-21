@@ -53,7 +53,7 @@ local all_bosses = {
     BossDefinition({
         id = "glutton", name = "Glutton Dokkaebi", name_kr = "먹보 도깨비",
         description = "2턴마다 손패 중 최고가치 패 1장을 먹어치운다",
-        target_score = 260, rounds = 5, tier = "normal",
+        target_score = 210, rounds = 7, tier = "normal",
         gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 2,
         intro_dialogue = "크하하! 네 패에서 맛있는 냄새가 나는구나!",
         defeat_dialogue = "으억... 배가 너무 불러...",
@@ -65,7 +65,7 @@ local all_bosses = {
     BossDefinition({
         id = "trickster", name = "Trickster Dokkaebi", name_kr = "장난꾸러기 도깨비",
         description = "2턴마다 패를 뒤집는다",
-        target_score = 310, rounds = 5, tier = "normal",
+        target_score = 210, rounds = 7, tier = "normal",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 2,
         intro_dialogue = "히히히! 눈 감고 쳐봐라~!",
         defeat_dialogue = "에잇, 네 눈이 너무 좋구나!",
@@ -77,7 +77,7 @@ local all_bosses = {
     BossDefinition({
         id = "thief", name = "Thief Dokkaebi", name_kr = "도둑 도깨비",
         description = "2턴마다 먹은 패 중 1장을 훔쳐간다",
-        target_score = 290, rounds = 5, tier = "normal",
+        target_score = 200, rounds = 7, tier = "normal",
         gimmick = BossGimmick.StealCard, gimmick_interval = 2,
         intro_dialogue = "쉿! 가만히 있어봐... 슬쩍~",
         defeat_dialogue = "이런... 손이 느려졌나...",
@@ -91,7 +91,7 @@ local all_bosses = {
     BossDefinition({
         id = "flame", name = "Flame Dokkaebi", name_kr = "불꽃 도깨비",
         description = "3턴마다 바닥패를 전부 불태워 리셋한다",
-        target_score = 370, rounds = 5, tier = "normal",
+        target_score = 230, rounds = 7, tier = "normal",
         gimmick = BossGimmick.ResetField, gimmick_interval = 3,
         intro_dialogue = "타오르는 화투판... 재밌지 않나?",
         defeat_dialogue = "꺼져가는 불꽃... 인정한다...",
@@ -103,7 +103,7 @@ local all_bosses = {
     BossDefinition({
         id = "fog", name = "Fog Dokkaebi", name_kr = "안개 도깨비",
         description = "바닥패 절반이 안개에 가려 보이지 않는다",
-        target_score = 360, rounds = 5, tier = "normal",
+        target_score = 220, rounds = 7, tier = "normal",
         gimmick = BossGimmick.Fog, gimmick_interval = 1,
         intro_dialogue = "앞이 보이지 않는다... 안개가 너를 삼킨다...",
         defeat_dialogue = "안개가... 걷히는구나...",
@@ -115,7 +115,7 @@ local all_bosses = {
     BossDefinition({
         id = "fox", name = "Fox Dokkaebi", name_kr = "여우 도깨비",
         description = "매 2턴마다 바닥패 2장의 월을 변경한다",
-        target_score = 440, rounds = 5, tier = "normal",
+        target_score = 280, rounds = 7, tier = "normal",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 2,
         intro_dialogue = "후후... 눈을 잘 떠야 할 거야.",
         defeat_dialogue = "아이고... 꼬리가 잡혔네...",
@@ -129,7 +129,7 @@ local all_bosses = {
     BossDefinition({
         id = "shadow", name = "Shadow Dokkaebi", name_kr = "그림자 도깨비",
         description = "부적 1개를 랜덤으로 비활성화한다",
-        target_score = 480, rounds = 5, tier = "elite",
+        target_score = 350, rounds = 6, tier = "elite",
         gimmick = BossGimmick.DisableTalisman, gimmick_interval = 2,
         intro_dialogue = "그림자가 너의 힘을 삼켜가고 있다...",
         defeat_dialogue = "빛이... 너무 밝다...",
@@ -141,7 +141,7 @@ local all_bosses = {
     BossDefinition({
         id = "mirror", name = "Mirror Dokkaebi", name_kr = "거울 도깨비",
         description = "플레이어의 족보를 복사해 반격한다",
-        target_score = 490, rounds = 6, tier = "elite",
+        target_score = 380, rounds = 6, tier = "elite",
         gimmick = BossGimmick.MirrorCopy, gimmick_interval = 1,
         intro_dialogue = "네 힘이 곧 나의 힘...",
         defeat_dialogue = "거울이... 깨진다...",
@@ -153,7 +153,7 @@ local all_bosses = {
     BossDefinition({
         id = "curse_ghost", name = "Curse Ghost", name_kr = "원귀 도깨비",
         description = "매 턴 저주 표식 1개 누적. 5개 모이면 즉사.",
-        target_score = 460, rounds = 5, tier = "elite",
+        target_score = 340, rounds = 6, tier = "elite",
         gimmick = BossGimmick.CurseMark, gimmick_interval = 1,
         intro_dialogue = "한...을... 풀어야...한다...",
         defeat_dialogue = "드디어... 한이... 풀린다...",
@@ -165,7 +165,7 @@ local all_bosses = {
     BossDefinition({
         id = "viper", name = "Viper Dokkaebi", name_kr = "독사 도깨비",
         description = "피 카드에 독을 부여. 독 피를 먹으면 칩 -20",
-        target_score = 440, rounds = 5, tier = "elite",
+        target_score = 320, rounds = 6, tier = "elite",
         gimmick = BossGimmick.PoisonPi, gimmick_interval = 1,
         intro_dialogue = "스스스... 피 카드를 조심해라...",
         defeat_dialogue = "크윽... 독이 역류한다...",
@@ -179,7 +179,7 @@ local all_bosses = {
     BossDefinition({
         id = "volcano", name = "Volcano Dokkaebi", name_kr = "화산 도깨비",
         description = "매 2턴 바닥패 전체 소각 + 랜덤 리필",
-        target_score = 540, rounds = 6, tier = "elite",
+        target_score = 420, rounds = 7, tier = "elite",
         gimmick = BossGimmick.ResetField, gimmick_interval = 2,
         intro_dialogue = "뜨거운 용암 위에서 패를 쳐볼 테냐!",
         defeat_dialogue = "크윽... 식어간다...",
@@ -191,7 +191,7 @@ local all_bosses = {
     BossDefinition({
         id = "gold", name = "Golden Dokkaebi", name_kr = "황금 도깨비",
         description = "3턴마다 최고 패 소멸. 강하지만 보상도 크다",
-        target_score = 600, rounds = 6, tier = "elite",
+        target_score = 450, rounds = 7, tier = "elite",
         gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 3,
         intro_dialogue = "금으로 된 패를 원하느냐? 그럼 이겨봐라!",
         defeat_dialogue = "내 금은보화를... 가져가거라...",
@@ -203,7 +203,7 @@ local all_bosses = {
     BossDefinition({
         id = "corridor", name = "Corridor Dokkaebi", name_kr = "회랑 도깨비",
         description = "매 턴 패를 뒤집는다",
-        target_score = 580, rounds = 6, tier = "elite",
+        target_score = 430, rounds = 7, tier = "elite",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 1,
         intro_dialogue = "이 끝없는 회랑에서 빠져나갈 수 있겠느냐...",
         defeat_dialogue = "길을 찾다니... 대단하구나...",
@@ -215,7 +215,7 @@ local all_bosses = {
     BossDefinition({
         id = "clock", name = "Clock Dokkaebi", name_kr = "저승시계 도깨비",
         description = "각 판 턴 수가 제한된다. 시간이 다하면 즉사!",
-        target_score = 560, rounds = 5, tier = "elite",
+        target_score = 400, rounds = 6, tier = "elite",
         gimmick = BossGimmick.TimePressure, gimmick_interval = 1,
         intro_dialogue = "째깍째깍... 네 시간은 얼마 남지 않았다...",
         defeat_dialogue = "시간의 모래가... 다 떨어졌구나...",
@@ -227,7 +227,7 @@ local all_bosses = {
     BossDefinition({
         id = "bone_shaman", name = "Bone Shaman", name_kr = "뼈무당 도깨비",
         description = "부적 2개 비활성 + 3턴마다 패 1장 소멸",
-        target_score = 610, rounds = 6, tier = "elite",
+        target_score = 460, rounds = 7, tier = "elite",
         gimmick = BossGimmick.DisableTalisman, gimmick_interval = 1,
         intro_dialogue = "뼈 점을 쳐보마... 네 운명은 이미 정해졌다!",
         defeat_dialogue = "뼈가 거짓말을 했구나...",
@@ -239,7 +239,7 @@ local all_bosses = {
     BossDefinition({
         id = "blood_rain", name = "Blood Rain Dokkaebi", name_kr = "혈우 도깨비",
         description = "매 턴 피 카드에 저주. 피 3장 이상 보유 시 칩 -50",
-        target_score = 630, rounds = 6, tier = "elite",
+        target_score = 470, rounds = 7, tier = "elite",
         gimmick = BossGimmick.PoisonPi, gimmick_interval = 1,
         intro_dialogue = "핏빛 비가 내린다... 아름답지 않느냐?",
         defeat_dialogue = "피의 비가... 그치는구나...",
@@ -251,7 +251,7 @@ local all_bosses = {
     BossDefinition({
         id = "nightmare", name = "Nightmare Dokkaebi", name_kr = "악몽 도깨비",
         description = "손패 3장이 항상 뒤집혀 있다. 3턴마다 바닥패 셔플",
-        target_score = 650, rounds = 6, tier = "elite",
+        target_score = 480, rounds = 7, tier = "elite",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 3,
         intro_dialogue = "잠들어라... 악몽에서는 아무것도 보이지 않는다...",
         defeat_dialogue = "악몽에서... 깨어났구나...",
@@ -265,7 +265,7 @@ local all_bosses = {
     BossDefinition({
         id = "wonhon", name = "Wandering Spirit", name_kr = "떠도는 원혼",
         description = "매 턴 저주 표식 누적. 4개 모이면 손패 절반 소멸",
-        target_score = 340, rounds = 5, tier = "normal",
+        target_score = 200, rounds = 7, tier = "normal",
         gimmick = BossGimmick.CurseMark, gimmick_interval = 1,
         intro_dialogue = "이승이 그립다... 너의 패를 빌려다오...",
         defeat_dialogue = "고맙다... 이제 쉴 수 있겠구나...",
@@ -277,7 +277,7 @@ local all_bosses = {
     BossDefinition({
         id = "jeoseung_saja", name = "Reaper", name_kr = "저승사자",
         description = "매 3턴 최고가치 패 1장 차압. 부적도 1개 봉인",
-        target_score = 600, rounds = 6, tier = "elite",
+        target_score = 450, rounds = 7, tier = "elite",
         gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 3,
         intro_dialogue = "때가 됐다. 명부에 네 이름이 적혀 있다.",
         defeat_dialogue = "...명부를 다시 확인해야겠군.",
@@ -291,7 +291,7 @@ local all_bosses = {
     BossDefinition({
         id = "gumiho", name = "Gumiho", name_kr = "구미호",
         description = "패 2장을 가짜로 바꾼다. 가짜 패 사용 시 칩 -30",
-        target_score = 410, rounds = 5, tier = "normal",
+        target_score = 260, rounds = 7, tier = "normal",
         gimmick = BossGimmick.FakeCards, gimmick_interval = 2,
         intro_dialogue = "예쁜 아가씨인 줄 알았지? 후후...",
         defeat_dialogue = "꼬리가 밟혔구나...",
@@ -303,7 +303,7 @@ local all_bosses = {
     BossDefinition({
         id = "haetae", name = "Haetae", name_kr = "해태",
         description = "불 속성 족보(홍단,화산 등) 피해를 흡수한다",
-        target_score = 510, rounds = 5, tier = "elite",
+        target_score = 380, rounds = 6, tier = "elite",
         gimmick = BossGimmick.None, gimmick_interval = 1,
         intro_dialogue = "불을 다스리는 자, 해태가 왔다.",
         defeat_dialogue = "네 화기가... 대단하구나...",
@@ -315,7 +315,7 @@ local all_bosses = {
     BossDefinition({
         id = "bulgasari", name = "Bulgasari", name_kr = "불가사리",
         description = "철을 먹는 괴수. 매 턴 엽전 5냥 소모",
-        target_score = 480, rounds = 5, tier = "elite",
+        target_score = 350, rounds = 6, tier = "elite",
         gimmick = BossGimmick.StealCard, gimmick_interval = 1,
         intro_dialogue = "쇠든 뭐든... 다 먹어치운다!",
         defeat_dialogue = "더는... 먹을 수가 없다...",
@@ -329,7 +329,7 @@ local all_bosses = {
     BossDefinition({
         id = "san_shin", name = "Mountain God", name_kr = "산신령",
         description = "산의 축복: 자연 족보(봄/여름/가을/겨울) 위력 반감",
-        target_score = 580, rounds = 6, tier = "elite",
+        target_score = 430, rounds = 7, tier = "elite",
         gimmick = BossGimmick.DisableTalisman, gimmick_interval = 2,
         intro_dialogue = "이 산에 들어온 이상... 내 규칙을 따라야 한다.",
         defeat_dialogue = "허허... 산을 넘었구나. 대단한 놈이야.",
@@ -341,7 +341,7 @@ local all_bosses = {
     BossDefinition({
         id = "yongwang", name = "Dragon King", name_kr = "용왕",
         description = "비 광 효과 무효화. 매 2턴 패 2장 물에 잠김(사용불가)",
-        target_score = 680, rounds = 6, tier = "elite",
+        target_score = 500, rounds = 7, tier = "elite",
         gimmick = BossGimmick.Fog, gimmick_interval = 2,
         intro_dialogue = "바다의 지배자 앞에서 감히!",
         defeat_dialogue = "파도가... 잠잠해지는구나...",
@@ -353,7 +353,7 @@ local all_bosses = {
     BossDefinition({
         id = "cheonji_ma", name = "Heaven-Earth Demon", name_kr = "천지마",
         description = "홀수턴 광 봉인, 짝수턴 띠 봉인. 번갈아 제한",
-        target_score = 650, rounds = 6, tier = "elite",
+        target_score = 480, rounds = 7, tier = "elite",
         gimmick = BossGimmick.NoBright, gimmick_interval = 1,
         intro_dialogue = "하늘과 땅 사이... 네가 설 곳은 없다!",
         defeat_dialogue = "천지가... 흔들린다...",
@@ -367,7 +367,7 @@ local all_bosses = {
     BossDefinition({
         id = "tal_gwangdae", name = "Masked Jester", name_kr = "탈 광대",
         description = "매 턴 랜덤 카드 2장의 월을 바꾼다",
-        target_score = 420, rounds = 5, tier = "normal",
+        target_score = 270, rounds = 7, tier = "normal",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 1,
         intro_dialogue = "하하하! 어디 구경 좀 하자!",
         defeat_dialogue = "탈이... 벗겨졌구나... 아아...",
@@ -379,7 +379,7 @@ local all_bosses = {
     BossDefinition({
         id = "dalgyal", name = "Egg Ghost", name_kr = "달걀귀신",
         description = "눈코입 없는 귀신. 패 정보가 일부 가려진다",
-        target_score = 320, rounds = 5, tier = "normal",
+        target_score = 190, rounds = 7, tier = "normal",
         gimmick = BossGimmick.Fog, gimmick_interval = 1,
         intro_dialogue = ".........",
         defeat_dialogue = "......!!",
@@ -391,7 +391,7 @@ local all_bosses = {
     BossDefinition({
         id = "mul_gwishin", name = "Water Ghost", name_kr = "물귀신",
         description = "매 턴 손패 1장을 물 속으로 끌어간다(소멸)",
-        target_score = 390, rounds = 5, tier = "normal",
+        target_score = 250, rounds = 7, tier = "normal",
         gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 1,
         intro_dialogue = "같이... 물 속으로... 들어가자...",
         defeat_dialogue = "혼자... 가야 하는구나...",
@@ -405,7 +405,7 @@ local all_bosses = {
     BossDefinition({
         id = "mansin", name = "Shaman", name_kr = "무당",
         description = "매 2턴 부적 효과 반전. 버프가 디버프로 바뀐다",
-        target_score = 420, rounds = 5, tier = "normal",
+        target_score = 270, rounds = 7, tier = "normal",
         gimmick = BossGimmick.DisableTalisman, gimmick_interval = 2,
         intro_dialogue = "신이 내린다... 네 부적은 무용지물이야!",
         defeat_dialogue = "신이... 떠나간다...",
@@ -417,7 +417,7 @@ local all_bosses = {
     BossDefinition({
         id = "myeongbu_gwanri", name = "Underworld Clerk", name_kr = "명부 관리",
         description = "매 턴 족보 1개를 무작위로 금지시킨다",
-        target_score = 530, rounds = 5, tier = "elite",
+        target_score = 400, rounds = 6, tier = "elite",
         gimmick = BossGimmick.Suppress, gimmick_interval = 1,
         intro_dialogue = "명부에 따르면... 이 족보는 사용 불가다.",
         defeat_dialogue = "명부가... 찢어졌구나...",
@@ -443,7 +443,7 @@ local all_bosses = {
     BossDefinition({
         id = "samjokgu", name = "Three-Legged Dog", name_kr = "삼족구",
         description = "3의 배수 턴마다 바닥패 전체 리셋",
-        target_score = 370, rounds = 5, tier = "normal",
+        target_score = 230, rounds = 7, tier = "normal",
         gimmick = BossGimmick.ResetField, gimmick_interval = 3,
         intro_dialogue = "왈왈! 이 저승의 문지기를 넘어볼 테냐!",
         defeat_dialogue = "낑낑... 강한 놈이구나...",
@@ -455,7 +455,7 @@ local all_bosses = {
     BossDefinition({
         id = "baeksa", name = "White Serpent", name_kr = "백사",
         description = "독안개: 바닥패 절반 숨김 + 피 카드 독 부여",
-        target_score = 560, rounds = 6, tier = "elite",
+        target_score = 420, rounds = 7, tier = "elite",
         gimmick = BossGimmick.PoisonPi, gimmick_interval = 1,
         intro_dialogue = "스스스... 천년을 살았다... 네가 무섭지 않아...",
         defeat_dialogue = "스스... 이번은 인정하마...",
@@ -467,7 +467,7 @@ local all_bosses = {
     BossDefinition({
         id = "cheolma", name = "Iron Horse Demon", name_kr = "철마",
         description = "매 턴 엽전 8냥 소모. 6턴 안에 못 잡으면 파산",
-        target_score = 510, rounds = 6, tier = "elite",
+        target_score = 380, rounds = 6, tier = "elite",
         gimmick = BossGimmick.StealCard, gimmick_interval = 1,
         intro_dialogue = "히히힝! 네 재물을 전부 밟아버리겠다!",
         defeat_dialogue = "크윽... 멈출 수가...",
@@ -479,7 +479,7 @@ local all_bosses = {
     BossDefinition({
         id = "duggaebi", name = "Toad Spirit", name_kr = "두꺼비 정령",
         description = "매 2턴 피 카드 1장을 금 카드로 변환 (도박)",
-        target_score = 340, rounds = 5, tier = "normal",
+        target_score = 200, rounds = 7, tier = "normal",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 2,
         intro_dialogue = "개골개골... 금두꺼비가 복을 가져다준다구?",
         defeat_dialogue = "개골... 금이 다 떨어졌다...",
@@ -493,7 +493,7 @@ local all_bosses = {
     BossDefinition({
         id = "taepoong", name = "Typhoon Spirit", name_kr = "태풍귀",
         description = "매 턴 손패 전체 셔플 + 선택 카드 해제",
-        target_score = 460, rounds = 5, tier = "elite",
+        target_score = 340, rounds = 6, tier = "elite",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 1,
         intro_dialogue = "회오리바람이 모든 것을 쓸어간다!",
         defeat_dialogue = "바람이... 잠잠해진다...",
@@ -505,7 +505,7 @@ local all_bosses = {
     BossDefinition({
         id = "jisin", name = "Earthquake Spirit", name_kr = "지진귀",
         description = "3턴마다 바닥패+손패 전체 흔들림(순서 변경)",
-        target_score = 440, rounds = 5, tier = "normal",
+        target_score = 280, rounds = 7, tier = "normal",
         gimmick = BossGimmick.ResetField, gimmick_interval = 3,
         intro_dialogue = "우르르르릉! 땅이 갈라진다!",
         defeat_dialogue = "균열이... 메워지는구나...",
@@ -519,7 +519,7 @@ local all_bosses = {
     BossDefinition({
         id = "kkum_gwishin", name = "Dream Ghost", name_kr = "꿈귀신",
         description = "매 턴 손패 2장이 랜덤으로 바뀐다 (환각)",
-        target_score = 410, rounds = 5, tier = "normal",
+        target_score = 260, rounds = 7, tier = "normal",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 1,
         intro_dialogue = "이것은 꿈일까... 현실일까...",
         defeat_dialogue = "꿈에서... 깨어났구나...",
@@ -531,7 +531,7 @@ local all_bosses = {
     BossDefinition({
         id = "geoulgwi", name = "Mirror Demon", name_kr = "거울귀",
         description = "플레이어의 마지막 족보를 복사해 칩 -30 반격",
-        target_score = 540, rounds = 6, tier = "elite",
+        target_score = 420, rounds = 7, tier = "elite",
         gimmick = BossGimmick.MirrorCopy, gimmick_interval = 1,
         intro_dialogue = "네 모습이 보인다... 똑같이 해주마!",
         defeat_dialogue = "거울이... 산산조각...",
@@ -543,7 +543,7 @@ local all_bosses = {
     BossDefinition({
         id = "mangja_wang", name = "King of the Dead", name_kr = "망자왕",
         description = "저주 표식 + 부적 봉인 + 피 카드 독. 복합 기믹",
-        target_score = 710, rounds = 6, tier = "elite",
+        target_score = 520, rounds = 7, tier = "elite",
         gimmick = BossGimmick.CurseMark, gimmick_interval = 1,
         intro_dialogue = "모든 망자의 왕이 왔다... 무릎 꿇어라!",
         defeat_dialogue = "왕좌가... 흔들린다...",
@@ -555,7 +555,7 @@ local all_bosses = {
     BossDefinition({
         id = "cheonnyeon_namu", name = "Millennium Tree", name_kr = "천년 고목",
         description = "매 턴 뿌리가 패 1장을 감싼다(사용불가). 느리지만 강함",
-        target_score = 680, rounds = 7, tier = "elite",
+        target_score = 500, rounds = 7, tier = "elite",
         gimmick = BossGimmick.Fog, gimmick_interval = 1,
         intro_dialogue = "천 년을 이 자리에 있었다... 서두를 것 없다...",
         defeat_dialogue = "뿌리가... 마침내... 풀린다...",
@@ -567,7 +567,7 @@ local all_bosses = {
     BossDefinition({
         id = "bul_dokkebi", name = "Fire Will-o-Wisp", name_kr = "도깨비불",
         description = "매 턴 랜덤 카드 1장 소각. 소각된 카드는 엽전 +3",
-        target_score = 360, rounds = 5, tier = "normal",
+        target_score = 220, rounds = 7, tier = "normal",
         gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 1,
         intro_dialogue = "일렁일렁... 따라오면 안 돼...",
         defeat_dialogue = "꺼져간다... 일렁...",
@@ -575,6 +575,202 @@ local all_bosses = {
         yeop_reward = 28,
         body_color = {0.10, 0.30, 0.60}, head_color = {0.15, 0.40, 0.75},
         horn_color = {0.25, 0.55, 0.90}, eye_color = {0.3, 0.8, 1.0},
+    }),
+
+    -- ═══════════════════════════════════════════════
+    -- 변형 보스 — 같은 종류의 상위/하위 개체
+    -- ═══════════════════════════════════════════════
+
+    -- ── 저승사자 변형 ──
+    BossDefinition({
+        id = "gwangpok_saja", name = "Berserk Reaper", name_kr = "광폭한 저승사자",
+        description = "폭주 상태. 매 턴 손패 2장 소멸 + 반격 데미지 2배",
+        target_score = 480, rounds = 5, tier = "elite",
+        gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 1,
+        intro_dialogue = "명부 따위는 집어치워!! 다 잡아간다!!",
+        defeat_dialogue = "크윽... 분노가... 식는다...",
+        victory_dialogue = "이승이고 저승이고 다 부숴버리겠다!!",
+        yeop_reward = 65, drops_legendary_talisman = true,
+        body_color = {0.15, 0.02, 0.02}, head_color = {0.20, 0.03, 0.03},
+        horn_color = {0.50, 0.10, 0.05}, eye_color = {1.0, 0.0, 0.0},
+    }),
+    BossDefinition({
+        id = "naenghyeol_saja", name = "Cold Reaper", name_kr = "냉혈한 저승사자",
+        description = "감정이 없다. 매 2턴 부적 1개 영구 봉인",
+        target_score = 420, rounds = 6, tier = "elite",
+        gimmick = BossGimmick.DisableTalisman, gimmick_interval = 2,
+        intro_dialogue = "...감정은 사치다. 명부에 적힌 대로 할 뿐.",
+        defeat_dialogue = "...기록을 수정해야겠군.",
+        victory_dialogue = "감정 따위 없이도 너를 데려갈 수 있다.",
+        yeop_reward = 58,
+        body_color = {0.03, 0.05, 0.12}, head_color = {0.05, 0.08, 0.18},
+        horn_color = {0.10, 0.15, 0.30}, eye_color = {0.4, 0.6, 1.0},
+    }),
+    BossDefinition({
+        id = "eolin_saja", name = "Young Reaper", name_kr = "풋내기 저승사자",
+        description = "경험이 부족하다. 기믹 없음. 대신 HP가 낮다",
+        target_score = 200, rounds = 5, tier = "normal",
+        gimmick = BossGimmick.None, gimmick_interval = 1,
+        intro_dialogue = "처, 처음이라 긴장되네... 순순히 따라와!",
+        defeat_dialogue = "으악! 선배한테 혼나겠다...",
+        victory_dialogue = "드, 드디어 첫 임무 성공!",
+        yeop_reward = 25,
+        body_color = {0.08, 0.08, 0.12}, head_color = {0.12, 0.12, 0.18},
+        horn_color = {0.20, 0.20, 0.25}, eye_color = {0.6, 0.6, 0.8},
+    }),
+
+    -- ── 구미호 변형 ──
+    BossDefinition({
+        id = "cheonnyeon_gumiho", name = "Ancient Gumiho", name_kr = "천년 구미호",
+        description = "패 3장을 가짜로 바꾼다. 가짜 사용 시 칩 -50",
+        target_score = 450, rounds = 6, tier = "elite",
+        gimmick = BossGimmick.FakeCards, gimmick_interval = 1,
+        intro_dialogue = "천 년을 살면... 무엇이든 될 수 있지...",
+        defeat_dialogue = "천 년의 수련이... 부족했던가...",
+        victory_dialogue = "간을 내놓거라... 천 년을 더 살아야 하니까...",
+        yeop_reward = 62,
+        body_color = {0.85, 0.55, 0.15}, head_color = {0.95, 0.65, 0.20},
+        horn_color = {1.0, 0.85, 0.45}, eye_color = {0.2, 1.0, 0.5},
+    }),
+    BossDefinition({
+        id = "baek_gumiho", name = "White Gumiho", name_kr = "백구미호",
+        description = "아름다운 환술. 매 턴 손패 셔플 + 바닥패 숨김",
+        target_score = 380, rounds = 6, tier = "elite",
+        gimmick = BossGimmick.Fog, gimmick_interval = 1,
+        intro_dialogue = "이리 오렴... 예쁜 아이...",
+        defeat_dialogue = "아아... 내 아름다움이...",
+        victory_dialogue = "영원히 내 곁에 있으렴...",
+        yeop_reward = 55,
+        body_color = {0.90, 0.85, 0.80}, head_color = {0.95, 0.92, 0.88},
+        horn_color = {1.0, 0.95, 0.90}, eye_color = {0.9, 0.3, 0.5},
+    }),
+
+    -- ── 도깨비 변형 ──
+    BossDefinition({
+        id = "bul_dokkaebi", name = "Fire Dokkaebi", name_kr = "화염 도깨비",
+        description = "매 턴 카드 1장 소각 + 바닥패 리셋. 파괴의 화신",
+        target_score = 400, rounds = 5, tier = "elite",
+        gimmick = BossGimmick.ResetField, gimmick_interval = 1,
+        intro_dialogue = "태워라! 모두 태워버려라!!",
+        defeat_dialogue = "불꽃이... 꺼진다...",
+        victory_dialogue = "잿더미 위에서 춤추자꾸나!",
+        yeop_reward = 55,
+        body_color = {0.80, 0.25, 0.05}, head_color = {0.90, 0.35, 0.08},
+        horn_color = {1.0, 0.7, 0.1}, eye_color = {1.0, 1.0, 0.3},
+    }),
+    BossDefinition({
+        id = "eol_dokkaebi", name = "Ice Dokkaebi", name_kr = "빙결 도깨비",
+        description = "매 2턴 손패 2장 동결(사용불가). 느리게 옥죈다",
+        target_score = 370, rounds = 6, tier = "elite",
+        gimmick = BossGimmick.Fog, gimmick_interval = 2,
+        intro_dialogue = "추워... 너도 얼려줄까...",
+        defeat_dialogue = "녹는다... 녹아내린다...",
+        victory_dialogue = "영원히 얼어붙어라...",
+        yeop_reward = 50,
+        body_color = {0.15, 0.35, 0.60}, head_color = {0.20, 0.45, 0.70},
+        horn_color = {0.40, 0.65, 0.90}, eye_color = {0.5, 0.9, 1.0},
+    }),
+    BossDefinition({
+        id = "wang_dokkaebi", name = "Dokkaebi King", name_kr = "도깨비 대왕",
+        description = "모든 기믹을 랜덤 사용. 매 턴 다른 기믹 발동",
+        target_score = 500, rounds = 6, tier = "elite",
+        gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 1,
+        intro_dialogue = "도깨비 중의 도깨비! 왕 중의 왕이다!",
+        defeat_dialogue = "왕좌가... 흔들린다... 이럴 수가...",
+        victory_dialogue = "하하하! 도깨비 세계의 새 장난감이 되어라!",
+        yeop_reward = 72, drops_legendary_talisman = true,
+        body_color = {0.55, 0.15, 0.10}, head_color = {0.65, 0.20, 0.12},
+        horn_color = {1.0, 0.85, 0.0}, eye_color = {1.0, 0.3, 0.0},
+    }),
+
+    -- ── 원귀/귀신 변형 ──
+    BossDefinition({
+        id = "han_wonhon", name = "Grudge Spirit", name_kr = "원한 맺힌 원혼",
+        description = "저주 표식이 2배 속도로 쌓인다. 3개면 즉사",
+        target_score = 350, rounds = 5, tier = "elite",
+        gimmick = BossGimmick.CurseMark, gimmick_interval = 1,
+        intro_dialogue = "한이... 서럽다... 너도 나처럼 되어라...",
+        defeat_dialogue = "한이... 풀렸다... 고맙다...",
+        victory_dialogue = "영원히 한을 품고 떠돌거라...!",
+        yeop_reward = 50,
+        body_color = {0.25, 0.10, 0.30}, head_color = {0.32, 0.15, 0.40},
+        horn_color = {0.45, 0.25, 0.55}, eye_color = {1.0, 0.2, 0.3},
+    }),
+    BossDefinition({
+        id = "cheonyeo_gwishin", name = "Maiden Ghost", name_kr = "처녀귀신",
+        description = "아름다운 울음소리. 매 턴 배수 -0.2 약화 효과",
+        target_score = 280, rounds = 6, tier = "normal",
+        gimmick = BossGimmick.Suppress, gimmick_interval = 1,
+        intro_dialogue = "흑흑... 시집도 못 가고... 흑흑...",
+        defeat_dialogue = "드디어... 편히 갈 수 있겠구나...",
+        victory_dialogue = "흑흑... 같이 있어줘... 영원히...",
+        yeop_reward = 38,
+        body_color = {0.80, 0.80, 0.85}, head_color = {0.88, 0.85, 0.90},
+        horn_color = {0.70, 0.70, 0.75}, eye_color = {0.8, 0.1, 0.1},
+    }),
+    BossDefinition({
+        id = "janggun_gwishin", name = "General Ghost", name_kr = "장군귀신",
+        description = "전투의 달인. 반격 데미지가 매우 높다",
+        target_score = 440, rounds = 5, tier = "elite",
+        gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 2,
+        intro_dialogue = "이 장군 앞에서 고스톱이라니... 한판 붙자!",
+        defeat_dialogue = "좋은 전투였다... 인정하마.",
+        victory_dialogue = "전쟁에서 지면 포로가 되는 법이다!",
+        yeop_reward = 60,
+        body_color = {0.30, 0.12, 0.08}, head_color = {0.40, 0.18, 0.10},
+        horn_color = {0.70, 0.55, 0.20}, eye_color = {1.0, 0.6, 0.1},
+    }),
+
+    -- ── 산신/용왕 변형 ──
+    BossDefinition({
+        id = "no_yongwang", name = "Old Dragon King", name_kr = "늙은 용왕",
+        description = "약해졌지만 지혜롭다. 매 3턴 최적 카드 봉인",
+        target_score = 350, rounds = 7, tier = "elite",
+        gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 3,
+        intro_dialogue = "허허... 늙었어도 바다의 왕이다...",
+        defeat_dialogue = "허허... 젊은 것이 대단하구나...",
+        victory_dialogue = "바다 밑에서 영원히 쉬어라...",
+        yeop_reward = 52,
+        body_color = {0.08, 0.25, 0.45}, head_color = {0.10, 0.32, 0.55},
+        horn_color = {0.20, 0.50, 0.75}, eye_color = {0.3, 0.7, 1.0},
+    }),
+    BossDefinition({
+        id = "no_sanshin", name = "Angry Mountain God", name_kr = "분노한 산신령",
+        description = "산이 흔들린다. 매 턴 바닥패 리셋 + 칩 -10",
+        target_score = 460, rounds = 5, tier = "elite",
+        gimmick = BossGimmick.ResetField, gimmick_interval = 1,
+        intro_dialogue = "네놈이 산을 더럽혔다!! 용서 못 한다!!",
+        defeat_dialogue = "산의 분노가... 가라앉는다...",
+        victory_dialogue = "산사태에 묻혀 영원히 잠들거라!!",
+        yeop_reward = 62, drops_legendary_talisman = true,
+        body_color = {0.20, 0.50, 0.15}, head_color = {0.28, 0.60, 0.20},
+        horn_color = {0.55, 0.80, 0.30}, eye_color = {1.0, 0.8, 0.2},
+    }),
+
+    -- ── 해태/불가사리 변형 ──
+    BossDefinition({
+        id = "hwangeum_haetae", name = "Golden Haetae", name_kr = "황금 해태",
+        description = "불을 삼키면 강해진다. 홍단 사용 시 보스 회복",
+        target_score = 420, rounds = 6, tier = "elite",
+        gimmick = BossGimmick.None, gimmick_interval = 1,
+        intro_dialogue = "황금빛 불꽃을 다스리는 해태가 왔다!",
+        defeat_dialogue = "황금빛이... 바래간다...",
+        victory_dialogue = "모든 불을 삼켜 더욱 강해지리라!",
+        yeop_reward = 58,
+        body_color = {0.75, 0.60, 0.15}, head_color = {0.85, 0.70, 0.20},
+        horn_color = {1.0, 0.85, 0.30}, eye_color = {1.0, 0.5, 0.0},
+    }),
+    BossDefinition({
+        id = "cheolsik_bulgasari", name = "Iron Bulgasari", name_kr = "무쇠 불가사리",
+        description = "철을 먹어 더 단단해졌다. HP가 매우 높다",
+        target_score = 550, rounds = 7, tier = "elite",
+        gimmick = BossGimmick.StealCard, gimmick_interval = 2,
+        intro_dialogue = "더 많은 쇠를... 더 먹어야 해...",
+        defeat_dialogue = "뱃속이... 터질 것 같다...",
+        victory_dialogue = "네 엽전까지 다 먹어치우겠다!!",
+        yeop_reward = 70, drops_legendary_talisman = true,
+        body_color = {0.40, 0.40, 0.45}, head_color = {0.50, 0.50, 0.55},
+        horn_color = {0.70, 0.70, 0.75}, eye_color = {1.0, 0.2, 0.0},
     }),
 }
 
@@ -585,7 +781,7 @@ local all_bosses = {
 local yeomra = BossDefinition({
     id = "yeomra", name = "King Yeomra", name_kr = "염라대왕",
     description = "광을 무효화시킨다. 피와 띠만으로 승부하라. 저승의 최종 심판자.",
-    target_score = 850, rounds = 7, tier = "boss",
+    target_score = 600, rounds = 8, tier = "boss",
     gimmick = BossGimmick.NoBright, gimmick_interval = 1,
     intro_dialogue = "감히 이승으로 돌아가겠다고? 한 판 뜨자!",
     defeat_dialogue = "허... 대단하구나. 이승의 길을 열어주마.",
@@ -602,7 +798,7 @@ local calamity_bosses = {
     BossDefinition({
         id = "skeleton_general", name = "Skeleton General", name_kr = "백골대장",
         description = "매 턴 카드 1장을 해골패로 변환. 해골 3개 = 즉사.",
-        target_score = 8000, rounds = 5, tier = "calamity",
+        target_score = 3000, rounds = 7, tier = "calamity",
         gimmick = BossGimmick.Skullify, gimmick_interval = 1,
         intro_dialogue = "뼈뼈뼈... 살이 아까운가? 뼈만 남겨주마...",
         defeat_dialogue = "깔깔깔... 뼈는 거짓말을 하지 않아...",
@@ -614,7 +810,7 @@ local calamity_bosses = {
     BossDefinition({
         id = "ninetail_king", name = "Nine-Tail Fox King", name_kr = "구미호 왕",
         description = "30% 카드가 가짜. 매칭 실패 시 -50칩. 3턴마다 손패 셔플.",
-        target_score = 10000, rounds = 5, tier = "calamity",
+        target_score = 2500, rounds = 8, tier = "calamity",
         gimmick = BossGimmick.FakeCards, gimmick_interval = 3,
         intro_dialogue = "후후... 진짜와 가짜를 구분할 수 있겠느냐?",
         defeat_dialogue = "이 눈으로... 간파하다니...",
@@ -626,7 +822,7 @@ local calamity_bosses = {
     BossDefinition({
         id = "imugi", name = "Imugi", name_kr = "이무기",
         description = "경쟁전: 이무기도 매 턴 +50점 누적. 먼저 목표 달성해야 승리.",
-        target_score = 15000, rounds = 6, tier = "calamity",
+        target_score = 3500, rounds = 8, tier = "calamity",
         gimmick = BossGimmick.Competitive, gimmick_interval = 1,
         intro_dialogue = "나도 용이 되려면 이겨야 한다! 승부다!",
         defeat_dialogue = "크으... 결국 승천은 네 몫이었구나...",
@@ -638,7 +834,7 @@ local calamity_bosses = {
     BossDefinition({
         id = "underworld_flower", name = "Underworld Flower King", name_kr = "저승꽃",
         description = "매 라운드 강화 1개 비활성 + 5턴마다 부적 셔플 + 족보명 숨김.",
-        target_score = 20000, rounds = 6, tier = "calamity",
+        target_score = 4000, rounds = 8, tier = "calamity",
         gimmick = BossGimmick.Suppress, gimmick_interval = 5,
         intro_dialogue = "아름답지 않니? 이 꽃들은 전부 망자의 혼으로 피어났단다.",
         defeat_dialogue = "꽃잎이... 흩날린다... 아름답구나...",
@@ -681,11 +877,9 @@ function BossData.get_calamity_bosses()
 end
 
 --- 관문 번호에 따른 보스 선택
---- 관문 1~9: 일반 보스 풀에서 랜덤, 관문 10: 염라대왕
 function BossData.get_boss_for_realm(realm_number, spiral_number)
     -- 관문 10 = 윤회 보스
     if realm_number == 10 then
-        -- 재앙 윤회에서는 재앙 보스
         local calamity = BossData.get_calamity_boss(spiral_number)
         if calamity then return calamity end
         return yeomra

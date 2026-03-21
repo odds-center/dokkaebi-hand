@@ -14,7 +14,7 @@ function U.shadow_panel(x, y, w, h, _r, bg_color, shadow_alpha)
     love.graphics.setColor(1, 1, 1, 0.04)
     love.graphics.rectangle("fill", x+1, y+1, w-2, h*0.3)
     -- 테두리
-    love.graphics.setColor(1, 1, 1, 0.08)
+    love.graphics.setColor(1, 1, 1, 0.14)
     love.graphics.rectangle("line", x, y, w, h)
 end
 

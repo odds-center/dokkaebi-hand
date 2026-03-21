@@ -132,12 +132,21 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
     else love.graphics.setColor(0.07, 0.05, 0.11) end                  -- 기본: 심연
     love.graphics.rectangle("fill", x, y, w, h)
 
-    -- 테두리
+    -- 테두리 + 글로우
     if is_selected then
-        love.graphics.setColor(0.92, 0.68, 0.12, 0.9)  -- 금색 테두리
+        -- 외곽 글로우 (3겹)
+        local pulse = 0.7 + math.sin(love.timer.getTime() * 4) * 0.3
+        for i = 3, 1, -1 do
+            love.graphics.setColor(1, 0.82, 0, 0.08 * pulse * (4-i))
+            love.graphics.rectangle("fill", x-i, y-i, w+i*2, h+i*2)
+        end
+        love.graphics.setColor(0.92, 0.68, 0.12, 0.9)
         love.graphics.setLineWidth(2)
+    elseif is_hovered then
+        love.graphics.setColor(0.50, 0.35, 0.55, 0.6)
+        love.graphics.setLineWidth(1)
     else
-        love.graphics.setColor(0.30, 0.15, 0.22)        -- 핏빛 테두리
+        love.graphics.setColor(0.30, 0.15, 0.22)
         love.graphics.setLineWidth(1)
     end
     love.graphics.rectangle("line", x, y, w, h)
@@ -195,7 +204,7 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
         love.graphics.rectangle("fill", cx - 6*px, cy + 5*px, 12*px, px)
     elseif card.card_type == CT.Geurim then
         -- 그림: 픽셀 다이아몬드
-        love.graphics.setColor(0.25, 0.65, 0.85, 0.5)
+        love.graphics.setColor(0.35, 0.75, 0.92, 0.6)
         love.graphics.rectangle("fill", cx - px/2, cy + 3*px, px, px)
         love.graphics.rectangle("fill", cx - px*3/2, cy + 4*px, 3*px, px)
         love.graphics.rectangle("fill", cx - px*5/2, cy + 5*px, 5*px, px)
@@ -203,7 +212,7 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
         love.graphics.rectangle("fill", cx - px/2, cy + 7*px, px, px)
     else
         -- 피: 도트 사각형
-        love.graphics.setColor(0.5, 0.5, 0.55)
+        love.graphics.setColor(0.65, 0.65, 0.70)
         love.graphics.rectangle("fill", cx - px, cy + 5*px, 2*px, 2*px)
         if card.is_double_pi then
             love.graphics.rectangle("fill", cx + 3*px, cy + 5*px, 2*px, 2*px)
@@ -211,7 +220,7 @@ function CardRenderer.draw(card, x, y, is_selected, is_hovered, font_small)
     end
 
     -- 카드 이름 (하단)
-    love.graphics.setColor(0.75, 0.75, 0.80)
+    love.graphics.setColor(0.88, 0.88, 0.92)
     love.graphics.printf(card.name_kr, x + 3, y + 82, w - 6, "center")
 
     -- 선택 시 상단 체크마크
@@ -259,17 +268,17 @@ function CardRenderer.draw_mini(card, x, y)
         love.graphics.setColor(rc[1], rc[2], rc[3], 0.8)
         love.graphics.rectangle("fill", cx - 4*px, cy, 8*px, 2*px)
     elseif card.card_type == CT.Geurim then
-        love.graphics.setColor(0.25, 0.65, 0.85, 0.7)
+        love.graphics.setColor(0.35, 0.75, 0.92, 0.8)
         love.graphics.rectangle("fill", cx - px/2, cy - px, px, px)
         love.graphics.rectangle("fill", cx - px*3/2, cy, 3*px, px)
         love.graphics.rectangle("fill", cx - px/2, cy + px, px, px)
     else
-        love.graphics.setColor(0.5, 0.5, 0.55)
+        love.graphics.setColor(0.65, 0.65, 0.70)
         love.graphics.rectangle("fill", cx - px, cy, 2*px, 2*px)
     end
 
     -- 타입 라벨 (하단)
-    love.graphics.setColor(0.6, 0.6, 0.65)
+    love.graphics.setColor(0.75, 0.75, 0.80)
     local type_short = {[CT.Gwang]="광", [CT.Tti]="띠", [CT.Geurim]="그림", [CT.Pi]="피"}
     love.graphics.printf(type_short[card.card_type] or "", x, y + h - 14, w, "center")
 end

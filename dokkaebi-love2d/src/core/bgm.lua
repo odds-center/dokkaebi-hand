@@ -14,12 +14,13 @@ local fade_timer = 0
 local fading = false
 
 -- 트랙 목록 (파일명 → 경로)
+-- 아케이드 + 오컬트 칩튠 (CC0)
 local track_files = {
-    menu       = "assets/bgm/dream_ambience.mp3",
-    battle     = "assets/bgm/dark_theme.ogg",
-    boss_rage  = "assets/bgm/menace.ogg",
-    dungeon    = "assets/bgm/dark_shrine_loop.ogg",
-    dark       = "assets/bgm/forgotten_tomb.mp3",
+    menu       = "assets/bgm/dark_horse.ogg",        -- 미스터리 칩튠 (메뉴/설정)
+    battle     = "assets/bgm/boss_battle.ogg",        -- 8비트 배틀 루프 (전투)
+    boss_rage  = "assets/bgm/great_boss.ogg",         -- 아케이드 보스전 (공격/고스톱)
+    dungeon    = "assets/bgm/spooky_dungeon.ogg",     -- 오컬트 던전 (상점/강화)
+    dark       = "assets/bgm/haunted.mp3",            -- 유령의 집 8비트 (이벤트/게임오버)
 }
 
 -- 게임 상태 → 트랙 매핑
@@ -29,7 +30,7 @@ local state_map = {
     collection       = "menu",
     blessing_select  = "dungeon",
     in_round         = "battle",
-    go_stop          = "battle",
+    go_stop          = "boss_rage",
     attack           = "boss_rage",
     post_round       = "dungeon",
     upgrade_select   = "dungeon",

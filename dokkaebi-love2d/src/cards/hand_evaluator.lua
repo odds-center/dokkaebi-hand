@@ -101,84 +101,84 @@ function HandEvaluator.evaluate(selected_cards)
     -- 너무 높으면 1판에 보스가 녹으므로 보수적으로 조정.
 
     if #gwang_cards >= 5 then
-        add({ id="ogwang", name_kr="오광", tier=TIER.S, category="gostop", chips=40, mult=2.2 })
+        add({ id="ogwang", name_kr="오광", tier=TIER.S, category="gostop", chips=50, mult=1.6 })
     end
 
     if any_month(gwang_cards, 3) and any_month(gwang_cards, 8) then
-        add({ id="38gwangttaeng", name_kr="38광땡", tier=TIER.S, category="seotda", chips=35, mult=2.0 })
+        add({ id="38gwangttaeng", name_kr="38광땡", tier=TIER.S, category="seotda", chips=45, mult=1.5 })
     end
 
     if #distinct_months >= 12 then
-        add({ id="hwangcheon_dari", name_kr="황천의다리", tier=TIER.S, category="jeoseung", chips=45, mult=2.5 })
+        add({ id="hwangcheon_dari", name_kr="황천의다리", tier=TIER.S, category="jeoseung", chips=60, mult=1.6 })
     end
 
     if has_hongdan and has_cheongdan and has_chodan then
-        add({ id="samdantong", name_kr="삼단통", tier=TIER.S, category="gostop", chips=35, mult=2.0 })
+        add({ id="samdantong", name_kr="삼단통", tier=TIER.S, category="gostop", chips=45, mult=1.5 })
     end
 
     local chongtong_count = 0
     for _, cnt in pairs(month_counts) do if cnt >= 4 then chongtong_count = chongtong_count + 1 end end
     if chongtong_count >= 3 then
-        add({ id="yunhoe", name_kr="윤회", tier=TIER.S, category="jeoseung", chips=40, mult=2.2 })
+        add({ id="yunhoe", name_kr="윤회", tier=TIER.S, category="jeoseung", chips=50, mult=1.6 })
     end
 
     -- ==================== Tier A ====================
 
     if #gwang_cards == 4 and not has_rain_gwang then
-        add({ id="sagwang", name_kr="사광", tier=TIER.A, category="gostop", chips=28, mult=1.8 })
+        add({ id="sagwang", name_kr="사광", tier=TIER.A, category="gostop", chips=35, mult=1.4 })
     end
     if #gwang_cards == 4 and has_rain_gwang then
-        add({ id="bisagwang", name_kr="비사광", tier=TIER.A, category="gostop", chips=22, mult=1.6 })
+        add({ id="bisagwang", name_kr="비사광", tier=TIER.A, category="gostop", chips=28, mult=1.3 })
     end
 
     if any_month(gwang_cards, 1) and any_month(gwang_cards, 3) and not has_combo("38gwangttaeng") then
-        add({ id="13gwangttaeng", name_kr="13광땡", tier=TIER.A, category="seotda", chips=28, mult=1.8 })
+        add({ id="13gwangttaeng", name_kr="13광땡", tier=TIER.A, category="seotda", chips=35, mult=1.4 })
     end
     if any_month(gwang_cards, 1) and any_month(gwang_cards, 8) and not has_combo("38gwangttaeng") then
-        add({ id="18gwangttaeng", name_kr="18광땡", tier=TIER.A, category="seotda", chips=30, mult=1.8 })
+        add({ id="18gwangttaeng", name_kr="18광땡", tier=TIER.A, category="seotda", chips=38, mult=1.4 })
     end
 
     if card_count >= 2 and (month_counts[10] or 0) >= 2 then
-        add({ id="jangttaeng", name_kr="장땡", tier=TIER.A, category="seotda", chips=25, mult=1.7 })
+        add({ id="jangttaeng", name_kr="장땡", tier=TIER.A, category="seotda", chips=30, mult=1.4 })
     end
     if card_count >= 2 and (month_counts[9] or 0) >= 2 then
-        add({ id="9ttaeng", name_kr="9땡", tier=TIER.A, category="seotda", chips=22, mult=1.6 })
+        add({ id="9ttaeng", name_kr="9땡", tier=TIER.A, category="seotda", chips=28, mult=1.3 })
     end
     if card_count >= 2 and (month_counts[8] or 0) >= 2 then
-        add({ id="8ttaeng", name_kr="8땡", tier=TIER.A, category="seotda", chips=20, mult=1.5 })
+        add({ id="8ttaeng", name_kr="8땡", tier=TIER.A, category="seotda", chips=25, mult=1.3 })
     end
 
     if #gwang_cards >= 3 and #pi_cards >= 5 then
-        add({ id="dokkaebi_bul", name_kr="도깨비불", tier=TIER.A, category="jeoseung", chips=20, mult=1.5 })
+        add({ id="dokkaebi_bul", name_kr="도깨비불", tier=TIER.A, category="jeoseung", chips=25, mult=1.3 })
     end
     if total_pi_value >= 15 then
-        add({ id="jeoseung_kkot", name_kr="저승꽃", tier=TIER.A, category="jeoseung", chips=20, mult=1.5, heal=2, heal_hold=true })
+        add({ id="jeoseung_kkot", name_kr="저승꽃", tier=TIER.A, category="jeoseung", chips=25, mult=1.3, heal=2, heal_hold=true })
     end
 
     if distinct_months_set[3] and distinct_months_set[6] and distinct_months_set[9] then
-        add({ id="samdocheon", name_kr="삼도천", tier=TIER.A, category="jeoseung", chips=18, mult=1.4 })
+        add({ id="samdocheon", name_kr="삼도천", tier=TIER.A, category="jeoseung", chips=22, mult=1.25 })
     end
 
     -- ==================== Tier B ====================
 
     if #gwang_cards == 3 and not has_rain_gwang then
-        add({ id="samgwang", name_kr="삼광", tier=TIER.B, category="gostop", chips=18, mult=1.5 })
+        add({ id="samgwang", name_kr="삼광", tier=TIER.B, category="gostop", chips=22, mult=1.3 })
     end
     if #gwang_cards == 3 and has_rain_gwang then
-        add({ id="bigwang", name_kr="비광", tier=TIER.B, category="gostop", chips=15, mult=1.4 })
+        add({ id="bigwang", name_kr="비광", tier=TIER.B, category="gostop", chips=18, mult=1.2 })
     end
 
-    if has_hongdan then add({ id="hongdan", name_kr="홍단", tier=TIER.B, category="gostop", chips=15, mult=1.4 }) end
-    if has_cheongdan then add({ id="cheongdan", name_kr="청단", tier=TIER.B, category="gostop", chips=15, mult=1.4 }) end
-    if has_chodan then add({ id="chodan", name_kr="초단", tier=TIER.B, category="gostop", chips=15, mult=1.4 }) end
+    if has_hongdan then add({ id="hongdan", name_kr="홍단", tier=TIER.B, category="gostop", chips=18, mult=1.2 }) end
+    if has_cheongdan then add({ id="cheongdan", name_kr="청단", tier=TIER.B, category="gostop", chips=18, mult=1.2 }) end
+    if has_chodan then add({ id="chodan", name_kr="초단", tier=TIER.B, category="gostop", chips=18, mult=1.2 }) end
 
     if any_month(geurim_cards, 2) and any_month(geurim_cards, 4) and any_month(geurim_cards, 8) then
-        add({ id="godori", name_kr="고도리", tier=TIER.B, category="gostop", chips=15, mult=1.4 })
+        add({ id="godori", name_kr="고도리", tier=TIER.B, category="gostop", chips=18, mult=1.2 })
     end
 
     for m, cnt in pairs(month_counts) do
         if cnt >= 4 then
-            add({ id="chongtong_"..m, name_kr="총통("..m.."월)", tier=TIER.B, category="gostop", chips=12, mult=1.3 })
+            add({ id="chongtong_"..m, name_kr="총통("..m.."월)", tier=TIER.B, category="gostop", chips=14, mult=1.15 })
         end
     end
 
@@ -190,54 +190,54 @@ function HandEvaluator.evaluate(selected_cards)
     end
 
     if distinct_months_set[1] and distinct_months_set[2] then
-        add({ id="ali", name_kr="알리", tier=TIER.B, category="seotda", chips=12, mult=1.3 })
+        add({ id="ali", name_kr="알리", tier=TIER.B, category="seotda", chips=14, mult=1.15 })
     end
     if distinct_months_set[1] and distinct_months_set[4] then
-        add({ id="doksa", name_kr="독사", tier=TIER.B, category="seotda", chips=10, mult=1.25 })
+        add({ id="doksa", name_kr="독사", tier=TIER.B, category="seotda", chips=12, mult=1.15 })
     end
     if distinct_months_set[1] and distinct_months_set[9] then
-        add({ id="gupping", name_kr="구삥", tier=TIER.B, category="seotda", chips=9, mult=1.2 })
+        add({ id="gupping", name_kr="구삥", tier=TIER.B, category="seotda", chips=10, mult=1.1 })
     end
 
     if distinct_months_set[3] and distinct_months_set[6] and distinct_months_set[9] and distinct_months_set[12] then
-        add({ id="sagye", name_kr="사계", tier=TIER.B, category="seasonal", chips=14, mult=1.3 })
+        add({ id="sagye", name_kr="사계", tier=TIER.B, category="seasonal", chips=16, mult=1.2 })
     end
     if any_month(gwang_cards, 1) and any_month(gwang_cards, 12) then
-        add({ id="seonhuchak", name_kr="선후착", tier=TIER.B, category="jeoseung", chips=14, mult=1.3 })
+        add({ id="seonhuchak", name_kr="선후착", tier=TIER.B, category="jeoseung", chips=16, mult=1.2 })
     end
 
     -- 봄의연회
     local spring = 0
     for _, m in ipairs(months) do if m >= 1 and m <= 3 then spring = spring + 1 end end
     if spring >= 4 and distinct_months_set[1] and distinct_months_set[2] and distinct_months_set[3] then
-        add({ id="bom_yeonhoe", name_kr="봄의연회", tier=TIER.B, category="seasonal", chips=10, mult=1.2, heal=1, heal_hold=true })
+        add({ id="bom_yeonhoe", name_kr="봄의연회", tier=TIER.B, category="seasonal", chips=12, mult=1.1, heal=1, heal_hold=true })
     end
 
     -- 가을단풍
     local autumn = 0
     for _, m in ipairs(months) do if m >= 8 and m <= 10 then autumn = autumn + 1 end end
     if autumn >= 4 and distinct_months_set[8] and distinct_months_set[9] and distinct_months_set[10] then
-        add({ id="gaeul_danpung", name_kr="가을단풍", tier=TIER.B, category="seasonal", chips=10, mult=1.2 })
+        add({ id="gaeul_danpung", name_kr="가을단풍", tier=TIER.B, category="seasonal", chips=12, mult=1.1 })
     end
 
     -- ==================== Tier C ====================
 
     if distinct_months_set[1] and distinct_months_set[10] then
-        add({ id="jangpping", name_kr="장삥", tier=TIER.C, category="seotda", chips=10, mult=1.25 })
+        add({ id="jangpping", name_kr="장삥", tier=TIER.C, category="seotda", chips=12, mult=1.15 })
     end
     if distinct_months_set[4] and distinct_months_set[10] then
-        add({ id="jangsa", name_kr="장사", tier=TIER.C, category="seotda", chips=8, mult=1.2 })
+        add({ id="jangsa", name_kr="장사", tier=TIER.C, category="seotda", chips=10, mult=1.1 })
     end
     if distinct_months_set[4] and distinct_months_set[6] then
-        add({ id="seryuk", name_kr="세륙", tier=TIER.C, category="seotda", chips=7, mult=1.2 })
+        add({ id="seryuk", name_kr="세륙", tier=TIER.C, category="seotda", chips=8, mult=1.1 })
     end
 
-    if #tti_cards >= 5 then add({ id="tti5", name_kr="띠5장", tier=TIER.C, category="collection", chips=10, mult=1.3 }) end
-    if #geurim_cards >= 5 then add({ id="geurim5", name_kr="그림5장", tier=TIER.C, category="collection", chips=10, mult=1.3 }) end
-    if total_pi_value >= 10 then add({ id="pi10", name_kr="피10장", tier=TIER.C, category="collection", chips=8, mult=1.2 }) end
+    if #tti_cards >= 5 then add({ id="tti5", name_kr="띠5장", tier=TIER.C, category="collection", chips=12, mult=1.15 }) end
+    if #geurim_cards >= 5 then add({ id="geurim5", name_kr="그림5장", tier=TIER.C, category="collection", chips=12, mult=1.15 }) end
+    if total_pi_value >= 10 then add({ id="pi10", name_kr="피10장", tier=TIER.C, category="collection", chips=10, mult=1.1 }) end
 
     if any_month(gwang_cards, 8) and any_month(geurim_cards, 9) then
-        add({ id="wolha_dokjak", name_kr="월하독작", tier=TIER.C, category="jeoseung", chips=12, mult=1.3, heal=1, heal_hold=true })
+        add({ id="wolha_dokjak", name_kr="월하독작", tier=TIER.C, category="jeoseung", chips=14, mult=1.15, heal=1, heal_hold=true })
     end
 
     local kkeut = month_sum % 10
@@ -246,36 +246,36 @@ function HandEvaluator.evaluate(selected_cards)
     end
 
     for m, cnt in pairs(month_counts) do
-        if cnt == 2 then add({ id="wolhap_"..m, name_kr="월합("..m.."월)", tier=TIER.C, category="monthpair", chips=8, mult=1.2 }) end
-        if cnt == 3 then add({ id="wolsam_"..m, name_kr="월삼("..m.."월)", tier=TIER.C, category="monthpair", chips=14, mult=1.4 }) end
+        if cnt == 2 then add({ id="wolhap_"..m, name_kr="월합("..m.."월)", tier=TIER.C, category="monthpair", chips=10, mult=1.1 }) end
+        if cnt == 3 then add({ id="wolsam_"..m, name_kr="월삼("..m.."월)", tier=TIER.C, category="monthpair", chips=18, mult=1.2 }) end
     end
 
     -- 여름바람
     local summer = 0
     for _, m in ipairs(months) do if m >= 6 and m <= 8 then summer = summer + 1 end end
     if summer >= 3 and distinct_months_set[6] and distinct_months_set[7] and distinct_months_set[8] then
-        add({ id="summer", name_kr="여름바람", tier=TIER.C, category="seasonal", chips=8, mult=1.2 })
+        add({ id="summer", name_kr="여름바람", tier=TIER.C, category="seasonal", chips=10, mult=1.1 })
     end
 
     if distinct_months_set[11] and distinct_months_set[12] then
-        add({ id="winter", name_kr="겨울한파", tier=TIER.C, category="seasonal", chips=7, mult=1.2 })
+        add({ id="winter", name_kr="겨울한파", tier=TIER.C, category="seasonal", chips=8, mult=1.1 })
     end
 
     -- 저승 오리지널
     if any_month(gwang_cards, 1) and any_month(gwang_cards, 11) then
-        add({ id="yeomra_simpan", name_kr="염라의심판", tier=TIER.C, category="jeoseung", chips=12, mult=1.3 })
+        add({ id="yeomra_simpan", name_kr="염라의심판", tier=TIER.C, category="jeoseung", chips=14, mult=1.15 })
     end
     if distinct_months_set[12] and distinct_months_set[11] and #pi_cards >= 1 then
-        add({ id="jeoseung_gil", name_kr="저승길", tier=TIER.C, category="jeoseung", chips=10, mult=1.25 })
+        add({ id="jeoseung_gil", name_kr="저승길", tier=TIER.C, category="jeoseung", chips=12, mult=1.15 })
     end
 
     local has_rain = false
     for _, c in ipairs(selected_cards) do if c.is_rain_gwang then has_rain = true; break end end
     if has_rain and any_month(gwang_cards, 1) then
-        add({ id="gwihwa", name_kr="귀화", tier=TIER.C, category="jeoseung", chips=10, mult=1.25 })
+        add({ id="gwihwa", name_kr="귀화", tier=TIER.C, category="jeoseung", chips=12, mult=1.15 })
     end
     if #gwang_cards == 1 and #pi_cards >= 3 then
-        add({ id="honbaek_bunri", name_kr="혼백분리", tier=TIER.C, category="jeoseung", chips=8, mult=1.2 })
+        add({ id="honbaek_bunri", name_kr="혼백분리", tier=TIER.C, category="jeoseung", chips=10, mult=1.1 })
     end
 
     if card_count >= 3 then
@@ -284,24 +284,24 @@ function HandEvaluator.evaluate(selected_cards)
         local type_count = 0
         for _ in pairs(distinct_types) do type_count = type_count + 1 end
         if type_count >= 3 then
-            add({ id="eopgyeongdae", name_kr="업경대", tier=TIER.C, category="jeoseung", chips=10, mult=1.25 })
+            add({ id="eopgyeongdae", name_kr="업경대", tier=TIER.C, category="jeoseung", chips=12, mult=1.15 })
         end
     end
 
     if #geurim_cards >= 3 then
-        add({ id="dokkaebi_bangmangi", name_kr="도깨비방망이", tier=TIER.C, category="jeoseung", chips=12, mult=1.3 })
+        add({ id="dokkaebi_bangmangi", name_kr="도깨비방망이", tier=TIER.C, category="jeoseung", chips=14, mult=1.15 })
     end
     if #pi_cards >= 5 then
-        add({ id="pibada", name_kr="피바다", tier=TIER.C, category="jeoseung", chips=10, mult=1.25 })
+        add({ id="pibada", name_kr="피바다", tier=TIER.C, category="jeoseung", chips=12, mult=1.15 })
     end
     if card_count >= 3 and #distinct_months == card_count then
-        add({ id="musang", name_kr="무상", tier=TIER.C, category="jeoseung", chips=8, mult=1.2 })
+        add({ id="musang", name_kr="무상", tier=TIER.C, category="jeoseung", chips=10, mult=1.1 })
     end
     if #tti_cards >= 2 and #pi_cards >= 2 then
-        add({ id="kkotbi", name_kr="꽃비", tier=TIER.C, category="jeoseung", chips=8, mult=1.2, heal=1, heal_hold=true })
+        add({ id="kkotbi", name_kr="꽃비", tier=TIER.C, category="jeoseung", chips=10, mult=1.1, heal=1, heal_hold=true })
     end
     if (month_counts[12] or 0) >= 2 then
-        add({ id="gwimungwan", name_kr="귀문관", tier=TIER.C, category="jeoseung", chips=10, mult=1.25 })
+        add({ id="gwimungwan", name_kr="귀문관", tier=TIER.C, category="jeoseung", chips=12, mult=1.15 })
     end
 
     -- ==================== Tier D ====================
@@ -352,7 +352,7 @@ function HandEvaluator.filter_best_seotda(combos)
     return result
 end
 
---- 콤보 목록의 칩/배수 합산
+--- 콤보 목록의 칩/배수 합산 (mult 상한: 3.0)
 function HandEvaluator.get_total_score(combos)
     if not combos or #combos == 0 then return 0, 1 end
     local total_chips = 0
@@ -361,6 +361,8 @@ function HandEvaluator.get_total_score(combos)
         total_chips = total_chips + c.chips
         total_mult = total_mult * c.mult
     end
+    -- mult 상한 (스택 폭발 방지)
+    total_mult = math.min(total_mult, 3.0)
     return total_chips, total_mult
 end
 

@@ -1,13 +1,23 @@
-# Stable Diffusion 완전 자동화 아트 파이프라인 계획서
+# ComfyUI 아트 파이프라인 계획서
 
 ## 1. 목표
 
-**명령 하달만으로** 모든 게임 에셋을 생성한다.
-수동 편집 도구(Aseprite, Photoshop 등) 없이, 터미널 명령 + Python 스크립트로 전 과정을 자동화한다.
+**ComfyUI 워크플로우 + Python API**로 모든 게임 에셋을 **일관성 있게** 생성한다.
+노드 기반 워크플로우를 JSON으로 저장하고, 프롬프트만 바꿔서 반복 생성한다.
 
 ```
-명령 입력 → SD API 호출 → 자동 후처리 → Unity 폴더에 최종 파일 배치
+워크플로우 JSON + 프롬프트 → ComfyUI API → 자동 후처리 → Assets/Art/ 배치
 ```
+
+### A1111 대비 ComfyUI 장점
+
+| 항목 | A1111 | ComfyUI |
+|------|-------|---------|
+| Mac Metal 가속 | 느림 | **네이티브 MPS, 빠름** |
+| 워크플로우 재사용 | 불가 | **JSON 저장/로드** |
+| 일관성 제어 | 프롬프트 의존 | **ControlNet + IP-Adapter 노드** |
+| 배치 자동화 | REST API | **REST API + 노드 조합** |
+| 메모리 효율 | 보통 | **우수 (18GB M3 Pro 최적)** |
 
 ---
 
@@ -16,123 +26,470 @@
 ### 2.1 전체 흐름
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                    generate.py                       │
-│  (마스터 스크립트 — 명령 하나로 전체 실행)             │
-├─────────────────────────────────────────────────────┤
-│                                                      │
-│  1. config/*.json    ← 에셋별 프롬프트/설정 정의       │
-│         ↓                                            │
-│  2. SD WebUI API     ← txt2img / img2img 호출        │
-│         ↓                                            │
-│  3. postprocess.py   ← 리사이즈, 팔레트 제한, 배경 제거│
-│         ↓                                            │
-│  4. Assets/Art/      ← Unity 프로젝트에 최종 배치      │
-│                                                      │
-└─────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│                    generate.py                        │
+│  (마스터 스크립트 — 명령 하나로 전체 실행)              │
+├──────────────────────────────────────────────────────┤
+│                                                       │
+│  1. workflows/*.json  ← 에셋별 ComfyUI 워크플로우      │
+│  2. config/*.json     ← 에셋별 프롬프트/설정 정의        │
+│         ↓                                             │
+│  3. ComfyUI API       ← /prompt 엔드포인트 호출         │
+│         ↓                                             │
+│  4. postprocess.py    ← 리사이즈, 팔레트 제한, 배경 제거  │
+│         ↓                                             │
+│  5. Assets/Art/       ← 최종 배치                       │
+│                                                       │
+└──────────────────────────────────────────────────────┘
 ```
 
 ### 2.2 필요 환경
 
 | 구성요소 | 역할 | 설치 방법 |
 |---------|------|----------|
-| **Stable Diffusion WebUI (A1111)** | 이미지 생성 서버 | `git clone` + `webui.sh --api` |
-| **Python 3.10+** | 자동화 스크립트 | 기본 설치 |
+| **ComfyUI** | 이미지 생성 서버 | `git clone` + `python main.py` |
+| **Python 3.11** | 자동화 스크립트 | pyenv (3.13 호환 이슈 회피) |
 | **Pillow (PIL)** | 이미지 후처리 | `pip install Pillow` |
 | **rembg** | 자동 배경 제거 | `pip install rembg` |
-| **requests** | SD API 통신 | `pip install requests` |
+| **websocket-client** | ComfyUI 실시간 상태 | `pip install websocket-client` |
 
-> **핵심:** A1111을 `--api` 플래그로 실행하면 REST API가 열린다.
-> 이 API로 모든 생성/변환을 명령어로 제어한다.
+> **핵심:** ComfyUI를 실행하면 `http://127.0.0.1:8188`에 API가 열린다.
+> `/prompt` 엔드포인트로 워크플로우 JSON을 전송하면 이미지가 생성된다.
 
 ---
 
-## 3. 환경 세팅 (한 번만)
+## 3. 환경 세팅
 
-### 3.1 SD WebUI 설치 & API 모드 실행
+### 3.1 ComfyUI 실행 (설치는 setup-guide 참조)
 
 ```bash
-# 1. SD WebUI 클론
-git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
-cd stable-diffusion-webui
-
-# 2. 모델 다운로드 (models/Stable-diffusion/ 에 배치)
-#    - SDXL base: sd_xl_base_1.0.safetensors
-#    - SD 1.5:    v1-5-pruned.safetensors
-
-# 3. 픽셀아트 LoRA 다운로드 (models/Lora/ 에 배치)
-#    - pixel-art-xl.safetensors
-#    - pixelart-style.safetensors
-
-# 4. ControlNet 확장 설치
-cd extensions
-git clone https://github.com/Mikubill/sd-webui-controlnet.git
-
-# 5. API 모드로 실행
-cd ..
-./webui.sh --api --listen --port 7860
+cd ~/Desktop/ComfyUI
+source venv/bin/activate
+python main.py --listen --port 8188
 ```
 
 ### 3.2 프로젝트 스크립트 구조
 
 ```
 dokkaebi-hand/
-  sd-pipeline/               ← 이 폴더를 새로 만듦
+  sd-pipeline/
     generate.py              ← 마스터 실행 스크립트
-    sd_api.py                ← SD WebUI API 래퍼
+    comfy_api.py             ← ComfyUI API 래퍼
     postprocess.py           ← 후처리 (리사이즈, 팔레트, 배경 제거)
+    workflows/               ← ComfyUI 워크플로우 JSON
+      card_base.json         ← 카드 생성 워크플로우
+      character_base.json    ← 캐릭터 생성 워크플로우
+      character_variation.json ← 표정/포즈 변형 (img2img)
+      background_base.json   ← 배경 생성 워크플로우
+      talisman_base.json     ← 부적 아이콘 워크플로우
     config/
       cards.json             ← 카드 48장 프롬프트 정의
       characters.json        ← 캐릭터 46장 프롬프트 정의
       backgrounds.json       ← 배경 7종 프롬프트 정의
       talismans.json         ← 부적 아이콘 프롬프트 정의
-      ui.json                ← UI 텍스처 프롬프트 정의
-      common.json            ← 공통 프롬프트/네거티브/설정
+      style_guide.json       ← 공통 스타일 토큰 + 네거티브
     palette/
-      dokkaebi_palette.png   ← 9색 팔레트 이미지 (스크립트로 생성)
-    output/                  ← SD 원본 출력 (중간 파일)
-    README.md                ← 사용법
+      dokkaebi_palette.png   ← 9색 팔레트 이미지
+    reference/               ← IP-Adapter 참조 이미지 (스타일 고정용)
+      style_ref_card.png     ← 카드 스타일 참조
+      style_ref_boss.png     ← 보스 스타일 참조
+    output/                  ← 중간 출력 (.gitignore)
 ```
 
 ---
 
-## 4. 핵심 스크립트 설계
+## 4. 일관성 확보 전략
 
-### 4.1 공통 설정 (`config/common.json`)
+### 4.1 문제: "같은 프롬프트인데 매번 다른 느낌"
+
+단순 프롬프트만으로는 일관된 스타일을 유지할 수 없다. ComfyUI의 노드 조합으로 해결한다.
+
+### 4.2 해결: 3단계 일관성 레이어
+
+```
+Layer 1: 스타일 토큰 고정 (프롬프트 프리픽스)
+  → 모든 프롬프트 앞에 동일한 스타일 문구 강제 삽입
+
+Layer 2: LoRA 가중치 고정
+  → 픽셀아트 LoRA를 정확한 가중치로 항상 적용
+
+Layer 3: IP-Adapter (스타일 참조 이미지)
+  → 수동으로 "이 느낌"인 참조 이미지 1장을 지정
+  → 모든 생성에 스타일 참조로 주입 → 톤/질감 통일
+```
+
+### 4.3 스타일 토큰 체계 (`config/style_guide.json`)
 
 ```json
 {
-  "sd_url": "http://127.0.0.1:7860",
-  "common_positive": "pixel art, 16-bit style, limited color palette, korean traditional aesthetic, ink painting style, dark fantasy, occult atmosphere, sharp pixels, clean edges, no anti-aliasing",
-  "common_negative": "blurry, smooth gradients, 3d render, realistic photo, anti-aliasing, soft edges, watermark, signature, low quality, jpeg artifacts, deformed, text, letters",
+  "comfyui_url": "http://127.0.0.1:8188",
+
+  "style_prefix": {
+    "all": "pixel art, retro 16-bit RPG style, limited color palette, sharp pixels, clean edges, no anti-aliasing, no smooth gradients, thick black outlines",
+    "card": "hwatu card illustration, centered composition, dark background, ink wash texture, single subject",
+    "character": "full body character sprite, front-facing, symmetrical pose, transparent background, thick ink outlines",
+    "background": "wide landscape, atmospheric perspective, layered parallax depth, subtle pixel dithering",
+    "talisman": "small icon, centered object, simple silhouette, glowing edges, dark background"
+  },
+
+  "style_suffix": {
+    "all": "korean underworld aesthetic, dark fantasy, occult ink painting atmosphere, muted earth tones with cyan and crimson accents"
+  },
+
+  "negative": {
+    "all": "blurry, smooth shading, soft edges, anti-aliasing, 3d render, realistic photo, watermark, signature, text, letters, jpeg artifacts, deformed, extra limbs, bad anatomy, low quality, oversaturated, neon colors",
+    "card": "multiple subjects, busy composition, white background, modern style",
+    "character": "cropped, partial body, background scenery, multiple characters",
+    "background": "characters, text overlay, UI elements, close-up"
+  },
+
   "palette": [
-    {"name": "ink_black",    "hex": "#1A1A2E"},
-    {"name": "ink_gray",     "hex": "#2D2D44"},
-    {"name": "hanji_beige",  "hex": "#F5E6CA"},
-    {"name": "blood_red",    "hex": "#C41E3A"},
-    {"name": "ghost_blue",   "hex": "#00D4FF"},
-    {"name": "ghost_green",  "hex": "#39FF14"},
-    {"name": "gold",         "hex": "#FFD700"},
-    {"name": "purple",       "hex": "#6B2D5B"},
-    {"name": "white",        "hex": "#E8E8E8"}
+    {"name": "ink_black",    "hex": "#1A1A2E", "usage": "배경, 윤곽선"},
+    {"name": "ink_gray",     "hex": "#2D2D44", "usage": "그림자, 부배경"},
+    {"name": "hanji_beige",  "hex": "#F5E6CA", "usage": "피부, 종이, 하이라이트"},
+    {"name": "blood_red",    "hex": "#C41E3A", "usage": "홍단, 피, 위험"},
+    {"name": "ghost_cyan",   "hex": "#00D4FF", "usage": "귀신불, 청단, 정보"},
+    {"name": "ghost_green",  "hex": "#39FF14", "usage": "초단, 독, 자연"},
+    {"name": "gold",         "hex": "#FFD700", "usage": "광, 보상, 강조"},
+    {"name": "purple",       "hex": "#6B2D5B", "usage": "저주, 봉인, 전설"},
+    {"name": "bone_white",   "hex": "#E8E8E8", "usage": "뼈, 귀신, 텍스트"}
   ],
-  "output_base": "../Assets/Art"
+
+  "lora": {
+    "sd15": {
+      "name": "pixelart-style",
+      "weight": 0.75,
+      "trigger": "pixel art style"
+    },
+    "sdxl": {
+      "name": "pixel-art-xl",
+      "weight": 0.65,
+      "trigger": "pixel art"
+    }
+  },
+
+  "ip_adapter": {
+    "enabled": true,
+    "weight": 0.35,
+    "noise": 0.1,
+    "comment": "너무 높으면 참조 이미지 복사, 0.3~0.4가 스타일만 전이"
+  }
 }
 ```
 
-### 4.2 카드 설정 예시 (`config/cards.json`)
+---
+
+## 5. ComfyUI 워크플로우 설계
+
+### 5.1 카드 워크플로우 (`workflows/card_base.json`)
+
+노드 구성:
+
+```
+[KSampler]
+  ├── model ← [CheckpointLoader] → SD 1.5
+  │            └── [LoraLoader] → pixelart-style (0.75)
+  │                 └── [IPAdapterApply] → style_ref_card.png (0.35)
+  ├── positive ← [CLIPTextEncode] → style_prefix.all + style_prefix.card + item.prompt + style_suffix.all
+  ├── negative ← [CLIPTextEncode] → negative.all + negative.card
+  ├── latent_image ← [EmptyLatentImage] → 512×768
+  └── settings: steps=35, cfg=7.5, sampler=dpmpp_2m, scheduler=karras, seed=item.seed
+
+[VAEDecode] → [SaveImage]
+```
+
+### 5.2 캐릭터 워크플로우 (`workflows/character_base.json`)
+
+```
+[KSampler]
+  ├── model ← [CheckpointLoader] → SDXL Base
+  │            └── [LoraLoader] → pixel-art-xl (0.65)
+  │                 └── [IPAdapterApply] → style_ref_boss.png (0.35)
+  ├── positive ← [CLIPTextEncode] → style_prefix.all + style_prefix.character + item.prompt + style_suffix.all
+  ├── negative ← [CLIPTextEncode] → negative.all + negative.character
+  ├── latent_image ← [EmptyLatentImage] → 768×1152
+  └── settings: steps=40, cfg=7, sampler=dpmpp_2m, scheduler=karras
+
+[VAEDecode] → [SaveImage]
+```
+
+### 5.3 캐릭터 변형 워크플로우 (`workflows/character_variation.json`)
+
+```
+[KSampler]
+  ├── model ← (동일)
+  ├── positive ← base_prompt + variation.add
+  ├── negative ← (동일)
+  ├── latent_image ← [VAEEncode] ← [LoadImage] → base_pose 이미지
+  └── settings: steps=30, cfg=7, denoise=0.45, seed=동일
+
+→ 같은 캐릭터, 표정/포즈만 변경
+```
+
+### 5.4 배경 워크플로우 (`workflows/background_base.json`)
+
+```
+[KSampler]
+  ├── model ← [CheckpointLoader] → SDXL Base
+  │            └── [LoraLoader] → pixel-art-xl (0.5)
+  ├── positive ← style_prefix.all + style_prefix.background + item.prompt + style_suffix.all
+  ├── negative ← negative.all + negative.background
+  ├── latent_image ← [EmptyLatentImage] → 1280×720
+  └── settings: steps=50, cfg=7, sampler=dpmpp_2m, scheduler=karras
+
+[VAEDecode] → [SaveImage]
+```
+
+### 5.5 부적 워크플로우 (`workflows/talisman_base.json`)
+
+```
+[KSampler]
+  ├── model ← SD 1.5 + pixelart-style (0.8)
+  ├── positive ← style_prefix.all + style_prefix.talisman + item.prompt + style_suffix.all
+  ├── negative ← negative.all
+  ├── latent_image ← [EmptyLatentImage] → 256×256
+  └── settings: steps=30, cfg=8, sampler=dpmpp_2m, scheduler=karras
+
+[VAEDecode] → [SaveImage]
+```
+
+---
+
+## 6. 프롬프트 설계 원칙
+
+### 6.1 프롬프트 조립 공식
+
+```
+최종 프롬프트 = style_prefix.all + style_prefix.{type} + item.prompt + style_suffix.all
+최종 네거티브 = negative.all + negative.{type}
+```
+
+예시 — 1월 광 카드:
+```
+pixel art, retro 16-bit RPG style, limited color palette, sharp pixels, clean edges,
+no anti-aliasing, no smooth gradients, thick black outlines,
+hwatu card illustration, centered composition, dark background, ink wash texture, single subject,
+skeletal pine tree with twisted dead branches, ghost crane with glowing cyan eyes,
+dark underworld moonlight filtering through bones,
+korean underworld aesthetic, dark fantasy, occult ink painting atmosphere,
+muted earth tones with cyan and crimson accents
+```
+
+### 6.2 프롬프트 작성 규칙
+
+1. **구체적 명사 우선** — "tree" 대신 "skeletal pine tree with twisted dead branches"
+2. **색상 명시** — "blood red accents", "cyan ghost light", "golden glow"
+3. **분위기 키워드** — "eerie", "ominous", "somber", "otherworldly"
+4. **구도 지시** — "centered", "front-facing", "wide landscape", "close-up icon"
+5. **금지어** — "realistic", "photograph", "3D", "modern", "cute", "anime"
+6. **한 프롬프트 = 한 주제** — 카드 1장에 소나무 하나, 학 하나만
+
+### 6.3 에셋별 프롬프트 강도 가이드
+
+| 에셋 | CFG | LoRA 가중치 | IP-Adapter | 비고 |
+|------|-----|-----------|------------|------|
+| 카드 | 7.5 | 0.75 | 0.35 | 강한 픽셀 느낌, 참조 약하게 |
+| 캐릭터 | 7.0 | 0.65 | 0.35 | 캐릭터 디테일 보존 |
+| 배경 | 7.0 | 0.50 | 0.30 | 자연스러운 분위기 |
+| 부적 | 8.0 | 0.80 | 0.40 | 작은 아이콘, 명확한 실루엣 |
+
+---
+
+## 7. ComfyUI API 래퍼 (`comfy_api.py`)
+
+```python
+"""
+ComfyUI API 래퍼 — 워크플로우 JSON을 전송하고 결과 이미지를 수신한다.
+"""
+
+import json
+import urllib.request
+import urllib.parse
+import uuid
+import io
+import websocket
+from pathlib import Path
+from PIL import Image
+
+
+class ComfyUIAPI:
+    def __init__(self, url="http://127.0.0.1:8188"):
+        self.url = url
+        self.client_id = str(uuid.uuid4())
+
+    def queue_prompt(self, workflow: dict) -> str:
+        """워크플로우를 큐에 등록하고 prompt_id 반환"""
+        payload = {
+            "prompt": workflow,
+            "client_id": self.client_id
+        }
+        data = json.dumps(payload).encode("utf-8")
+        req = urllib.request.Request(
+            f"{self.url}/prompt",
+            data=data,
+            headers={"Content-Type": "application/json"}
+        )
+        resp = json.loads(urllib.request.urlopen(req).read())
+        return resp["prompt_id"]
+
+    def wait_for_result(self, prompt_id: str) -> list[Image.Image]:
+        """WebSocket으로 생성 완료를 기다리고 결과 이미지 반환"""
+        ws_url = f"ws://{self.url.split('//')[1]}/ws?clientId={self.client_id}"
+        ws = websocket.WebSocket()
+        ws.connect(ws_url)
+
+        images = []
+        try:
+            while True:
+                msg = json.loads(ws.recv())
+                if msg["type"] == "executing":
+                    data = msg["data"]
+                    if data["node"] is None and data["prompt_id"] == prompt_id:
+                        break  # 실행 완료
+        finally:
+            ws.close()
+
+        # 히스토리에서 출력 이미지 가져오기
+        history_url = f"{self.url}/history/{prompt_id}"
+        history = json.loads(urllib.request.urlopen(history_url).read())
+
+        outputs = history[prompt_id]["outputs"]
+        for node_id in outputs:
+            for img_data in outputs[node_id].get("images", []):
+                img_url = f"{self.url}/view?{urllib.parse.urlencode(img_data)}"
+                img_bytes = urllib.request.urlopen(img_url).read()
+                img = Image.open(io.BytesIO(img_bytes))
+                images.append(img)
+
+        return images
+
+    def generate(self, workflow: dict) -> list[Image.Image]:
+        """워크플로우 전송 → 완료 대기 → 이미지 반환 (원스텝)"""
+        prompt_id = self.queue_prompt(workflow)
+        return self.wait_for_result(prompt_id)
+
+    def load_workflow(self, path: str, overrides: dict = None) -> dict:
+        """워크플로우 JSON 로드 + 프롬프트/seed 등 오버라이드"""
+        wf = json.loads(Path(path).read_text())
+        if overrides:
+            for node_id, values in overrides.items():
+                if node_id in wf:
+                    wf[node_id]["inputs"].update(values)
+        return wf
+
+    def ping(self) -> bool:
+        """ComfyUI 서버 상태 확인"""
+        try:
+            urllib.request.urlopen(f"{self.url}/system_stats", timeout=5)
+            return True
+        except Exception:
+            return False
+```
+
+---
+
+## 8. 자동 후처리 (`postprocess.py`)
+
+```python
+"""
+후처리 자동화 — ComfyUI 출력을 게임용 최종 스프라이트로 변환.
+"""
+
+from PIL import Image, ImageDraw
+import numpy as np
+
+DOKKAEBI_PALETTE = [
+    (26, 26, 46),     # ink_black    #1A1A2E
+    (45, 45, 68),     # ink_gray     #2D2D44
+    (245, 230, 202),  # hanji_beige  #F5E6CA
+    (196, 30, 58),    # blood_red    #C41E3A
+    (0, 212, 255),    # ghost_cyan   #00D4FF
+    (57, 255, 20),    # ghost_green  #39FF14
+    (255, 215, 0),    # gold         #FFD700
+    (107, 45, 91),    # purple       #6B2D5B
+    (232, 232, 232),  # bone_white   #E8E8E8
+]
+
+FRAME_COLORS = {
+    "gwang":     (255, 215, 0),
+    "tti_hong":  (196, 30, 58),
+    "tti_cheong":(0, 212, 255),
+    "tti_cho":   (57, 255, 20),
+    "yeolkkeut": (135, 206, 235),
+    "pi":        (150, 150, 150),
+}
+
+
+def resize_nearest(img, target_w, target_h):
+    return img.resize((target_w, target_h), Image.NEAREST)
+
+
+def apply_palette(img, palette=DOKKAEBI_PALETTE):
+    img_rgba = img.convert("RGBA")
+    pixels = np.array(img_rgba)
+    palette_rgb = np.array(palette)
+    h, w, _ = pixels.shape
+    flat = pixels[:, :, :3].reshape(-1, 3).astype(np.float32)
+    distances = np.linalg.norm(flat[:, None] - palette_rgb[None, :], axis=2)
+    nearest_idx = np.argmin(distances, axis=1)
+    new_pixels = palette_rgb[nearest_idx].reshape(h, w, 3).astype(np.uint8)
+    result = np.dstack([new_pixels, pixels[:, :, 3]])
+    return Image.fromarray(result, "RGBA")
+
+
+def remove_background(img):
+    from rembg import remove
+    return remove(img)
+
+
+def add_card_frame(img, frame_type):
+    color = FRAME_COLORS.get(frame_type, (150, 150, 150))
+    w, h = img.size
+    border = max(2, w // 26)
+    framed = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(framed)
+    draw.rectangle([0, 0, w-1, h-1], outline=color, width=border)
+    inner = img.crop((border, border, w-border, h-border))
+    framed.paste(inner, (border, border))
+    draw = ImageDraw.Draw(framed)
+    draw.rectangle([0, 0, w-1, h-1], outline=color, width=border)
+    return framed
+
+
+def full_postprocess(img, config):
+    if config.get("remove_background", False):
+        img = remove_background(img)
+    target_w = config.get("target_width", img.width)
+    target_h = config.get("target_height", img.height)
+    if config.get("resize_method") == "nearest":
+        img = resize_nearest(img, target_w, target_h)
+    if config.get("apply_palette", False):
+        img = apply_palette(img)
+    if config.get("add_frame", False) and config.get("frame_type"):
+        img = add_card_frame(img, config["frame_type"])
+    return img
+```
+
+---
+
+## 9. 에셋별 설정
+
+### 9.1 카드 (`config/cards.json`)
 
 ```json
 {
   "type": "cards",
+  "workflow": "workflows/card_base.json",
   "generation": {
-    "model": "v1-5-pruned",
-    "lora": "<lora:pixelart-style:0.8>",
+    "model": "v1-5-pruned-emaonly",
+    "lora": "pixelart-style",
+    "lora_weight": 0.75,
     "width": 512,
     "height": 768,
     "steps": 35,
-    "cfg_scale": 8,
-    "sampler": "DPM++ 2M Karras",
+    "cfg_scale": 7.5,
+    "sampler": "dpmpp_2m",
+    "scheduler": "karras",
     "batch_count": 4
   },
   "postprocess": {
@@ -143,69 +500,61 @@ dokkaebi-hand/
     "remove_background": true,
     "add_frame": true
   },
+  "ip_adapter": {
+    "reference": "reference/style_ref_card.png",
+    "weight": 0.35
+  },
   "output_dir": "Cards/Fronts",
   "items": [
     {
       "id": "m01_gwang",
       "name": "1월 광",
-      "prompt": "hwatu card illustration, skeletal pine tree with twisted dead branches, ghost crane with glowing cyan eyes perched on top, dark underworld atmosphere, moonlight through bones, ink wash style",
+      "prompt": "skeletal pine tree with twisted dead branches, ghost crane with glowing cyan eyes perched on top, dark underworld moonlight filtering through bones, single pine tree centered",
       "frame": "gwang",
       "seed": 1001
     },
     {
       "id": "m01_tti_hongdan",
       "name": "1월 홍단",
-      "prompt": "hwatu card illustration, skeletal pine tree, red ribbon with mystical writing floating between branches, dark mist, blood red accents, ink wash style",
+      "prompt": "skeletal pine tree, blood-red ribbon with ancient cursed text floating between branches, dark mist rising, crimson accents on dark ink background",
       "frame": "tti_hong",
       "seed": 1002
     },
     {
       "id": "m01_pi_1",
       "name": "1월 피1",
-      "prompt": "hwatu card illustration, small skeletal pine branch, simple dark composition, single dead pine needle cluster, minimal ink wash style",
+      "prompt": "small skeletal pine branch, single dead pine needle cluster, minimal dark composition, sparse ink wash",
       "frame": "pi",
       "seed": 1003
     },
     {
       "id": "m01_pi_2",
       "name": "1월 피2",
-      "prompt": "hwatu card illustration, small skeletal pine branch, withered pine cone, simple dark composition, minimal ink wash style",
+      "prompt": "withered pine cone on skeletal branch, simple dark composition, minimal ink wash, sparse layout",
       "frame": "pi",
       "seed": 1004
-    },
-    {
-      "id": "m02_tti_hongdan",
-      "name": "2월 홍단",
-      "prompt": "hwatu card illustration, blood-red plum blossoms on dark branches, red ribbon with cursed text, raven silhouette, dark mist, ink wash style",
-      "frame": "tti_hong",
-      "seed": 2001
-    },
-    {
-      "id": "m02_pi_1",
-      "name": "2월 피1",
-      "prompt": "hwatu card illustration, single blood-red plum blossom branch, dark background, minimal composition, ink wash style",
-      "frame": "pi",
-      "seed": 2002
     }
   ]
 }
 ```
 
-> 48장 전체를 이 형식으로 정의한다. `prompt`만 바꾸면 됨.
-
-### 4.3 캐릭터 설정 예시 (`config/characters.json`)
+### 9.2 캐릭터 (`config/characters.json`)
 
 ```json
 {
   "type": "characters",
+  "workflow": "workflows/character_base.json",
+  "variation_workflow": "workflows/character_variation.json",
   "generation": {
     "model": "sd_xl_base_1.0",
-    "lora": "<lora:pixel-art-xl:0.7>",
+    "lora": "pixel-art-xl",
+    "lora_weight": 0.65,
     "width": 768,
     "height": 1152,
     "steps": 40,
     "cfg_scale": 7,
-    "sampler": "DPM++ 2M Karras",
+    "sampler": "dpmpp_2m",
+    "scheduler": "karras",
     "batch_count": 4
   },
   "postprocess": {
@@ -216,38 +565,57 @@ dokkaebi-hand/
     "remove_background": true,
     "add_frame": false
   },
-  "items": [
+  "ip_adapter": {
+    "reference": "reference/style_ref_boss.png",
+    "weight": 0.35
+  },
+  "characters": [
     {
-      "id": "mukbo_laugh_pose1",
-      "name": "먹보 도깨비 — 웃음 포즈1",
-      "prompt": "pixel art character, full body, gluttonous dokkaebi korean goblin, fat round body, huge mouth with sharp teeth, holding food, orange and blood red color scheme, dark fantasy korean folklore, thick ink outlines, laughing expression, menacing yet comedic",
+      "id": "mukbo",
+      "name_kr": "먹보 도깨비",
+      "base_seed": 5001,
+      "base_prompt": "gluttonous dokkaebi korean goblin, fat round body, huge gaping mouth with sharp fangs, orange and blood red color scheme, dark fantasy korean folklore, menacing yet comedic, ink outline style",
       "output_dir": "Characters/Bosses/Mukbo",
-      "seed": 5001
+      "variations": [
+        {"suffix": "laugh_pose1",    "add": "laughing expression, arms wide open, belly shaking"},
+        {"suffix": "eating_pose1",   "add": "eating ravenously, holding a bone, grease dripping"},
+        {"suffix": "surprise_pose1", "add": "shocked expression, eyes bulging, mouth agape"},
+        {"suffix": "anger_pose1",    "add": "furious expression, clenched fists, dark red aura"}
+      ]
     },
     {
-      "id": "mukbo_eating_pose1",
-      "name": "먹보 도깨비 — 먹는 포즈1",
-      "prompt": "pixel art character, full body, gluttonous dokkaebi korean goblin, fat round body, huge mouth with sharp teeth, eating ravenously, orange and blood red color scheme, dark fantasy korean folklore, thick ink outlines, greedy expression",
-      "output_dir": "Characters/Bosses/Mukbo",
-      "seed": 5001
+      "id": "trickster",
+      "name_kr": "장난 도깨비",
+      "base_seed": 5101,
+      "base_prompt": "trickster dokkaebi korean goblin, thin wiry body, mischievous grin, holding a glowing bangmangi club, purple and cyan color scheme, dark fantasy korean folklore, sly and cunning, ink outline style",
+      "output_dir": "Characters/Bosses/Trickster",
+      "variations": [
+        {"suffix": "laugh_pose1",    "add": "cackling, leaning forward, pointing finger"},
+        {"suffix": "cast_pose1",     "add": "casting spell, bangmangi raised high, magical particles"},
+        {"suffix": "surprise_pose1", "add": "startled, jumping back, wide eyes"},
+        {"suffix": "anger_pose1",    "add": "enraged, swinging bangmangi, ghostfire erupting"}
+      ]
     }
   ]
 }
 ```
 
-### 4.4 배경 설정 예시 (`config/backgrounds.json`)
+### 9.3 배경 (`config/backgrounds.json`)
 
 ```json
 {
   "type": "backgrounds",
+  "workflow": "workflows/background_base.json",
   "generation": {
     "model": "sd_xl_base_1.0",
-    "lora": "<lora:pixel-art-xl:0.5>",
+    "lora": "pixel-art-xl",
+    "lora_weight": 0.50,
     "width": 1280,
     "height": 720,
     "steps": 50,
     "cfg_scale": 7,
-    "sampler": "DPM++ 2M Karras",
+    "sampler": "dpmpp_2m",
+    "scheduler": "karras",
     "batch_count": 4
   },
   "postprocess": {
@@ -258,20 +626,59 @@ dokkaebi-hand/
     "remove_background": false,
     "add_frame": false
   },
+  "ip_adapter": {
+    "reference": "reference/style_ref_card.png",
+    "weight": 0.30
+  },
   "items": [
     {
       "id": "main_menu_sanzu",
       "name": "메인 메뉴 — 삼도천",
-      "prompt": "pixel art game background, wide landscape, Sanzu River korean underworld river crossing, thick mist over dark water, blue ghost fire floating, silhouette of old wooden boat, distant mountains, ink painting atmosphere, dark navy sky, cyan ghost lights, eerie calm",
+      "prompt": "Sanzu River korean underworld crossing, thick ghostly mist over dark water, cyan ghost fires floating above surface, silhouette of old wooden boat, distant jagged mountains, ink wash atmosphere, dark navy sky, eerie calm, layered fog",
       "output_dir": "Backgrounds/MainMenu",
       "seed": 9001
     },
     {
       "id": "area01_market",
       "name": "1영역 — 저승시장",
-      "prompt": "pixel art game background, wide landscape, korean ghost night market, paper lanterns glowing warm orange, ghostly vendor silhouettes, wooden stalls with mystical items, smoke and mist, dark alley atmosphere, ink painting style",
+      "prompt": "korean ghost night market, warm orange paper lanterns hanging, ghostly translucent vendor silhouettes, wooden stalls displaying mystical objects, smoke and mist between stalls, dark alley perspective, cobblestone path",
       "output_dir": "Backgrounds/Area01_Market",
       "seed": 9002
+    },
+    {
+      "id": "area02_bridge",
+      "name": "2영역 — 삼도천 다리",
+      "prompt": "ancient crumbling stone bridge over dark river, cyan ghost flames on bridge pillars, thick fog below, blood moon reflecting on water surface, dead willow trees on far bank, oppressive atmosphere",
+      "output_dir": "Backgrounds/Area02_Bridge",
+      "seed": 9003
+    },
+    {
+      "id": "area03_court",
+      "name": "3영역 — 저승 법정",
+      "prompt": "dark underworld courthouse, massive stone pillars with ghost flame torches, judge desk elevated on stone platform, scrolls floating in air, ink wash ceiling, ominous red glow from cracks in floor",
+      "output_dir": "Backgrounds/Area03_Court",
+      "seed": 9004
+    },
+    {
+      "id": "area04_palace",
+      "name": "4영역 — 염라대왕 궁전",
+      "prompt": "grand dark palace interior, massive throne with skull carvings, ghost flames in golden braziers, torn silk banners hanging, crimson and gold color accents, oppressive dark ceiling, ink wash shadows",
+      "output_dir": "Backgrounds/Area04_Palace",
+      "seed": 9005
+    },
+    {
+      "id": "battle_bg",
+      "name": "전투 배경",
+      "prompt": "dark ritual circle on stone floor, ghost flames in four corners, ink wash smoke rising, subtle crimson glow from below, minimal composition, dark atmosphere, flat perspective from above",
+      "output_dir": "Backgrounds/Battle",
+      "seed": 9006
+    },
+    {
+      "id": "ending_gate",
+      "name": "엔딩 — 이승의 문",
+      "prompt": "massive glowing golden gate, bright warm light pouring through opening, silhouette of sakura petals in light, dark surroundings contrasting with golden radiance, hope and warmth, ascending steps leading to gate",
+      "output_dir": "Backgrounds/Ending",
+      "seed": 9007
     }
   ]
 }
@@ -279,243 +686,65 @@ dokkaebi-hand/
 
 ---
 
-## 5. SD API 래퍼 (`sd_api.py`)
+## 10. 카드 48장 전체 프롬프트
 
-```python
-"""
-SD WebUI API 래퍼 — 이 파일 하나로 SD와 통신한다.
-사용법: sd_api.py를 직접 실행하지 않고, generate.py에서 import하여 사용.
-"""
+### 프롬프트 핵심만 기재 (style_prefix + style_suffix 자동 추가됨)
 
-import requests
-import base64
-import json
-import io
-from pathlib import Path
-from PIL import Image
-
-class StableDiffusionAPI:
-    def __init__(self, url="http://127.0.0.1:7860"):
-        self.url = url
-
-    def set_model(self, model_name: str):
-        """체크포인트 모델 전환"""
-        payload = {"sd_model_checkpoint": model_name}
-        requests.post(f"{self.url}/sdapi/v1/options", json=payload)
-
-    def txt2img(self, prompt: str, negative: str, width: int, height: int,
-                steps: int = 35, cfg_scale: float = 8, sampler: str = "DPM++ 2M Karras",
-                seed: int = -1, batch_size: int = 1, lora: str = "") -> list[Image.Image]:
-        """txt2img 생성 — 프롬프트만 넣으면 이미지 리스트 반환"""
-        full_prompt = f"{prompt}, {lora}" if lora else prompt
-
-        payload = {
-            "prompt": full_prompt,
-            "negative_prompt": negative,
-            "width": width,
-            "height": height,
-            "steps": steps,
-            "cfg_scale": cfg_scale,
-            "sampler_name": sampler,
-            "seed": seed,
-            "batch_size": batch_size
-        }
-        r = requests.post(f"{self.url}/sdapi/v1/txt2img", json=payload)
-        r.raise_for_status()
-
-        images = []
-        for img_b64 in r.json()["images"]:
-            img = Image.open(io.BytesIO(base64.b64decode(img_b64)))
-            images.append(img)
-        return images
-
-    def img2img(self, init_image: Image.Image, prompt: str, negative: str,
-                denoising: float = 0.5, steps: int = 30, cfg_scale: float = 7,
-                seed: int = -1, lora: str = "") -> list[Image.Image]:
-        """img2img — 기존 이미지 기반 변형"""
-        buffered = io.BytesIO()
-        init_image.save(buffered, format="PNG")
-        img_b64 = base64.b64encode(buffered.getvalue()).decode()
-
-        full_prompt = f"{prompt}, {lora}" if lora else prompt
-
-        payload = {
-            "init_images": [img_b64],
-            "prompt": full_prompt,
-            "negative_prompt": negative,
-            "denoising_strength": denoising,
-            "steps": steps,
-            "cfg_scale": cfg_scale,
-            "seed": seed,
-            "width": init_image.width,
-            "height": init_image.height
-        }
-        r = requests.post(f"{self.url}/sdapi/v1/img2img", json=payload)
-        r.raise_for_status()
-
-        images = []
-        for img_b64 in r.json()["images"]:
-            img = Image.open(io.BytesIO(base64.b64decode(img_b64)))
-            images.append(img)
-        return images
-
-    def ping(self) -> bool:
-        """SD 서버 상태 확인"""
-        try:
-            r = requests.get(f"{self.url}/sdapi/v1/sd-models", timeout=5)
-            return r.status_code == 200
-        except:
-            return False
-```
+| ID | 월 | 타입 | item.prompt 핵심 |
+|----|---|------|-----------------|
+| `m01_gwang` | 1 | 광 | skeletal pine, ghost crane with glowing cyan eyes, moonlight through bones |
+| `m01_tti_hongdan` | 1 | 홍단 | skeletal pine, blood-red ribbon with cursed text, dark mist |
+| `m01_pi_1` | 1 | 피 | small skeletal pine branch, sparse layout |
+| `m01_pi_2` | 1 | 피 | withered pine cone on branch |
+| `m02_tti_hongdan` | 2 | 홍단 | blood-red plum blossoms, raven silhouette, crimson ribbon |
+| `m02_pi_1~3` | 2 | 피×3 | blood plum branches (각각 다른 구도) |
+| `m03_gwang` | 3 | 광 | higanbana (피안화), crimson curtain veil, ghostly glow |
+| `m03_tti_hongdan` | 3 | 홍단 | higanbana petals, red ribbon floating |
+| `m03_pi_1~2` | 3 | 피×2 | scattered higanbana petals on dark ground |
+| `m04_tti_chodan` | 4 | 초단 | black vines (검은 덩굴), spirit bird, green ribbon |
+| `m04_pi_1~3` | 4 | 피×3 | dark hanging vines, minimal |
+| `m05_tti_chodan` | 5 | 초단 | underworld orchid, Sanzu River bridge, green ribbon |
+| `m05_pi_1~3` | 5 | 피×3 | pale orchid petals floating |
+| `m06_tti_cheongdan` | 6 | 청단 | ghost peony, spirit butterfly, blue ribbon |
+| `m06_pi_1~3` | 6 | 피×3 | fading peony petals |
+| `m07_tti_cheongdan` | 7 | 청단 | flame vines (화염 덩굴), hell boar silhouette, blue ribbon |
+| `m07_pi_1~3` | 7 | 피×3 | burning vine fragments |
+| `m08_gwang` | 8 | 광 | reeds in wind, blood moon (적월), ominous crimson glow |
+| `m08_yeolkkeut` | 8 | 열끗 | flying geese formation under blood moon |
+| `m08_pi_1~2` | 8 | 피×2 | reed stalks, dark water |
+| `m09_tti_cheongdan` | 9 | 청단 | underworld chrysanthemum, wanderer's cup, blue ribbon |
+| `m09_pi_1~3` | 9 | 피×3 | wilting chrysanthemum petals |
+| `m10_tti_chodan` | 10 | 초단 | blood-red maple leaves, skeletal deer, green ribbon |
+| `m10_pi_1~3` | 10 | 피×3 | falling blood-red maple leaves |
+| `m11_gwang` | 11 | 광 | immortal paulownia tree, hell phoenix in crimson flames |
+| `m11_tti_hongdan` | 11 | 홍단 | paulownia leaves, red ribbon hanging |
+| `m11_pi_1~2` | 11 | 피×2 | paulownia seed pods, dark |
+| `m12_gwang` | 12 | 광 | blood rain falling, death messenger (사신) cloaked figure |
+| `m12_tti_hongdan` | 12 | 홍단 | rain streaks, red umbrella silhouette, crimson ribbon |
+| `m12_pi_1~2` | 12 | 피×2 | rain drops, dark puddles reflecting ghost light |
 
 ---
 
-## 6. 자동 후처리 (`postprocess.py`)
-
-```python
-"""
-후처리 자동화 — SD 출력을 게임용 최종 스프라이트로 변환.
-수동 편집 도구 없이 모든 처리를 수행한다.
-"""
-
-from PIL import Image, ImageDraw
-import numpy as np
-
-# 게임 팔레트 (RGB)
-DOKKAEBI_PALETTE = [
-    (26, 26, 46),     # ink_black    #1A1A2E
-    (45, 45, 68),     # ink_gray     #2D2D44
-    (245, 230, 202),  # hanji_beige  #F5E6CA
-    (196, 30, 58),    # blood_red    #C41E3A
-    (0, 212, 255),    # ghost_blue   #00D4FF
-    (57, 255, 20),    # ghost_green  #39FF14
-    (255, 215, 0),    # gold         #FFD700
-    (107, 45, 91),    # purple       #6B2D5B
-    (232, 232, 232),  # white        #E8E8E8
-    (0, 0, 0, 0),     # transparent
-]
-
-# 카드 프레임 색상 정의
-FRAME_COLORS = {
-    "gwang":     (255, 215, 0),    # 금색
-    "tti_hong":  (196, 30, 58),    # 홍단 빨강
-    "tti_cheong":(0, 212, 255),    # 청단 파랑
-    "tti_cho":   (57, 255, 20),    # 초단 초록
-    "yeolkkeut": (135, 206, 235),  # 열끗 하늘색
-    "pi":        (150, 150, 150),  # 피 회색
-}
-
-FRAME_SYMBOLS = {
-    "gwang": "★",
-    "tti_hong": "═", "tti_cheong": "═", "tti_cho": "═",
-    "yeolkkeut": "◆",
-    "pi": "●",
-}
-
-
-def resize_nearest(img: Image.Image, target_w: int, target_h: int) -> Image.Image:
-    """Nearest Neighbor 리사이즈 — 픽셀 경계 유지"""
-    return img.resize((target_w, target_h), Image.NEAREST)
-
-
-def apply_palette(img: Image.Image, palette: list = DOKKAEBI_PALETTE) -> Image.Image:
-    """가장 가까운 팔레트 색상으로 모든 픽셀을 매핑"""
-    img_rgba = img.convert("RGBA")
-    pixels = np.array(img_rgba)
-
-    palette_rgb = np.array([c[:3] for c in palette if len(c) >= 3])
-
-    h, w, _ = pixels.shape
-    flat = pixels[:, :, :3].reshape(-1, 3).astype(np.float32)
-
-    # 각 픽셀에서 가장 가까운 팔레트 색 찾기
-    distances = np.linalg.norm(flat[:, None] - palette_rgb[None, :], axis=2)
-    nearest_idx = np.argmin(distances, axis=1)
-
-    new_pixels = palette_rgb[nearest_idx].reshape(h, w, 3).astype(np.uint8)
-
-    # 알파 채널 유지
-    result = np.dstack([new_pixels, pixels[:, :, 3]])
-    return Image.fromarray(result, "RGBA")
-
-
-def remove_background(img: Image.Image) -> Image.Image:
-    """rembg로 배경 자동 제거"""
-    from rembg import remove
-    return remove(img)
-
-
-def add_card_frame(img: Image.Image, frame_type: str) -> Image.Image:
-    """카드에 타입별 프레임(테두리) 자동 추가"""
-    color = FRAME_COLORS.get(frame_type, (150, 150, 150))
-    w, h = img.size
-    border = max(2, w // 26)  # 비율 기반 테두리 두께
-
-    framed = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    draw = ImageDraw.Draw(framed)
-
-    # 테두리 그리기
-    draw.rectangle([0, 0, w-1, h-1], outline=color, width=border)
-
-    # 내부에 원본 이미지 합성
-    inner = img.crop((border, border, w-border, h-border))
-    framed.paste(inner, (border, border))
-
-    # 테두리 다시 그리기 (위에 덮기)
-    draw = ImageDraw.Draw(framed)
-    draw.rectangle([0, 0, w-1, h-1], outline=color, width=border)
-
-    return framed
-
-
-def full_postprocess(img: Image.Image, config: dict) -> Image.Image:
-    """설정에 따라 전체 후처리 파이프라인 실행"""
-    # 1. 배경 제거
-    if config.get("remove_background", False):
-        img = remove_background(img)
-
-    # 2. Nearest Neighbor 리사이즈
-    target_w = config.get("target_width", img.width)
-    target_h = config.get("target_height", img.height)
-    if config.get("resize_method") == "nearest":
-        img = resize_nearest(img, target_w, target_h)
-
-    # 3. 팔레트 제한
-    if config.get("apply_palette", False):
-        img = apply_palette(img)
-
-    # 4. 카드 프레임 추가
-    if config.get("add_frame", False) and config.get("frame_type"):
-        img = add_card_frame(img, config["frame_type"])
-
-    return img
-```
-
----
-
-## 7. 마스터 실행 스크립트 (`generate.py`)
+## 11. 마스터 실행 스크립트 (`generate.py`)
 
 ```python
 #!/usr/bin/env python3
 """
-도깨비의 패 — 에셋 자동 생성 마스터 스크립트
+도깨비의 패 — ComfyUI 에셋 자동 생성
 
 사용법:
-  python generate.py --all                    # 전체 에셋 생성
-  python generate.py --type cards             # 카드만 생성
-  python generate.py --type characters        # 캐릭터만 생성
-  python generate.py --type backgrounds       # 배경만 생성
-  python generate.py --type talismans         # 부적만 생성
-  python generate.py --type ui               # UI만 생성
-  python generate.py --type cards --id m01_gwang  # 특정 카드 1장만 생성
-  python generate.py --type cards --pick      # 배치 생성 후 최선 선택 모드
+  python generate.py --all                          # 전체 에셋
+  python generate.py --type cards                   # 카드만
+  python generate.py --type characters              # 캐릭터만
+  python generate.py --type cards --id m01_gwang    # 특정 1장
+  python generate.py --type cards --pick            # 4장 생성 후 선택
 """
 
 import argparse
 import json
 import sys
 from pathlib import Path
-from sd_api import StableDiffusionAPI
+from comfy_api import ComfyUIAPI
 from postprocess import full_postprocess
 
 SCRIPT_DIR = Path(__file__).parent
@@ -523,118 +752,128 @@ CONFIG_DIR = SCRIPT_DIR / "config"
 OUTPUT_DIR = SCRIPT_DIR / "output"
 
 
-def load_config(config_type: str) -> dict:
-    common = json.loads((CONFIG_DIR / "common.json").read_text())
-    specific = json.loads((CONFIG_DIR / f"{config_type}.json").read_text())
-    return {**specific, "common": common}
+def load_style_guide():
+    return json.loads((CONFIG_DIR / "style_guide.json").read_text())
 
 
-def generate_asset(sd: StableDiffusionAPI, item: dict, gen_config: dict,
-                   post_config: dict, common: dict, output_base: Path):
-    """단일 에셋 생성 + 후처리 + 저장"""
-    # 프롬프트 조합
-    full_prompt = f"{common['common_positive']}, {item['prompt']}"
-    if gen_config.get("lora"):
-        full_prompt += f", {gen_config['lora']}"
+def load_config(config_type):
+    return json.loads((CONFIG_DIR / f"{config_type}.json").read_text())
 
-    full_negative = common["common_negative"]
 
-    print(f"  생성 중: {item['name']} (seed: {item.get('seed', -1)})")
+def build_prompt(style, asset_type, item_prompt):
+    """스타일 가이드에 따라 최종 프롬프트 조립"""
+    parts = [
+        style["style_prefix"]["all"],
+        style["style_prefix"].get(asset_type, ""),
+        item_prompt,
+        style["style_suffix"]["all"],
+    ]
+    return ", ".join(p for p in parts if p)
 
-    # SD API 호출
-    images = sd.txt2img(
-        prompt=full_prompt,
-        negative=full_negative,
-        width=gen_config["width"],
-        height=gen_config["height"],
-        steps=gen_config["steps"],
-        cfg_scale=gen_config["cfg_scale"],
-        sampler=gen_config["sampler"],
-        seed=item.get("seed", -1),
-        batch_size=gen_config.get("batch_count", 1)
-    )
 
-    # 후처리 설정
-    proc_config = {**post_config}
+def build_negative(style, asset_type):
+    parts = [
+        style["negative"]["all"],
+        style["negative"].get(asset_type, ""),
+    ]
+    return ", ".join(p for p in parts if p)
+
+
+def generate_asset(api, item, config, style, output_base):
+    asset_type = config["type"].rstrip("s")  # cards → card
+    full_prompt = build_prompt(style, asset_type, item["prompt"])
+    full_negative = build_negative(style, asset_type)
+
+    # 워크플로우 로드 + 오버라이드
+    wf_path = SCRIPT_DIR / config["workflow"]
+    gen = config["generation"]
+
+    # ComfyUI 워크플로우 노드 오버라이드 (노드 ID는 워크플로우마다 다름)
+    # 실제 사용 시 워크플로우 JSON의 노드 ID에 맞춰 수정
+    overrides = {
+        "positive_prompt": {"text": full_prompt},
+        "negative_prompt": {"text": full_negative},
+        "sampler": {
+            "seed": item.get("seed", -1),
+            "steps": gen["steps"],
+            "cfg": gen["cfg_scale"],
+            "sampler_name": gen["sampler"],
+            "scheduler": gen["scheduler"],
+        },
+        "latent": {
+            "width": gen["width"],
+            "height": gen["height"],
+        },
+    }
+
+    workflow = api.load_workflow(str(wf_path), overrides)
+
+    print(f"  생성 중: {item.get('name', item['id'])} (seed: {item.get('seed', -1)})")
+    images = api.generate(workflow)
+
+    # 후처리
+    proc_config = {**config["postprocess"]}
     if item.get("frame"):
         proc_config["frame_type"] = item["frame"]
 
-    # 출력 경로
-    out_dir = output_base / item.get("output_dir", post_config.get("output_dir", ""))
+    out_dir = output_base / item.get("output_dir", config.get("output_dir", ""))
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    # 배치에서 첫 번째 사용 (또는 --pick 모드에서 선택)
     for i, img in enumerate(images):
         processed = full_postprocess(img, proc_config)
-
-        if len(images) == 1:
-            filename = f"{item['id']}.png"
-        else:
-            filename = f"{item['id']}_v{i}.png"
-
+        suffix = f"_v{i}" if len(images) > 1 else ""
+        filename = f"{item['id']}{suffix}.png"
         processed.save(out_dir / filename, "PNG")
-        print(f"    → 저장: {out_dir / filename}")
-
-    # 배치 1장일 때는 바로 최종 저장
-    if len(images) == 1:
-        # Unity 폴더에도 복사
-        unity_dir = SCRIPT_DIR.parent / "Assets" / "Art" / item.get("output_dir", "")
-        unity_dir.mkdir(parents=True, exist_ok=True)
-        processed.save(unity_dir / f"{item['id']}.png", "PNG")
+        print(f"    → {out_dir / filename}")
 
 
 def run(args):
-    # 설정 로드
+    style = load_style_guide()
     config = load_config(args.type)
-    common = config["common"]
 
-    # SD 연결
-    sd = StableDiffusionAPI(common["sd_url"])
-    if not sd.ping():
-        print("❌ SD WebUI에 연결할 수 없습니다.")
-        print(f"   {common['sd_url']} 에서 --api 모드로 실행 중인지 확인하세요.")
+    api = ComfyUIAPI(style["comfyui_url"])
+    if not api.ping():
+        print("ComfyUI 서버에 연결할 수 없습니다.")
+        print(f"  {style['comfyui_url']} 에서 실행 중인지 확인하세요.")
         sys.exit(1)
-    print("✅ SD WebUI 연결 성공")
+    print("ComfyUI 연결 성공")
 
-    # 모델 전환
-    model = config["generation"].get("model")
-    if model:
-        print(f"  모델 전환: {model}")
-        sd.set_model(model)
+    items = config.get("items", [])
+    # 캐릭터는 characters 키 사용
+    if not items and "characters" in config:
+        items = []
+        for char in config["characters"]:
+            for var in char.get("variations", [{}]):
+                items.append({
+                    "id": f"{char['id']}_{var.get('suffix', 'base')}",
+                    "name": f"{char['name_kr']} — {var.get('suffix', 'base')}",
+                    "prompt": f"{char['base_prompt']}, {var.get('add', '')}",
+                    "output_dir": char.get("output_dir", ""),
+                    "seed": char.get("base_seed", -1),
+                })
 
-    # 출력 베이스
-    output_base = SCRIPT_DIR / "output"
-
-    # 대상 아이템 필터
-    items = config["items"]
     if args.id:
         items = [i for i in items if i["id"] == args.id]
         if not items:
-            print(f"❌ ID '{args.id}'를 찾을 수 없습니다.")
+            print(f"ID '{args.id}'를 찾을 수 없습니다.")
             sys.exit(1)
 
-    print(f"\n🎨 {config['type']} 생성 시작 ({len(items)}개)")
-    print("=" * 50)
-
+    print(f"\n{config['type']} 생성 시작 ({len(items)}개)")
     for item in items:
-        generate_asset(sd, item, config["generation"],
-                       config["postprocess"], common, output_base)
-
-    print("=" * 50)
-    print(f"✅ 완료! {len(items)}개 에셋 생성됨")
+        generate_asset(api, item, config, style, OUTPUT_DIR)
+    print(f"완료! {len(items)}개 에셋 생성됨")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="도깨비의 패 에셋 자동 생성")
-    parser.add_argument("--all", action="store_true", help="전체 에셋 생성")
-    parser.add_argument("--type", choices=["cards", "characters", "backgrounds", "talismans", "ui"],
-                        help="에셋 타입 선택")
-    parser.add_argument("--id", type=str, help="특정 에셋 ID만 생성")
-    parser.add_argument("--pick", action="store_true", help="배치 생성 후 최선 선택 모드")
+    parser.add_argument("--all", action="store_true")
+    parser.add_argument("--type", choices=["cards", "characters", "backgrounds", "talismans"])
+    parser.add_argument("--id", type=str)
+    parser.add_argument("--pick", action="store_true")
     args = parser.parse_args()
 
     if args.all:
-        for t in ["cards", "characters", "backgrounds", "talismans", "ui"]:
+        for t in ["cards", "characters", "backgrounds", "talismans"]:
             args.type = t
             run(args)
     elif args.type:
@@ -645,199 +884,68 @@ if __name__ == "__main__":
 
 ---
 
-## 8. 실행 명령어 모음 (복사해서 쓰면 됨)
+## 12. 실행 명령어
 
-### 8.1 최초 세팅
-
-```bash
-# 파이프라인 폴더 생성 & 의존성 설치
-cd dokkaebi-hand
-mkdir -p sd-pipeline/config sd-pipeline/output sd-pipeline/palette
-pip install Pillow rembg requests numpy
-```
-
-### 8.2 SD 서버 실행 (별도 터미널)
+### 12.1 서버 실행
 
 ```bash
-cd stable-diffusion-webui
-./webui.sh --api --listen --port 7860
+cd ~/Desktop/ComfyUI && source venv/bin/activate && python main.py --listen
 ```
 
-### 8.3 에셋 생성 명령어
+### 12.2 에셋 생성
 
 ```bash
 cd dokkaebi-hand/sd-pipeline
 
-# === 전체 생성 (모든 에셋) ===
-python generate.py --all
-
-# === 카테고리별 생성 ===
-python generate.py --type cards           # 화투 카드 48장
-python generate.py --type characters      # 캐릭터 46장
-python generate.py --type backgrounds     # 배경 7종
-python generate.py --type talismans       # 부적 아이콘
-python generate.py --type ui             # UI 텍스처
-
-# === 개별 에셋 생성 ===
-python generate.py --type cards --id m01_gwang          # 1월 광 카드만
-python generate.py --type characters --id mukbo_laugh   # 먹보 웃음만
-
-# === 배치 비교 모드 (4장 생성해서 골라쓰기) ===
-python generate.py --type cards --id m01_gwang --pick
-```
-
-### 8.4 결과물 Unity에 일괄 복사
-
-```bash
-# output → Assets/Art 로 최종 복사 (generate.py가 자동으로 하지만 수동 실행도 가능)
-cp -r sd-pipeline/output/Cards/* Assets/Art/Cards/
-cp -r sd-pipeline/output/Characters/* Assets/Art/Characters/
-cp -r sd-pipeline/output/Backgrounds/* Assets/Art/Backgrounds/
+python generate.py --all                          # 전체
+python generate.py --type cards                   # 카드 48장
+python generate.py --type characters              # 캐릭터 전체
+python generate.py --type backgrounds             # 배경 7종
+python generate.py --type talismans               # 부적 아이콘
+python generate.py --type cards --id m01_gwang    # 1장만
+python generate.py --type cards --pick            # 4장 중 선택
 ```
 
 ---
 
-## 9. 카드 48장 전체 프롬프트 정의
+## 13. IP-Adapter 참조 이미지 준비
 
-### 명령 하나로 48장 생성하기 위한 전체 목록
+### 일관성의 핵심: 스타일 참조 이미지
 
-| ID | 월 | 타입 | 프롬프트 핵심 |
-|----|---|------|-------------|
-| `m01_gwang` | 1 | 광 | skeletal pine, ghost crane, glowing eyes, moonlight |
-| `m01_tti_hongdan` | 1 | 홍단 | skeletal pine, red ribbon, cursed text |
-| `m01_pi_1` | 1 | 피 | small skeletal pine branch |
-| `m01_pi_2` | 1 | 피 | withered pine cone |
-| `m02_tti_hongdan` | 2 | 홍단 | blood-red plum blossoms, raven, red ribbon |
-| `m02_pi_1~3` | 2 | 피×3 | blood plum branches (각각 다른 구도) |
-| `m03_gwang` | 3 | 광 | higanbana (피안화), crimson curtain veil |
-| `m03_tti_hongdan` | 3 | 홍단 | higanbana, red ribbon |
-| `m03_pi_1~2` | 3 | 피×2 | scattered higanbana petals |
-| `m04_tti_chodan` | 4 | 초단 | black vines (검은 덩굴), spirit bird, green ribbon |
-| `m04_pi_1~3` | 4 | 피×3 | dark hanging vines |
-| `m05_tti_chodan` | 5 | 초단 | underworld orchid, Sanzu River bridge, green ribbon |
-| `m05_pi_1~3` | 5 | 피×3 | pale orchid petals |
-| `m06_tti_cheongdan` | 6 | 청단 | ghost peony, spirit butterfly, blue ribbon |
-| `m06_pi_1~3` | 6 | 피×3 | fading peony |
-| `m07_tti_cheongdan` | 7 | 청단 | flame vines (화염 덩굴), hell boar silhouette, blue ribbon |
-| `m07_pi_1~3` | 7 | 피×3 | burning vine fragments |
-| `m08_gwang` | 8 | 광 | reeds in wind, blood moon (적월), ominous red glow |
-| `m08_yeolkkeut` | 8 | 열끗 | flying geese under blood moon |
-| `m08_pi_1~2` | 8 | 피×2 | reed stalks |
-| `m09_tti_cheongdan` | 9 | 청단 | underworld chrysanthemum, wanderer's cup, blue ribbon |
-| `m09_pi_1~3` | 9 | 피×3 | wilting chrysanthemum |
-| `m10_tti_chodan` | 10 | 초단 | blood-red maple leaves, skeletal deer, green ribbon |
-| `m10_pi_1~3` | 10 | 피×3 | falling blood maple leaves |
-| `m11_gwang` | 11 | 광 | immortal paulownia tree, hell phoenix in flames |
-| `m11_tti_hongdan` | 11 | 홍단 | paulownia leaves, red ribbon |
-| `m11_pi_1~2` | 11 | 피×2 | paulownia seed pods |
-| `m12_gwang` | 12 | 광 | blood rain falling, death messenger (사신) figure |
-| `m12_tti_hongdan` | 12 | 홍단 | rain streaks, red umbrella, red ribbon |
-| `m12_pi_1~2` | 12 | 피×2 | rain drops, dark puddles |
-
----
-
-## 10. 캐릭터 46장 자동 생성 전략
-
-### 한 캐릭터의 표정/포즈 변형 자동화
+1. ComfyUI에서 **수동으로** 마음에 드는 카드/캐릭터 1장을 생성
+2. 그 이미지를 `reference/style_ref_card.png`, `reference/style_ref_boss.png`로 저장
+3. 이후 모든 자동 생성에 IP-Adapter가 이 이미지의 **톤/질감/색감**을 참조
 
 ```
-기본 원리:
-1. 기본 포즈를 txt2img로 생성 (seed 고정)
-2. 표정 변형은 img2img + 프롬프트 변경으로 자동 생성
-3. seed 동일 → 같은 캐릭터, 프롬프트만 바꿈 → 표정만 변화
+참조 이미지 선정 기준:
+- 원하는 픽셀 크기와 선 굵기가 정확히 맞는 것
+- 팔레트 색상이 잘 반영된 것
+- 구도가 "평균적"인 것 (극단적이지 않은)
 ```
 
-```json
-{
-  "character": "mukbo",
-  "base_seed": 5001,
-  "base_prompt": "pixel art character, full body, gluttonous dokkaebi korean goblin, fat round body, huge mouth with sharp teeth, orange and blood red color scheme, dark fantasy korean folklore, thick ink outlines",
-  "variations": [
-    {"suffix": "laugh_pose1",  "add": "laughing expression, arms wide open"},
-    {"suffix": "eating_pose1", "add": "eating ravenously, holding food"},
-    {"suffix": "surprise_pose1", "add": "shocked expression, eyes wide, mouth open"},
-    {"suffix": "anger_pose1",  "add": "furious expression, clenched fists, veins visible"},
-    {"suffix": "laugh_pose2",  "add": "laughing expression, leaning forward, belly jiggling"},
-    {"suffix": "eating_pose2", "add": "eating expression, sitting cross-legged, plates around"},
-    {"suffix": "surprise_pose2", "add": "shocked expression, jumping back, arms up"},
-    {"suffix": "anger_pose2",  "add": "furious expression, slamming table, dark aura"}
-  ]
-}
+### ComfyUI에서 IP-Adapter 설치
+
+```bash
+cd ~/Desktop/ComfyUI/custom_nodes
+git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
+
+# 모델 다운로드 (models/ipadapter/ 에 배치)
+# ip-adapter_sd15.safetensors (SD 1.5용)
+# ip-adapter_sdxl.safetensors (SDXL용)
 ```
 
 ---
 
-## 11. 배경 7종 자동 생성
+## 14. 성능 예상 (M3 Pro 18GB)
 
-배경은 배경 제거 없이, 해상도만 조절하면 된다.
+| 에셋 | 모델 | 해상도 | Steps | 예상 시간 |
+|------|------|--------|-------|----------|
+| 카드 | SD 1.5 | 512×768 | 35 | ~25초 |
+| 캐릭터 | SDXL | 768×1152 | 40 | ~80초 |
+| 배경 | SDXL | 1280×720 | 50 | ~90초 |
+| 부적 | SD 1.5 | 256×256 | 30 | ~10초 |
 
-```bash
-# 배경 전체 생성 (7종 × 4배치 = 28장 중 선택)
-python generate.py --type backgrounds
-
-# 특정 배경만 재생성
-python generate.py --type backgrounds --id area01_market
-```
-
-배경은 **1280×720으로 생성 → Nearest Neighbor로 2560×1440 업스케일**.
-이렇게 하면 자연스러운 픽셀아트 느낌이 유지된다.
-
----
-
-## 12. 부적 아이콘 자동 생성
-
-```bash
-# 부적 아이콘 전체 생성
-python generate.py --type talismans
-```
-
-64×64 최종 크기. 256×256으로 생성 → 다운스케일.
-등급별 색상 자동 적용 (postprocess에서 프레임 색 입힘).
-
----
-
-## 13. 품질 관리 자동화
-
-### 13.1 배치 비교 스크립트 (선택용)
-
-```bash
-# 4장 생성 → output/에 v0~v3으로 저장 → 터미널에서 미리보기
-python generate.py --type cards --id m01_gwang --pick
-
-# macOS에서 이미지 바로 열기
-open sd-pipeline/output/Cards/Fronts/m01_gwang_v*.png
-```
-
-마음에 드는 버전을 고른 뒤:
-```bash
-# v2를 최종 선택
-cp sd-pipeline/output/Cards/Fronts/m01_gwang_v2.png Assets/Art/Cards/Fronts/m01_gwang.png
-```
-
-### 13.2 일괄 재생성 (불만족 시)
-
-```bash
-# seed만 바꿔서 같은 에셋 다시 생성
-python generate.py --type cards --id m01_gwang  # config에서 seed 변경 후 재실행
-```
-
----
-
-## 14. Unity 임포트 설정
-
-모든 생성된 PNG는 아래 설정으로 자동 임포트되도록 Unity에서 프리셋 설정:
-
-```
-Texture Type:    Sprite (2D and UI)
-Sprite Mode:     Single
-Pixels Per Unit: 100
-Filter Mode:     Point (no filter)     ← 필수!
-Compression:     None                  ← 픽셀아트 손상 방지
-Max Size:        2048
-```
-
-> **팁:** Unity Editor 스크립트(`AssetPostprocessor`)로 Art/ 폴더 하위 파일에
-> 자동으로 위 설정을 적용할 수 있다. 이것도 명령 하나로 끝남.
+> ComfyUI는 A1111 대비 Mac에서 약 20~30% 빠르다.
 
 ---
 
@@ -845,50 +953,31 @@ Max Size:        2048
 
 ```
 dokkaebi-hand/
-  sd-pipeline/                    ← 자동화 파이프라인 (Git 추적)
+  sd-pipeline/
     generate.py                   ← 마스터 명령 스크립트
-    sd_api.py                     ← SD API 래퍼
+    comfy_api.py                  ← ComfyUI API 래퍼
     postprocess.py                ← 후처리 자동화
-    config/                       ← JSON 설정 파일
-      common.json
+    workflows/                    ← ComfyUI 워크플로우 JSON
+      card_base.json
+      character_base.json
+      character_variation.json
+      background_base.json
+      talisman_base.json
+    config/                       ← 설정 + 프롬프트
+      style_guide.json            ← 공통 스타일/네거티브/팔레트
       cards.json                  ← 48장 프롬프트
-      characters.json             ← 46장 프롬프트
+      characters.json             ← 캐릭터 + 변형 정의
       backgrounds.json            ← 7종 프롬프트
       talismans.json
-      ui.json
-    output/                       ← SD 원본 출력 (.gitignore)
-  Assets/Art/                     ← Unity 최종 에셋 (Git 추적, LFS)
-    Cards/Fronts/                 ← 카드 앞면 48장
-    Cards/Backs/                  ← 카드 뒷면 1장
-    Characters/Bosses/Mukbo/      ← 캐릭터 스프라이트
-    Characters/Bosses/Trickster/
-    Characters/Bosses/Flame/
-    Characters/Bosses/Shadow/
-    Characters/Bosses/Yama/
-    Characters/Protagonist/
-    Characters/NPCs/
-    Backgrounds/                  ← 배경 7종
-    Talismans/                    ← 부적 아이콘
-    UI/                           ← UI 텍스처
+    reference/                    ← IP-Adapter 참조 이미지
+      style_ref_card.png
+      style_ref_boss.png
+    palette/
+      dokkaebi_palette.png
+    output/                       ← 중간 출력 (.gitignore)
+  Assets/Art/                     ← 최종 에셋
+    Cards/Fronts/
+    Characters/Bosses/
+    Backgrounds/
+    Talismans/
 ```
-
----
-
-## 16. 요약 — 명령 하달 흐름
-
-```
-1. SD 서버 켜기
-   $ ./webui.sh --api
-
-2. 원하는 에셋 생성 명령
-   $ python generate.py --all              ← 전체
-   $ python generate.py --type cards       ← 카드만
-   $ python generate.py --type cards --id m01_gwang  ← 1장만
-
-3. 결과 확인
-   $ open Assets/Art/Cards/Fronts/m01_gwang.png
-
-4. 불만족 시 → config/cards.json에서 프롬프트/seed 수정 → 재실행
-```
-
-**수동 작업 = 0. 프롬프트 수정 + 명령 실행만 반복.**

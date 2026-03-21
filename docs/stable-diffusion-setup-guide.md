@@ -141,7 +141,7 @@ ComfyUI가 열리면 기본 워크플로우가 로드되어 있다.
    ```
    blurry, 3d render, realistic photo, anti-aliasing, soft edges
    ```
-4. **Empty Latent Image** 노드: 너비 320, 높이 480 (카드 비율)
+4. **Empty Latent Image** 노드: 너비 512, 높이 768 (카드 비율)
 5. **Queue Prompt** 버튼 클릭 → 생성 시작
 
 > M3 Pro에서 SD 1.5 기준 512x512 이미지 **약 15~30초** 소요.
@@ -346,16 +346,38 @@ print(torch.backends.mps.is_built())      # True 여야 함
 
 ---
 
-## 성능 예상치 (M3 Pro 18GB)
+## 성능 예상치 (M3 Pro 18GB, ComfyUI)
 
-| 모델 | 해상도 | Steps | 예상 시간 |
-|------|--------|-------|----------|
-| SD 1.5 | 512×768 (카드) | 35 | ~30초 |
-| SD 1.5 | 512×512 | 30 | ~20초 |
-| SD 1.5 | 768×1152 (캐릭터) | 40 | ~50초 |
-| SD 1.5 | 1280×720 (배경) | 50 | ~90초 |
-| SDXL | 512×512 | 30 | ~60초 |
-| SDXL | 1024×1024 | 40 | ~3분 |
+| 에셋 | 모델 | 해상도 | Steps | 예상 시간 |
+|------|------|--------|-------|----------|
+| 카드 | SD 1.5 | 512×768 | 35 | ~25초 |
+| 부적 | SD 1.5 | 256×256 | 30 | ~10초 |
+| 캐릭터 | SDXL | 768×1152 | 40 | ~80초 |
+| 배경 | SDXL | 1280×720 | 50 | ~90초 |
 
+> ComfyUI는 A1111 대비 Mac에서 약 20~30% 빠르다.
 > SD 1.5가 훨씬 빠르고 18GB에서 안정적이다.
-> 픽셀아트는 고해상도가 필요 없으므로 SD 1.5가 최적 선택.
+> 카드/부적은 SD 1.5, 캐릭터/배경은 SDXL 사용.
+
+---
+
+## IP-Adapter 설치 (일관성 확보용)
+
+IP-Adapter는 참조 이미지의 스타일을 새 생성에 전이시켜 **일관된 아트 스타일**을 유지한다.
+
+```bash
+# ComfyUI 커스텀 노드로 설치
+cd ~/Desktop/ComfyUI/custom_nodes
+git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
+
+# IP-Adapter 모델 다운로드 → models/ipadapter/ 에 배치
+# SD 1.5용: ip-adapter_sd15.safetensors
+# SDXL용:   ip-adapter_sdxl.safetensors
+# 다운로드 경로: https://huggingface.co/h94/IP-Adapter
+
+# CLIP Vision 모델 필요 → models/clip_vision/ 에 배치
+# SD 1.5용: sd15_clip_vision.safetensors
+# SDXL용:   sdxl_clip_vision.safetensors
+```
+
+사용법은 `docs/stable-diffusion-art-pipeline.md` 참조.
