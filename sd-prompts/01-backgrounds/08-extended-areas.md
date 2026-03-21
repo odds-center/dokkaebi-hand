@@ -61,4 +61,4 @@ A pixel art scene of a surreal chaos realm at the gate of reincarnation in the K
 - 황금 미궁(07): 유일하게 밝은 배경 — 밝음 자체가 함정
 - 무한 회랑(08): 미니멀리즘이 핵심 — 요소를 최소화
 - 그림자 도시(09): 가장 어두운 배경 — 거의 보이지 않아야 함
-- 윤회의 문(10): Flux-dev의 초현실적 합성 능력을 활용
+- 윤회의 문(10): 초현실적 합성 — Isaac LoRA strength 낮추고 (0.3) 디테일 살리기

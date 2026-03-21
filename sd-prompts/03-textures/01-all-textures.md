@@ -11,20 +11,29 @@
 ## 생성 환경 (텍스처 전용)
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.50)
 Resolution: 512 x 512 (정사각형 타일)
-Steps: 20~25
-Guidance: 3.5
-Sampler: euler
-Scheduler: normal
+Sampler: euler_a
+Steps: 25~30
+CFG: 7
 Batch: 2~4장
 # ComfyUI에서 Tiled 관련 노드 사용 시 타일링 품질 향상
 ```
 
-### Flux-dev 프롬프트 규칙
-- 네거티브 프롬프트 없음 — 원하지 않는 요소는 긍정 프롬프트에서 배제
-- 가중치 문법 미사용 — 자연어로 강조
-- LoRA는 ComfyUI 노드에서 별도 연결
+## 공통 프롬프트 프리픽스
+
+> 모든 텍스처 프롬프트 **앞에** 이 태그를 붙인다.
+
+```
+score_9, score_8_up, score_7_up, pixel art, game assets, seamless tileable pattern, low-resolution pixel art texture, each pixel visible, blocky edges, no anti-aliasing, flat colors, thick black outlines, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
+```
 
 ## 후처리
 

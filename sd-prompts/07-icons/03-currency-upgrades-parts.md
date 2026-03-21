@@ -11,7 +11,7 @@
 ### 공통 프롬프트 프리픽스
 
 ```
-A single low-resolution pixel art item icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 32x32 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple. Square 1:1. Only the item, nothing else.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, single item icon, one simple recognizable object centered, flat colors, thick black outlines, no ground, no shadow, no pedestal, square composition, only the item, nothing else
 ```
 
 ### icon_yeop — 엽전 (런 내 화폐)
@@ -38,7 +38,7 @@ A small floating pale blue-white spirit orb with tiny wisp trails. Translucent g
 ### 공통 프롬프트 프리픽스
 
 ```
-A single low-resolution pixel art item icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 32x32 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple. Square 1:1. Only the item, nothing else.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, single item icon, one simple recognizable object centered, flat colors, thick black outlines, no ground, no shadow, no pedestal, square composition, only the item, nothing else
 ```
 
 ### 패의 길 (Card Path) — 6종
@@ -160,7 +160,7 @@ A number symbol with a red downward arrow beside it. Simple score-reduction icon
 ### 공통 프롬프트 프리픽스
 
 ```
-A single very small low-resolution pixel art equipment icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 22x22 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no gradients, no blending. Bold thick black pixel outlines. Flat color fill only. One extremely simple object on plain solid bright green (#00FF00) chroma key background. Maximally simple. Square 1:1. Only the item, nothing else.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, very small equipment icon, one extremely simple object centered, flat colors, thick black outlines, no ground, no shadow, maximally simple, square composition, only the item, nothing else
 ```
 
 ### 머리(Head) 파츠 — 8종

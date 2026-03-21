@@ -6,18 +6,19 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
-Resolution: 320 x 480 (픽셀 그리드 80x120 기준, 4x 생성)
-       # → 다운스케일 240x360 (@1920x1080 기본 저장)
-Steps: 25~30
-Guidance: 3.5
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.70)
+Resolution: 320 x 480 → 다운스케일 240x360 (@1920x1080)
+Sampler: euler_a
+Steps: 30
+CFG: 7
 Batch: 4~8장
 ```
 
 ## 공통 프롬프트 프리픽스
 
 ```
-A small low-resolution pixel art companion sprite of a tamed Korean dokkaebi, made of large visible square pixels like a sprite from Stardew Valley. Drawn on a 80x120 pixel grid then scaled up — each individual pixel is clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing. Bold flat color fills with thick black pixel outlines. No gradients, no blending between pixels. The character looks loyal and helpful — tamed ally. Smaller and less threatening than boss version. Plain solid bright green (#00FF00) background for chroma key. Fully contained with margins. Centered composition. Character only, no decorative elements.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, small friendly companion sprite, tamed Korean dokkaebi, loyal helpful expression, smaller than boss version, front-facing centered, flat colors, thick black outlines, dark fantasy, fully contained with margins, character only
 ```
 
 ## 후처리

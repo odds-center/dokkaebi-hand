@@ -3,12 +3,28 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.65)
 Resolution: 528 x 800 (픽셀 그리드 132x200 기준, 4x 생성)
        # → 다운스케일 396x600 (@1920x1080 기본 저장)
+Sampler: euler_a
 Steps: 25~30
-Guidance: 3.5
+CFG: 7
 Batch: 8장
+```
+
+## 공통 프롬프트 프리픽스
+
+> 모든 NPC 초상화 프롬프트 **앞에** 이 태그를 붙인다.
+
+```
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, character portrait sprite, Korean underworld, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ---

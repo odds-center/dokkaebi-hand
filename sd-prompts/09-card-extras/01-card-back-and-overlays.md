@@ -10,10 +10,12 @@
 ### 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.65)
 Resolution: 270 x 390 (카드 크기 3배)
+Sampler: euler_a
 Steps: 25~30
-Guidance: 3.5
+CFG: 7
 Batch: 8장
 ```
 
@@ -43,17 +45,25 @@ A low-resolution pixel art hwatu card back design, made of large visible square 
 ### 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.65)
 Resolution: 270 x 390 (카드 크기 3배)
-Steps: 20~25
-Guidance: 3.5
+Sampler: euler_a
+Steps: 25~30
+CFG: 7
 Batch: 4장
 ```
 
 ### 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art card overlay frame effect for a Korean card game, made of large visible square pixels. Each individual pixel clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. This is an overlay ON TOP of an existing card — center must be completely empty/transparent (green #00FF00 background showing through). Only border edges and corners have visual effects. Central 70% must be completely clear. Fully contained.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, card overlay frame effect, Korean card game, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, overlay on top of existing card, empty transparent center, border edges and corners only, fully contained with margins
+```
+
+### 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ### enhance_tier0 — 기본 (★)

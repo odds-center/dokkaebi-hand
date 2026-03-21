@@ -6,11 +6,12 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
-Resolution: 176 x 176 (픽셀 그리드 44x44 기준, 4x 생성)
-       # → 다운스케일 132x132 (@1920x1080 기본 저장)
-Steps: 20~25
-Guidance: 3.5
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.80)
+Resolution: 176 x 176 → 다운스케일 132x132 (@1920x1080)
+Sampler: euler_a
+Steps: 25
+CFG: 7
 Batch: 4장
 ```
 

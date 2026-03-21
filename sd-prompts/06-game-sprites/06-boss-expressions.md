@@ -17,20 +17,20 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
-Resolution: 800 x 800 (픽셀 그리드 200x200 기준, 4x 생성)
-       # → 다운스케일 600x600 (@1920x1080 기본 저장)
-Steps: 25~30
-Guidance: 3.5
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.65)
+Resolution: 800 x 800 → 다운스케일 600x600 (@1920x1080)
+Sampler: euler_a
+Steps: 30
+CFG: 7
 Batch: 4장
-방법: 기본 보스 스프라이트를 img2img 입력으로 사용 (denoising 0.3~0.4)
-      또는 txt2img로 독립 생성 후 스타일 매칭
+방법: 기본 보스 스프라이트를 img2img 입력 (denoising 0.3~0.4) 또는 txt2img
 ```
 
 ## 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art game sprite of a Korean dokkaebi demon, made of large visible square pixels like a sprite from Stardew Valley or Undertale. Drawn on a 200x200 pixel grid then scaled up — each individual pixel is clearly visible and distinguishable. Blocky jagged edges, no smooth curves, no anti-aliasing. Bold flat color fills with thick black pixel outlines. No gradients, no blending. Same character design as base sprite but with different expression and body state. Plain solid bright green (#00FF00) background for chroma key. Fully contained. Front-facing centered. Character only.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, single character sprite, Korean dokkaebi demon, same design as base sprite but different expression and body state, front-facing centered, flat colors, thick black outlines, dark fantasy, fully contained, no cropping
 ```
 
 ## 후처리

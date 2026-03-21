@@ -49,18 +49,26 @@
 ### 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.65)
 Resolution: 240 x 336 (픽셀 그리드 60x84 기준, 4x 생성)
        # → 다운스케일 180x252 (@1920x1080 기본 저장)
-Steps: 20~25
-Guidance: 3.5
+Sampler: euler_a
+Steps: 25~30
+CFG: 7
 Batch: 4장
 ```
 
 ### 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art card frame template, made of large visible square pixels where each pixel is clearly distinguishable. Drawn on a 88x125 pixel grid. Blocky jagged edges, no smooth curves, no anti-aliasing, no gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. This is ONLY the frame border — the CENTER must be completely empty (plain solid bright green #00FF00 showing through) for card illustration to be inserted later. Top has a colored header bar, bottom has space for text. The frame is the card's outer shell only.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, card frame template, 88x125 pixel grid, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, frame border only, empty center green chroma key, colored header bar top, text space bottom, fully contained with margins
+```
+
+### 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ---

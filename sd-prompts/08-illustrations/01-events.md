@@ -6,17 +6,25 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.55)
 Resolution: 512 x 384 (4:3, 이벤트 패널 비율)
+Sampler: euler_a
 Steps: 25~30
-Guidance: 3.5~4.0
+CFG: 7
 Batch: 4장
 ```
 
 ## 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art scene illustration for a Korean underworld card game event, made of large visible square pixels like a cutscene from Celeste or Undertale. Each individual pixel is clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Dark fantasy atmosphere. Bold flat color fills with thick black pixel outlines. NES/SNES era aesthetic. Limited game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), warm orange lantern light, bone white (#E8E8E8). Fully contained, nothing cropped. No text or UI elements.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, scene illustration, Korean underworld card game event, dark fantasy atmosphere, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, NES SNES era aesthetic, limited game palette, no text, no UI elements, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ## 후처리

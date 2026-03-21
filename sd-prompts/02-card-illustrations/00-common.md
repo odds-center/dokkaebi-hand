@@ -12,21 +12,16 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.60)
 Resolution: 240 x 336 (픽셀 그리드 60x84 기준, 4x 생성)
        # → 다운스케일 180x252 (@1920x1080 기본 저장)
-Steps: 20~30
-Guidance: 3.5~4.0
-Sampler: euler
-Scheduler: normal
+Sampler: euler_a
+Steps: 25~30
+CFG: 7
 Batch: 4장씩 뽑아서 최선 선택
 ```
 
-### Flux-dev 프롬프트 규칙
-- **네거티브 프롬프트 없음** — Flux-dev는 네거티브 프롬프트를 지원하지 않음. 원하지 않는 요소는 긍정 프롬프트에서 명시적으로 배제하는 식으로 작성.
-- **가중치 문법 미사용** — `(keyword:1.3)` 같은 SD 문법 대신 자연어로 강조. "very detailed", "prominently placed" 등.
-- **LoRA는 ComfyUI 노드에서 연결** — 프롬프트에 `<lora:...>` 태그 넣지 않음.
-- **자연어 서술** — 문장 형태로 장면을 묘사. 쉼표 나열보다 문장이 효과적.
 
 ## 카드 크기 참조
 - **UI 표시 크기:** 90x130px (게임 화면에서 보이는 크기)
@@ -80,7 +75,13 @@ Batch: 4장씩 뽑아서 최선 선택
 > 모든 개별 카드 프롬프트 **앞에** 이 문장을 붙여 사용한다.
 
 ```
-A single low-resolution pixel art illustration of a traditional Korean hwatu (flower card), made of large visible square pixels like a sprite from Stardew Valley. Drawn on a 60x84 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Flat bold color fills with thick black pixel outlines on every shape. Woodblock print aesthetic. Limited color palette: red, black, gold, blue, green, and white only. Light cream-ivory background like aged hanji paper. No card frame, no border, no text overlay — only the interior illustration. All elements fully contained within image boundaries with comfortable margins — nothing cropped. Centered composition with breathing room on all sides.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple cream background, traditional Korean hwatu flower card illustration, 60x84 pixel grid, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, woodblock print aesthetic, limited color palette red black gold blue green white, light cream-ivory hanji paper, no card frame, no border, no text overlay, centered composition, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ### 이미지 넘침 방지 (필수)

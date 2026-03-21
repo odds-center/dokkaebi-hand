@@ -1,8 +1,8 @@
-# 이미지 생성 프롬프트 — 도깨비의 패 (Flux-dev + ComfyUI)
+# 이미지 생성 프롬프트 — 도깨비의 패 (Pony + Isaac LoRA + ComfyUI)
 
 ## 원칙
 
-Flux-dev는 **분위기와 컨셉**이 강하고, 텍스트 생성 능력도 SD 1.5보다 우수하다.
+Pony Diffusion V6 XL + Binding of Isaac Style LoRA로 **일관된 픽셀아트 스타일**을 생성한다.
 아래 10가지 영역을 다룬다.
 
 | 폴더 | 용도 | 수량 | 결과물 |
@@ -23,18 +23,26 @@ Flux-dev는 **분위기와 컨셉**이 강하고, 텍스트 생성 능력도 SD 
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
-Sampler: euler
-Scheduler: normal
-Guidance: 3.5~4.0
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1.safetensors (strength 0.65~0.8)
+Sampler: euler_a (또는 DPM++ 2M Karras)
+Steps: 25~35
+CFG: 7~8
 ```
 
-### Flux-dev 핵심 규칙
-- **네거티브 프롬프트 미사용** — Flux-dev는 네거티브를 지원하지 않음
-- **가중치 문법 미사용** — `(keyword:1.3)` 대신 자연어로 강조
-- **LoRA는 ComfyUI 노드에서 연결** — 프롬프트에 `<lora:...>` 태그 넣지 않음
-- **자연어 문장 서술** — 쉼표 나열보다 완전한 문장이 효과적
+### Pony + Isaac LoRA 핵심 규칙
+- **네거티브 프롬프트 필수** — 원치 않는 요소를 명시적으로 제거
+- **가중치 문법 사용 가능** — `(keyword:1.3)` 형태 지원
+- **Pony 품질 태그 필수** — 프롬프트 맨 앞에 `score_9, score_8_up, score_7_up` 추가
+- **LoRA 트리거 워드 필수** — `pixel art, game assets, chibi` 반드시 포함
+- **태그 나열 방식** — Pony는 자연어보다 쉼표 구분 태그가 효과적
 - **이미지 넘침 방지** — 모든 요소가 경계 안에 완전히 들어오도록 마진 확보
+
+### 공통 네거티브 프롬프트 (모든 에셋에 사용)
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, oil painting, sketch, line art, normal mapped, pbr, ray tracing, text, watermark, signature
+```
 
 ### 시각 통일성 원칙 (Art Bible)
 
@@ -42,7 +50,7 @@ Guidance: 3.5~4.0
 
 | 원칙 | 내용 |
 |------|------|
-| **아트 스타일** | 저해상도 도트 스프라이트. **"pixel art"만으로 부족** — 아래 Flux-dev 픽셀아트 강제 구문 필수 사용 |
+| **아트 스타일** | Isaac LoRA + Pony로 일관된 픽셀아트. 트리거 워드 `pixel art, game assets, chibi` 필수 |
 | **윤곽선** | 굵고 선명한 검정 아웃라인. 모든 오브젝트에 thick black outlines |
 | **채색** | 플랫 컬러 (flat color fill). 그라디언트 없이 면 단위 채색 |
 | **팔레트** | 게임 9색 팔레트 기반 (아래 참조). 각 에셋의 고유색은 팔레트 위에 추가 |
@@ -64,31 +72,29 @@ Guidance: 3.5~4.0
 
 **카드 디자인: A 스타일 (전통 화투 80% + 저승 힌트 20%)**
 
-### Flux-dev 픽셀아트 강제 구문 (핵심!)
+### Pony + Isaac LoRA 프롬프트 구조
 
-> **"pixel art"만 쓰면 Flux-dev는 부드러운 이미지를 생성한다.**
-> 아래 구문을 반드시 포함해야 실제 도트 스프라이트가 나온다.
+> Isaac LoRA가 픽셀아트 스타일을 자동으로 적용하므로, Flux-dev처럼 장문의 픽셀아트 강제 구문이 불필요.
+> 트리거 워드 + 품질 태그 + 내용 설명으로 충분.
 
 ```
-필수 포함 키워드 (자연어로 녹여서 사용):
-- "low-resolution sprite made of large visible square pixels"
-- "each individual pixel is clearly visible and distinguishable"
-- "looks like it was drawn on a 32x32 (or 64x64) pixel grid"
-- "blocky jagged edges, no smooth curves, no anti-aliasing"
-- "like a sprite from Stardew Valley / Undertale / Celeste"
-- "zoomed-in pixel grid where you can count each pixel"
-- "no smooth gradients, no soft edges, no blending between pixels"
-- "NES / SNES / GBA era sprite art"
+프롬프트 구조:
+  score_9, score_8_up, score_7_up,     ← Pony 품질 태그 (필수)
+  pixel art, game assets, chibi,        ← LoRA 트리거 워드 (필수)
+  [배경/투명 지정],                      ← simple green background / simple background
+  [에셋 내용 설명],                      ← 실제 내용 태그들
+  flat colors, thick outlines,          ← 스타일 보강
+  limited color palette                 ← 색상 제한
 
-해상도별 그리드 명시 (프롬프트에 사용할 값):
-- 배경: "drawn on a 640x360 pixel canvas"
-- 보스 (200x200): "drawn on a 200x200 pixel grid, scaled up"
-- 동료 (80x120): "drawn on a 80x120 pixel grid, scaled up"
-- 카드 (60x84): "drawn on a 60x84 pixel grid, scaled up"
-- 아이콘 (32x32): "drawn on a 32x32 pixel grid, scaled up"
-- 삽화 (340x256): "drawn on a 340x256 pixel grid, scaled up"
+네거티브:
+  score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render,
+  smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark
 
-AI 생성 크기 = 그리드 × 4 (Flux-dev가 너무 작은 해상도에서 품질 떨어지므로)
+LoRA strength 가이드:
+  - 아이콘/아이템: 0.75~0.85 (아이작 느낌 강하게)
+  - 보스/캐릭터: 0.60~0.70 (캐릭터 디테일 유지)
+  - 배경: 0.50~0.60 (배경은 너무 강하면 단조로움)
+  - 카드 일러스트: 0.55~0.65 (전통 화투 느낌 유지)
 ```
 
 ## 해상도 체계 (3단계)
@@ -234,7 +240,7 @@ sd-prompts/
 2순위: 배경 (AI의 최대 강점, 게임 분위기 확정)
 3순위: 카드 일러스트 (48장이라 시간 소요, 일관성 주의)
 4순위: 카드 추가 에셋 (뒷면 + 강화 오버레이 — 카드 시스템 완성)
-5순위: 캘리그래피 (Flux-dev의 텍스트 생성 활용, 후처리 필요)
+5순위: 캘리그래피 (Pony + Isaac LoRA 텍스트 생성, 후처리 필요)
 6순위: 아이콘 (부적/업적/통화/파츠 — 87종 대량 생산)
 7순위: 인게임 스프라이트 (보스/동료/NPC — 게임 캐릭터 비주얼)
 8순위: 이벤트/튜토리얼 삽화 (14장 — 스토리 몰입)

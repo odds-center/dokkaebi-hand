@@ -6,18 +6,26 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.80)
 Resolution: 192 x 192 (→ 다운스케일 48x48, 4배) — 아이콘류
            또는 용도별 상이 (아래 참조) — 게이지/바류
-Steps: 20~25
-Guidance: 3.5
+Sampler: euler_a
+Steps: 25~30
+CFG: 7
 Batch: 4장
 ```
 
 ## 공통 프롬프트 프리픽스
 
 ```
-A single low-resolution pixel art HUD icon in the style of The Binding of Isaac, made of large visible square pixels. Drawn on a 32x32 pixel grid then scaled up — each individual pixel is clearly visible and you can count them. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft edges, no gradients, no blending between pixels. Bold thick black pixel outlines. Flat color fill only. One simple recognizable object on plain solid bright green (#00FF00) chroma key background. Floats in empty space — no ground, no shadow, no pedestal. Extremely simple silhouette. Square 1:1. Only the icon, nothing else.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, HUD icon, Binding of Isaac style, 32x32 pixel grid, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, one simple recognizable object, chroma key green background, no ground, no shadow, no pedestal, extremely simple silhouette, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ## 후처리

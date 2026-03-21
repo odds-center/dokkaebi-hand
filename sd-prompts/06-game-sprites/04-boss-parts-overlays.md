@@ -42,18 +42,26 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.65)
 Resolution: 800 x 800 (픽셀 그리드 200x200 기준, 4x 생성)
        # → 다운스케일 600x600 (@1920x1080 기본 저장)
+Sampler: euler_a
 Steps: 25~30
-Guidance: 3.5
+CFG: 7
 Batch: 4장
 ```
 
 ## 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art equipment overlay sprite on a plain solid bright green (#00FF00) background for chroma key removal. Made of large visible square pixels like a sprite from Stardew Valley — each individual pixel is clearly visible. Drawn on a 200x200 pixel grid then scaled up. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending between pixels. Bold flat color fills with thick black pixel outlines. This is a SINGLE piece of equipment to be layered ON TOP of an existing boss sprite. Only the equipment piece itself — no character body. Positioned correctly for front-facing overlay.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, equipment overlay sprite, chroma key green background, 200x200 pixel grid, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, single equipment piece, no character body, front-facing overlay, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ## 후처리

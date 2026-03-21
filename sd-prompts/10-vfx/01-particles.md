@@ -6,17 +6,25 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.50)
 Resolution: 256 x 256 (정사각형)
-Steps: 20~25
-Guidance: 3.5
+Sampler: euler_a
+Steps: 25~30
+CFG: 7
 Batch: 4장
 ```
 
 ## 공통 프롬프트 프리픽스
 
 ```
-A single low-resolution pixel art VFX particle texture on a solid black (#000000) background — the black will be converted to transparency via alpha channel in post-processing. Made of large visible square pixels — each pixel clearly distinguishable. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients. The particle shape is made of bright colored pixel blocks on black, with stepped brightness levels (no smooth falloff). Bold flat color fills. NES/SNES era particle effect aesthetic. Centered composition. Only the pixel particle shape, nothing else.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple black background, VFX particle texture, solid black background for alpha conversion, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, stepped brightness levels, NES SNES era particle effect, centered composition, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ## 후처리

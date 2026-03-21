@@ -13,26 +13,27 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.60)
 Resolution: 512 x 768 (세로 전신)
-Steps: 20~30
-Guidance: 3.5~4.0
-Sampler: euler
-Scheduler: normal
+Sampler: euler_a
+Steps: 25~30
+CFG: 7
 Batch: 8장씩 뽑아서 최선 선택 (컨셉은 많이 뽑아야 함)
 ```
 
-### Flux-dev 프롬프트 규칙
-- 네거티브 프롬프트 없음 — 원하지 않는 요소는 긍정 프롬프트에서 배제
-- 가중치 문법 미사용 — 자연어로 강조
-- LoRA는 ComfyUI 노드에서 별도 연결
-
 ## 공통 프롬프트 프리픽스
 
-> 모든 컨셉아트 프롬프트 **앞에** 이 문장을 붙인다.
+> 모든 컨셉아트 프롬프트 **앞에** 이 태그를 붙인다.
 
 ```
-A character concept art in low-resolution pixel art style, made of large visible square pixels like a sprite from Undertale or Celeste. Full body view centered on plain solid bright green (#00FF00) background. Each individual pixel clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients, no blending. Korean dark fantasy style with thick black pixel outlines, expressive face, bold flat color fills. Limited game palette: dark navy (#1A1A2E), blood red (#C41E3A), ghost fire cyan (#00D4FF), gold (#FFD700), hanji beige (#F5E6CA), bone white (#E8E8E8), deep purple (#6B2D5B). Standing pose. Fully contained with comfortable margins.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, character concept art, full body view, Korean dark fantasy, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, expressive face, limited game palette, standing pose, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ## 게임 내 캐릭터 표시 크기

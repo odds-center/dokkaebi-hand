@@ -15,17 +15,25 @@
 ## 생성 환경
 
 ```yaml
-Model: Flux-dev (ComfyUI)
+Model: Pony Diffusion V6 XL (ComfyUI)
+LoRA: Binding of Isaac Style v2.1 (strength 0.50)
 Resolution: 400 x 400 (보스보다 약간 크게 — 오라가 밖으로 삐져나와야 함)
+Sampler: euler_a
 Steps: 25~30
-Guidance: 3.5
+CFG: 7
 Batch: 4장
 ```
 
 ## 공통 프롬프트 프리픽스
 
 ```
-A low-resolution pixel art aura effect overlay on a plain solid bright green (#00FF00) background for chroma key removal. Made of large visible square pixels — each pixel clearly visible. Blocky jagged edges, no smooth curves, no anti-aliasing, no soft gradients. Bold flat color fills. This is a full-body energy aura that surrounds a character — the CENTER must be completely empty (green background showing through) so the character sprite shows through when composited. Only the edges and surrounding area have the aura effect. Powerful and threatening — set bonus activated.
+score_9, score_8_up, score_7_up, pixel art, game assets, chibi, simple green background, aura effect overlay, chroma key green background, blocky jagged edges, no smooth curves, no anti-aliasing, flat colors, thick black outlines, full-body energy aura, empty center for character composite, edges and surrounding area only, fully contained with margins
+```
+
+## 공통 네거티브 프롬프트
+
+```
+score_4, score_3, score_2, score_1, blurry, photo, realistic, 3d render, smooth shading, anti-aliasing, gradient, soft edges, watercolor, text, watermark, signature
 ```
 
 ## 후처리
