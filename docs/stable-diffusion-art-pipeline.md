@@ -107,40 +107,83 @@ dokkaebi-hand/
 ### 4.2 해결: 3단계 일관성 레이어
 
 ```
-Layer 1: 스타일 토큰 고정 (프롬프트 프리픽스)
-  → 모든 프롬프트 앞에 동일한 스타일 문구 강제 삽입
+Layer 1: TBOI LoRA (The Binding of Isaac Style)
+  → Pony Diffusion 베이스 + Tboi.safetensors LoRA
+  → 모든 에셋에 동일한 픽셀아트 스타일 강제 적용
+  → 트리거 워드: "pixel art, game assets, chibi"
 
-Layer 2: LoRA 가중치 고정
-  → 픽셀아트 LoRA를 정확한 가중치로 항상 적용
+Layer 2: 스타일 토큰 고정 (프롬프트 프리픽스/서픽스)
+  → 모든 프롬프트에 동일한 세계관 + 구도 문구 삽입
 
 Layer 3: IP-Adapter (스타일 참조 이미지)
-  → 수동으로 "이 느낌"인 참조 이미지 1장을 지정
-  → 모든 생성에 스타일 참조로 주입 → 톤/질감 통일
+  → 마음에 드는 생성 결과 1장을 참조로 지정
+  → 이후 모든 생성에 톤/질감 통일
 ```
 
-### 4.3 스타일 토큰 체계 (`config/style_guide.json`)
+### 4.3 LoRA: The Binding of Isaac Style
+
+| 항목 | 값 |
+|------|-----|
+| CivitAI | https://civitai.com/models/740858 |
+| 파일 | `Tboi.safetensors` (~218MB) |
+| 베이스 모델 | **Pony Diffusion** (SDXL 계열) |
+| 트리거 워드 | `pixel art`, `game assets`, `chibi` |
+| 권장 강도 | model: 0.8, clip: 0.8 |
+| **주의** | `score_9, score_8_up` 등 Pony 품질 태그를 **네거티브**에 넣어야 효과 극대화 |
+
+왜 이 LoRA인가:
+- 아이작 스타일 = 어둡고 기괴한 로그라이트 픽셀아트 → 도깨비의 패 세계관과 완벽 호환
+- chibi 비율 캐릭터 → 카드/보스 아이콘에 적합
+- game assets 트리거 → 게임 에셋 특화 출력
+
+### 4.4 베이스 모델: Pony Diffusion
+
+Pony Diffusion은 SDXL 기반 체크포인트. TBOI LoRA가 Pony 전용이므로 **반드시** Pony 체크포인트를 사용해야 한다.
+
+```bash
+# Pony Diffusion V6 XL 다운로드
+# https://civitai.com/models/257749/pony-diffusion-v6-xl
+# → ponyDiffusionV6XL.safetensors
+# → ComfyUI/models/checkpoints/ 에 배치
+
+# TBOI LoRA 다운로드
+# https://civitai.com/api/download/models/828975
+# → Tboi.safetensors
+# → ComfyUI/models/loras/ 에 배치
+```
+
+### 4.5 스타일 토큰 체계 (`config/style_guide.json`)
 
 ```json
 {
   "comfyui_url": "http://127.0.0.1:8188",
 
+  "checkpoint": "ponyDiffusionV6XL.safetensors",
+
+  "lora": {
+    "name": "Tboi.safetensors",
+    "model_strength": 0.8,
+    "clip_strength": 0.8,
+    "trigger_words": "pixel art, game assets, chibi"
+  },
+
   "style_prefix": {
-    "all": "pixel art, retro 16-bit RPG style, limited color palette, sharp pixels, clean edges, no anti-aliasing, no smooth gradients, thick black outlines",
-    "card": "hwatu card illustration, centered composition, dark background, ink wash texture, single subject",
-    "character": "full body character sprite, front-facing, symmetrical pose, transparent background, thick ink outlines",
-    "background": "wide landscape, atmospheric perspective, layered parallax depth, subtle pixel dithering",
-    "talisman": "small icon, centered object, simple silhouette, glowing edges, dark background"
+    "all": "pixel art, game assets, chibi, thick black outlines, limited color palette, sharp pixels, clean edges, no anti-aliasing",
+    "card": "hwatu card illustration, centered composition, dark background, ink wash texture, single subject, vertical card format",
+    "character": "full body character sprite, front-facing, symmetrical pose, transparent background, game character design",
+    "background": "wide landscape game background, atmospheric perspective, layered depth, pixel dithering",
+    "talisman": "small game icon, centered object, simple silhouette, glowing edges, dark background, item sprite"
   },
 
   "style_suffix": {
-    "all": "korean underworld aesthetic, dark fantasy, occult ink painting atmosphere, muted earth tones with cyan and crimson accents"
+    "all": "korean underworld aesthetic, dark fantasy, occult atmosphere, muted earth tones with cyan and crimson accents, eerie mood"
   },
 
   "negative": {
-    "all": "blurry, smooth shading, soft edges, anti-aliasing, 3d render, realistic photo, watermark, signature, text, letters, jpeg artifacts, deformed, extra limbs, bad anatomy, low quality, oversaturated, neon colors",
-    "card": "multiple subjects, busy composition, white background, modern style",
-    "character": "cropped, partial body, background scenery, multiple characters",
-    "background": "characters, text overlay, UI elements, close-up"
+    "all": "score_9, score_8_up, score_7_up, score_6_up, blurry, smooth shading, soft edges, anti-aliasing, 3d render, realistic photo, watermark, signature, text, letters, jpeg artifacts, deformed, extra limbs, bad anatomy, low quality, oversaturated, neon colors, anime style, manga",
+    "card": "multiple subjects, busy composition, white background, modern style, landscape orientation",
+    "character": "cropped, partial body, background scenery, multiple characters, realistic proportions",
+    "background": "characters, text overlay, UI elements, close-up, portrait"
   },
 
   "palette": [
@@ -155,17 +198,12 @@ Layer 3: IP-Adapter (스타일 참조 이미지)
     {"name": "bone_white",   "hex": "#E8E8E8", "usage": "뼈, 귀신, 텍스트"}
   ],
 
-  "lora": {
-    "sd15": {
-      "name": "pixelart-style",
-      "weight": 0.75,
-      "trigger": "pixel art style"
-    },
-    "sdxl": {
-      "name": "pixel-art-xl",
-      "weight": 0.65,
-      "trigger": "pixel art"
-    }
+  "sampler": {
+    "name": "dpmpp_2m",
+    "scheduler": "karras",
+    "cfg": 7,
+    "clip_skip": 2,
+    "comment": "Pony 모델은 clip_skip 2 권장"
   },
 
   "ip_adapter": {
@@ -181,74 +219,81 @@ Layer 3: IP-Adapter (스타일 참조 이미지)
 
 ## 5. ComfyUI 워크플로우 설계
 
-### 5.1 카드 워크플로우 (`workflows/card_base.json`)
+모든 워크플로우가 **Pony Diffusion + Tboi LoRA**를 공통으로 사용한다.
 
-노드 구성:
+### 5.1 공통 노드 체인 (모든 워크플로우 공유)
+
+```
+[CheckpointLoader] → ponyDiffusionV6XL.safetensors
+  └── [LoraLoader] → Tboi.safetensors (model: 0.8, clip: 0.8)
+       └── [CLIPSetLastLayer] → clip_skip: 2  (Pony 필수)
+            ├── model → [KSampler]
+            └── clip  → [CLIPTextEncode] (positive / negative)
+```
+
+### 5.2 카드 워크플로우 (`workflows/card_base.json`)
 
 ```
 [KSampler]
-  ├── model ← [CheckpointLoader] → SD 1.5
-  │            └── [LoraLoader] → pixelart-style (0.75)
-  │                 └── [IPAdapterApply] → style_ref_card.png (0.35)
+  ├── model ← 공통 체인 (Pony + Tboi 0.8)
+  │            └── [IPAdapterApply] → style_ref_card.png (0.35)  (선택)
   ├── positive ← [CLIPTextEncode] → style_prefix.all + style_prefix.card + item.prompt + style_suffix.all
   ├── negative ← [CLIPTextEncode] → negative.all + negative.card
   ├── latent_image ← [EmptyLatentImage] → 512×768
-  └── settings: steps=35, cfg=7.5, sampler=dpmpp_2m, scheduler=karras, seed=item.seed
+  └── settings: steps=30, cfg=7, sampler=dpmpp_2m, scheduler=karras, seed=item.seed
 
 [VAEDecode] → [SaveImage]
 ```
 
-### 5.2 캐릭터 워크플로우 (`workflows/character_base.json`)
+### 5.3 캐릭터 워크플로우 (`workflows/character_base.json`)
 
 ```
 [KSampler]
-  ├── model ← [CheckpointLoader] → SDXL Base
-  │            └── [LoraLoader] → pixel-art-xl (0.65)
-  │                 └── [IPAdapterApply] → style_ref_boss.png (0.35)
-  ├── positive ← [CLIPTextEncode] → style_prefix.all + style_prefix.character + item.prompt + style_suffix.all
-  ├── negative ← [CLIPTextEncode] → negative.all + negative.character
+  ├── model ← 공통 체인 (Pony + Tboi 0.85)  ← 캐릭터는 약간 높게
+  │            └── [IPAdapterApply] → style_ref_boss.png (0.35)
+  ├── positive ← style_prefix.all + style_prefix.character + item.prompt + style_suffix.all
+  ├── negative ← negative.all + negative.character
   ├── latent_image ← [EmptyLatentImage] → 768×1152
+  └── settings: steps=35, cfg=7, sampler=dpmpp_2m, scheduler=karras
+
+[VAEDecode] → [SaveImage]
+```
+
+### 5.4 캐릭터 변형 워크플로우 (`workflows/character_variation.json`)
+
+```
+[KSampler]
+  ├── model ← 공통 체인 (동일)
+  ├── positive ← base_prompt + variation.add
+  ├── negative ← (동일)
+  ├── latent_image ← [VAEEncode] ← [LoadImage] → base_pose 이미지
+  └── settings: steps=25, cfg=7, denoise=0.45, seed=동일
+
+→ 같은 캐릭터, 표정/포즈만 변경
+```
+
+### 5.5 배경 워크플로우 (`workflows/background_base.json`)
+
+```
+[KSampler]
+  ├── model ← 공통 체인 (Pony + Tboi 0.7)  ← 배경은 LoRA 약하게
+  ├── positive ← style_prefix.all + style_prefix.background + item.prompt + style_suffix.all
+  ├── negative ← negative.all + negative.background
+  ├── latent_image ← [EmptyLatentImage] → 1280×720
   └── settings: steps=40, cfg=7, sampler=dpmpp_2m, scheduler=karras
 
 [VAEDecode] → [SaveImage]
 ```
 
-### 5.3 캐릭터 변형 워크플로우 (`workflows/character_variation.json`)
+### 5.6 부적 워크플로우 (`workflows/talisman_base.json`)
 
 ```
 [KSampler]
-  ├── model ← (동일)
-  ├── positive ← base_prompt + variation.add
-  ├── negative ← (동일)
-  ├── latent_image ← [VAEEncode] ← [LoadImage] → base_pose 이미지
-  └── settings: steps=30, cfg=7, denoise=0.45, seed=동일
-
-→ 같은 캐릭터, 표정/포즈만 변경
-```
-
-### 5.4 배경 워크플로우 (`workflows/background_base.json`)
-
-```
-[KSampler]
-  ├── model ← [CheckpointLoader] → SDXL Base
-  │            └── [LoraLoader] → pixel-art-xl (0.5)
-  ├── positive ← style_prefix.all + style_prefix.background + item.prompt + style_suffix.all
-  ├── negative ← negative.all + negative.background
-  ├── latent_image ← [EmptyLatentImage] → 1280×720
-  └── settings: steps=50, cfg=7, sampler=dpmpp_2m, scheduler=karras
-
-[VAEDecode] → [SaveImage]
-```
-
-### 5.5 부적 워크플로우 (`workflows/talisman_base.json`)
-
-```
-[KSampler]
-  ├── model ← SD 1.5 + pixelart-style (0.8)
+  ├── model ← 공통 체인 (Pony + Tboi 0.9)  ← 아이콘은 강하게
   ├── positive ← style_prefix.all + style_prefix.talisman + item.prompt + style_suffix.all
   ├── negative ← negative.all
-  ├── latent_image ← [EmptyLatentImage] → 256×256
-  └── settings: steps=30, cfg=8, sampler=dpmpp_2m, scheduler=karras
+  ├── latent_image ← [EmptyLatentImage] → 512×512
+  └── settings: steps=25, cfg=7.5, sampler=dpmpp_2m, scheduler=karras
 
 [VAEDecode] → [SaveImage]
 ```
@@ -265,33 +310,47 @@ Layer 3: IP-Adapter (스타일 참조 이미지)
 ```
 
 예시 — 1월 광 카드:
+
+**Positive:**
 ```
-pixel art, retro 16-bit RPG style, limited color palette, sharp pixels, clean edges,
-no anti-aliasing, no smooth gradients, thick black outlines,
-hwatu card illustration, centered composition, dark background, ink wash texture, single subject,
+pixel art, game assets, chibi, thick black outlines, limited color palette,
+sharp pixels, clean edges, no anti-aliasing,
+hwatu card illustration, centered composition, dark background, ink wash texture, single subject, vertical card format,
 skeletal pine tree with twisted dead branches, ghost crane with glowing cyan eyes,
 dark underworld moonlight filtering through bones,
-korean underworld aesthetic, dark fantasy, occult ink painting atmosphere,
-muted earth tones with cyan and crimson accents
+korean underworld aesthetic, dark fantasy, occult atmosphere,
+muted earth tones with cyan and crimson accents, eerie mood
+```
+
+**Negative:**
+```
+score_9, score_8_up, score_7_up, score_6_up,
+blurry, smooth shading, soft edges, anti-aliasing, 3d render, realistic photo,
+watermark, signature, text, letters, jpeg artifacts, deformed, extra limbs, bad anatomy,
+low quality, oversaturated, neon colors, anime style, manga,
+multiple subjects, busy composition, white background, modern style, landscape orientation
 ```
 
 ### 6.2 프롬프트 작성 규칙
 
-1. **구체적 명사 우선** — "tree" 대신 "skeletal pine tree with twisted dead branches"
-2. **색상 명시** — "blood red accents", "cyan ghost light", "golden glow"
-3. **분위기 키워드** — "eerie", "ominous", "somber", "otherworldly"
-4. **구도 지시** — "centered", "front-facing", "wide landscape", "close-up icon"
-5. **금지어** — "realistic", "photograph", "3D", "modern", "cute", "anime"
-6. **한 프롬프트 = 한 주제** — 카드 1장에 소나무 하나, 학 하나만
+1. **트리거 워드 필수** — 반드시 `pixel art, game assets, chibi` 로 시작
+2. **Pony 품질 태그 → 네거티브** — `score_9, score_8_up` 등은 네거티브에 넣어야 LoRA 효과 극대화
+3. **구체적 명사 우선** — "tree" 대신 "skeletal pine tree with twisted dead branches"
+4. **색상 명시** — "blood red accents", "cyan ghost light", "golden glow"
+5. **분위기 키워드** — "eerie", "ominous", "somber", "otherworldly"
+6. **구도 지시** — "centered", "front-facing", "wide landscape", "close-up icon"
+7. **금지어** — "realistic", "photograph", "3D", "modern", "anime"
+8. **한 프롬프트 = 한 주제** — 카드 1장에 소나무 하나, 학 하나만
+9. **clip_skip = 2** — Pony 모델 필수 설정
 
-### 6.3 에셋별 프롬프트 강도 가이드
+### 6.3 에셋별 설정 가이드
 
-| 에셋 | CFG | LoRA 가중치 | IP-Adapter | 비고 |
-|------|-----|-----------|------------|------|
-| 카드 | 7.5 | 0.75 | 0.35 | 강한 픽셀 느낌, 참조 약하게 |
-| 캐릭터 | 7.0 | 0.65 | 0.35 | 캐릭터 디테일 보존 |
-| 배경 | 7.0 | 0.50 | 0.30 | 자연스러운 분위기 |
-| 부적 | 8.0 | 0.80 | 0.40 | 작은 아이콘, 명확한 실루엣 |
+| 에셋 | 해상도 | CFG | TBOI LoRA | IP-Adapter | Steps | 비고 |
+|------|--------|-----|-----------|------------|-------|------|
+| 카드 | 512×768 | 7 | 0.80 | 0.35 | 30 | 강한 픽셀 느낌 |
+| 캐릭터 | 768×1152 | 7 | 0.85 | 0.35 | 35 | 캐릭터 디테일 |
+| 배경 | 1280×720 | 7 | 0.70 | 0.30 | 40 | 약한 LoRA로 자연스럽게 |
+| 부적 | 512×512 | 7.5 | 0.90 | 0.40 | 25 | 강한 아이콘 실루엣 |
 
 ---
 
@@ -481,13 +540,15 @@ def full_postprocess(img, config):
   "type": "cards",
   "workflow": "workflows/card_base.json",
   "generation": {
-    "model": "v1-5-pruned-emaonly",
-    "lora": "pixelart-style",
-    "lora_weight": 0.75,
+    "model": "ponyDiffusionV6XL",
+    "lora": "Tboi",
+    "lora_model_strength": 0.8,
+    "lora_clip_strength": 0.8,
+    "clip_skip": 2,
     "width": 512,
     "height": 768,
-    "steps": 35,
-    "cfg_scale": 7.5,
+    "steps": 30,
+    "cfg_scale": 7,
     "sampler": "dpmpp_2m",
     "scheduler": "karras",
     "batch_count": 4
@@ -546,12 +607,14 @@ def full_postprocess(img, config):
   "workflow": "workflows/character_base.json",
   "variation_workflow": "workflows/character_variation.json",
   "generation": {
-    "model": "sd_xl_base_1.0",
-    "lora": "pixel-art-xl",
-    "lora_weight": 0.65,
+    "model": "ponyDiffusionV6XL",
+    "lora": "Tboi",
+    "lora_model_strength": 0.85,
+    "lora_clip_strength": 0.85,
+    "clip_skip": 2,
     "width": 768,
     "height": 1152,
-    "steps": 40,
+    "steps": 35,
     "cfg_scale": 7,
     "sampler": "dpmpp_2m",
     "scheduler": "karras",
@@ -607,12 +670,14 @@ def full_postprocess(img, config):
   "type": "backgrounds",
   "workflow": "workflows/background_base.json",
   "generation": {
-    "model": "sd_xl_base_1.0",
-    "lora": "pixel-art-xl",
-    "lora_weight": 0.50,
+    "model": "ponyDiffusionV6XL",
+    "lora": "Tboi",
+    "lora_model_strength": 0.7,
+    "lora_clip_strength": 0.7,
+    "clip_skip": 2,
     "width": 1280,
     "height": 720,
-    "steps": 50,
+    "steps": 40,
     "cfg_scale": 7,
     "sampler": "dpmpp_2m",
     "scheduler": "karras",
@@ -940,11 +1005,12 @@ git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
 
 | 에셋 | 모델 | 해상도 | Steps | 예상 시간 |
 |------|------|--------|-------|----------|
-| 카드 | SD 1.5 | 512×768 | 35 | ~25초 |
-| 캐릭터 | SDXL | 768×1152 | 40 | ~80초 |
-| 배경 | SDXL | 1280×720 | 50 | ~90초 |
-| 부적 | SD 1.5 | 256×256 | 30 | ~10초 |
+| 카드 | Pony + TBOI | 512×768 | 30 | ~35초 |
+| 캐릭터 | Pony + TBOI | 768×1152 | 35 | ~80초 |
+| 배경 | Pony + TBOI | 1280×720 | 40 | ~70초 |
+| 부적 | Pony + TBOI | 512×512 | 25 | ~20초 |
 
+> Pony Diffusion은 SDXL 계열이므로 SD 1.5보다 느리지만, 스타일 일관성이 훨씬 뛰어나다.
 > ComfyUI는 A1111 대비 Mac에서 약 20~30% 빠르다.
 
 ---
