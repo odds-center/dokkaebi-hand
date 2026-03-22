@@ -1,8 +1,15 @@
-# 이미지 생성 프롬프트 — 도깨비의 패 (Pony + Isaac LoRA + ComfyUI)
+# 이미지 생성 프롬프트 — 도깨비의 패
+
+> **생성 도구:** `pixel-art-generator/` 폴더의 Python 스크립트가 이 md 파일들을 자동 파싱하여
+> Replicate API (FLUX Dev)로 이미지를 생성합니다.
+> 사용법: [`pixel-art-generator/GUIDE.md`](../pixel-art-generator/GUIDE.md)
+>
+> 프롬프트 원본(이 폴더의 md 파일)은 원래 Pony + ComfyUI용으로 작성되었으나,
+> 파서가 Pony 전용 태그(`score_9` 등)를 자동 제거하므로 수정 없이 사용 가능합니다.
 
 ## 원칙
 
-Pony Diffusion V6 XL + Binding of Isaac Style LoRA로 **일관된 픽셀아트 스타일**을 생성한다.
+일관된 **16-bit 픽셀아트 스타일**로 게임 에셋을 생성한다.
 아래 10가지 영역을 다룬다.
 
 | 폴더 | 용도 | 수량 | 결과물 |

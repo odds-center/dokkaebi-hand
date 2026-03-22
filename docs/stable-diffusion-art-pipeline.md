@@ -1,5 +1,9 @@
 # ComfyUI 아트 파이프라인 계획서
 
+> **[DEPRECATED]** 이 문서는 로컬 ComfyUI 파이프라인 기반입니다.
+> 현재는 **Replicate API (FLUX Dev)** 기반으로 전환하였습니다.
+> 새 가이드: [`pixel-art-generator/GUIDE.md`](../pixel-art-generator/GUIDE.md)
+
 ## 1. 목표
 
 **ComfyUI 워크플로우 + Python API**로 모든 게임 에셋을 **일관성 있게** 생성한다.
@@ -126,7 +130,7 @@ Layer 3: IP-Adapter (스타일 참조 이미지)
 |------|-----|
 | CivitAI | https://civitai.com/models/740858 |
 | 파일 | `Tboi.safetensors` (~218MB) |
-| 베이스 모델 | **Pony Diffusion** (SDXL 계열) |
+| 베이스 모델 | **Pony Diffusion V6 XL** |
 | 트리거 워드 | `pixel art`, `game assets`, `chibi` |
 | 권장 강도 | model: 0.8, clip: 0.8 |
 | **주의** | `score_9, score_8_up` 등 Pony 품질 태그를 **네거티브**에 넣어야 효과 극대화 |
@@ -138,7 +142,7 @@ Layer 3: IP-Adapter (스타일 참조 이미지)
 
 ### 4.4 베이스 모델: Pony Diffusion
 
-Pony Diffusion은 SDXL 기반 체크포인트. TBOI LoRA가 Pony 전용이므로 **반드시** Pony 체크포인트를 사용해야 한다.
+TBOI LoRA가 Pony 전용이므로 **반드시** Pony 체크포인트를 사용해야 한다.
 
 ```bash
 # Pony Diffusion V6 XL 다운로드
@@ -995,8 +999,7 @@ cd ~/Desktop/ComfyUI/custom_nodes
 git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
 
 # 모델 다운로드 (models/ipadapter/ 에 배치)
-# ip-adapter_sd15.safetensors (SD 1.5용)
-# ip-adapter_sdxl.safetensors (SDXL용)
+# ip-adapter-plus_sdxl_vit-h.bin (Pony용)
 ```
 
 ---
@@ -1010,8 +1013,7 @@ git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
 | 배경 | Pony + TBOI | 1280×720 | 40 | ~70초 |
 | 부적 | Pony + TBOI | 512×512 | 25 | ~20초 |
 
-> Pony Diffusion은 SDXL 계열이므로 SD 1.5보다 느리지만, 스타일 일관성이 훨씬 뛰어나다.
-> ComfyUI는 A1111 대비 Mac에서 약 20~30% 빠르다.
+> Pony Diffusion + TBOI LoRA 조합으로 스타일 일관성이 뛰어나다.
 
 ---
 

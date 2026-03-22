@@ -1,5 +1,9 @@
 # Stable Diffusion 설치 & 실행 가이드 (Mac M3 Pro)
 
+> **[DEPRECATED]** 이 문서는 로컬 ComfyUI 설치 기반입니다.
+> 현재는 **Replicate API (FLUX Dev)** 기반으로 전환하였습니다.
+> 새 가이드: [`pixel-art-generator/GUIDE.md`](../pixel-art-generator/GUIDE.md)
+
 ## 현재 시스템 사양
 
 | 항목 | 값 |
@@ -12,10 +16,9 @@
 | Homebrew | 설치됨 |
 | Git | 설치됨 |
 
-> **M3 Pro 18GB로 SD 돌릴 수 있나?**
-> - SD 1.5: **충분히 가능** (4~6GB 사용)
-> - SDXL: **가능하지만 느림** (10~12GB 사용, 1장 생성에 1~3분)
-> - 권장: **SD 1.5 + 픽셀아트 LoRA** (속도, 메모리 모두 유리)
+> **현재 환경: Windows + NVIDIA GPU**
+> - Pony Diffusion V6 XL + Tboi LoRA 조합 사용
+> - ComfyUI portable (Windows NVIDIA) 설치됨
 
 ---
 
@@ -87,27 +90,16 @@ huggingface-cli download stable-diffusion-v1-5/stable-diffusion-v1-5 \
   --local-dir models/checkpoints/
 ```
 
-#### 선택 모델: SDXL (약 6.5GB) — 느리지만 고품질
-
-```bash
-# SDXL Base 1.0
-# https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0
-# → sd_xl_base_1.0.safetensors 다운로드 → models/checkpoints/에 배치
-```
-
 #### 픽셀아트 LoRA 다운로드
 
 ```bash
 # LoRA 저장 폴더
 mkdir -p models/loras
 
-# CivitAI에서 픽셀아트 LoRA 다운로드 (브라우저에서):
-# 검색: "pixel art" → SD 1.5 호환 LoRA 선택
-# 다운로드한 .safetensors 파일을 models/loras/ 에 배치
-
-# 추천 LoRA (CivitAI 검색):
-# - "Pixel Art Style" (SD 1.5)
-# - "Pixel Art XL" (SDXL용)
+# TBOI LoRA (The Binding of Isaac Style) — Pony 전용
+# https://civitai.com/models/740858
+# → Tboi.safetensors 다운로드 → models/loras/ 에 배치
+# 트리거 워드: pixel art, game assets, chibi
 ```
 
 ### 3단계: ComfyUI 실행
@@ -337,13 +329,6 @@ print(torch.backends.mps.is_available())  # True 여야 함
 print(torch.backends.mps.is_built())      # True 여야 함
 ```
 
-### SDXL에서 메모리 부족
-```
-18GB에서 SDXL은 빠듯하다.
-→ SD 1.5 사용을 권장.
-→ 또는 생성 해상도를 512x512 이하로 제한.
-```
-
 ---
 
 ## 성능 예상치 (M3 Pro 18GB, ComfyUI)
@@ -356,8 +341,7 @@ print(torch.backends.mps.is_built())      # True 여야 함
 | 배경 | Pony + TBOI | 1280×720 | 40 | ~70초 |
 
 > **Pony Diffusion V6 XL** + **Tboi LoRA** (Binding of Isaac Style)를 모든 에셋에 사용.
-> Pony는 SDXL 계열이라 SD 1.5보다 느리지만, 스타일 일관성이 뛰어나다.
-> ComfyUI는 A1111 대비 Mac에서 약 20~30% 빠르다.
+> 스타일 일관성이 뛰어나다.
 
 ---
 
@@ -371,13 +355,11 @@ cd ~/Desktop/ComfyUI/custom_nodes
 git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
 
 # IP-Adapter 모델 다운로드 → models/ipadapter/ 에 배치
-# SD 1.5용: ip-adapter_sd15.safetensors
-# SDXL용:   ip-adapter_sdxl.safetensors
+# ip-adapter-plus_sdxl_vit-h.bin (Pony 호환)
 # 다운로드 경로: https://huggingface.co/h94/IP-Adapter
 
 # CLIP Vision 모델 필요 → models/clip_vision/ 에 배치
-# SD 1.5용: sd15_clip_vision.safetensors
-# SDXL용:   sdxl_clip_vision.safetensors
+# clip_vision_encoder.safetensors
 ```
 
 사용법은 `docs/stable-diffusion-art-pipeline.md` 참조.

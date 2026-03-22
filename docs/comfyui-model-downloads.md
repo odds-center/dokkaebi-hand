@@ -1,5 +1,9 @@
 # ComfyUI 모델 다운로드 목록
 
+> **[DEPRECATED]** 로컬 ComfyUI 설치 시 필요한 모델 목록입니다.
+> 현재는 **Replicate API** 기반으로 전환하여 로컬 모델 다운로드가 불필요합니다.
+> 새 가이드: [`pixel-art-generator/GUIDE.md`](../pixel-art-generator/GUIDE.md)
+
 > 도깨비의 패 아트 파이프라인에 필요한 모든 모델 파일.
 > 모두 `~/Desktop/ComfyUI/` 기준 경로.
 
@@ -11,7 +15,7 @@
 
 | 항목 | 값 |
 |------|-----|
-| 용도 | 베이스 체크포인트 (SDXL 계열) |
+| 용도 | 베이스 체크포인트 |
 | 파일 | `ponyDiffusionV6XL.safetensors` (~6.5GB) |
 | 배치 경로 | `models/checkpoints/` |
 | 다운로드 | https://civitai.com/api/download/models/290640 |
@@ -34,12 +38,12 @@
 
 ## 선택 모델 (일관성 강화용)
 
-### 3. IP-Adapter Plus (SDXL)
+### 3. IP-Adapter Plus (Pony용)
 
 | 항목 | 값 |
 |------|-----|
 | 용도 | 참조 이미지로 스타일 통일 |
-| 파일 | `ip-adapter-plus_sdxl_vit-h.bin` |
+| 파일 | `ip-adapter-plus_sdxl_vit-h.bin` (Pony 호환) |
 | 배치 경로 | `models/ipadapter/` |
 | 다운로드 | https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.bin |
 
@@ -48,7 +52,7 @@
 | 항목 | 값 |
 |------|-----|
 | 용도 | IP-Adapter가 참조 이미지를 해석하는 데 필요 |
-| 파일 | `model.safetensors` → `sdxl_image_encoder.safetensors`로 이름 변경 권장 |
+| 파일 | `model.safetensors` → `clip_vision_encoder.safetensors`로 이름 변경 권장 |
 | 배치 경로 | `models/clip_vision/` |
 | 다운로드 | https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors |
 
@@ -78,7 +82,7 @@ curl -L -o models/loras/Tboi.safetensors \
 
 # ===== 선택 (일관성 강화) =====
 
-# 3. IP-Adapter Plus SDXL
+# 3. IP-Adapter Plus (Pony용)
 mkdir -p models/ipadapter models/clip_vision
 curl -L -o models/ipadapter/ip-adapter-plus_sdxl_vit-h.bin \
   "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.bin"
@@ -109,7 +113,7 @@ cd ..
     ipadapter/
       ip-adapter-plus_sdxl_vit-h.bin     ← 선택
     clip_vision/
-      sdxl_image_encoder.safetensors     ← IP-Adapter 쓸 때 필수
+      clip_vision_encoder.safetensors    ← IP-Adapter 쓸 때 필수
   custom_nodes/
     ComfyUI_IPAdapter_plus/              ← IP-Adapter 쓸 때 필수
 ```
