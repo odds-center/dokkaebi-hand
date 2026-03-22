@@ -54,6 +54,18 @@ crashlytics-build.properties
 # TextMeshPro
 /[Aa]ssets/[Tt]ext[Mm]esh Pro/
 
+# Environment / secrets
+.env
+*.env
+
+# Python venv
+.venv/
+__pycache__/
+*.pyc
+
+# Generated output
+pixel-art-generator/output/
+
 # OS generated
 .DS_Store
 .DS_Store?

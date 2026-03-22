@@ -24,31 +24,31 @@
 ## 테스트 A — 먹보 도깨비 (검정 배경)
 
 ```
-Simple 16-bit pixel art game boss sprite, low resolution retro style, limited color palette max 16 colors, Korean dokkaebi folklore demon, large round gluttonous body, massive protruding belly, stubby thick limbs, reddish-orange skin, short broken horns, enormous wide mouth with big uneven teeth, small greedy eyes, tattered dark loincloth, food stains on body, arms akimbo confident laughing pose, menacing yet comedic, solid black background, clean pixel grid, no anti-aliasing, no gradients, no text, no watermark, inspired by Binding of Isaac and Shovel Knight pixel art style
+Simple 16-bit pixel art game boss sprite, low resolution retro style, limited color palette max 16 colors, Korean dokkaebi folklore demon, large round gluttonous body, massive protruding belly, stubby thick limbs, reddish-orange skin, short broken horns, enormous wide mouth with big uneven teeth, small greedy eyes, tattered dark loincloth, food stains on body, arms akimbo confident laughing pose, menacing yet comedic, solid black background, clean pixel grid, no anti-aliasing, no gradients, no text, no letters, no words, no watermark, no signature, inspired by Binding of Isaac and Shovel Knight pixel art style
 ```
 
 ## 테스트 B — 먹보 도깨비 (녹색 크로마키)
 
 ```
-Simple 16-bit pixel art game boss sprite, low resolution retro style, limited color palette max 16 colors, Korean dokkaebi folklore demon, large round gluttonous body, massive protruding belly, stubby thick limbs, reddish-orange skin, short broken horns, enormous wide mouth with big uneven teeth, small greedy eyes, tattered dark loincloth, food stains on body, arms akimbo confident laughing pose, menacing yet comedic, solid pure green chroma key background, clean pixel grid, no anti-aliasing, no gradients, no text, no watermark, inspired by Binding of Isaac and Shovel Knight pixel art style
+Simple 16-bit pixel art game boss sprite, low resolution retro style, limited color palette max 16 colors, Korean dokkaebi folklore demon, large round gluttonous body, massive protruding belly, stubby thick limbs, reddish-orange skin, short broken horns, enormous wide mouth with big uneven teeth, small greedy eyes, tattered dark loincloth, food stains on body, arms akimbo confident laughing pose, menacing yet comedic, solid pure green chroma key background, clean pixel grid, no anti-aliasing, no gradients, no text, no letters, no words, no watermark, no signature, inspired by Binding of Isaac and Shovel Knight pixel art style
 ```
 
 ## 테스트 C — 장난꾸러기 도깨비 (검정 배경)
 
 ```
-Simple 16-bit pixel art game boss sprite, low resolution retro style, limited color palette max 16 colors, Korean dokkaebi folklore demon, lean mischievous prankster, wiry thin body, exaggerated long arms, blue-gray skin, sly wide grin, two curved horns, large pointed ears, ragged dark vest, asymmetric eyes, holding wooden club behind back, crouching ready-to-pounce, playful but unsettling, solid black background, clean pixel grid, no anti-aliasing, no gradients, no text, no watermark, inspired by Binding of Isaac and Shovel Knight pixel art style
+Simple 16-bit pixel art game boss sprite, low resolution retro style, limited color palette max 16 colors, Korean dokkaebi folklore demon, lean mischievous prankster, wiry thin body, exaggerated long arms, blue-gray skin, sly wide grin, two curved horns, large pointed ears, ragged dark vest, asymmetric eyes, holding wooden club behind back, crouching ready-to-pounce, playful but unsettling, solid black background, clean pixel grid, no anti-aliasing, no gradients, no text, no letters, no words, no watermark, no signature, inspired by Binding of Isaac and Shovel Knight pixel art style
 ```
 
 ## 테스트 D — 부적 아이콘 (검정 배경)
 
 ```
-Simple 16-bit pixel art game item icon, low resolution retro style, limited color palette max 8 colors, single item centered, Korean talisman bujeok charm, yellow paper with red mystical symbol, glowing supernatural aura, solid black background, clean pixel grid, no anti-aliasing, no gradients, no text, no watermark, inspired by Binding of Isaac item icon style
+Simple 16-bit pixel art game item icon, low resolution retro style, limited color palette max 8 colors, single item centered, Korean talisman bujeok charm, yellow paper with red mystical symbol, glowing supernatural aura, solid black background, clean pixel grid, no anti-aliasing, no gradients, no text, no letters, no words, no watermark, no signature, inspired by Binding of Isaac item icon style
 ```
 
 ## 테스트 E — 화투 1월 송학 카드 (검정 배경, 2:3)
 
 ```
-Simple 16-bit pixel art hwatu flower card illustration, low resolution retro style, limited color palette max 12 colors, traditional Korean card art, red-crowned crane standing on gnarled pine tree, pure white body, black tail feathers, red patch on head, dark pine trunk, green pine needles, red sun circle, solid black background, clean pixel grid, no anti-aliasing, no gradients, no text, no watermark, inspired by retro game card art style
+Simple 16-bit pixel art hwatu flower card illustration, low resolution retro style, limited color palette max 12 colors, traditional Korean card art, red-crowned crane standing on gnarled pine tree, pure white body, black tail feathers, red patch on head, dark pine trunk, green pine needles, red sun circle, solid black background, clean pixel grid, no anti-aliasing, no gradients, no text, no letters, no words, no watermark, no signature, inspired by retro game card art style
 ```
 
 ---

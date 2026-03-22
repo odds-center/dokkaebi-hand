@@ -8,16 +8,10 @@
 
 ## LoRA 매핑
 
-| 카테고리 | LoRA | 트리거 워드 | lora_scale |
-|---------|------|-----------|------------|
-| 보스/동료 스프라이트 | `https://huggingface.co/gokaygokay/Flux-2D-Game-Assets-LoRA` | `2D game asset` | 0.8 |
-| 아이콘/부적/HUD | `https://huggingface.co/gokaygokay/Flux-2D-Game-Assets-LoRA` | `2D game asset` | 0.85 |
-| 배경 | `https://huggingface.co/UmeAiRT/FLUX.1-dev-LoRA-Modern_Pixel_art` | `umempart` | 0.75 |
-| 화투 카드 | `https://huggingface.co/UmeAiRT/FLUX.1-dev-LoRA-Modern_Pixel_art` | `umempart` | 0.8 |
-| VFX/파티클 | `https://huggingface.co/gokaygokay/Flux-2D-Game-Assets-LoRA` | `2D game asset` | 0.7 |
-| UI 프레임 | `https://huggingface.co/gokaygokay/Flux-2D-Game-Assets-LoRA` | `2D game asset` | 0.8 |
+**LoRA 없이 순수 FLUX Dev 사용** — 테스트 결과 LoRA 없는 FLUX Dev가 가장 좋은 픽셀아트 결과를 생성.
 
-> LoRA가 안 맞으면 `https://huggingface.co/prithivMLmods/Retro-Pixel-Flux-LoRA` (트리거: `Retro Pixel`)로 교체 테스트.
+> 스타일 레퍼런스: Binding of Isaac + Shovel Knight
+> 일관성을 위해 1장씩 생성 (num_outputs: 1) + seed 고정
 
 ---
 
@@ -25,18 +19,16 @@
 
 ```json
 {
-  "prompt": "[트리거 워드], [프롬프트 본문]",
+  "prompt": "[프롬프트]",
   "go_fast": false,
   "guidance": 7,
-  "lora_scale": 0.8,
   "megapixels": "1",
-  "num_outputs": 4,
+  "num_outputs": 1,
   "aspect_ratio": "1:1",
-  "lora_weights": "https://huggingface.co/gokaygokay/Flux-2D-Game-Assets-LoRA",
   "output_format": "png",
   "output_quality": 100,
-  "prompt_strength": 0.8,
-  "num_inference_steps": 50
+  "num_inference_steps": 50,
+  "seed": [시드번호]
 }
 ```
 

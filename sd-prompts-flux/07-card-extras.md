@@ -12,7 +12,7 @@
 ## 공통 서픽스
 
 ```
-, bold saturated colors with neon accents, Balatro card game color palette, sharp pixels, no text, no watermark
+, bold saturated colors with neon accents, Balatro card game color palette, sharp pixels, no text, no letters, no words, no watermark, no signature
 ```
 
 ---
@@ -23,7 +23,7 @@
 **Seed:** 75001
 
 ```
-16-bit pixel art game card back design, clean pixel grid, no anti-aliasing, limited color palette, ornate symmetrical pattern, central taegeuk yin-yang motif surrounded by trigram symbols, Korean traditional cloud and ghost flame border pattern, deep indigo and gold color scheme, dark purple background, intricate repeating pixel pattern, bold saturated colors with neon gold accents, Balatro card game color palette, sharp pixels, no text, no watermark
+16-bit pixel art game card back design, clean pixel grid, no anti-aliasing, limited color palette, ornate symmetrical pattern, central taegeuk yin-yang motif surrounded by trigram symbols, Korean traditional cloud and ghost flame border pattern, deep indigo and gold color scheme, dark purple background, intricate repeating pixel pattern, bold saturated colors with neon gold accents, Balatro card game color palette, sharp pixels, no text, no letters, no words, no watermark, no signature
 ```
 
 ---
