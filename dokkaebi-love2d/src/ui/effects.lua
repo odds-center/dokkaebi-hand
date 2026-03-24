@@ -12,6 +12,10 @@ local shake_t = 0
 local shake_intensity = 0
 local heart_hit_t = 0
 
+-- 보스 전용 흔들림 (스프라이트만 흔들림)
+local boss_shake_t = 0
+local boss_shake_intensity = 0
+
 -- 족보 컷인
 local cutin = nil  -- {text, tier, life, max_life, color}
 
@@ -24,6 +28,19 @@ local chain_timer = 0
 
 -- 파티클
 local particles = {}
+
+-- 데미지 카운트업 (Balatro식)
+local countup = nil  -- {chips, mult, go_mult, final, current, phase, timer}
+
+-- HP바 잔상
+local hp_ghost = nil  -- {ratio, target_ratio, speed}
+
+-- 공격 컷인
+local attack_cutin = nil  -- {text, life, max_life}
+
+-- Go 펄스 (Go 누를 때 터지는 효과)
+local go_pulse_t = 0
+local go_pulse_level = 0
 
 -- ===========================
 -- 파티클 시스템
@@ -167,10 +184,28 @@ end
 -- ===========================
 
 function Effects.boss_hit(dmg)
-    local intensity = math.min(dmg / 20, 12)
-    Effects.shake(intensity, 0.25)
-    local W = love.graphics.getWidth()
-    Effects.damage_popup(W/2, 80, dmg)
+    if dmg >= 500 then
+        -- 큰 데미지: 화면 전체 흔들림 + 보스 흔들림
+        local intensity = math.min(dmg / 80, 15)
+        Effects.shake(intensity, 0.3)
+        Effects.boss_shake(intensity * 1.5, 0.4)
+    else
+        -- 작은 데미지: 보스 스프라이트만 흔들림
+        local intensity = math.min(dmg / 15, 10)
+        Effects.boss_shake(intensity, 0.25)
+    end
+    -- 데미지 숫자는 start_countup()에서 표시하므로 여기서는 흔들림만
+end
+
+function Effects.boss_shake(intensity, duration)
+    boss_shake_intensity = math.max(boss_shake_intensity, intensity or 5)
+    boss_shake_t = math.max(boss_shake_t, duration or 0.3)
+end
+
+function Effects.get_boss_shake_offset()
+    if boss_shake_t <= 0 then return 0, 0 end
+    local s = boss_shake_intensity * math.min(boss_shake_t / 0.3, 1)
+    return (math.random() * 2 - 1) * s, (math.random() * 2 - 1) * s * 0.5
 end
 
 function Effects.boss_defeat(boss_name)
@@ -198,6 +233,40 @@ function Effects.player_hit(amount)
     Effects.text_popup(W/2, 30, amount > 1 and ("체력 -"..amount.."!") or "체력 -1!", {1, 0.15, 0.1})
 end
 
+-- ===========================
+-- 매칭 이펙트
+-- ===========================
+
+function Effects.card_match_take(x, y)
+    -- 카드 먹을 때 파티클
+    spawn_particles(x, y, 8, {0.3, 0.85, 1.0}, 20, 80, 0.4)
+    Effects.shake(2, 0.1)
+end
+
+function Effects.sweep_effect()
+    -- 쓸! 바닥 전체 먹을 때
+    local W, H = love.graphics.getDimensions()
+    Effects.shake(6, 0.3)
+    Effects.flash({1, 0.85, 0.2}, 0.2)
+    spawn_particles(W/2, H*0.4, 25, {1, 0.85, 0.2}, 80, 150, 0.6)
+    spawn_particles(W/2, H*0.4, 10, {1, 1, 1}, 40, 100, 0.4)
+    Effects.text_popup(W/2, H*0.35, "쓸!", {1, 0.85, 0.2})
+end
+
+function Effects.flip_reveal(x, y, matched)
+    -- 더미 뒤집기 연출
+    if matched then
+        spawn_particles(x, y, 6, {0.4, 1, 0.5}, 15, 60, 0.3)
+    end
+    Effects.shake(1, 0.05)
+end
+
+function Effects.ppuk_effect()
+    -- 뻑 (매칭 실패)
+    local W = love.graphics.getWidth()
+    Effects.text_popup(W/2, love.graphics.getHeight()*0.4, "뻑!", {0.6, 0.5, 0.5})
+end
+
 function Effects.instant_death()
     Effects.shake(18, 0.8)
     Effects.flash({0.8, 0.1, 0.05}, 0.4)
@@ -214,6 +283,80 @@ end
 function Effects.get_heart_hit_alpha()
     if heart_hit_t <= 0 then return 1 end
     return 0.3 + (math.sin(heart_hit_t * 20) * 0.5 + 0.5) * 0.7
+end
+
+-- ===========================
+-- Balatro식 데미지 카운트업
+-- 칩 → 배수 → Go배수 → 최종 데미지가 순서대로 표시
+-- ===========================
+
+function Effects.start_countup(chips, mult, go_mult, final_damage)
+    countup = {
+        chips = chips,
+        mult = mult,
+        go_mult = go_mult,
+        final = final_damage,
+        current_chips = 0,
+        current_mult = 1,
+        phase = 1,          -- 1=칩 카운트, 2=배수 카운트, 3=Go 배수, 4=완료 유지
+        timer = 0,
+        total_time = 1.8,   -- 전체 연출 시간
+        hold_time = 1.0,    -- 완료 후 유지 시간
+    }
+end
+
+function Effects.get_countup()
+    return countup
+end
+
+-- ===========================
+-- HP바 잔상 (화이트 → 서서히 줄어듦)
+-- ===========================
+
+function Effects.set_hp_ghost(current_ratio, target_ratio)
+    hp_ghost = {
+        ratio        = math.max(0, math.min(1, current_ratio)),
+        target_ratio = math.max(0, math.min(1, target_ratio)),
+        flash_t      = 0.15,  -- 흰색 플래시 시간
+    }
+end
+
+function Effects.get_hp_ghost()
+    return hp_ghost
+end
+
+-- ===========================
+-- 공격 진입 컷인 ("스톱! 공격!")
+-- ===========================
+
+function Effects.attack_cutin_start(text)
+    attack_cutin = {
+        text = text or "공격!",
+        life = 1.2,
+        max_life = 1.2,
+    }
+    Effects.shake(4, 0.15)
+end
+
+-- ===========================
+-- Go 펄스 (Go 누를 때 화면 펄스)
+-- ===========================
+
+function Effects.go_pulse(level)
+    go_pulse_t = 0.5
+    go_pulse_level = level or 1
+    -- Go 횟수에 따라 점점 강한 효과
+    if level >= 3 then
+        Effects.shake(10, 0.4)
+        Effects.flash({0.8, 0.05, 0.02}, 0.2)
+        local W, H = love.graphics.getDimensions()
+        spawn_particles(W/2, H/2, 20, {1, 0.2, 0.05}, 100, 200, 0.5)
+    elseif level >= 2 then
+        Effects.shake(5, 0.2)
+        Effects.flash({0.8, 0.2, 0.05}, 0.1)
+    else
+        Effects.shake(2, 0.1)
+    end
 end
 
 -- ===========================
@@ -237,6 +380,7 @@ end
 
 function Effects.update(dt)
     if shake_t > 0 then shake_t = shake_t - dt end
+    if boss_shake_t > 0 then boss_shake_t = boss_shake_t - dt end
     if heart_hit_t > 0 then heart_hit_t = heart_hit_t - dt end
 
     -- 컷인
@@ -249,6 +393,64 @@ function Effects.update(dt)
     if chain_timer > 0 then
         chain_timer = chain_timer - dt
         if chain_timer <= 0 then chain_count = 0 end
+    end
+
+    -- Go 펄스
+    if go_pulse_t > 0 then go_pulse_t = go_pulse_t - dt end
+
+    -- 공격 컷인
+    if attack_cutin then
+        attack_cutin.life = attack_cutin.life - dt
+        if attack_cutin.life <= 0 then attack_cutin = nil end
+    end
+
+    -- 카운트업 애니메이션
+    if countup then
+        countup.timer = countup.timer + dt
+        local p = math.min(countup.timer / countup.total_time, 1)  -- 0→1
+
+        if p < 0.4 then
+            -- Phase 1: 칩 카운트업 (0~40%)
+            countup.phase = 1
+            local chip_p = p / 0.4
+            countup.current_chips = math.floor(countup.chips * chip_p)
+            countup.current_mult = 1
+        elseif p < 0.7 then
+            -- Phase 2: 배수 카운트업 (40~70%)
+            countup.phase = 2
+            countup.current_chips = countup.chips
+            local mult_p = (p - 0.4) / 0.3
+            countup.current_mult = 1 + (countup.mult - 1) * mult_p
+        elseif p < 0.9 then
+            -- Phase 3: Go 배수 적용 (70~90%)
+            countup.phase = 3
+            countup.current_chips = countup.chips
+            countup.current_mult = countup.mult
+        else
+            -- Phase 4: 최종 데미지 표시
+            countup.phase = 4
+            countup.current_chips = countup.chips
+            countup.current_mult = countup.mult
+        end
+
+        -- 전체 시간 + 유지 시간 지나면 종료
+        if countup.timer > countup.total_time + countup.hold_time then
+            countup = nil
+        end
+    end
+
+    -- HP바 잔상
+    if hp_ghost then
+        if hp_ghost.flash_t > 0 then
+            hp_ghost.flash_t = hp_ghost.flash_t - dt
+        else
+            -- 서서히 줄어듦
+            local speed = 0.8 * dt
+            hp_ghost.ratio = hp_ghost.ratio - speed
+            if hp_ghost.ratio <= hp_ghost.target_ratio then
+                hp_ghost = nil
+            end
+        end
     end
 
     -- 이펙트 업데이트
@@ -456,6 +658,88 @@ function Effects.draw(fonts)
         love.graphics.printf(chain_text, W - 152, H * 0.42 + 2, 150, "right")
         love.graphics.setColor(col[1], col[2], col[3], alpha)
         love.graphics.printf(chain_text, W - 150, H * 0.42, 150, "right")
+    end
+
+    -- Go 펄스 (화면 가장자리 강한 펄스)
+    if go_pulse_t > 0 then
+        local pa = (go_pulse_t / 0.5) * go_pulse_level * 0.12
+        love.graphics.setColor(1, 0.1, 0.02, pa)
+        love.graphics.rectangle("fill", 0, 0, W, H)
+    end
+
+    -- 공격 컷인
+    if attack_cutin then
+        local p = 1 - attack_cutin.life / attack_cutin.max_life
+        local alpha = p < 0.15 and (p / 0.15) or (attack_cutin.life < 0.3 and attack_cutin.life / 0.3 or 1)
+
+        -- 배경 바
+        local bar_y = H * 0.45
+        love.graphics.setColor(0, 0, 0, alpha * 0.7)
+        love.graphics.rectangle("fill", 0, bar_y - 5, W, 45)
+        love.graphics.setColor(0.8, 0.2, 0.05, alpha * 0.3)
+        love.graphics.rectangle("fill", 0, bar_y, W, 35)
+
+        -- 텍스트
+        if fonts.xl then love.graphics.setFont(fonts.xl)
+        elseif fonts.l then love.graphics.setFont(fonts.l) end
+        love.graphics.setColor(0, 0, 0, alpha * 0.5)
+        love.graphics.printf(attack_cutin.text, 2, bar_y + 3, W, "center")
+        love.graphics.setColor(1, 0.4, 0.1, alpha)
+        love.graphics.printf(attack_cutin.text, 0, bar_y + 1, W, "center")
+    end
+
+    -- Balatro식 카운트업
+    if countup and countup.phase then
+        local cy = H * 0.52
+        local alpha = 1
+        if countup.timer > countup.total_time then
+            alpha = math.max(0, 1 - (countup.timer - countup.total_time) / countup.hold_time)
+        end
+
+        -- 배경 패널
+        love.graphics.setColor(0, 0, 0, alpha * 0.6)
+        love.graphics.rectangle("fill", W/2 - 160, cy - 8, 320, 70, 6, 6)
+
+        if fonts.l then love.graphics.setFont(fonts.l) end
+
+        -- 칩 표시 (좌측)
+        local chip_color = countup.phase >= 1 and {0.3, 0.7, 1} or {0.5, 0.5, 0.5}
+        local chip_val = NumFmt.format_score(math.floor(countup.current_chips))
+        love.graphics.setColor(chip_color[1], chip_color[2], chip_color[3], alpha)
+        love.graphics.printf(chip_val, W/2 - 150, cy, 100, "right")
+
+        -- × 기호
+        love.graphics.setColor(1, 1, 1, alpha * 0.6)
+        love.graphics.printf("×", W/2 - 40, cy, 80, "center")
+
+        -- 배수 표시 (우측)
+        local mult_color = countup.phase >= 2 and {1, 0.4, 0.15} or {0.5, 0.5, 0.5}
+        local mult_val = string.format("%.1f", countup.current_mult)
+        love.graphics.setColor(mult_color[1], mult_color[2], mult_color[3], alpha)
+        love.graphics.printf(mult_val, W/2 + 50, cy, 100, "left")
+
+        -- Go 배수 (Phase 3+)
+        if countup.phase >= 3 and countup.go_mult > 1 then
+            local go_color = {1, 0.82, 0}
+            if fonts.m then love.graphics.setFont(fonts.m) end
+            love.graphics.setColor(go_color[1], go_color[2], go_color[3], alpha)
+            love.graphics.printf("Go ×" .. countup.go_mult, W/2 - 150, cy + 30, 300, "center")
+        end
+
+        -- 최종 데미지 (Phase 4)
+        if countup.phase >= 4 then
+            if fonts.xl then love.graphics.setFont(fonts.xl)
+            elseif fonts.l then love.graphics.setFont(fonts.l) end
+            local pulse = 1 + math.sin(love.timer.getTime() * 10) * 0.05
+            local dmg_text = NumFmt.format_score(countup.final)
+
+            love.graphics.setColor(0, 0, 0, alpha * 0.5)
+            love.graphics.printf(dmg_text, W/2 - 148, cy + 2, 300, "center")
+
+            local dc = countup.final >= 500 and {1, 0.3, 0.1} or {1, 0.82, 0}
+            love.graphics.setColor(dc[1], dc[2], dc[3], alpha)
+            love.graphics.printf(dmg_text, W/2 - 150, cy, 300, "center")
+        end
     end
 
     -- 파티클

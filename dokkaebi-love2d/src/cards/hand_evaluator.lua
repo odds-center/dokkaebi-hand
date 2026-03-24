@@ -9,7 +9,7 @@ local RT = E.RibbonType
 local HandEvaluator = {}
 
 -- 콤보 티어 순서값 (낮을수록 높은 티어)
-local TIER = { S = 1, A = 2, B = 3, C = 4, D = 5 }
+local TIER = { S = 1, A = 2, B = 3, C = 4, D = 5, P = 6 }  -- P = 패널티
 
 -- 헬퍼: 리본 세트 체크
 local function has_ribbon_set(tti_cards, ribbon, m1, m2, m3)
@@ -319,6 +319,46 @@ function HandEvaluator.evaluate(selected_cards)
         add({ id="pijjak", name_kr="피짝", tier=TIER.D, category="fallback", chips=total_pi_value, mult=1 })
     end
 
+    -- ==================== Tier P (패널티) ====================
+    -- 패널티 족보는 is_penalty=true, chips 음수 또는 mult < 1.0
+    -- 전략적 긴장감 제공: 회피 가능하지만 욕심/운이 나쁘면 걸림
+
+    -- 삼봉(三峰): 같은 달 카드가 정확히 3장 선택됨
+    -- 전통 고스톱에서 삼봉 = 자동 패배. "총통 노리다 3장에 멈추면 저주가 걸린다."
+    local has_sambong = false
+    for m, cnt in pairs(month_counts) do
+        if cnt == 3 then has_sambong = true; break end
+    end
+    if has_sambong then
+        add({ id="sambong", name_kr="삼봉", tier=TIER.P, category="penalty",
+              chips=-10, mult=0.6, is_penalty=true,
+              desc="같은 달이 셋. 저승의 균형이 무너진다." })
+    end
+
+    -- 나가리(流牌): 선택패 전부 피이고 4장 이상
+    -- "피만 잔뜩 집었다. 판이 흘러간다."
+    if #pi_cards == card_count and card_count >= 4 then
+        add({ id="nagari", name_kr="나가리", tier=TIER.P, category="penalty",
+              chips=-8, mult=0.65, is_penalty=true,
+              desc="피뿐인 손. 판이 나가리." })
+    end
+
+    -- 업보(業報): 선택패 월 합이 50 이상이고 3장 이상
+    -- "높은 달만 욕심껏 집으면 업보가 쌓인다." (8+9+10+11+12 = 50)
+    if month_sum >= 50 and card_count >= 3 then
+        add({ id="eobbo", name_kr="업보", tier=TIER.P, category="penalty",
+              chips=-6, mult=0.7, is_penalty=true,
+              desc="높은 달만 골라 쌓인 업보. 저승이 외면한다." })
+    end
+
+    -- 빈손(空手): 망통(끗0)인데 카드를 3장 이상 선택 — 망통보다 더 나쁜 상태
+    -- "많이 골랐는데 아무것도 없다."
+    if kkeut == 0 and card_count >= 3 then
+        add({ id="binsons", name_kr="빈손", tier=TIER.P, category="penalty",
+              chips=-5, mult=0.55, is_penalty=true,
+              desc="많이 집었지만 아무것도 없다. 공수래공수거." })
+    end
+
     -- Seotda 최고 1개만 남기기
     all_combos = HandEvaluator.filter_best_seotda(all_combos)
 
@@ -352,7 +392,9 @@ function HandEvaluator.filter_best_seotda(combos)
     return result
 end
 
---- 콤보 목록의 칩/배수 합산 (mult 상한: 3.0)
+--- 콤보 목록의 칩/배수 합산 (mult 상한: 10.0)
+--- Balatro식 숫자 성장을 위해 캡을 넉넉하게 설정.
+--- 고윤회에서 콤보+부적 스택으로 배수가 올라가는 쾌감 보장.
 function HandEvaluator.get_total_score(combos)
     if not combos or #combos == 0 then return 0, 1 end
     local total_chips = 0
@@ -361,8 +403,8 @@ function HandEvaluator.get_total_score(combos)
         total_chips = total_chips + c.chips
         total_mult = total_mult * c.mult
     end
-    -- mult 상한 (스택 폭발 방지)
-    total_mult = math.min(total_mult, 3.0)
+    -- mult 상한 (극한 오버플로우 방지, 성장 체감은 유지)
+    total_mult = math.min(total_mult, 10.0)
     return total_chips, total_mult
 end
 

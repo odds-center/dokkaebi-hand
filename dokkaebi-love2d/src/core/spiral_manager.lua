@@ -29,18 +29,18 @@ function SpiralBlessing.get_all()
     return {
         SpiralBlessing.new({
             id = "fire", name = "Hellfire", name_kr = "업화(業火)",
-            bonus_desc = "모든 칩 +20%", penalty_desc = "매 5턴 바닥패 1장 소각",
-            chip_bonus = 0.2,
+            bonus_desc = "모든 칩 +30%", penalty_desc = "매 5턴 바닥패 1장 소각",
+            chip_bonus = 0.3,
         }),
         SpiralBlessing.new({
             id = "ice", name = "Frostbind", name_kr = "빙결(氷結)",
-            bonus_desc = "모든 배수 +1", penalty_desc = "매 라운드 시작 손패 -1",
-            mult_bonus = 1, hand_penalty = 1,
+            bonus_desc = "모든 배수 +0.5", penalty_desc = "매 라운드 시작 손패 -1",
+            mult_bonus = 0.5, hand_penalty = 1,
         }),
         SpiralBlessing.new({
             id = "void", name = "Void", name_kr = "공허(空虛)",
-            bonus_desc = "부적 효과 2배", penalty_desc = "부적 슬롯 -2",
-            talisman_effect_mult = 2.0, talisman_slot_penalty = 2,
+            bonus_desc = "부적 효과 1.5배", penalty_desc = "부적 슬롯 -2",
+            talisman_effect_mult = 1.5, talisman_slot_penalty = 2,
         }),
         SpiralBlessing.new({
             id = "chaos", name = "Chaos", name_kr = "혼돈(混沌)",
@@ -77,10 +77,13 @@ function SpiralManager:absolute_realm()
     return (self.current_spiral - 1) * SpiralManager.REALMS_PER_SPIRAL + self.current_realm
 end
 
---- 영역 내 목표 점수 (같은 윤회 안에서는 완만하게 증가)
+--- 영역 내 목표 점수 (관문 진행에 따라 증가)
 function SpiralManager:get_target_score(base_target)
-    local realm_mult = 1.0 + 0.05 * (self.current_realm - 1)
-    return math.floor(base_target * realm_mult)
+    -- 윤회당 1.5배 성장 (이전: 1.35배)
+    local spiral_mult = 1.5 ^ (self.current_spiral - 1)
+    -- 관문 내 +5%/관문 (이전: +3%)
+    local realm_mult  = 1.0 + 0.05 * (self.current_realm - 1)
+    return math.floor(base_target * spiral_mult * realm_mult)
 end
 
 --- 현재 윤회에서 보스에 붙는 파츠 수
