@@ -76,4 +76,15 @@ function DeckManager:is_draw_pile_empty()
     return #self.draw_pile == 0
 end
 
+--- 바닥에서 특정 월과 매칭되는 카드 목록 반환
+function DeckManager:get_matching_floor_cards(month)
+    local matches = {}
+    for _, c in ipairs(self.field_cards) do
+        if c.month == month then
+            matches[#matches+1] = c
+        end
+    end
+    return matches
+end
+
 return DeckManager

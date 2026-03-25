@@ -129,7 +129,60 @@
 
 ---
 
-## 5. 이펙트 (VFX)
+## 5. 아트 에셋 생성 파이프라인
+
+### 현재: Replicate API + FLUX Dev
+
+로컬 설치 없이 클라우드 API로 모든 에셋을 생성한다.
+
+```
+sd-prompts-flux/*.md → parse_prompts.py → Replicate API (FLUX Dev) → post_process.py → Assets/Art/
+```
+
+| 항목 | 값 |
+|------|-----|
+| 모델 | `google/nano-banana-2` |
+| 생성 도구 | `pixel-art-generator/batch_generate.py` |
+| 프롬프트 소스 | `sd-prompts-flux/` (12개 카테고리, 300+ 에셋) |
+| 후처리 | `pixel-art-generator/post_process.py` (배경 제거, NN 리사이즈, 스프라이트시트) |
+| 비용 | 전체 ~414종: $1.65 (1장) ~ $6.60 (4장 배치) |
+
+### 에셋 카테고리
+
+| 카테고리 | 종횡비 | 수량 | 비고 |
+|---------|--------|------|------|
+| 보스 스프라이트 | 1:1 | 10+ | 투명 배경 |
+| 보스 표정 | 1:1 | 다수 | 투명 배경 |
+| 동료 도깨비 | 2:3 | 7+ | 투명 배경 |
+| 부적 아이콘 | 1:1 | 20+ | 투명 배경 |
+| 배경 | 16:9 | 7+ | 배경 유지 |
+| 화투 카드 | 2:3 | 48 | 카드 일러스트 |
+| 카드 추가 | 2:3 | 10+ | 뒷면/강화 오버레이 |
+| 아이콘 | 1:1 | 87+ | 투명 배경 |
+| VFX | 1:1 | 16+ | 투명 배경 |
+| UI 프레임 | 16:9 | 25+ | 투명 배경 |
+| HUD 아이콘 | 1:1 | 21+ | 투명 배경 |
+
+### Unity Import 필수 설정
+
+| 설정 | 값 |
+|------|-----|
+| Texture Type | Sprite (2D and UI) |
+| Filter Mode | **Point (no filter)** — 픽셀아트 필수! |
+| Compression | None |
+
+### 파이프라인 변천사
+
+1. **v1** — 로컬 ComfyUI + SD 1.5 + LoRA (Mac M3 Pro 로컬)
+2. **v2** — Pony Diffusion V6 XL + TBOI LoRA (Pony 태그 형식 ~340종)
+3. **v3** — Replicate API + FLUX Dev (클라우드, 프롬프트 텍스트 방지 강화)
+4. **v4 (현재)** — Replicate API + Google Nano Banana 2 (고품질, 스타일 일관성 향상)
+
+> 자세한 사용법: [`pixel-art-generator/GUIDE.md`](../pixel-art-generator/GUIDE.md)
+
+---
+
+## 6. 이펙트 (VFX)
 
 ### 파티클 시스템
 | 이펙트 | 용도 | 사양 |
@@ -152,7 +205,7 @@
 
 ---
 
-## 6. 사운드 디자인
+## 7. 사운드 디자인
 
 ### BGM 스타일: 국악 × 일렉트로닉 퓨전
 

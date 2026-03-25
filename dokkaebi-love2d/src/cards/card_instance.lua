@@ -15,6 +15,7 @@ function CardInstance.new(id, def)
         base_points = def.base_points or 1,
         is_rain_gwang = def.is_rain_gwang or false,
         is_double_pi = def.is_double_pi or false,
+        pi_index = def.pi_index or 1,
     }, CardInstance)
 end
 

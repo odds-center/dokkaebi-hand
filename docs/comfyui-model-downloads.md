@@ -1,119 +1,28 @@
-# ComfyUI 모델 다운로드 목록
+# [아카이브] ComfyUI 모델 다운로드 목록
 
-> **[DEPRECATED]** 로컬 ComfyUI 설치 시 필요한 모델 목록입니다.
-> 현재는 **Replicate API** 기반으로 전환하여 로컬 모델 다운로드가 불필요합니다.
-> 새 가이드: [`pixel-art-generator/GUIDE.md`](../pixel-art-generator/GUIDE.md)
-
-> 도깨비의 패 아트 파이프라인에 필요한 모든 모델 파일.
-> 모두 `~/Desktop/ComfyUI/` 기준 경로.
-
----
-
-## 필수 모델
-
-### 1. Pony Diffusion V6 XL (체크포인트)
-
-| 항목 | 값 |
-|------|-----|
-| 용도 | 베이스 체크포인트 |
-| 파일 | `ponyDiffusionV6XL.safetensors` (~6.5GB) |
-| 배치 경로 | `models/checkpoints/` |
-| 다운로드 | https://civitai.com/api/download/models/290640 |
-| CivitAI 페이지 | https://civitai.com/models/257749/pony-diffusion-v6-xl |
-
-### 2. TBOI LoRA — The Binding of Isaac Style
-
-| 항목 | 값 |
-|------|-----|
-| 용도 | 픽셀아트 스타일 LoRA (아이작 풍) |
-| 파일 | `Tboi.safetensors` (~218MB) |
-| 배치 경로 | `models/loras/` |
-| 다운로드 | https://civitai.com/api/download/models/828975 |
-| CivitAI 페이지 | https://civitai.com/models/740858/the-binding-of-isaac-style |
-| 트리거 워드 | `pixel art`, `game assets`, `chibi` |
-| 권장 강도 | model: 0.8 / clip: 0.8 |
-| 주의 | `score_9, score_8_up` 등 Pony 품질 태그를 **네거티브**에 넣을 것 |
+> **이 문서는 아카이브되었습니다.**
+> 초기에는 로컬 ComfyUI + Pony Diffusion V6 XL + TBOI LoRA 조합을 사용했으나,
+> 현재는 **Replicate API (FLUX Dev)** 기반 클라우드 파이프라인으로 전환하였습니다.
+>
+> **현재 아트 파이프라인 가이드:** [`pixel-art-generator/GUIDE.md`](../pixel-art-generator/GUIDE.md)
 
 ---
 
-## 선택 모델 (일관성 강화용)
+## 파이프라인 변천사
 
-### 3. IP-Adapter Plus (Pony용)
+| 시기 | 파이프라인 | 비고 |
+|------|-----------|------|
+| v1 | 로컬 ComfyUI + Pony V6 XL + TBOI LoRA | Mac M3 Pro 로컬 실행, 속도 느림 |
+| v2 | 로컬 ComfyUI → Pony 프롬프트 전면 전환 | Pony 태그 형식 적용 (~340종) |
+| **v3 (현재)** | **Replicate API + FLUX Dev** | **클라우드 API, 빠르고 저렴** |
 
-| 항목 | 값 |
-|------|-----|
-| 용도 | 참조 이미지로 스타일 통일 |
-| 파일 | `ip-adapter-plus_sdxl_vit-h.bin` (Pony 호환) |
-| 배치 경로 | `models/ipadapter/` |
-| 다운로드 | https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.bin |
+## 현재 파이프라인 요약
 
-### 4. CLIP Vision 인코더 (IP-Adapter 필수 동반)
+- **모델:** `black-forest-labs/flux-dev` (Replicate API)
+- **프롬프트 소스:** `sd-prompts-flux/` (12개 카테고리, 300+ 에셋)
+- **생성 도구:** `pixel-art-generator/batch_generate.py`
+- **설정 파일:** `pixel-art-generator/config.py`
+- **후처리:** `pixel-art-generator/post_process.py` (배경 제거, 리사이즈, 스프라이트시트)
+- **비용:** 전체 ~414종 기준 약 $1.65 (1장씩) ~ $6.60 (4장씩)
 
-| 항목 | 값 |
-|------|-----|
-| 용도 | IP-Adapter가 참조 이미지를 해석하는 데 필요 |
-| 파일 | `model.safetensors` → `clip_vision_encoder.safetensors`로 이름 변경 권장 |
-| 배치 경로 | `models/clip_vision/` |
-| 다운로드 | https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors |
-
-### 5. IP-Adapter ComfyUI 커스텀 노드
-
-| 항목 | 값 |
-|------|-----|
-| 용도 | ComfyUI에서 IP-Adapter 노드 사용 |
-| 설치 | `cd custom_nodes && git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git` |
-
----
-
-## 터미널에서 한번에 받기
-
-```bash
-cd ~/Desktop/ComfyUI
-
-# ===== 필수 =====
-
-# 1. Pony Diffusion V6 XL 체크포인트 (~6.5GB)
-curl -L -o models/checkpoints/ponyDiffusionV6XL.safetensors \
-  "https://civitai.com/api/download/models/290640"
-
-# 2. TBOI LoRA (~218MB)
-curl -L -o models/loras/Tboi.safetensors \
-  "https://civitai.com/api/download/models/828975"
-
-# ===== 선택 (일관성 강화) =====
-
-# 3. IP-Adapter Plus (Pony용)
-mkdir -p models/ipadapter models/clip_vision
-curl -L -o models/ipadapter/ip-adapter-plus_sdxl_vit-h.bin \
-  "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus_sdxl_vit-h.bin"
-
-# 4. CLIP Vision 인코더
-curl -L -o models/clip_vision/sdxl_image_encoder.safetensors \
-  "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors"
-
-# 5. IP-Adapter 커스텀 노드
-cd custom_nodes
-git clone https://github.com/cubiq/ComfyUI_IPAdapter_plus.git
-cd ..
-```
-
-> CivitAI는 curl로 HTML이 나올 수 있음 → 브라우저에서 직접 다운로드 권장.
-
----
-
-## 폴더 구조 확인
-
-```
-~/Desktop/ComfyUI/
-  models/
-    checkpoints/
-      ponyDiffusionV6XL.safetensors     ← 필수
-    loras/
-      Tboi.safetensors                   ← 필수
-    ipadapter/
-      ip-adapter-plus_sdxl_vit-h.bin     ← 선택
-    clip_vision/
-      clip_vision_encoder.safetensors    ← IP-Adapter 쓸 때 필수
-  custom_nodes/
-    ComfyUI_IPAdapter_plus/              ← IP-Adapter 쓸 때 필수
-```
+자세한 사용법은 [`pixel-art-generator/GUIDE.md`](../pixel-art-generator/GUIDE.md) 참조.

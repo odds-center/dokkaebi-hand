@@ -1,6 +1,7 @@
 --- boss_icons.lua
---- 32x32 보스 도깨비 도트 아이콘 — 디테일 강화 버전
+--- 보스 스프라이트: 파일이 있으면 PNG 로드, 없으면 32x32 도트 생성 폴백
 
+local SpriteLoader = require("src.ui.sprite_loader")
 local BossIcons = {}
 local cache = {}
 local SZ = 32
@@ -314,14 +315,22 @@ local GENERATORS = {
     underworld_flower= gen_flower,
 }
 
---- 보스 ID로 아이콘 가져오기 (캐시)
+--- 보스 ID로 아이콘 가져오기 (스프라이트 우선, 도형 폴백)
 function BossIcons.get(boss_id, boss_data)
     if cache[boss_id] then return cache[boss_id] end
+
+    -- 1) 생성된 스프라이트 PNG가 있으면 우선 사용
+    local sprite = SpriteLoader.getBoss(boss_id)
+    if sprite then
+        cache[boss_id] = sprite
+        return sprite
+    end
+
+    -- 2) 폴백: 도형으로 생성
     local gen = GENERATORS[boss_id]
     if gen then
         cache[boss_id] = make(gen)
     elseif boss_data and boss_data.body_color then
-        -- boss_data의 색상으로 자동 생성
         cache[boss_id] = make(gen_from_colors(
             boss_data.body_color,
             boss_data.head_color or boss_data.body_color,
@@ -329,7 +338,6 @@ function BossIcons.get(boss_id, boss_data)
             boss_data.eye_color or {1.0, 0.2, 0.1}
         ))
     else
-        -- 기본 도깨비
         cache[boss_id] = make(gen_from_colors(
             {0.55, 0.15, 0.10}, {0.65, 0.20, 0.12},
             {0.80, 0.70, 0.20}, {1.0, 0.2, 0.1}
@@ -342,7 +350,7 @@ end
 function BossIcons.draw(boss_id, x, y, size, boss_data)
     size = size or 64
     local tex = BossIcons.get(boss_id, boss_data)
-    local scale = size / SZ
+    local scale = size / tex:getWidth()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(tex, x, y, 0, scale, scale)
 end

@@ -1,7 +1,7 @@
 # 도깨비의 패 — 픽셀아트 에셋 생성기 가이드
 
 Replicate API (FLUX Dev 무료 모델)를 사용한 16-bit 픽셀아트 게임 에셋 자동 생성 도구.
-기존 `sd-prompts/` 폴더의 md 파일을 자동 파싱하여 이미지를 생성합니다.
+기존 `sd-prompts-flux/` 폴더의 md 파일을 자동 파싱하여 이미지를 생성합니다.
 
 ---
 
@@ -50,23 +50,22 @@ python -c "from config import REPLICATE_API_TOKEN; print('OK' if REPLICATE_API_T
 
 ## 2. 프롬프트 소스
 
-프롬프트는 **직접 작성하지 않습니다.** 기존 `sd-prompts/` 폴더의 md 파일을 자동으로 파싱합니다.
+프롬프트는 **직접 작성하지 않습니다.** 기존 `sd-prompts-flux/` 폴더의 md 파일을 자동으로 파싱합니다.
 
 ```
 dokkaebi-hand/
-├── sd-prompts/                    ← 프롬프트 원본 (이미 작성됨)
-│   ├── 01-backgrounds/            배경 20개
-│   ├── 02-card-illustrations/     화투 카드 48장
-│   ├── 03-textures/               텍스처 15종
-│   ├── 04-concept-art/            컨셉아트 9종
-│   ├── 05-calligraphy/            서예 37종
-│   ├── 06-game-sprites/           스프라이트 121종
-│   ├── 07-icons/                  아이콘 87종
-│   ├── 08-illustrations/          삽화 14종
-│   ├── 09-card-extras/            카드 추가 10종
-│   ├── 10-vfx/                    VFX 16종
-│   ├── 11-ui-frames/              UI 프레임 25종
-│   └── 12-hud-icons/              HUD 아이콘 21종
+├── sd-prompts-flux/                    ← 프롬프트 원본 (FLUX Dev 전용)
+│   ├── 01-bosses.md               보스 스프라이트 10+
+│   ├── 02-boss-expressions.md     보스 표정 변형
+│   ├── 03-companions.md           동료 도깨비 7+
+│   ├── 04-talismans.md            부적 아이콘 20+
+│   ├── 05-backgrounds.md          배경 7+
+│   ├── 06-card-illustrations.md   화투 카드 48장
+│   ├── 07-card-extras.md          카드 뒷면/강화 10+
+│   ├── 08-icons.md                아이콘 87+
+│   ├── 09-vfx.md                  VFX 16+
+│   ├── 10-ui-frames.md            UI 프레임 25+
+│   └── 11-hud-icons.md            HUD 아이콘 21+
 │
 └── pixel-art-generator/           ← 생성 도구 (이 폴더)
     └── output/                    ← 생성된 이미지가 여기에 저장
@@ -212,7 +211,7 @@ python post_process.py remove-bg output/game-sprites/ --tolerance 100
 
 ### 5-2. 게임용 크기로 리사이즈 (Nearest Neighbor)
 
-sd-prompts/README.md의 해상도 체계에 따라 다운스케일합니다.
+sd-prompts-flux/README.md의 해상도 체계에 따라 다운스케일합니다.
 
 ```bash
 # 보스 스프라이트: 800x800 → 600x600 (@1920x1080)
@@ -311,7 +310,7 @@ pixel-art-generator/
 ├── .env.example            # 환경변수 예시
 ├── requirements.txt        # Python 패키지
 ├── config.py               # 설정 (모델, 크기, 경로)
-├── parse_prompts.py        # sd-prompts/ md 파일 파서
+├── parse_prompts.py        # sd-prompts-flux/ md 파일 파서
 ├── generate.py             # Replicate API 호출 + 이미지 다운로드
 ├── batch_generate.py       # 배치 생성 CLI (메인 진입점)
 ├── post_process.py         # 후처리 (배경제거, 리사이즈, 스프라이트시트)
@@ -337,7 +336,7 @@ pixel-art-generator/
 
 ## 9. 권장 작업 순서
 
-sd-prompts/README.md의 권장 순서를 따릅니다:
+sd-prompts-flux/README.md의 권장 순서를 따릅니다:
 
 ```bash
 # 1단계: 목록/비용 확인
@@ -417,4 +416,4 @@ MODEL_ID = "retro-diffusion/rd-plus"
 | 리사이즈 후 흐려짐 | `post_process.py`는 자동으로 NEAREST 사용 — Unity Filter Mode: Point 확인 |
 | 스타일이 일관적이지 않음 | 같은 카테고리는 공통 프리픽스가 자동 적용됨. seed 고정 확인 |
 | 파싱 결과가 이상함 | `python parse_prompts.py` 로 파싱 결과 확인 |
-| 프롬프트 수정하고 싶음 | `sd-prompts/` 의 md 파일을 직접 수정하면 자동 반영 |
+| 프롬프트 수정하고 싶음 | `sd-prompts-flux/` 의 md 파일을 직접 수정하면 자동 반영 |

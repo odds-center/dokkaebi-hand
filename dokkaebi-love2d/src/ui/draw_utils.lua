@@ -47,28 +47,45 @@ function U.gradient_bar(x, y, w, h, ratio, color_full, color_empty, _r)
     end
 end
 
---- CSS 스타일 버튼 (도트 직각)
+--- 픽셀아트 스타일 버튼 (도트 베벨)
 function U.styled_button(text, x, y, w, h, color, font, hovered, _r)
-    -- 그림자
-    love.graphics.setColor(0, 0, 0, hovered and 0.4 or 0.25)
+    local br = hovered and 0.14 or 0
+    local r = color[1]+br; local g = color[2]+br; local b = color[3]+br
+
+    -- 드롭 그림자
+    love.graphics.setColor(0, 0, 0, hovered and 0.50 or 0.32)
     love.graphics.rectangle("fill", x+2, y+2, w, h)
-    -- 배경
-    local br = hovered and 0.18 or 0
-    love.graphics.setColor(color[1]+br, color[2]+br, color[3]+br, 1)
+
+    -- 베이스
+    love.graphics.setColor(r, g, b)
     love.graphics.rectangle("fill", x, y, w, h)
-    -- 상단 광택
-    love.graphics.setColor(1, 1, 1, hovered and 0.12 or 0.06)
-    love.graphics.rectangle("fill", x+1, y+1, w-2, h*0.4)
-    -- 하단 어두운 선
-    love.graphics.setColor(0, 0, 0, 0.15)
-    love.graphics.rectangle("fill", x+1, y+h*0.7, w-2, h*0.3-1)
+
+    -- 베벨 상단/좌측
+    local hl = hovered and 0.80 or 0.58
+    love.graphics.setColor(math.min(1,r+0.30), math.min(1,g+0.28), math.min(1,b+0.26), hl)
+    love.graphics.rectangle("fill", x+1, y, w-1, 1)
+    love.graphics.rectangle("fill", x, y+1, 1, h-1)
+
+    -- 베벨 하단/우측
+    love.graphics.setColor(math.max(0,r-0.28), math.max(0,g-0.28), math.max(0,b-0.28), 0.88)
+    love.graphics.rectangle("fill", x+1, y+h-1, w-1, 1)
+    love.graphics.rectangle("fill", x+w-1, y+1, 1, h-1)
+
+    -- 모서리 노치
+    love.graphics.setColor(0, 0, 0, 0.60)
+    love.graphics.rectangle("fill", x, y, 1, 1)
+    love.graphics.rectangle("fill", x+w-1, y, 1, 1)
+    love.graphics.rectangle("fill", x, y+h-1, 1, 1)
+    love.graphics.rectangle("fill", x+w-1, y+h-1, 1, 1)
+
     -- 텍스트
     love.graphics.setFont(font)
-    love.graphics.setColor(1, 1, 1, hovered and 1 or 0.9)
-    love.graphics.printf(text, x, y + h/2 - 7, w, "center")
-    -- 테두리
-    love.graphics.setColor(1, 1, 1, hovered and 0.2 or 0.08)
-    love.graphics.rectangle("line", x, y, w, h)
+    local ty = y + math.floor(h/2 - 7)
+    if hovered then ty = ty + 1 end
+    love.graphics.setColor(0, 0, 0, 0.45)
+    love.graphics.printf(text, x+1, ty+1, w, "center")
+    love.graphics.setColor(1, 1, 1, hovered and 1.0 or 0.92)
+    love.graphics.printf(text, x, ty, w, "center")
 end
 
 --- 구분선

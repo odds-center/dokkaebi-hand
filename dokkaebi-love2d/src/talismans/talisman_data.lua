@@ -48,6 +48,7 @@ local function TalismanData(t)
         secondary_mult_bonus = t.secondary_mult_bonus or 0,
         trigger_chance = t.trigger_chance or 1,
         is_curse = t.is_curse or false,
+        sprite_id = t.sprite_id or nil,
     }
 end
 

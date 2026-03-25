@@ -64,6 +64,7 @@ end
 function RoundManager:start_round(target_score)
     self.go_count = 0
     self.plays_used = 0
+    self.max_plays = 5          -- 매 라운드 초기화 (저승시계 패널티 이전 기준값)
     self.accumulated_combos = {}
 
     -- 기본값에 영구강화 + 웨이브 강화 반영
@@ -101,6 +102,12 @@ function RoundManager:start_round(target_score)
 
     -- 보스 기믹: 라운드 시작 시
     if self._boss_manager then
+        -- 저승시계: 판 시작 전 패널티 소비 → max_plays 감소
+        local tp_penalty = self._boss_manager:consume_time_pressure_penalty()
+        if tp_penalty > 0 then
+            self.max_plays = math.max(1, self.max_plays - tp_penalty)
+        end
+
         self._boss_manager:on_turn_start(self._player, self._deck_manager)
     end
 
@@ -190,8 +197,52 @@ function RoundManager:submit_cards(selected, hand_evaluator)
     -- 점수 합산
     if hand_evaluator and hand_evaluator.get_total_score then
         local chips, mult = hand_evaluator.get_total_score(combos)
+
+        -- 기믹 패널티 적용 -------------------------------------------------
+
+        -- 안개(Fog): 선택된 패 중 안개 패가 있으면 칩 -50% 적용
+        local fog_penalty = 0
+        for _, card in ipairs(selected) do
+            if card.is_fogged then fog_penalty = fog_penalty + 1 end
+        end
+        if fog_penalty > 0 then
+            chips = math.floor(chips * 0.5)
+            self.on_message:emit(
+                string.format("안개 패 %d장 포함! 칩 50%% 감소!", fog_penalty))
+        end
+
+        -- 독(PoisonPi): 선택된 피 패가 독이면 칩 -10/장
+        local poison_chip_loss = 0
+        for _, card in ipairs(selected) do
+            if card.is_poisoned and card.card_type == Enums.CardType.Pi then
+                poison_chip_loss = poison_chip_loss + 10
+            end
+        end
+        if poison_chip_loss > 0 then
+            chips = math.max(0, chips - poison_chip_loss)
+            self.on_message:emit(
+                string.format("독 피 패 사용! 칩 -%d!", poison_chip_loss))
+        end
+
         self.accumulated_chips = self.accumulated_chips + chips
         self.accumulated_mult = self.accumulated_mult * mult
+
+        -- 거울(MirrorCopy): 이번 내기 칩 30% 흡수
+        if self._boss_manager and self._boss_manager:consume_mirror_debuff() then
+            local stolen = math.floor(self.accumulated_chips * 0.3)
+            self.accumulated_chips = self.accumulated_chips - stolen
+            self.on_message:emit(
+                string.format("거울 도깨비가 칩 %d을(를) 흡수했다!", stolen))
+        end
+    end
+
+    -- 뒤집기(FlipAll): 내기 후 flip 상태 해제
+    for _, card in ipairs(selected) do
+        card.is_flipped = false
+    end
+    -- 남은 손패도 flip 해제 (한 턴이 지났으므로)
+    for _, card in ipairs(self.hand_cards) do
+        card.is_flipped = false
     end
 
     -- 회복 족보 대기 등록
@@ -359,17 +410,25 @@ function RoundManager:execute_attack(card1, card2)
         end
     end
 
+    -- 가짜 카드(FakeCards) 체크: 가짜 패 포함 시 공격 데미지 0
+    local has_fake = (card1.is_fake or card2.is_fake)
+    if has_fake then
+        local fake_name = card1.is_fake and card1.name_kr or card2.name_kr
+        self.on_message:emit(
+            string.format("가짜 패 [%s] 발각! 공격 데미지 0!", fake_name))
+    end
+
     -- 섯다 족보 판정
     local seotda = SeotdaChallenge.evaluate(card1, card2)
 
-    -- 섯다 기본 데미지
-    local base_damage = SeotdaChallenge.base_damage(seotda.rank)
+    -- 섯다 기본 데미지 (가짜 패 포함 시 0)
+    local base_damage = has_fake and 0 or SeotdaChallenge.base_damage(seotda.rank)
 
-    -- 고 배수
+    -- 고 배수 (Go 3 = 목숨을 거는 도박에 맞는 큰 보상)
     local go_mult = 1
-    if self.go_count == 1 then go_mult = 1.5
-    elseif self.go_count == 2 then go_mult = 2
-    elseif self.go_count >= 3 then go_mult = 3
+    if self.go_count == 1 then go_mult = 2
+    elseif self.go_count == 2 then go_mult = 3
+    elseif self.go_count >= 3 then go_mult = 8
     end
 
     -- 부적 효과: 공격 시 칩/배수 보너스
@@ -389,7 +448,15 @@ function RoundManager:execute_attack(card1, card2)
     -- 최종 데미지 = (섯다 기본 + 누적 칩 + 부적 칩) x 누적 배수 x 부적 배수 x 고 배수
     local raw_damage = (base_damage + self.accumulated_chips + talisman_chips)
         * self.accumulated_mult * talisman_mult * go_mult
+    -- 최소 보장 데미지: 족보 0이어도 진행 가능하도록 (가짜 패 사용 시 예외)
+    raw_damage = has_fake and 0 or math.max(raw_damage, 15)
     local final_damage = math.floor(math.min(raw_damage, 2147483647))
+
+    -- 이무기(Competitive): 판 데미지 vs 경쟁 점수 비교
+    if self._boss_manager and self._boss_manager.current_boss
+       and self._boss_manager.current_boss.gimmick == "competitive" then
+        self._boss_manager:check_competitive(self._player, final_damage)
+    end
 
     -- 카드 소모 (큰 인덱스부터 제거)
     if idx1 > idx2 then

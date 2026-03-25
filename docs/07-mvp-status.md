@@ -14,8 +14,10 @@
 ### 코어 로직
 - [x] `DeckManager.cs` — 셔플, 분배, 뽑기
 - [x] `MatchingEngine.cs` — 같은 월 매칭 판정 (4가지 케이스) + OnMatchSuccess/OnMatchFail 이벤트
-- [x] `ScoringEngine.cs` — 고스톱 족보 판정 + 칩/배수 계산 (→ 섯다/저승 족보 추가 필요)
+- [x] `ScoringEngine.cs` — 고스톱 족보 판정 + 칩/배수 계산
+- [x] `HandEvaluator.cs` — 3종 족보 통합 판정 (고스톱/섯다/저승) + 시너지 프리뷰
 - [x] `GoStopDecision.cs` — Go/Stop 리스크 적용
+- [x] `SeotdaChallenge.cs` — 섯다 2장 대결 판정 (38광땡~갑오)
 
 ### 게임 루프
 - [x] `RoundManager.cs` — 턴 진행 (7단계 페이즈) + 쓸 보너스 실적용 + 축복 손패 패널티 + 부적 트리거 전체 연결
@@ -29,10 +31,13 @@
 ### 보스 시스템
 - [x] `BossManager.cs` — 기믹 처리 (5가지 기믹) + 거울 도깨비 반사 + HP 바 + 반격 + 격노 페이즈
 - [x] `BossGenerator.cs` — 랜덤 보스 생성 (항상 랜덤, 고정 순서 없음)
+- [x] `BossDatabase.cs` — 10종+ 보스 정의 + 재앙 보스
 - [x] `BossParts.cs` — 24종 파츠, 세트 효과
+- [x] `BossBattle.cs` — HP 추적 + 격파 로직
+- [x] `BattleSystem.cs` — 전투 상태 관리
 
 ### 무한 윤회
-- [x] `SpiralManager.cs` — 10관문 1윤회, 무한 반복 (용어: 나선→윤회, 영역→관문)
+- [x] `SpiralManager.cs` — 10관문 1윤회, 무한 반복
 - [x] `SpiralBlessing` — 4종 축복 (업화/빙결/공허/혼돈)
 
 ### 영구 진행
@@ -56,8 +61,18 @@
 ### 다국어
 - [x] `LocalizationManager.cs` — 4개 언어 (KR/EN/JP/ZH) ~200개 키
 
+### 고유 시스템
+- [x] `DestinySystem.cs` — 사주팔자 (런 시작 시 생성, 5⁴=625 조합)
+- [x] `GreedScale.cs` — 탐욕 저울 (Go 리스크 시각화)
+- [x] `DokkaebiSealSystem.cs` — 도깨비 인장 (격파 보스 영혼 카드 부여)
+
 ### UI
 - [x] `MockupSceneBuilder.cs` — 100% 프로그래매틱 UI (전체 화면 단일 캔버스)
+- [x] `MockupSpriteFactory.cs` — 플레이스홀더 픽셀아트 스프라이트 생성
+- [x] `GameUIManager.cs` — UI 상태 코디네이션
+- [x] `CardUI.cs` — 개별 카드 UI 렌더링
+- [x] `GameEffects.cs` — 데미지 넘버, 콤보 알림, 시너지 스택 이펙트
+- [x] `CardHoverHandler.cs` — 카드 호버 미리보기
 
 ## Phase 2: 전체 완성 (완료)
 
@@ -82,7 +97,7 @@
 - [x] card_pack 소모품 효과 구현 (NextRoundHandBonus)
 - [x] SpiralStart에서 축복 선택 UI 분리
 
-## Phase 3: Love2D 프로토타입 (진행 중)
+## Phase 3: Love2D 프로토타입 (완료)
 
 ### 오디오
 - [x] BGM 시스템 (`bgm.lua`) — 5 CC0 트랙(OpenGameArt), 게임 상태 기반 자동 전환, 1초 크로스페이드
@@ -112,24 +127,36 @@
 
 ### 축복/강화
 - [x] 축복 카드 레이아웃 — 80px 이미지 영역 추가, 카드 높이 210→280px
-- [x] 중복 없는 강화 선택 — gen_upgrades() 셔플 후 3개 선택 (기존 랜덤 중복 가능)
+- [x] 중복 없는 강화 선택 — gen_upgrades() 셔플 후 3개 선택
 
-### Love2D 파일 목록
-```
-dokkaebi-love2d/
-  main.lua, conf.lua
-  src/core/       — sfx.lua, bgm.lua, player_state.lua, spiral_manager.lua, number_formatter.lua
-  src/cards/      — deck_manager.lua, hand_evaluator.lua, card_enums.lua
-  src/combat/     — seotda_challenge.lua, boss_data.lua, boss_battle.lua
-  src/talismans/  — talisman_data.lua, talisman_database.lua, talisman_manager.lua
-  src/ui/         — card_renderer.lua, button.lua, draw_utils.lua, effects.lua, icon_generator.lua, yokbo_guide.lua
-  assets/bgm/     — 5 CC0 BGM tracks
-  assets/fonts/   — Pretendard fonts
-```
+## Phase 4: 아트 에셋 파이프라인 (완료)
+
+### 파이프라인 진화
+- [x] v1: 로컬 ComfyUI + SD 1.5 + LoRA 기반 → Mac 로컬 실행
+- [x] v2: Pony Diffusion V6 XL + TBOI LoRA 전환 → Pony 태그 형식 (~340종)
+- [x] v3: **Replicate API + FLUX Dev 전환** → 클라우드 API, 프롬프트 텍스트 방지 강화
+
+### 현재 파이프라인
+- [x] `pixel-art-generator/` — FLUX Dev API 기반 배치 생성 도구
+  - `config.py` — 모델/카테고리/경로 설정 (11개 카테고리)
+  - `parse_prompts.py` — md 파일 파서 (Pony/ComfyUI 태그 자동 정리)
+  - `generate.py` — Replicate API 호출 래퍼
+  - `batch_generate.py` — 배치 생성 CLI (카테고리별/개별/배치/드라이런)
+  - `post_process.py` — 배경 제거, Nearest Neighbor 리사이즈, 스프라이트시트
+  - `generate_all.py` — 전체 생성 스크립트
+
+### 프롬프트
+- [x] `sd-prompts-flux/` — FLUX Dev 전용 프롬프트 12개 카테고리
+  - 01-bosses, 02-boss-expressions, 03-companions, 04-talismans
+  - 05-backgrounds, 06-card-illustrations, 07-card-extras
+  - 08-icons, 09-vfx, 10-ui-frames, 11-hud-icons
+  - 총 300+ 에셋 정의, 각 에셋별 시드/크기/프롬프트 지정
+
+---
 
 ## 전체 파일 목록
 
-### Core
+### Core (18개)
 ```
 Assets/Scripts/Core/GameManager.cs
 Assets/Scripts/Core/PlayerState.cs
@@ -144,23 +171,27 @@ Assets/Scripts/Core/LocalizationManager.cs
 Assets/Scripts/Core/NumberFormatter.cs
 Assets/Scripts/Core/SoulFragmentCalculator.cs
 Assets/Scripts/Core/SaveSystem.cs
-Assets/Scripts/Core/WaveUpgradeManager.cs     (신규)
-Assets/Scripts/Core/TutorialManager.cs        (신규)
+Assets/Scripts/Core/WaveUpgradeManager.cs
+Assets/Scripts/Core/TutorialManager.cs
+Assets/Scripts/Core/DestinySystem.cs
+Assets/Scripts/Core/GreedScale.cs
+Assets/Scripts/Core/DokkaebiSealSystem.cs
 ```
 
-### Cards
+### Cards (9개)
 ```
 Assets/Scripts/Cards/HwaTuCard.cs
 Assets/Scripts/Cards/HwaTuCardDatabase.cs
 Assets/Scripts/Cards/CardInstance.cs
 Assets/Scripts/Cards/CardEnhancement.cs
 Assets/Scripts/Cards/DeckManager.cs
+Assets/Scripts/Cards/HandEvaluator.cs
 Assets/Scripts/Cards/MatchingEngine.cs
 Assets/Scripts/Cards/ScoringEngine.cs
 Assets/Scripts/Cards/GoStopDecision.cs
 ```
 
-### Combat
+### Combat (8개)
 ```
 Assets/Scripts/Combat/RoundManager.cs
 Assets/Scripts/Combat/BossManager.cs
@@ -168,9 +199,12 @@ Assets/Scripts/Combat/BossGenerator.cs
 Assets/Scripts/Combat/BossParts.cs
 Assets/Scripts/Combat/BossData.cs
 Assets/Scripts/Combat/BossDatabase.cs
+Assets/Scripts/Combat/BossBattle.cs
+Assets/Scripts/Combat/BattleSystem.cs
+Assets/Scripts/Combat/SeotdaChallenge.cs
 ```
 
-### Talismans
+### Talismans (4개)
 ```
 Assets/Scripts/Talismans/Talisman.cs
 Assets/Scripts/Talismans/TalismanInstance.cs
@@ -178,10 +212,66 @@ Assets/Scripts/Talismans/TalismanManager.cs
 Assets/Scripts/Talismans/TalismanDatabase.cs
 ```
 
-### UI
+### UI (6개)
 ```
 Assets/Scripts/UI/MockupSceneBuilder.cs
 Assets/Scripts/UI/MockupSpriteFactory.cs
 Assets/Scripts/UI/GameUIManager.cs
 Assets/Scripts/UI/CardUI.cs
+Assets/Scripts/UI/GameEffects.cs
+Assets/Scripts/UI/CardHoverHandler.cs
+```
+
+### Tests (18개)
+```
+Assets/Tests/EditMode/HwaTuCardDatabaseTests.cs
+Assets/Tests/EditMode/DeckManagerTests.cs
+Assets/Tests/EditMode/MatchingEngineTests.cs
+Assets/Tests/EditMode/ScoringEngineTests.cs
+Assets/Tests/EditMode/BossGeneratorTests.cs
+Assets/Tests/EditMode/CombatFlowTests.cs
+Assets/Tests/EditMode/TalismanExpandedTests.cs
+Assets/Tests/EditMode/PermanentUpgradeTests.cs
+Assets/Tests/EditMode/WaveUpgradeManagerTests.cs
+Assets/Tests/EditMode/TutorialManagerTests.cs
+Assets/Tests/EditMode/CardEnhancementTests.cs
+Assets/Tests/EditMode/SpiralManagerTests.cs
+Assets/Tests/EditMode/NumberFormatterTests.cs
+Assets/Tests/EditMode/BossDefeatTransitionTests.cs
+Assets/Tests/EditMode/PersonaSimulationTests.cs
+Assets/Tests/EditMode/AdditionalBugFixTests.cs
+Assets/Tests/EditMode/ThirdPassBugFixTests.cs
+Assets/Tests/EditMode/ScalingAndErrorTests.cs
+```
+
+### Love2D 프로토타입
+```
+dokkaebi-love2d/
+  main.lua, conf.lua
+  src/core/       — game_manager, player_state, spiral_manager, number_formatter,
+                    bgm, sfx, achievement_manager, companion_manager, destiny_system,
+                    event_manager, greed_scale, localization, permanent_upgrades,
+                    save_system, seal_system, shop_manager, soul_calculator,
+                    tutorial_manager, wave_upgrades (19개)
+  src/cards/      — deck_manager, hand_evaluator, card_enums, card_database,
+                    card_enhancement, card_instance, go_stop_decision,
+                    matching_engine (8개)
+  src/combat/     — round_manager, boss_manager, boss_battle, boss_data,
+                    boss_generator, seotda_challenge (6개)
+  src/talismans/  — talisman_data, talisman_database, talisman_manager (3개)
+  src/ui/         — card_renderer, button, draw_utils, effects, hud,
+                    icon_generator, icons, pixel_icons, boss_icons,
+                    yokbo_guide (10개)
+  assets/bgm/     — 5 CC0 BGM tracks
+  assets/fonts/   — Pretendard fonts
+```
+
+### 아트 파이프라인
+```
+pixel-art-generator/          — FLUX Dev API 생성 도구
+  config.py, parse_prompts.py, generate.py, batch_generate.py,
+  post_process.py, generate_all.py, requirements.txt, GUIDE.md
+
+sd-prompts-flux/              — 프롬프트 정의 (12개 파일, 300+ 에셋)
+  00-test-prompts.md ~ 11-hud-icons.md, README.md
 ```

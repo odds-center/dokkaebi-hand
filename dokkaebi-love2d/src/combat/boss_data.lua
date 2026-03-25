@@ -53,7 +53,7 @@ local all_bosses = {
     BossDefinition({
         id = "glutton", name = "Glutton Dokkaebi", name_kr = "먹보 도깨비",
         description = "2턴마다 손패 중 최고가치 패 1장을 먹어치운다",
-        target_score = 210, rounds = 7, tier = "normal",
+        target_score = 150, rounds = 7, tier = "normal",
         gimmick = BossGimmick.ConsumeHighest, gimmick_interval = 2,
         intro_dialogue = "크하하! 네 패에서 맛있는 냄새가 나는구나!",
         defeat_dialogue = "으억... 배가 너무 불러...",
@@ -65,7 +65,7 @@ local all_bosses = {
     BossDefinition({
         id = "trickster", name = "Trickster Dokkaebi", name_kr = "장난꾸러기 도깨비",
         description = "2턴마다 패를 뒤집는다",
-        target_score = 210, rounds = 7, tier = "normal",
+        target_score = 160, rounds = 7, tier = "normal",
         gimmick = BossGimmick.FlipAll, gimmick_interval = 2,
         intro_dialogue = "히히히! 눈 감고 쳐봐라~!",
         defeat_dialogue = "에잇, 네 눈이 너무 좋구나!",
@@ -77,7 +77,7 @@ local all_bosses = {
     BossDefinition({
         id = "thief", name = "Thief Dokkaebi", name_kr = "도둑 도깨비",
         description = "2턴마다 먹은 패 중 1장을 훔쳐간다",
-        target_score = 200, rounds = 7, tier = "normal",
+        target_score = 150, rounds = 7, tier = "normal",
         gimmick = BossGimmick.StealCard, gimmick_interval = 2,
         intro_dialogue = "쉿! 가만히 있어봐... 슬쩍~",
         defeat_dialogue = "이런... 손이 느려졌나...",
